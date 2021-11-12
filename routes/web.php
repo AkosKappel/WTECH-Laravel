@@ -45,7 +45,7 @@ Route::get('/allProducts', function () {
     return view('layout/products/allProducts');
 });
 
-Route::get('/productDetails', function () {
+Route::get('/details', function () {
     return view('layout/products/details');
 });
 

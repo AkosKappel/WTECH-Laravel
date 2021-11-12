@@ -254,7 +254,8 @@
         </main>
     </div>
 </div>
+<script src="{{ url('/js/allProducts.js') }}" type="text/javascript"></script>
 
-@include('layout.partials.footer');
+@include('layout.partials.footer')
 </body>
 </html>

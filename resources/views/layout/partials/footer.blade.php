@@ -42,4 +42,4 @@
         </div>
     </div>
 </footer>
-<script type="text/javascript" src="{{ url('/js/nav.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/js/nav.js') }}"></script>
