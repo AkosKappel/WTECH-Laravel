@@ -14,5 +14,49 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layout/app');
+});
+
+Route::get('/profile', function () {
+    return view('layout/user/profile');
+});
+
+Route::get('/login', function () {
+    return view('layout/user/login');
+});
+
+Route::get('/register', function () {
+    return view('layout/user/register');
+});
+
+Route::get('/passwordReset', function () {
+    return view('layout/user/passwordReset');
+});
+
+Route::get('/passwordChange', function () {
+    return view('layout/user/passwordChange');
+});
+
+Route::get('/cart', function () {
+    return view('layout/cart/cart');
+});
+
+Route::get('/allProducts', function () {
+    return view('layout/products/allProducts');
+});
+
+Route::get('/productDetails', function () {
+    return view('layout/products/details');
+});
+
+Route::get('/contact', function () {
+    return view('layout/order/contact');
+});
+
+Route::get('/delivery', function () {
+    return view('layout/order/delivery');
+});
+
+Route::get('/payment', function () {
+    return view('layout/order/payment');
 });
