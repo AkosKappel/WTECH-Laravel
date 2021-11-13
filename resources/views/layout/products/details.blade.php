@@ -12,7 +12,9 @@
         <div class="grid md:grid-cols-2 grid-cols-1 gap-12">
             <!-- product image -->
             <div class="col-span-1">
-                <img alt="Samsung smartphone" src="{{ url('/images/smartphone-1.jpg') }}" class="rounded border-2 border-gray-300 object-cover object-center shadow-lg" />
+                <div class="flex justify-center">
+                    <img alt="Samsung smartphone" src="{{ url($smartphone->images->first()->source) }}" class="rounded border-2 border-gray-300 object-cover object-center shadow-lg" />
+                </div>
                 <div class="flex justify-evenly">
                     <a id="left-arrow" href="#">
                         <div class="rounded-full h-12 w-12 flex items-center justify-center bg-blue-500 hover:bg-blue-800 text-gray-100 mt-4">

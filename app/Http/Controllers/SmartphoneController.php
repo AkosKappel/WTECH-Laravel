@@ -16,7 +16,7 @@ class SmartphoneController extends Controller
      */
     public function index()
     {
-        $smartphones = Smartphone::paginate(2);
+        $smartphones = Smartphone::paginate(12);
 
         return view('layout.products.smartphones', ['smartphones' => $smartphones]);
     }
