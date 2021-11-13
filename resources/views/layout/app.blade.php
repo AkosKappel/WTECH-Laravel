@@ -29,7 +29,7 @@
                         <img src="{{ url('/images/check.png') }}" alt="Odrážka" class="w-6 lg:w-10 inline -mt-1 lg:-mt-2 mx-2" />
                         <p class="inline text-lg lg:text-2xl">2 ročná prémiová záruka</p>
                     </div>
-                    <a href="./allProducts.html">
+                    <a href="smartphones">
                         <div class="mt-5 lg:mt-10 w-54 inline-block lg:w-96 lg:text-xl bg-blue-500 lg:px-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline rounded-full">Kúp si smartfón ešte dnes</div>
                     </a>
                 </div>

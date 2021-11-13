@@ -4,7 +4,9 @@ function decrement(e) {
     let value = Number(target.value);
     value > 1 ? value-- : value;
     target.value = value;
-    total.innerText = `${(value * parseFloat(solo.innerText)).toFixed(2)} €`;
+    let str = solo.innerText;
+    str = str.substring(0, str.length - 2);
+    total.innerText = `${(value * parseFloat(str)).toFixed(2)} €`.replace('.', ',');
 }
 
 function increment(e) {
@@ -13,7 +15,10 @@ function increment(e) {
     let value = Number(target.value);
     value++;
     target.value = value;
-    total.innerText = `${(value * parseFloat(solo.innerText)).toFixed(2)} €`;
+    let str = solo.innerText;
+    str = str.substring(0, str.length - 2);
+    console.log(str)
+    total.innerText = `${(value * parseFloat(str)).toFixed(2)} €`.replace('.', ',');
 }
 
 const decrementButtons = document.querySelectorAll(`button[data-action="decrement"]`);

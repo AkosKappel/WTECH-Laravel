@@ -3,7 +3,7 @@
         <div class="flex flex-row">
             <nav class="flex flex-auto space-x-2 lg:space-x-7 items-center">
                 <div>
-                    <a href="index.html" class="flex items-center py-2 px-2">
+                    <a href="/" class="flex items-center py-2 px-2">
                         <!-- https://pixabay.com/illustrations/smartphone-phone-android-ios-1818253/ -->
                         <img src="{{ url('/images/logo.png') }}" alt="logo" class="w-8 sm:w-12 mr-10 text-white" />
                     </a>
@@ -26,13 +26,13 @@
                 </span>
                     </div>
                 </div>
-                <a href="./login.html">
+                <a href="/login">
                     <div class="bg-white text-white font-bold py-1 pl-2 lg:pr-10 focus:outline-none focus:shadow-outline rounded-full inline-flex items-center">
                         <img src="{{ url('/images/person.png') }}" alt="Prihlásenie" class="w-8 mr-2 lg:mr-6" />
                         <div class="hidden lg:inline text-black">Prihlásiť sa</div>
                     </div>
                 </a>
-                <a href="./cart.html">
+                <a href="/cart">
                     <div class="w-14 py-1 bg-white text-white font-bold rounded focus:outline-none focus:shadow-outline rounded-full inline-flex items-center">
                         <img src="{{ url('/images/cart.png') }}" alt="Nákupný košík" class="w-8 ml-3" />
                         <div class="relative ml-2">

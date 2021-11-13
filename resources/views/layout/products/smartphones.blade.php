@@ -150,106 +150,23 @@
                 <h1 class="text-xl font-bold pb-2 mt-4 border-b border-gray-300">Dostupné smartfóny</h1>
                 <div class="mt-8 grid 2xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-1 gap-12">
                     <!-- products -->
-                    <a href="productDetails.html">
-                        <section class="bg-white border-gray-200 rounded max-w-sm overflow-hidden relative shadow-md hover:shadow-lg">
-                            <img src="{{ url('/images/smartphone-1.jpg') }}" alt="Xiaomi smartphone" class="h-64 w-full object-cover" />
-                            <div class="m-4 text-center">
-                                <h2 class="font-bold">Xiaomi Redmi Note 10 Pro 6GB/128GB</h2>
-                                <p class="block text-gray-900 text-md">289.00 €</p>
-                            </div>
-                        </section>
-                    </a>
-                    <a href="productDetails.html">
-                        <section class="bg-white border-gray-200 rounded max-w-sm overflow-hidden relative shadow-md hover:shadow-lg">
-                            <img src="{{ url('/images/smartphone-2.jpg') }}" alt="Samsung smartphone" class="h-64 w-full object-cover" />
-                            <div class="m-4 text-center">
-                                <h2 class="font-bold">Samsung Galaxy S21 5G G991B 8GB/128GB</h2>
-                                <p class="block text-gray-900 text-md">289.00 €</p>
-                            </div>
-                        </section>
-                    </a>
-                    <a href="#">
-                        <section class="bg-white border-gray-200 rounded max-w-sm overflow-hidden relative shadow-md hover:shadow-lg">
-                            <img src="{{ url('/images/smartphone-3.jpg') }}" alt="Apple smartphone" class="h-64 w-full object-cover" />
-                            <div class="m-4 text-center">
-                                <h2 class="font-bold">Apple iPhone 12 mini 64 GB</h2>
-                                <p class="block text-gray-900 text-md">560.00 €</p>
-                            </div>
-                        </section>
-                    </a>
-                    <a href="#">
-                        <section class="bg-white border-gray-200 rounded max-w-sm overflow-hidden relative shadow-md hover:shadow-lg">
-                            <img src="{{ url('/images/smartphone-1.jpg') }}" alt="Samsung smartphone" class="h-64 w-full object-cover" />
-                            <div class="m-4 text-center">
-                                <h2 class="font-bold">Samsung Galaxy A52 64 GB</h2>
-                                <p class="block text-gray-900 text-md">299.00 €</p>
-                            </div>
-                        </section>
-                    </a>
-                    <a href="#">
-                        <section class="bg-white border-gray-200 rounded max-w-sm overflow-hidden relative shadow-md hover:shadow-lg">
-                            <img src="{{ url('/images/smartphone-2.jpg') }}" alt="Huawei smartphone" class="h-64 w-full object-cover" />
-                            <div class="m-4 text-center">
-                                <h2 class="font-bold">Huawei P40 Pro 8/128 GB</h2>
-                                <p class="block text-gray-900 text-md">899.00 €</p>
-                            </div>
-                        </section>
-                    </a>
-                    <a href="#">
-                        <section class="bg-white border-gray-200 rounded max-w-sm overflow-hidden relative shadow-md hover:shadow-lg">
-                            <img src="{{ url('/images/smartphone-3.jpg') }}" alt="Xiaomi smartphone" class="h-64 w-full object-cover" />
-                            <div class="m-4 text-center">
-                                <h2 class="font-bold">Xiaomi Mi 11 Ultra 256 GB</h2>
-                                <p class="block text-gray-900 text-md">1099.00 €</p>
-                            </div>
-                        </section>
-                    </a>
-                    <a href="#">
-                        <section class="bg-white border-gray-200 rounded max-w-sm overflow-hidden relative shadow-md hover:shadow-lg">
-                            <img src="{{ url('/images/smartphone-1.jpg') }}" alt="Apple smartphone" class="h-64 w-full object-cover" />
-                            <div class="m-4 text-center">
-                                <h2 class="font-bold">Apple iphone Xs 64 GB</h2>
-                                <p class="block text-gray-900 text-md">699.00 €</p>
-                            </div>
-                        </section>
-                    </a>
-                    <a href="productDetails.html">
-                        <section class="bg-white border-gray-200 rounded max-w-sm overflow-hidden relative shadow-md hover:shadow-lg">
-                            <img src="{{ url('/images/smartphone-2.jpg') }}" alt="Apple smartphone" class="h-64 w-full object-cover" />
-                            <div class="m-4 text-center">
-                                <h2 class="font-bold">Apple iPhone 11 64GB</h2>
-                                <p class="block text-gray-900 text-md">289.00 €</p>
-                            </div>
-                        </section>
-                    </a>
+                    @foreach($smartphones as $smartphone)
+                        <a href="{{ URL::to('smartphones/' . $smartphone->id) }}">
+                            <section class="bg-white border-gray-200 rounded max-w-sm overflow-hidden relative shadow-md hover:shadow-lg">
+                                <img src="{{ $smartphone->images->first()->source }}" alt="{{ $smartphone->images->first()->name }}" class="h-64 w-full object-cover" />
+                                <div class="m-4 text-center">
+                                    <h2 class="font-bold">{{ $smartphone->name }}</h2>
+                                    <p class="block text-gray-900 text-md">{{ number_format((float) $smartphone->price, 2, ',', ' ') }} €</p>
+                                </div>
+                            </section>
+                        </a>
+                    @endforeach
                 </div>
             </div>
 
             <!-- page numbers -->
-            <!-- cast kodu je prevzata z https://tailwindui.com/components/application-ui/navigation/pagination -->
-            <nav class="my-12 text-center">
-                <div class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-lg border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                        <span class="sr-only">Predchádzajúce</span>
-                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                        </svg>
-                    </a>
-                    <!-- Current page: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
-                    <a href="#" aria-current="page" class="z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">1</a>
-                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">2</a>
-                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 hidden md:inline-flex relative items-center px-4 py-2 border text-sm font-medium">3</a>
-                    <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">...</span>
-                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 hidden md:inline-flex relative items-center px-4 py-2 border text-sm font-medium">8</a>
-                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">9</a>
-                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">10</a>
-                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-lg border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                        <span class="sr-only">Ďalšie</span>
-                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                        </svg>
-                    </a>
-                </div>
+            <nav class="my-12 text-center flex justify-center">
+                {{ $smartphones->links() }}
             </nav>
         </main>
     </div>

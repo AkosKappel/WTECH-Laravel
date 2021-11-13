@@ -67,3 +67,8 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+
+## json
+
+package-lock.json
+

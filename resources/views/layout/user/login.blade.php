@@ -25,12 +25,12 @@
                     <button class="w-4/5 sm:w-3/5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline rounded-full" type="submit">Prihlásiť sa</button>
                 </div>
                 <div class="flex justify-center mt-2">
-                    <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" title="Zabudnuté heslo" href="./passReset.html"> Zabudnuté heslo? </a>
+                    <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" title="Zabudnuté heslo" href="/passwordReset"> Zabudnuté heslo? </a>
                 </div>
                 <div class="mt-24 justify-center">
                     <h3 class="block text-xl font-medium text-center">Ešte nemáte účet?</h3>
                     <div class="text-center mt-3">
-                        <a href="./register.html" title="Presmerovanie na registráciu">
+                        <a href="/register" title="Presmerovanie na registráciu">
                             <button class="w-4/5 sm:w-3/5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline rounded-full" type="button">Zaregistrovať sa</button>
                         </a>
                     </div>

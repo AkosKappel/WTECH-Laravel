@@ -30,10 +30,12 @@
             <div class="col-span-1">
                 <div class="grid">
                     <div class="row order-1 sm:order-1">
-                        <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">Samsung Galaxy A525F 6GB/128GB</h1>
+                        <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{{$smartphone->name}}</h1>
                     </div>
                     <div class="row order-3 sm:order-2">
-                        <h2 class="mt-2 pb-4 font-medium text-2xl border-b text-gray-900 border-gray-300"><span id="single-price">189.99</span> €</h2>
+                        <h2 class="mt-2 pb-4 font-medium text-2xl border-b text-gray-900 border-gray-30" id="single-price">
+                            {{number_format((float) $smartphone->price, 2, ',', ' ')}} €
+                        </h2>
                     </div>
                     <!-- pocitadlo pre mnozstvo produktu je prevzate z https://tailwindcomponents.com/component/number-input-counter -->
                     <div class="row order-4 sm:order-3">
@@ -53,7 +55,9 @@
                             <div class="h-10 w-32 rounded-lg">
                                 <label for="total-price" class="m-8 text-gray-700 text-lg font-semibold">Suma</label>
                                 <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent overflow-hidden">
-                                    <span id="total-price" class="text-center w-full text-xl px-6 py-4 font-medium text-base bg-blue-500 text-white rounded-lg py-1.5">189.99 €</span>
+                                    <span id="total-price" class="text-center w-full text-xl font-medium text-base bg-blue-500 text-white rounded-lg py-1.5">
+                                        {{number_format((float) $smartphone->price, 2, ',', ' ')}} €
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -82,39 +86,39 @@
                     <dl>
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-gray-500">Výrobca</dt>
-                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">Samsung</dd>
+                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->brand->name}}</dd>
                         </div>
                         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-gray-500">Pamäť RAM</dt>
-                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">6144 MB</dd>
+                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->ram}} MB</dd>
                         </div>
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-gray-500">Operačný systém</dt>
-                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">Android</dd>
+                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->operating_system}}</dd>
                         </div>
                         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-gray-500">Verzia operačného systému</dt>
-                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">Android 11</dd>
+                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->os_version}}</dd>
                         </div>
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-gray-500">Veľkosť displeja</dt>
-                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">6.5"</dd>
+                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->display_size}}"</dd>
                         </div>
                         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-gray-500">Rozlíšenie displeja</dt>
-                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">2400 x 1080</dd>
+                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->resolution}}</dd>
                         </div>
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-gray-500">Výška</dt>
-                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">159.9 mm</dd>
+                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->height}} mm</dd>
                         </div>
                         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-gray-500">Šírka</dt>
-                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">75.1 mm</dd>
+                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->width}} mm</dd>
                         </div>
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-gray-500">Hĺbka</dt>
-                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">8.4 mm</dd>
+                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->thickness}} mm</dd>
                         </div>
                     </dl>
                 </div>
@@ -124,10 +128,7 @@
                 <div class="mb-4">
                     <h3 class="text-lg font-medium text-gray-900">Popis produktu</h3>
                 </div>
-                <p class="leading-relaxed">
-                    Elegantný smartfón s veľkým displejom, ktorý chráni oči a zobrazuje všetko plynulo a čitateľne, nech už sú okolité podmienky akékoľvek. Štyri objektívy fotoaparátu vytvoria ultraširokouhlé snímky, stabilný a jasný obraz, rozostrené pozadie aj makro fotografie. Stabilné sú aj videá a selfie portréty vo vysokom rozlíšení. Telefón je vodoodolný, takže si s ním môžete ísť pokojne zaplávať. Veľkokapacitná batéria vydrží celý víkend a rýchlonabíjanie sa postará o dodanie energie bez zbytočného zdržiavania. K lepšiemu zážitku z hrania hier prispeje Game Booster a dva špičkové
-                    reproduktory. Vďaka Samsung Knox a snímaču odtlačkov prstov je Galaxy A52 zabezpečený na jednotku.
-                </p>
+                <p class="leading-relaxed">{{$smartphone->description}}</p>
             </div>
         </div>
     </div>
