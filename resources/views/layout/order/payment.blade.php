@@ -219,16 +219,19 @@
                     </div>
                 </div>
             </div>
+            <!-- buttons -->
             <div class="grid lg:grid-cols-2 grid-cols-1 col-gap-32">
                 <div class="col-span-1 flex justify-center items-end lg:h-64">
                     <div class="col-span-1 flex justify-center items-end lg:h-64">
-                        <a href="{{ url('/orderDelivery.html') }}" title="Späť na výber dopravy">
-                            <div class="w-4/5 sm:w-48 bg-blue-500 text-center hover:bg-blue-700 text-white font-bold py-2 mb-16 px-4 rounded focus:outline-none focus:shadow-outline rounded-full">Späť</div>
+                        <a href="{{ url('/delivery') }}" title="Späť na výber dopravy">
+                            <div class="w-48 bg-blue-500 text-center hover:bg-blue-700 text-white font-bold py-2 mb-16 px-4 rounded focus:outline-none focus:shadow-outline rounded-full">Späť</div>
                         </a>
                     </div>
                 </div>
                 <div class="col-span-1 flex justify-center items-end lg:h-64 relative">
-                    <button class="w-5/6 sm:w-48 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 mb-16 px-4 rounded focus:outline-none focus:shadow-outline rounded-full" type="submit">Objednať a zaplatiť</button>
+                    <button type="submit" class="w-48 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 mb-16 px-4 rounded focus:outline-none focus:shadow-outline rounded-full">
+                        Objednať a zaplatiť
+                    </button>
                     <div class="absolute sm:m-32">
                         <label class="inline-flex items-center px-12">
                             <input type="checkbox" class="form-checkbox" />

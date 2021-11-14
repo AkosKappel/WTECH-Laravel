@@ -6,7 +6,7 @@
 
 <body class="font-body text-gray-600 bg-gray-100">
 @include('layout.partials.header')
-    <main class="lg:mx-16 my-8">
+    <main class="lg:mx-16 my-12">
         <h1 class="text-center font-bold text-3xl lg:text-4xl px-2 mt-4">Váš nákupný košík</h1>
         <div class="hidden md:grid grid-cols-12 mx-auto w-11/12 2xl:w-4/5 rounded-md mt-5 -mb-2 items-center">
             <div class="col-span-5"></div>
@@ -142,10 +142,10 @@
         <div class="flex w-11/12 2xl:w-4/5 mx-auto mt-5 md:mt-10 pr-2 text-center md:text-right justify-self-center justify-center items-center md:justify-end">
             <div class="grid grid-cols-12">
                 <div class="col-span-12 md:col-span-6">
-                    <a href="./allProducts.html" title="Pokračovať v nákupe" class="text-xl font-bold underline md:mr-10">Pokračovať v nákupe</a>
+                    <a href="{{ url('/smartphones') }}" title="Pokračovať v nákupe" class="text-xl font-bold underline md:mr-10">Pokračovať v nákupe</a>
                 </div>
                 <div class="col-span-12 md:col-span-6">
-                    <a href="./orderContact.html" title="Pokračovať v objednávke" class="w-full mt-2 md:mt-0 block md:inline bg-gray-300 rounded-md py-3 px-5 text-center text-xl font-bold">Pokračovať v objednávke</a>
+                    <a href="{{ url('/address') }}" title="Pokračovať v objednávke" class="w-full mt-2 md:mt-0 block md:inline bg-gray-300 rounded-md py-3 px-5 text-center text-xl font-bold">Pokračovať v objednávke</a>
                 </div>
             </div>
         </div>

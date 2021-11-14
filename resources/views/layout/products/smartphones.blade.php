@@ -9,33 +9,36 @@
 
 <div class="flex justify-center">
     <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1">
+
         <!-- sidebar with filters -->
-        <aside class="col-span-1 m-10 min-w-min">
+        <aside class="col-span-1 mx-10 min-w-min">
             <div class="my-8 bg-blue-100 text-center">
-                <div>
+                <section>
                     <h2 class="font-bold uppercase px-16 py-4 border-b border-gray-100 bg-gray-700 text-gray-100">Filtrovanie</h2>
                     <div class="px-4 cursor-pointer md:hidden" id="burger-icon">
                         <svg class="w-6 h-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
                             <path d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
                     </div>
-                </div>
-                <form action="" method="get" class="w-full max-w-sm">
+                </section>
+                <form method="get" action="{{ resource_path('/smartphones') }}" class="w-full max-w-sm">
                     <div class="text-sm mt-4 hidden md:block" id="filters">
+
                         <!-- product price -->
-                        <div class="pb-4">
+                        <section class="pb-4">
                             <span class="text-gray-700 font-bold py-4 px-8 flex justify-start">Cena (€)</span>
-                            <div class="px-12 md:flex md:items-center mb-2">
-                                <label class="block text-gray-600 md:text-right mb-1 md:mb-0 pr-4" for="min-price">Od</label>
+                            <div class="px-12 flex items-center mb-2">
+                                <label class="block text-gray-600 mb-1 md:mb-0 pr-4" for="min-price">Od</label>
                                 <input class="bg-gray-100 appearance-none border-2 border-gray-200 rounded-xl w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="min-price" type="number" min="0" value="" />
                             </div>
-                            <div class="px-12 md:flex md:items-center mb-2">
-                                <label class="block text-gray-600 md:text-right mb-1 md:mb-0 pr-4" for="max-price">Do</label>
+                            <div class="px-12 flex items-center mb-2">
+                                <label class="block text-gray-600 mb-1 md:mb-0 pr-4" for="max-price">Do</label>
                                 <input class="bg-gray-100 appearance-none border-2 border-gray-200 rounded-xl w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="max-price" type="number" min="0" value="" />
                             </div>
-                        </div>
-                        <!-- product logo -->
-                        <div class="pb-4">
+                        </section>
+
+                        <!-- product brand -->
+                        <section class="pb-4">
                             <span class="text-gray-700 font-bold py-4 px-8 flex justify-start">Značka</span>
                             <div class="flex flex-col text-left px-16">
                                 <label class="text-lg inline-flex items-center" for="samsung">
@@ -67,9 +70,10 @@
                                     <span class="ml-2">Lenovo</span>
                                 </label>
                             </div>
-                        </div>
+                        </section>
+
                         <!-- product color -->
-                        <div class="pb-4">
+                        <section class="pb-4">
                             <span class="text-gray-700 font-bold py-4 px-8 flex justify-start">Farba</span>
                             <div class="flex flex-col text-left px-16">
                                 <label class="text-lg inline-flex items-center" for="red">
@@ -118,7 +122,8 @@
                                     <span class="mx-2">čierna</span>
                                 </label>
                             </div>
-                        </div>
+                        </section>
+
                         <!-- apply filters button -->
                         <div class="p-10 flex justify-center">
                             <button class="bg-gray-600 text-white font-bold text-sm px-4 py-2 rounded-full shadow hover:shadow-lg" type="button">Filtrovať výsledky</button>
@@ -128,50 +133,51 @@
             </div>
         </aside>
 
-        <!-- grid of products -->
-        <main class="max-w-6xl px-4 sm:px-16 py-8 xl:col-span-3 lg:col-span-3 md:col-span-2 sm:col-span-1">
-            <div class="flex ml-4 justify-end">
-                <div class="relative">
-                    <label class="text-sm mr-2">
-                        <span class="m-2">Zoradiť podľa:</span>
-                        <select class="font-bold rounded-md border shadow-sm appearance-none border-gray-400 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-gray-100 focus:ring-indigo-500 border-2 text-base pl-3 pr-10">
-                            <option class="rounded-md text-lg">Najlacnejšie</option>
-                            <option class="rounded-md text-lg">Najdrahšie</option>
-                        </select>
-                    </label>
-                    <span class="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
-                <svg class="m-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
-              </span>
-                </div>
-            </div>
-            <div>
-                <h1 class="text-xl font-bold pb-2 mt-4 border-b border-gray-300">Dostupné smartfóny</h1>
-                <div class="mt-8 grid 2xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-1 gap-12">
-                    <!-- products -->
-                    @foreach($smartphones as $smartphone)
-                        <a href="{{ URL::to('smartphones/' . $smartphone->id) }}">
-                            <section class="bg-white border-gray-200 rounded max-w-sm overflow-hidden relative shadow-md hover:shadow-lg">
-                                <img src="{{ $smartphone->images->first()->source }}" alt="{{ $smartphone->images->first()->name }}" class="h-64 w-full object-cover" />
-                                <div class="m-4 text-center">
-                                    <h2 class="font-bold">{{ $smartphone->name }}</h2>
-                                    <p class="block text-gray-900 text-md">{{ number_format((float) $smartphone->price, 2, ',', ' ') }} €</p>
-                                </div>
-                            </section>
-                        </a>
-                    @endforeach
-                </div>
+        <!-- main grid -->
+        <main class="max-w-7xl px-4 sm:px-16 py-8 xl:col-span-3 lg:col-span-3 md:col-span-2 sm:col-span-1">
+            <!-- grid header -->
+            <section class="relative flex justify-between ml-4 border-b">
+                <h1 class="text-xl font-bold pb-2 mt-4 border-gray-300">Dostupné smartfóny</h1>
+                <label class="text-sm mr-2">
+                    <span class="m-2 hidden lg:inline">Zoradiť podľa:</span>
+                    <select class="font-bold rounded-md border shadow-sm appearance-none border-gray-400 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-gray-100 focus:ring-indigo-500 border-2 text-base pl-3 pr-10">
+                        <option class="rounded-md text-lg">Najlacnejšie</option>
+                        <option class="rounded-md text-lg">Najdrahšie</option>
+                    </select>
+                </label>
+                <span class="absolute right-2 -top-1 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
+                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </span>
+            </section>
+
+            <!-- grid content -->
+            <div class="mt-8 grid 2xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-1 gap-12">
+                <!-- products -->
+                @foreach($smartphones as $smartphone)
+                    <a href="{{ URL::to('smartphones/' . $smartphone->id) }}">
+                        <section class="bg-white border-gray-200 rounded max-w-sm overflow-hidden relative shadow-md hover:shadow-lg">
+                            <img src="{{ $smartphone->images->first()->source }}" alt="{{ $smartphone->images->first()->name }}" class="h-64 w-full object-cover" />
+                            <div class="m-4 text-center">
+                                <h2 class="font-bold">{{ $smartphone->name }}</h2>
+                                <p class="block text-gray-900 text-md">{{ number_format((float) $smartphone->price, 2, ',', ' ') }} €</p>
+                            </div>
+                        </section>
+                    </a>
+                @endforeach
             </div>
 
             <!-- page numbers -->
             <nav class="my-12 text-center flex justify-center">
-                {{ $smartphones->links() }}
+                {{ $smartphones->onEachSide(1)->links('layout.partials.pagination') }}
             </nav>
+
         </main>
     </div>
 </div>
-<script src="{{ url('/js/allProducts.js') }}" type="text/javascript"></script>
+
+<script src="{{ url('/js/smartphones.js') }}" type="text/javascript"></script>
 
 @include('layout.partials.footer')
 </body>

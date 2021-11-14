@@ -7,7 +7,7 @@
 <body class="font-body text-gray-600 bg-gray-100">
 @include('layout.partials.header')
 
-<main>
+<main class="m-12">
     <section>
         <h1 class="text-center font-bold text-xl lg:text-4xl px-2 mt-4">Prečo si zakúpiť smartfón u nás?</h1>
         <div class="text-center mx-auto w-full mt-5 lg:mt-8">
@@ -29,7 +29,7 @@
                         <img src="{{ url('/images/check.png') }}" alt="Odrážka" class="w-6 lg:w-10 inline -mt-1 lg:-mt-2 mx-2" />
                         <p class="inline text-lg lg:text-2xl">2 ročná prémiová záruka</p>
                     </div>
-                    <a href="smartphones">
+                    <a href="{{ url('/smartphones') }}">
                         <div class="mt-5 lg:mt-10 w-54 inline-block lg:w-96 lg:text-xl bg-blue-500 lg:px-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline rounded-full">Kúp si smartfón ešte dnes</div>
                     </a>
                 </div>
@@ -37,7 +37,7 @@
         </div>
     </section>
     <section>
-        <div class="text-center">
+        <div class="text-center mt-8">
             <h1 class="font-bold text-xl lg:text-4xl px-2 mt-4">Najpredávanejšie produkty</h1>
             <p class="mt-2 text-lg">Tieto smartfóny si naši zákazníci zamilovali</p>
         </div>

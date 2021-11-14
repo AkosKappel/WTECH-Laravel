@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 // Homepage
 Route::get('/', function () {
     return view('layout/app');
@@ -55,9 +56,10 @@ Route::get('/details', function () {
     return view('layout/products/details');
 });
 
+
 // Order
-Route::get('/contact', function () {
-    return view('layout/order/contact');
+Route::get('/address', function () {
+    return view('layout/order/address');
 });
 
 Route::get('/delivery', function () {
@@ -67,6 +69,7 @@ Route::get('/delivery', function () {
 Route::get('/payment', function () {
     return view('layout/order/payment');
 });
+
 
 // Resources
 Route::resource('smartphones', \App\Http\Controllers\SmartphoneController::class);
