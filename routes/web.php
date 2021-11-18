@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\SmartphoneController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,9 +32,11 @@ Route::get('/', function () {
 
 
 // User
-Route::get('/profile', function () {
-    return view('layout/user/profile');
-})->middleware(['auth'])->name('profile');
+//Route::get('/profile', function () {
+//    return view('layout/user/profile');
+//})->middleware(['auth'])->name('profile');
+
+Route::get('/profile', [UserController::class, 'index'])->middleware(['auth'])->name('profile');
 
 //Route::get('/login', function () {
 //    return view('layout/user/login');
@@ -82,4 +86,6 @@ Route::get('/payment', function () {
 
 
 // Resources
-Route::resource('smartphones', \App\Http\Controllers\SmartphoneController::class);
+Route::resource('smartphones', SmartphoneController::class);
+
+Route::resource('user', \App\Http\Controllers\UserController::class);
