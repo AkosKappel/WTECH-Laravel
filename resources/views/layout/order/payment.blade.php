@@ -4,10 +4,10 @@
     @include('layout.partials.head', ['title' => "Platba" ])
 </head>
 
-<body>
+<body class="font-body text-gray-600 bg-gray-100 flex flex-col h-screen justify-between">
 @include('layout.partials.header')
 
-<main class="flex justify-evenly lg:mx-32 my-8">
+<main class="flex justify-evenly lg:mx-32">
     <div class="container">
         <h1 class="font-bold text-2xl my-8 mx-16">Vaša objednávka</h1>
         <div class="space-x-4 text-xl mt-4 mb-8 mx-16">
@@ -243,7 +243,6 @@
         </form>
     </div>
 </main>
-
-@include('layout.partials.footer');
+@include('layout.partials.footer')
 </body>
 </html>

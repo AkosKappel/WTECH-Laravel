@@ -1,4 +1,4 @@
-<footer class="footer bg-blue-500 absolute w-full">
+<footer class="footer bg-blue-500 w-full">
     <div class="mx-auto">
         <div class="grid grid-cols-12 sm:mt-1">
             <div class="col-span-6 sm:col-span-3 text-center">

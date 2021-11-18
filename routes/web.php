@@ -23,19 +23,17 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
 
-
-
 // Homepage
 Route::get('/', function () {
     return view('layout/app');
-});
+})->name('home');
 
 
 // User
-//Route::get('/profile', function () {
-//    return view('layout/user/profile');
-//});
-//
+Route::get('/profile', function () {
+    return view('layout/user/profile');
+})->middleware(['auth'])->name('profile');
+
 //Route::get('/login', function () {
 //    return view('layout/user/login');
 //});
@@ -54,33 +52,33 @@ Route::get('/', function () {
 
 
 // Cart
-//Route::get('/cart', function () {
-//    return view('layout/cart/cart');
-//});
+Route::get('/cart', function () {
+    return view('layout/cart/cart');
+})->name('cart');
 
 
 // Products
 Route::get('/smartphones', function () {
     return view('layout/products/smartphones');
-});
+})->name('smartphones');
 
 Route::get('/details', function () {
     return view('layout/products/details');
-});
+})->name('details');
 
 
 // Order
-//Route::get('/address', function () {
-//    return view('layout/order/address');
-//});
-//
-//Route::get('/delivery', function () {
-//    return view('layout/order/delivery');
-//});
-//
-//Route::get('/payment', function () {
-//    return view('layout/order/payment');
-//});
+Route::get('/address', function () {
+    return view('layout/order/address');
+})->name('address');
+
+Route::get('/delivery', function () {
+    return view('layout/order/delivery');
+})->name('delivery');
+
+Route::get('/payment', function () {
+    return view('layout/order/payment');
+})->name('payment');
 
 
 // Resources

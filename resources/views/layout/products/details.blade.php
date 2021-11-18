@@ -137,6 +137,6 @@
 </main>
 <script src="{{ asset('js/details.js') }}" type="text/javascript"></script>
 
-@include('layout.partials.footer');
+@include('layout.partials.footer')
 </body>
 </html>

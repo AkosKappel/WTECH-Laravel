@@ -4,11 +4,9 @@
     @include('layout.partials.head', ['title' => "Používateľské údaje" ])
 </head>
 
-<body class="font-body text-gray-600 bg-gray-100 pb-36 sm:pb-0">
-@include('layout.partials.header')
-
-<main class="personal-info mt-10 sm:mt-20 mx-auto">
-    <div class="grid grid-cols-12">
+<body class="font-body text-gray-600 bg-gray-100 flex flex-col h-screen justify-between">
+    @include('layout.partials.header')
+    <main class="personal-info grid grid-cols-12 justify-between">
         <div class="col-span-12 lg:col-span-6">
             <div class="flex">
                 <div class="w-11/12 sm:w-full max-w-md mx-auto m-auto">
@@ -22,7 +20,9 @@
                                 <div class="col-span-4">
                                     <label class="sm:ml-3 text-sm sm:text-base" for="name">Meno:</label>
                                 </div>
-                                <div class="col-span-8 flex justify-end"><input class="text-sm sm:text-base shadow appearance-none border rounded -mt-1 sm:-mt-2 w-full py-2 ml-2 sm:ml-0 px-3 sm:mr-2 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" id="name" type="text" placeholder="Meno" /></div>
+                                <div class="col-span-8 flex justify-end">
+                                    <input value="{{ Auth()->user()->first_name }}" class="text-sm sm:text-base shadow appearance-none border rounded -mt-1 sm:-mt-2 w-full py-2 ml-2 sm:ml-0 px-3 sm:mr-2 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" id="name" type="text" placeholder="Meno" />
+                                </div>
                             </div>
                         </div>
                         <div class="text-left mt-5 relative">
@@ -31,7 +31,7 @@
                                     <label class="sm:ml-3 text-sm sm:text-base" for="surname">Priezvisko:</label>
                                 </div>
                                 <div class="col-span-8 flex justify-end">
-                                    <input class="text-sm sm:text-base shadow appearance-none sm:mr-2 border rounded ml-2 sm:ml-0 w-full py-2 -mt-1 sm:-mt-2 px-3 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" id="surname" type="text" placeholder="Priezvisko" />
+                                    <input value="{{ Auth()->user()->last_name }}" class="text-sm sm:text-base shadow appearance-none sm:mr-2 border rounded ml-2 sm:ml-0 w-full py-2 -mt-1 sm:-mt-2 px-3 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" id="surname" type="text" placeholder="Priezvisko" />
                                 </div>
                             </div>
                         </div>
@@ -41,7 +41,7 @@
                                     <label class="sm:ml-3 text-sm sm:text-base" for="phone">Telefón:</label>
                                 </div>
                                 <div class="col-span-8 flex justify-end">
-                                    <input class="text-sm sm:text-base shadow appearance-none border rounded ml-2 sm:ml-0 sm:mr-2 w-full -mt-1 sm:-mt-2 py-2 px-3 text-gray-700 mb-3 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" id="phone" type="text" placeholder="Telefón" />
+                                    <input value="{{ Auth()->user()->phone_number }}" class="text-sm sm:text-base shadow appearance-none border rounded ml-2 sm:ml-0 sm:mr-2 w-full -mt-1 sm:-mt-2 py-2 px-3 text-gray-700 mb-3 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" id="phone" type="text" placeholder="Telefón" />
                                 </div>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                                     <label class="sm:ml-3 text-sm sm:text-base" for="email">Email:</label>
                                 </div>
                                 <div class="col-span-8 flex justify-end">
-                                    <input class="text-sm sm:text-base shadow sm:mr-2 appearance-none border ml-2 sm:ml-0 rounded w-full py-2 px-3 text-gray-700 -mt-1 sm:-mt-2 mb-3 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" id="email" type="text" placeholder="Email" />
+                                    <input value="{{ Auth()->user()->email }}" class="text-sm sm:text-base shadow sm:mr-2 appearance-none border ml-2 sm:ml-0 rounded w-full py-2 px-3 text-gray-700 -mt-1 sm:-mt-2 mb-3 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" id="email" type="text" placeholder="Email" />
                                 </div>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                 <div class="w-11/12 sm:w-full max-w-md mx-auto m-auto">
                     <form class="bg-white shadow-2xl rounded-2xl border px-4 pt-6 pb-8 mb-4 w-full">
                         <div class="text-center">
-                            <img src="{{}}" alt="Osoba" class="w-7 h-7 mb-3 inline" />
+                            <img src="{{ url('/images/truck.png') }}" alt="Dodávka" class="w-7 h-7 mb-3 inline" />
                             <h1 class="text-3xl font-medium text-center ml-2 inline">Dodacie údaje</h1>
                         </div>
                         <div class="mb-4 mt-8 text-left relative">
@@ -78,7 +78,7 @@
                                     <label class="sm:ml-3 text-sm sm:text-base" for="street">Ulica:</label>
                                 </div>
                                 <div class="col-span-8 flex justify-end">
-                                    <input class="text-sm sm:text-base shadow appearance-none border rounded w-full -mt-1 sm:-mt-2 py-2 ml-2 sm:ml-0 px-3 sm:mr-2 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" id="street" type="text" placeholder="Ulica" />
+                                    <input value="{{ Auth()->user()->street }}" class="text-sm sm:text-base shadow appearance-none border rounded w-full -mt-1 sm:-mt-2 py-2 ml-2 sm:ml-0 px-3 sm:mr-2 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" id="street" type="text" placeholder="Ulica" />
                                 </div>
                             </div>
                         </div>
@@ -88,7 +88,7 @@
                                     <label class="sm:ml-3 text-sm sm:text-base" for="streetNumber">Popisné číslo:</label>
                                 </div>
                                 <div class="col-span-8 flex justify-end">
-                                    <input class="text-sm sm:text-base shadow appearance-none sm:mr-2 border rounded w-full ml-2 sm:ml-0 py-2 -mt-1 sm:-mt-2 px-3 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" id="streetNumber" type="text" placeholder="Popisné číslo" />
+                                    <input value="{{ Auth()->user()->descriptive_number }}" class="text-sm sm:text-base shadow appearance-none sm:mr-2 border rounded w-full ml-2 sm:ml-0 py-2 -mt-1 sm:-mt-2 px-3 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" id="streetNumber" type="text" placeholder="Popisné číslo" />
                                 </div>
                             </div>
                         </div>
@@ -98,7 +98,7 @@
                                     <label class="sm:ml-3 text-sm sm:text-base" for="town">Mesto:</label>
                                 </div>
                                 <div class="col-span-8 flex justify-end">
-                                    <input class="text-sm sm:text-base shadow sm:mr-2 appearance-none border rounded ml-2 sm:ml-0 w-full py-2 px-3 text-gray-700 -mt-1 sm:-mt-2 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" id="town" type="text" placeholder="Mesto" />
+                                    <input value="{{ Auth()->user()->city }}" class="text-sm sm:text-base shadow sm:mr-2 appearance-none border rounded ml-2 sm:ml-0 w-full py-2 px-3 text-gray-700 -mt-1 sm:-mt-2 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" id="town" type="text" placeholder="Mesto" />
                                 </div>
                             </div>
                         </div>
@@ -108,7 +108,7 @@
                                     <label class="sm:ml-3 text-sm sm:text-base" for="country">Krajina</label>
                                 </div>
                                 <div class="col-span-8 flex justify-end">
-                                    <input class="text-sm sm:text-base shadow appearance-none sm:mr-2 border rounded w-full ml-2 sm:ml-0 py-2 -mt-1 sm:-mt-2 px-3 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" id="country" type="text" placeholder="Krajina" />
+                                    <input value="{{ Auth()->user()->country }}" class="text-sm sm:text-base shadow appearance-none sm:mr-2 border rounded w-full ml-2 sm:ml-0 py-2 -mt-1 sm:-mt-2 px-3 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" id="country" type="text" placeholder="Krajina" />
                                 </div>
                             </div>
                         </div>
@@ -119,9 +119,7 @@
                 </div>
             </div>
         </div>
-    </div>
-</main>
-
-@include('layout.partials.footer');
+    </main>
+    @include('layout.partials.footer')
 </body>
 </html>

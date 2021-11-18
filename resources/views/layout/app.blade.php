@@ -70,6 +70,6 @@
     </section>
 </main>
 
-@include('layout.partials.footer');
+@include('layout.partials.footer')
 </body>
 </html>

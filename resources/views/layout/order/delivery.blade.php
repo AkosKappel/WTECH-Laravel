@@ -4,7 +4,7 @@
     @include('layout.partials.head', ['title' => "Doprava" ])
 </head>
 
-<body>
+<body class="font-body text-gray-600 bg-gray-100 flex flex-col h-screen justify-between">
 @include('layout.partials.header')
 
 <main class="flex justify-evenly lg:mx-32 my-8">
@@ -79,6 +79,6 @@
     </div>
 </main>
 
-@include('layout.partials.footer');
+@include('layout.partials.footer')
 </body>
 </html>
