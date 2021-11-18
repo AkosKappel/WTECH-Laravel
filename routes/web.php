@@ -13,6 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
+
+
+
 // Homepage
 Route::get('/', function () {
     return view('layout/app');
@@ -20,31 +32,31 @@ Route::get('/', function () {
 
 
 // User
-Route::get('/profile', function () {
-    return view('layout/user/profile');
-});
-
-Route::get('/login', function () {
-    return view('layout/user/login');
-});
-
-Route::get('/register', function () {
-    return view('layout/user/register');
-});
-
-Route::get('/passwordReset', function () {
-    return view('layout/user/passwordReset');
-});
-
-Route::get('/passwordChange', function () {
-    return view('layout/user/passwordChange');
-});
+//Route::get('/profile', function () {
+//    return view('layout/user/profile');
+//});
+//
+//Route::get('/login', function () {
+//    return view('layout/user/login');
+//});
+//
+//Route::get('/register', function () {
+//    return view('layout/user/register');
+//});
+//
+//Route::get('/passwordReset', function () {
+//    return view('layout/user/passwordReset');
+//});
+//
+//Route::get('/passwordChange', function () {
+//    return view('layout/user/passwordChange');
+//});
 
 
 // Cart
-Route::get('/cart', function () {
-    return view('layout/cart/cart');
-});
+//Route::get('/cart', function () {
+//    return view('layout/cart/cart');
+//});
 
 
 // Products
@@ -58,17 +70,17 @@ Route::get('/details', function () {
 
 
 // Order
-Route::get('/address', function () {
-    return view('layout/order/address');
-});
-
-Route::get('/delivery', function () {
-    return view('layout/order/delivery');
-});
-
-Route::get('/payment', function () {
-    return view('layout/order/payment');
-});
+//Route::get('/address', function () {
+//    return view('layout/order/address');
+//});
+//
+//Route::get('/delivery', function () {
+//    return view('layout/order/delivery');
+//});
+//
+//Route::get('/payment', function () {
+//    return view('layout/order/payment');
+//});
 
 
 // Resources
