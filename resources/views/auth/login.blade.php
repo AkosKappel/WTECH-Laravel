@@ -1,4 +1,8 @@
-<x-guest-layout>
+<!doctype html>
+<html lang="sk">
+<head>
+    @include('layout.partials.head', ['title' => "Prihlásenie" ])
+</head>
     <body class="font-body text-gray-600 bg-gray-100">
         <main class="flex h-screen">
             <div class="w-10/12 sm:w-full max-w-md mx-auto m-auto">
@@ -86,4 +90,4 @@
             </div>
         </main>
     </body>
-</x-guest-layout>
+</html>

@@ -1,4 +1,8 @@
-<x-guest-layout>
+<!doctype html>
+<html lang="sk">
+    <head>
+        @include('layout.partials.head', ['title' => "Registrácia" ])
+    </head>
     <!-- Validation Errors -->
     <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
@@ -61,6 +65,4 @@
 {{--                </x-button>--}}
 {{--            </div>--}}
 {{--        </form>--}}
-
-
-</x-guest-layout>
+</html>

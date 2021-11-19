@@ -1,36 +1,47 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+<!doctype html>
+<html lang="sk">
+    <head>
+        @include('layout.partials.head', ['title' => "Obnova hesla" ])
+    </head>
+    <!-- Session Status -->
+    <x-auth-session-status class="mb-4" :status="session('status')" />
 
-        <div class="mb-4 text-sm text-gray-600">
-            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
-        </div>
+    <!-- Validation Errors -->
+    <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
-
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
-        <form method="POST" action="{{ route('password.email') }}">
-            @csrf
-
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
-
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+    <body class="font-body text-gray-600 bg-gray-100">
+        <main class="flex h-screen">
+            <div class="w-10/12 sm:w-full max-w-md mx-auto m-auto">
+                <form class="bg-white shadow-2xl rounded-2xl border px-8 pt-6 pb-8 mb-4 w-full" action="./index.html">
+                    <h1 class="text-3xl font-medium text-center">Obnova hesla</h1>
+                    <div class="mb-4 mt-8 text-center relative">
+                        <input class="shadow appearance-none border rounded w-full sm:w-4/5 py-2 px-3 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" id="email" type="text" placeholder="Email" />
+                        <div class="absolute right-2 sm:right-10 top-1">
+                            <img src="{{ url('/images/email.png') }}" alt="Email" class="w-7 mr-2" />
+                        </div>
+                    </div>
+                    <p class="text-center">Zadajte svoj prihlasovací email<br />Na túto adresu obdržíte nové heslo</p>
+                    <div class="flex justify-center mt-5">
+                        <button class="w-4/5 sm:w-3/5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline rounded-full" type="submit">Obnoviť heslo</button>
+                    </div>
+                </form>
             </div>
+        </main>
+    </body>
+{{--        <form method="POST" action="{{ route('password.email') }}">--}}
+{{--            @csrf--}}
 
-            <div class="flex items-center justify-end mt-4">
-                <x-button>
-                    {{ __('Email Password Reset Link') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+{{--            <!-- Email Address -->--}}
+{{--            <div>--}}
+{{--                <x-label for="email" :value="__('Email')" />--}}
+
+{{--                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />--}}
+{{--            </div>--}}
+
+{{--            <div class="flex items-center justify-end mt-4">--}}
+{{--                <x-button>--}}
+{{--                    {{ __('Email Password Reset Link') }}--}}
+{{--                </x-button>--}}
+{{--            </div>--}}
+{{--        </form>--}}
+</html>
