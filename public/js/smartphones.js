@@ -12,7 +12,7 @@ icon.addEventListener('click', () => {
 const select = document.getElementById('sort');
 select.addEventListener('change', function(){
     const selection = select.options[select.selectedIndex].value;
-    if(selection === 'asc')
+    if (selection === 'asc')
         select.options[1].selected = 'selected';
     else
         select.options[0].selected = 'selected';
@@ -25,9 +25,9 @@ const handleSelect = () => {
     const urlParams = new URLSearchParams(queryString);
     if(urlParams.has('sort')){
         const sort = urlParams.get('sort')
-        if(sort === 'asc')
+        if (sort === 'asc')
             select.options[1].selected = 'selected';
-         else
+        else
             select.options[0].selected = 'selected';
     }
 }

@@ -18,7 +18,6 @@ class SmartphoneController extends Controller
     {
         $params = $request->all();
         $sort = array_key_exists('sort', $params) ? $params['sort'] : 'desc';
-
         $smartphones = Smartphone::orderBy('price', $sort)->paginate(12);
 
         return view('layout.products.smartphones', ['smartphones' => $smartphones]);

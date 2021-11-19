@@ -21,7 +21,7 @@
                         </svg>
                     </div>
                 </section>
-                <form method="get" action="{{ resource_path('/smartphones') }}" class="w-full max-w-sm">
+                <form method="GET" action="{{ route('smartphones') }}" class="w-full max-w-sm">
                     <div class="text-sm mt-4 hidden md:block" id="filters">
 
                         <!-- product price -->
@@ -29,11 +29,13 @@
                             <span class="text-gray-700 font-bold py-4 px-8 flex justify-start">Cena (€)</span>
                             <div class="px-12 flex items-center mb-2">
                                 <label class="block text-gray-600 mb-1 md:mb-0 pr-4" for="min-price">Od</label>
-                                <input class="bg-gray-100 appearance-none border-2 border-gray-200 rounded-xl w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="min-price" type="number" min="0" value="" />
+                                <input class="bg-gray-100 appearance-none border-2 border-gray-200 rounded-xl w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                       id="min-price" name="min-price" type="number" min="0" value="" />
                             </div>
                             <div class="px-12 flex items-center mb-2">
                                 <label class="block text-gray-600 mb-1 md:mb-0 pr-4" for="max-price">Do</label>
-                                <input class="bg-gray-100 appearance-none border-2 border-gray-200 rounded-xl w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="max-price" type="number" min="0" value="" />
+                                <input class="bg-gray-100 appearance-none border-2 border-gray-200 rounded-xl w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                       id="max-price" name="max-price" type="number" min="0" value="" />
                             </div>
                         </section>
 
@@ -42,31 +44,31 @@
                             <span class="text-gray-700 font-bold py-4 px-8 flex justify-start">Značka</span>
                             <div class="flex flex-col text-left px-16">
                                 <label class="text-lg inline-flex items-center" for="samsung">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="samsung" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="samsung" name="samsung" />
                                     <span class="ml-2">Samsung</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="apple">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="apple" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="apple" name="apple" />
                                     <span class="ml-2">Apple</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="xiaomi">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="xiaomi" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="xiaomi" name="xiaomi" />
                                     <span class="ml-2">Xiaomi</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="nokia">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="nokia" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="nokia" name="nokia" />
                                     <span class="ml-2">Nokia</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="huawei">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="huawei" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="huawei" name="huawei" />
                                     <span class="ml-2">Huawei</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="sony">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="sony" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="sony" name="sony" />
                                     <span class="ml-2">Sony</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="lenovo">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="lenovo" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="lenovo" name="lenovo" />
                                     <span class="ml-2">Lenovo</span>
                                 </label>
                             </div>
@@ -77,47 +79,47 @@
                             <span class="text-gray-700 font-bold py-4 px-8 flex justify-start">Farba</span>
                             <div class="flex flex-col text-left px-16">
                                 <label class="text-lg inline-flex items-center" for="red">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="red" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="red" name="red" />
                                     <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-red-600 border-2 border-black"></span>
                                     <span class="mx-2">červená</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="green">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="green" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="green" name="green" />
                                     <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-green-600 border-2 border-black"></span>
                                     <span class="mx-2">zelená</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="blue">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="blue" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="blue" name="blue" />
                                     <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-blue-600 border-2 border-black"></span>
                                     <span class="mx-2">modrá</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="yellow">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="yellow" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="yellow" name="yellow" />
                                     <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-yellow-600 border-2 border-black"></span>
                                     <span class="mx-2">žltá</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="purple">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="purple" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="purple" name="purple" />
                                     <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-purple-600 border-2 border-black"></span>
                                     <span class="mx-2">fialová</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="pink">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="pink" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="pink" name="pink" />
                                     <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-pink-600 border-2 border-black"></span>
                                     <span class="mx-2">ružuvá</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="white">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="white" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="white" name="white" />
                                     <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-white border-2 border-black"></span>
                                     <span class="mx-2">biela</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="gray">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="gray" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="gray" name="gray" />
                                     <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-gray-700 border-2 border-black"></span>
                                     <span class="mx-2">sivá</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="black">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="black" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="black" name="black" />
                                     <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-black border-2 border-black"></span>
                                     <span class="mx-2">čierna</span>
                                 </label>
@@ -126,7 +128,9 @@
 
                         <!-- apply filters button -->
                         <div class="p-10 flex justify-center">
-                            <button class="bg-gray-600 text-white font-bold text-sm px-4 py-2 rounded-full shadow hover:shadow-lg" type="button">Filtrovať výsledky</button>
+                            <button class="bg-gray-600 text-white font-bold text-sm px-4 py-2 rounded-full shadow hover:shadow-lg" type="submit">
+                                Filtrovať výsledky
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -150,7 +154,7 @@
                             </option>
                         </select>
                     </label>
-                    <span class="absolute right-2 -top-2 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
+                    <span class="absolute right-2 -top-1.5 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
                         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                         </svg>

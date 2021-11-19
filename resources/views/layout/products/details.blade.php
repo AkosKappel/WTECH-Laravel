@@ -11,25 +11,32 @@
     <div class="container px-5 py-24 mx-auto">
         <div class="grid md:grid-cols-2 grid-cols-1 gap-12">
             <!-- product image -->
-            <div class="col-span-1">
-                <div class="flex justify-center">
-                    <img alt="Samsung smartphone" src="{{ url($smartphone->images->first()->source) }}" class="rounded border-2 border-gray-300 object-cover object-center shadow-lg" />
+            <section class="col-span-1">
+                <div class="flex justify-evenly">
+                @if($smartphone->images)
+                    <div class="flex justify-center max-w-max-sm max-h-screen max-w-2xl overflow-hidden shadow-lg">
+                        <img alt="{{ url($smartphone->images->first()->name) }}" src="{{ url($smartphone->images->first()->source) }}"
+                             id="mainImage" class="rounded border-2 shadow-lg border-gray-300 object-cover h-96 w-full" />
+                    </div>
+                    <div hidden>
+                        @foreach($smartphone->images as $image)
+                            <img src="{{ $image->source }}" alt="{{ $image->name }}" class="productImage">
+                        @endforeach
+                    </div>
+                @endif
                 </div>
                 <div class="flex justify-evenly">
-                    <a id="left-arrow" href="#">
-                        <div class="rounded-full h-12 w-12 flex items-center justify-center bg-blue-500 hover:bg-blue-800 text-gray-100 mt-4">
-                            <span class="text-xl font-bold"><</span>
-                        </div>
-                    </a>
-                    <a id="right-arrow" href="#">
-                        <div class="rounded-full h-12 w-12 flex items-center justify-center bg-blue-500 hover:bg-blue-800 text-gray-100 mt-4">
-                            <span class="text-xl font-bold">></span>
-                        </div>
-                    </a>
+                    <button id="prev-img-btn" class="rounded-full h-12 w-12 flex items-center justify-center bg-blue-500 hover:bg-blue-800 text-gray-100 mt-4">
+                        <span class="text-xl font-bold"><</span>
+                    </button>
+                    <button id="next-img-btn" class="rounded-full h-12 w-12 flex items-center justify-center bg-blue-500 hover:bg-blue-800 text-gray-100 mt-4">
+                        <span class="text-xl font-bold">></span>
+                    </button>
                 </div>
-            </div>
-            <!-- buttons -->
-            <div class="col-span-1">
+            </section>
+
+            <!-- product name, quantity, add to cart button, ... -->
+            <section class="col-span-1">
                 <div class="grid">
                     <div class="row order-1 sm:order-1">
                         <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{{$smartphone->name}}</h1>
@@ -76,11 +83,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
+
         <div class="flex flex-wrap justify-evenly">
             <!-- product specifications -->
-            <div class="w-full lg:w-1/2 mt-12 bg-white shadow overflow-hidden">
+            <section class="w-full lg:w-1/2 mt-12 bg-white shadow overflow-hidden">
                 <div class="px-4 py-5 sm:px-6">
                     <h3 class="text-lg leading-6 font-medium text-gray-900">Špecifikácia</h3>
                 </div>
@@ -124,17 +132,19 @@
                         </div>
                     </dl>
                 </div>
-            </div>
+            </section>
+
             <!-- product description -->
-            <div class="lg:w-1/2 p-16">
+            <section class="lg:w-1/2 p-16">
                 <div class="mb-4">
                     <h3 class="text-lg font-medium text-gray-900">Popis produktu</h3>
                 </div>
                 <p class="leading-relaxed">{{$smartphone->description}}</p>
-            </div>
+            </section>
         </div>
     </div>
 </main>
+
 <script src="{{ asset('js/details.js') }}" type="text/javascript"></script>
 
 @include('layout.partials.footer')

@@ -11,11 +11,11 @@ class Smartphone extends Model
 
     public function brand()
     {
-        return $this->belongsTo(\App\Models\Brand::class);
+        return $this->belongsTo(Brand::class);
     }
 
     public function images()
     {
-        return $this->hasMany(\App\Models\Image::class);
+        return $this->hasMany(Image::class);
     }
 }
