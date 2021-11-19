@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+
 
 class UserController extends Controller
 {
@@ -46,7 +48,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('layout/user/profile');
+        //
     }
 
     /**
@@ -65,11 +67,36 @@ class UserController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\User $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'first_name' => 'string|max:255|nullable',
+            'last_name' => 'string|max:255|nullable',
+            'phone_number' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:10|nullable',
+            'email' => 'string|max:255|nullable',
+            'street' => 'string|max:255|nullable',
+            'descriptive_number' => 'string|max:255|nullable',
+            'city' => 'string|max:255|nullable',
+            'country' => 'string|max:255|nullable',
+        ]);
+//        dd($request);
+
+        User::find(Auth()->user()->id)->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'phone_number' => $request->phone_number,
+            'email' => $request->email,
+            'street' => $request->street,
+            'descriptive_number' => $request->descriptive_number,
+            'city' => $request->city,
+            'country' => $request->country,
+        ]);
+
+        $request->session()->flash('message', 'Zmeny boli úspešne uložené.');
+
+        return redirect('profile');
     }
 
     /**

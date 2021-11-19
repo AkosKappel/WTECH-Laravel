@@ -8,3 +8,8 @@ icon.addEventListener('click', () => {
         filters.classList.add('hidden');
     }
 });
+
+let select = document.getElementById('sort');
+select.addEventListener('change', function(){
+    this.form.submit();
+}, false);

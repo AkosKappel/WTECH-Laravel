@@ -31,15 +31,12 @@
 
                 @if (Auth::check())
                     <div class="bg-white text-white font-bold py-1 px-2 focus:outline-none focus:shadow-outline rounded-full space-between inline-flex items-center">
-                        <form method="GET" action="{{ route('profile') }}">
-                            @csrf
-                            <button type="submit" class="inline-flex">
-                                <img src="{{ url('/images/person.png') }}" alt="Profil" class="w-8 mx-4"/>
-                                <span class="hidden lg:inline text-black mt-1.5">
-                                    {{ Auth::user()->email }}
-                                </span>
-                            </button>
-                        </form>
+                        <a href="{{ route('profile') }}" class="inline-flex">
+                            <img src="{{ url('/images/person.png') }}" alt="Profil" class="w-8 mx-4"/>
+                            <span class="hidden lg:inline text-black mt-1">
+                                {{ Auth::user()->email }}
+                            </span>
+                        </a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit">

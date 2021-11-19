@@ -14,9 +14,12 @@ class SmartphoneController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $smartphones = Smartphone::paginate(12);
+//        dd($request->all());
+        $ordering = $request->input('sort', 'desc');
+//        echo $ordering;
+        $smartphones = Smartphone::orderBy('price', $ordering)->paginate(12);
 
         return view('layout.products.smartphones', ['smartphones' => $smartphones]);
     }

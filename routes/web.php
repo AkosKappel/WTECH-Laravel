@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\SmartphoneController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\PasswordChangeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,15 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
-
-//Route::get('/dashboard', function () {
-//    return view('dashboard');
-//})->middleware(['auth'])->name('dashboard');
-
 require __DIR__.'/auth.php';
+
 
 // Homepage
 Route::get('/', function () {
@@ -32,26 +26,14 @@ Route::get('/', function () {
 
 
 // User
-//Route::get('/profile', function () {
-//    return view('layout/user/profile');
-//})->middleware(['auth'])->name('profile');
-
 Route::get('/profile', [UserController::class, 'index'])->middleware(['auth'])->name('profile');
+Route::put('/profile', [UserController::class, 'update'])->middleware(['auth']);
 
-//Route::get('/login', function () {
-//    return view('layout/user/login');
-//});
-//
-//Route::get('/register', function () {
-//    return view('layout/user/register');
-//});
-//
+Route::get('/passwordChange', [PasswordChangeController::class, 'create'])->middleware(['auth'])->name('passwordChange');
+Route::put('/passwordChange', [PasswordChangeController::class, 'update'])->middleware(['auth']);
+
 //Route::get('/passwordReset', function () {
 //    return view('layout/user/passwordReset');
-//});
-//
-//Route::get('/passwordChange', function () {
-//    return view('layout/user/passwordChange');
 //});
 
 
@@ -62,13 +44,15 @@ Route::get('/cart', function () {
 
 
 // Products
-Route::get('/smartphones', function () {
-    return view('layout/products/smartphones');
-})->name('smartphones');
-
-Route::get('/details', function () {
-    return view('layout/products/details');
-})->name('details');
+//Route::get('/smartphones', [SmartphoneController::class, 'index'])->name('smartphones');
+//Route::get('/smartphones/{smartphone_id}', [SmartphoneController::class, 'show']);
+Route::get('/smartphones', [SmartphoneController::class, 'index'])->name('smartphones');
+Route::get('/smartphones/create', [SmartphoneController::class, 'create']);
+Route::post('/smartphones/', [SmartphoneController::class, 'store']);
+Route::get('/smartphones/{smartphone}/', [SmartphoneController::class, 'show'])->name('details');
+Route::get('/smartphones/{smartphone}/edit/', [SmartphoneController::class, 'edit']);
+Route::put('/smartphones/{smartphone}', [SmartphoneController::class, 'update']);
+Route::delete('/smartphones/{smartphone}/', [SmartphoneController::class, 'destroy']);
 
 
 // Order
@@ -86,6 +70,6 @@ Route::get('/payment', function () {
 
 
 // Resources
-Route::resource('smartphones', SmartphoneController::class);
+//Route::resource('smartphones', SmartphoneController::class);
 
-Route::resource('user', \App\Http\Controllers\UserController::class);
+//Route::resource('user', UserController::class);
