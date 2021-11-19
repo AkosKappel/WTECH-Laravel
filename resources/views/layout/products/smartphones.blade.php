@@ -142,10 +142,10 @@
                     <label class="text-sm mr-2">
                         <span class="m-2 hidden lg:inline">Zoradiť podľa:</span>
                         <select id="sort" name="sort" class="font-bold rounded-md border shadow-sm appearance-none border-gray-400 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-gray-100 focus:ring-indigo-500 border-2 text-base pl-3 pr-10">
-                            <option value="desc" class="sort-option rounded-md text-lg selected">
+                            <option id="desc" value="desc" class="sort-option rounded-md text-lg">
                                 <a href="{{ route('smartphones', ['sort' => 'desc']) }}" style="color:black;">Najdrahšie</a>
                             </option>
-                            <option value="asc" class="sort-option rounded-md text-lg">
+                            <option id="asc" value="asc" class="sort-option rounded-md text-lg">
                                 <a href="{{ route('smartphones', ['sort' => 'asc']) }}" style="color:black;">Najlacnejšie</a>
                             </option>
                         </select>

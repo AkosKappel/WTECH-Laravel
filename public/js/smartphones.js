@@ -11,11 +11,27 @@ icon.addEventListener('click', () => {
 
 const select = document.getElementById('sort');
 select.addEventListener('change', function(){
-    const options = document.getElementsByClassName('sort-option');
-    for (const option of options) {
-        option.classList.toggle('selected');
-        // option.selected = !option.selected;
-        console.log(option);
-    }
+    const selection = select.options[select.selectedIndex].value;
+    if(selection === 'asc')
+        select.options[1].selected = 'selected';
+    else
+        select.options[0].selected = 'selected';
     this.form.submit();
 }, false);
+
+const handleSelect = () => {
+    const select = document.getElementById('sort');
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    if(urlParams.has('sort')){
+        const sort = urlParams.get('sort')
+        if(sort === 'asc')
+            select.options[1].selected = 'selected';
+         else
+            select.options[0].selected = 'selected';
+    }
+}
+
+window.addEventListener("load", function(){
+    handleSelect();
+});
