@@ -47,6 +47,7 @@ Route::get('/cart', function () {
 //Route::get('/smartphones', [SmartphoneController::class, 'index'])->name('smartphones');
 //Route::get('/smartphones/{smartphone_id}', [SmartphoneController::class, 'show']);
 Route::get('/smartphones', [SmartphoneController::class, 'index'])->name('smartphones');
+//Route::get('/smartphones/{sort?}', [SmartphoneController::class, 'index'])->name('smartphones');
 Route::get('/smartphones/create', [SmartphoneController::class, 'create']);
 Route::post('/smartphones/', [SmartphoneController::class, 'store']);
 Route::get('/smartphones/{smartphone}/', [SmartphoneController::class, 'show'])->name('details');

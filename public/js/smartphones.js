@@ -9,7 +9,13 @@ icon.addEventListener('click', () => {
     }
 });
 
-let select = document.getElementById('sort');
+const select = document.getElementById('sort');
 select.addEventListener('change', function(){
+    const options = document.getElementsByClassName('sort-option');
+    for (const option of options) {
+        option.classList.toggle('selected');
+        // option.selected = !option.selected;
+        console.log(option);
+    }
     this.form.submit();
 }, false);

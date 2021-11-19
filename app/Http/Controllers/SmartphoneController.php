@@ -16,10 +16,10 @@ class SmartphoneController extends Controller
      */
     public function index(Request $request)
     {
-//        dd($request->all());
-        $ordering = $request->input('sort', 'desc');
-//        echo $ordering;
-        $smartphones = Smartphone::orderBy('price', $ordering)->paginate(12);
+        $params = $request->all();
+        $sort = array_key_exists('sort', $params) ? $params['sort'] : 'desc';
+
+        $smartphones = Smartphone::orderBy('price', $sort)->paginate(12);
 
         return view('layout.products.smartphones', ['smartphones' => $smartphones]);
     }

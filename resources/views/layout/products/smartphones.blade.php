@@ -141,13 +141,16 @@
                 <form method="GET" action="{{ route('smartphones') }}">
                     <label class="text-sm mr-2">
                         <span class="m-2 hidden lg:inline">Zoradiť podľa:</span>
-                        <select id="sort" name="order" class="font-bold rounded-md border shadow-sm appearance-none border-gray-400 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-gray-100 focus:ring-indigo-500 border-2 text-base pl-3 pr-10">
-                            <option value="desc" class="rounded-md text-lg">Najdrahšie</option>
-                            <option value="asc" class="rounded-md text-lg">Najlacnejšie</option>
-
+                        <select id="sort" name="sort" class="font-bold rounded-md border shadow-sm appearance-none border-gray-400 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-gray-100 focus:ring-indigo-500 border-2 text-base pl-3 pr-10">
+                            <option value="desc" class="sort-option rounded-md text-lg selected">
+                                <a href="{{ route('smartphones', ['sort' => 'desc']) }}" style="color:black;">Najdrahšie</a>
+                            </option>
+                            <option value="asc" class="sort-option rounded-md text-lg">
+                                <a href="{{ route('smartphones', ['sort' => 'asc']) }}" style="color:black;">Najlacnejšie</a>
+                            </option>
                         </select>
                     </label>
-                    <span class="absolute right-2 -top-1 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
+                    <span class="absolute right-2 -top-2 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
                         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                         </svg>
