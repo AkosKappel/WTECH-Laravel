@@ -17,24 +17,6 @@ class SmartphoneController extends Controller
     public function index(Request $request)
     {
         $params = $request->all();
-        echo json_encode($params, JSON_PRETTY_PRINT);
-
-//        if (array_key_exists('min_price', $params))
-//            $query->where("price", ">", $params['min_price']);
-//
-//        if (array_key_exists('max_price', $params))
-//            $query->where("price", "<", $params['max_price']);
-//
-////        if ()
-////            $query->where("type", Input::get("type"))->get();
-////
-////        if (Input::get("category"))
-////            $query->where("category", Input::get("category"))->get();
-//
-////        $smartphones = $query->get()->orderBy('price', $sort)->paginate(12);
-//        $smartphones = $query->get();
-
-
         $smartphones = Smartphone::query()->with('brand');
 
         if (array_key_exists('min-price', $params)) {
