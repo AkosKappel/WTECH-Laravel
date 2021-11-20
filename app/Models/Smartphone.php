@@ -9,6 +9,36 @@ class Smartphone extends Model
 {
     use HasFactory;
 
+    public function scopeMaxPrice($query, $price)
+    {
+        if (!is_null($price)) {
+            return $query->where('price', '<', $price);
+        }
+        return $query;
+    }
+
+    public function scopeMinPrice($query, $price)
+    {
+        if (!is_null($price)) {
+            return $query->where('price', '>', $price);
+        }
+        return $query;
+    }
+
+    public function scopeOfBrand($query, $brandNames)
+    {
+        $brands = Brand::all()->whereIn('name', $brandNames);
+        return $query->whereIn('brand_id', $brands)->get();
+    }
+
+    public function scopeOfColor($query, $color)
+    {
+        if (!is_null($color)) {
+            return $query->where('color', '=', $color);
+        }
+        return $query;
+    }
+
     public function brand()
     {
         return $this->belongsTo(Brand::class);

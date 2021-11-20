@@ -43,32 +43,32 @@
                         <section class="pb-4">
                             <span class="text-gray-700 font-bold py-4 px-8 flex justify-start">Značka</span>
                             <div class="flex flex-col text-left px-16">
-                                <label class="text-lg inline-flex items-center" for="samsung">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="samsung" name="samsung" />
+                                <label class="text-lg inline-flex items-center" for="Samsung">
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="Samsung" name="Samsung" />
                                     <span class="ml-2">Samsung</span>
                                 </label>
-                                <label class="text-lg inline-flex items-center" for="apple">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="apple" name="apple" />
+                                <label class="text-lg inline-flex items-center" for="Apple">
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="Apple" name="Apple" />
                                     <span class="ml-2">Apple</span>
                                 </label>
-                                <label class="text-lg inline-flex items-center" for="xiaomi">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="xiaomi" name="xiaomi" />
+                                <label class="text-lg inline-flex items-center" for="Xiaomi">
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="Xiaomi" name="Xiaomi" />
                                     <span class="ml-2">Xiaomi</span>
                                 </label>
-                                <label class="text-lg inline-flex items-center" for="nokia">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="nokia" name="nokia" />
+                                <label class="text-lg inline-flex items-center" for="Nokia">
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="Nokia" name="Nokia" />
                                     <span class="ml-2">Nokia</span>
                                 </label>
-                                <label class="text-lg inline-flex items-center" for="huawei">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="huawei" name="huawei" />
+                                <label class="text-lg inline-flex items-center" for="Huawei">
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="Huawei" name="Huawei" />
                                     <span class="ml-2">Huawei</span>
                                 </label>
-                                <label class="text-lg inline-flex items-center" for="sony">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="sony" name="sony" />
+                                <label class="text-lg inline-flex items-center" for="Sony">
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="Sony" name="Sony" />
                                     <span class="ml-2">Sony</span>
                                 </label>
-                                <label class="text-lg inline-flex items-center" for="lenovo">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="lenovo" name="lenovo" />
+                                <label class="text-lg inline-flex items-center" for="Lenovo">
+                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="Lenovo" name="Lenovo" />
                                     <span class="ml-2">Lenovo</span>
                                 </label>
                             </div>
@@ -180,7 +180,7 @@
 
             <!-- page numbers -->
             <nav class="my-12 text-center flex justify-center">
-                {{ $smartphones->onEachSide(1)->links('layout.partials.pagination') }}
+                {{ $smartphones->withQueryString()->onEachSide(1)->links('layout.partials.pagination') }}
             </nav>
 
         </main>
