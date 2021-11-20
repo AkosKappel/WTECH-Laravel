@@ -27,6 +27,7 @@ class CreateSmartphonesTable extends Migration
             $table->float('height');
             $table->float('width');
             $table->float('thickness');
+            $table->string('color');
             $table->timestamps();
         });
     }

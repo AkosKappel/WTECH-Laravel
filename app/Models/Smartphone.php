@@ -28,7 +28,6 @@ class Smartphone extends Model
     public function scopeOfBrand($query, $brandNames)
     {
         $brands = Brand::all()->whereIn('name', $brandNames);
-
         $brandArray = [];
         foreach ($brands as $key => $value) {
             array_push($brandArray, $value->id);
@@ -36,12 +35,9 @@ class Smartphone extends Model
         return $query->whereIn('brand_id', $brandArray);
     }
 
-    public function scopeOfColor($query, $color)
+    public function scopeOfColor($query, $colorArray)
     {
-        if (!is_null($color)) {
-            return $query->where('color', '=', $color);
-        }
-        return $query;
+        return $query->whereIn('color', $colorArray);
     }
 
     public function brand()

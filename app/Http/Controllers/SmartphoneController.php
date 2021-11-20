@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\Image;
+use App\Models\Brand;
 use App\Models\Smartphone;
 use Illuminate\Http\Request;
 
@@ -18,6 +18,12 @@ class SmartphoneController extends Controller
     {
         $params = $request->all();
         $smartphones = Smartphone::query()->with('brand');
+        $smartphoneBrandsModels = Brand::all();
+        $smartphoneBrands = [];
+        $smartphoneColors = ['Červená', 'Zelená', 'Modrá', 'Žltá', 'Fialová', 'Ružová', 'Biela', 'Sivá', 'Čierna'];
+        foreach ($smartphoneBrandsModels as $brand) {
+            array_push($smartphoneBrands, $brand->name);
+        }
 
         if (array_key_exists('min-price', $params)) {
             $smartphones = $smartphones->minPrice($params['min-price']);
@@ -28,8 +34,15 @@ class SmartphoneController extends Controller
 
         $brands = [];
         foreach ($params as $key => $value) {
-            if ($value == 'on') {
+            if ($value == 'on' && in_array($key, $smartphoneBrands)) {
                 array_push($brands, $key);
+            }
+        }
+
+        $colors = [];
+        foreach ($params as $key => $value) {
+            if ($value == 'on' && in_array($key, $smartphoneColors)) {
+                array_push($colors, $key);
             }
         }
 
@@ -37,8 +50,19 @@ class SmartphoneController extends Controller
             $smartphones = $smartphones->ofBrand($brands);
         }
 
+        if (!empty($colors)) {
+            $smartphones = $smartphones->ofColor($colors);
+        }
+
+        $colors = [];
+        foreach ($params as $key => $value) {
+            if ($value == 'on' && in_array($key, $colors)) {
+                array_push($brands, $key);
+            }
+        }
+
         $sort = array_key_exists('sort', $params) ? $params['sort'] : 'desc';
-        $smartphones = $smartphones->orderBy('price', $sort)->paginate(3);
+        $smartphones = $smartphones->orderBy('price', $sort)->paginate(12);
 
         return view('layout.products.smartphones', ['smartphones' => $smartphones]);
     }
