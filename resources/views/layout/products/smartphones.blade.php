@@ -44,31 +44,31 @@
                             <span class="text-gray-700 font-bold py-4 px-8 flex justify-start">Značka</span>
                             <div class="flex flex-col text-left px-16">
                                 <label class="text-lg inline-flex items-center" for="Samsung">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="Samsung" name="Samsung" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 brand-select" id="Samsung" name="Samsung" />
                                     <span class="ml-2">Samsung</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="Apple">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="Apple" name="Apple" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 brand-select" id="Apple" name="Apple" />
                                     <span class="ml-2">Apple</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="Xiaomi">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="Xiaomi" name="Xiaomi" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 brand-select" id="Xiaomi" name="Xiaomi" />
                                     <span class="ml-2">Xiaomi</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="Nokia">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="Nokia" name="Nokia" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 brand-select" id="Nokia" name="Nokia" />
                                     <span class="ml-2">Nokia</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="Huawei">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="Huawei" name="Huawei" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 brand-select" id="Huawei" name="Huawei" />
                                     <span class="ml-2">Huawei</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="Sony">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="Sony" name="Sony" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 brand-select" id="Sony" name="Sony" />
                                     <span class="ml-2">Sony</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="Lenovo">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="Lenovo" name="Lenovo" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 brand-select" id="Lenovo" name="Lenovo" />
                                     <span class="ml-2">Lenovo</span>
                                 </label>
                             </div>
@@ -79,47 +79,47 @@
                             <span class="text-gray-700 font-bold py-4 px-8 flex justify-start">Farba</span>
                             <div class="flex flex-col text-left px-16">
                                 <label class="text-lg inline-flex items-center" for="red">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="Red" name="Červená" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 color-select" id="Red" name="Červená" />
                                     <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-red-600 border-2 border-black"></span>
                                     <span class="mx-2">Červená</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="green">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="Green" name="Zelená" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 color-select" id="Green" name="Zelená" />
                                     <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-green-600 border-2 border-black"></span>
                                     <span class="mx-2">Zelená</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="blue">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="Blue" name="Modrá" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 color-select" id="Blue" name="Modrá" />
                                     <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-blue-600 border-2 border-black"></span>
                                     <span class="mx-2">Modrá</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="yellow">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="Yellow" name="Žltá" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 color-select" id="Yellow" name="Žltá" />
                                     <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-yellow-600 border-2 border-black"></span>
                                     <span class="mx-2">Žltá</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="purple">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="Purple" name="Fialová" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 color-select" id="Purple" name="Fialová" />
                                     <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-purple-600 border-2 border-black"></span>
                                     <span class="mx-2">Fialová</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="pink">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="Pink" name="Ružová" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 color-select" id="Pink" name="Ružová" />
                                     <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-pink-600 border-2 border-black"></span>
                                     <span class="mx-2">Ružová</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="white">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="White" name="Biela" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 color-select" id="White" name="Biela" />
                                     <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-white border-2 border-black"></span>
                                     <span class="mx-2">Biela</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="gray">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="Gray" name="Sivá" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 color-select" id="Gray" name="Sivá" />
                                     <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-gray-700 border-2 border-black"></span>
                                     <span class="mx-2">Sivá</span>
                                 </label>
                                 <label class="text-lg inline-flex items-center" for="black">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4" id="Black" name="Čierna" />
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 color-select" id="Black" name="Čierna" />
                                     <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-black border-2 border-black"></span>
                                     <span class="mx-2">Čierna</span>
                                 </label>

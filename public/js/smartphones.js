@@ -19,10 +19,8 @@ select.addEventListener('change', function(){
     this.form.submit();
 }, false);
 
-const handleSelect = () => {
+const handleSelect = urlParams => {
     const select = document.getElementById('sort');
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
     if(urlParams.has('sort')){
         const sort = urlParams.get('sort')
         if (sort === 'asc')
@@ -32,6 +30,48 @@ const handleSelect = () => {
     }
 }
 
+const paramsToObject = entries => {
+    const result = [];
+    for(const [key, value] of entries) {
+        result.push(key);
+    }
+    return result;
+}
+
+const handleFilters = urlParams => {
+    const entries = urlParams.entries();
+    const params = paramsToObject(entries);
+    let brandSelects = document.getElementsByClassName("brand-select");
+    for(let i = 0; i < brandSelects.length; i++){
+        if(params.includes(brandSelects[i].getAttribute('name'))) {
+            brandSelects[i].checked = true;
+        }
+    }
+    let colorSelects = document.getElementsByClassName("color-select");
+    for(let i = 0; i < colorSelects.length; i++){
+        if(params.includes(colorSelects[i].getAttribute('name'))) {
+            colorSelects[i].checked = true;
+        }
+    }
+}
+
+const handlePrice = urlParams => {
+    const minPriceElement = document.getElementById('min-price');
+    const maxPriceElement = document.getElementById('max-price');
+    const minPrice = urlParams.get('min-price');
+    const maxPrice = urlParams.get('max-price');
+
+    if(minPrice)
+        minPriceElement.value = parseFloat(minPrice);
+
+    if(maxPrice)
+        maxPriceElement.value = parseFloat(maxPrice);
+}
+
 window.addEventListener("load", function(){
-    handleSelect();
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    handleSelect(urlParams);
+    handleFilters(urlParams);
+    handlePrice(urlParams);
 });
