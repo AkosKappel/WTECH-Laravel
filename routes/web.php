@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SmartphoneController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\PasswordChangeController;
@@ -20,9 +21,7 @@ require __DIR__.'/auth.php';
 
 
 // Homepage
-Route::get('/', function () {
-    return view('layout/app');
-})->name('home');
+Route::get('/', [ShopController::class, 'index'])->name('home');
 
 
 // User
@@ -44,10 +43,7 @@ Route::get('/cart', function () {
 
 
 // Products
-//Route::get('/smartphones', [SmartphoneController::class, 'index'])->name('smartphones');
-//Route::get('/smartphones/{smartphone_id}', [SmartphoneController::class, 'show']);
 Route::get('/smartphones', [SmartphoneController::class, 'index'])->name('smartphones');
-//Route::get('/smartphones/{sort?}', [SmartphoneController::class, 'index'])->name('smartphones');
 Route::get('/smartphones/create', [SmartphoneController::class, 'create']);
 Route::post('/smartphones/', [SmartphoneController::class, 'store']);
 Route::get('/smartphones/{smartphone}/', [SmartphoneController::class, 'show'])->name('details');

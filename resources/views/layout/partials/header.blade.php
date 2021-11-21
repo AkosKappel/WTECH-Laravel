@@ -19,14 +19,15 @@
             </nav>
             <div class="flex space-x-2 lg:space-x-4 items-center mr-2 md:mr-0">
                 <div class="hidden sm:inline">
-                    <div class="relative text-gray-600 focus-within:text-gray-400">
-                        <input type="search" name="search"
-                               class="w-64 pl-5 pr-10 py-2 bg-white text-black placeholder-gray-600 focus:outline-none rounded-full"
-                               placeholder="Tvoj vysnívaný smartfón" autocomplete="off"/>
-                        <span class="absolute inset-y-0 right-0 flex items-center">
-                            <img src="{{ url('/images/search.png')}}" alt="Vyhľadávanie" class="w-8 mr-2"/>
-                        </span>
-                    </div>
+                    <form action="{{ route('smartphones') }}" method="GET">
+                        <div class="relative text-gray-600 focus-within:text-gray-400">
+                            <input type="search" name="search" placeholder="Tvoj vysnívaný smartfón" autocomplete="off"
+                                   class="w-64 pl-5 pr-10 py-2 bg-white text-black placeholder-gray-600 focus:outline-none rounded-full"/>
+                            <button type="submit" class="absolute inset-y-0 right-0 flex items-center">
+                                <img src="{{ url('/images/search.png')}}" alt="Vyhľadávanie" class="w-8 mr-2"/>
+                            </button>
+                        </div>
+                    </form>
                 </div>
 
                 @if (Auth::check())

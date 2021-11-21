@@ -1,30 +1,30 @@
 // changing quantity field
 function decrement(e) {
-    const btn = e.target.parentNode.parentElement.querySelector('button[data-action="decrement"]');
-    const target = btn.nextElementSibling;
-    let value = Number(target.value);
-    value > 1 ? value-- : value;
-    target.value = value;
-    let str = single.innerText;
-    str = str.substring(0, str.length - 2);
-    total.innerText = `${(value * parseFloat(str)).toFixed(2)} €`.replace('.', ',');
+    let priceStr = single.innerText;
+    priceStr = priceStr.replace(' ', '').substring(0, priceStr.length - 1);
+    let quantity = Number(quantityField.value);
+    if (quantity > quantityField.min) {
+        quantity--;
+    }
+    total.innerText = `${(quantity * parseFloat(priceStr)).toFixed(2)} €`.replace('.', ',');
+    quantityField.value = quantity;
 }
 
 function increment(e) {
-    const btn = e.target.parentNode.parentElement.querySelector('button[data-action="decrement"]');
-    const target = btn.nextElementSibling;
-    let value = Number(target.value);
-    value++;
-    target.value = value;
-    let str = single.innerText;
-    str = str.substring(0, str.length - 2);
-    console.log(str)
-    total.innerText = `${(value * parseFloat(str)).toFixed(2)} €`.replace('.', ',');
+    let priceStr = single.innerText;
+    priceStr = priceStr.replace(' ', '').substring(0, priceStr.length - 1);
+    let quantity = Number(quantityField.value);
+    if (quantity < quantityField.max) {
+        quantity++;
+    }
+    total.innerText = `${(quantity * parseFloat(priceStr)).toFixed(2)} €`.replace('.', ',');
+    quantityField.value = quantity;
 }
 
 
 const decrementButtons = document.querySelectorAll(`button[data-action="decrement"]`);
 const incrementButtons = document.querySelectorAll(`button[data-action="increment"]`);
+const quantityField = document.getElementById('product-quantity');
 
 const total = document.getElementById('total-price');
 const single = document.getElementById('single-price');

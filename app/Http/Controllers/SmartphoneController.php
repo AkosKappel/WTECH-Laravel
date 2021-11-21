@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Brand;
+use App\Models\Color;
+use App\Models\Image;
 use App\Models\Smartphone;
 use Illuminate\Http\Request;
 
@@ -12,59 +14,95 @@ class SmartphoneController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function index(Request $request)
     {
-        $params = $request->all();
-        $smartphones = Smartphone::query()->with('brand');
-        $smartphoneBrandsModels = Brand::all();
-        $smartphoneBrands = [];
-        $smartphoneColors = ['Červená', 'Zelená', 'Modrá', 'Žltá', 'Fialová', 'Ružová', 'Biela', 'Sivá', 'Čierna'];
-        foreach ($smartphoneBrandsModels as $brand) {
-            array_push($smartphoneBrands, $brand->name);
+        $brands = Brand::all()->pluck('name')->toArray();
+        $colors = Color::all()->pluck('name_sk', 'name_en')->toArray();
+
+        // JSON styled container for saving applied filters
+        $params = [];
+
+        // save applied prices to JSON
+        $params['min-price'] = $request['min-price'];
+        $params['max-price'] = $request['max-price'];
+
+        // save applied brands to JSON
+        $brandParams = [];
+        foreach ($brands as $brand) {
+            if ($request[$brand]) {
+                array_push($brandParams, ['name' => $brand, 'status' => true]);
+            } else {
+                array_push($brandParams, ['name' => $brand, 'status' => false]);
+            }
+        }
+        $params['brands'] = $brandParams;
+
+        // save applied colors to JSON
+        $colorParams = [];
+        foreach ($colors as $color_en => $color_sk) {
+            if ($request[$color_en]) {
+                array_push($colorParams, ['name-en' => $color_en, 'name-sk' => $color_sk, 'status' => true]);
+            } else {
+                array_push($colorParams, ['name-en' => $color_en, 'name-sk' => $color_sk, 'status' => false]);
+            }
+        }
+        $params['colors'] = $colorParams;
+
+
+        // creating query with filters, pagination and ordering
+        $smartphones = Smartphone::query();
+
+        // apply search query
+        if ($request['search']) {
+            $searchQuery = '%' . $request['search'] . '%';
+            $smartphones = $smartphones
+                ->where('name', 'ILIKE', $searchQuery)
+                ->orWhere('description', 'ILIKE', $searchQuery)
+                ->orWhere('operating_system', 'ILIKE', $searchQuery);
         }
 
-        if (array_key_exists('min-price', $params)) {
-            $smartphones = $smartphones->minPrice($params['min-price']);
+        // filter by min and max price
+        if ($request['min-price']) {
+            $smartphones = $smartphones->minPrice($request['min-price']);
         }
-        if (array_key_exists('max-price', $params)) {
-            $smartphones = $smartphones->maxPrice($params['max-price']);
+        if ($request['max-price']) {
+            $smartphones = $smartphones->maxPrice($request['max-price']);
         }
 
-        $brands = [];
-        foreach ($params as $key => $value) {
-            if ($value == 'on' && in_array($key, $smartphoneBrands)) {
-                array_push($brands, $key);
+        // filter by brands
+        $selectedBrands = [];
+        foreach ($request->all() as $brand) {
+            if (in_array($brand, $brands)) {
+                array_push($selectedBrands, $brand);
             }
         }
 
-        $colors = [];
-        foreach ($params as $key => $value) {
-            if ($value == 'on' && in_array($key, $smartphoneColors)) {
-                array_push($colors, $key);
+        if (!empty($selectedBrands)) {
+            $smartphones = $smartphones->ofBrand($selectedBrands);
+        }
+
+        // filter by colors
+        $selectedColors = [];
+        foreach ($request->all() as $color) {
+            if (in_array($color, array_keys($colors))) {
+                array_push($selectedColors, $color);
             }
         }
 
-        if (!empty($brands)) {
-            $smartphones = $smartphones->ofBrand($brands);
+        if (!empty($selectedColors)) {
+            $smartphones = $smartphones->ofColor($selectedColors);
         }
 
-        if (!empty($colors)) {
-            $smartphones = $smartphones->ofColor($colors);
-        }
-
-        $colors = [];
-        foreach ($params as $key => $value) {
-            if ($value == 'on' && in_array($key, $colors)) {
-                array_push($brands, $key);
-            }
-        }
-
-        $sort = array_key_exists('sort', $params) ? $params['sort'] : 'desc';
+        // ordering and pagination
+        $sort = $request['sort'] ? $request['sort'] : 'desc';
         $smartphones = $smartphones->orderBy('price', $sort)->paginate(12);
 
-        return view('layout.products.smartphones', ['smartphones' => $smartphones]);
+        return view('layout.products.smartphones',
+            ['smartphones' => $smartphones],
+            ['params' => $params],
+        );
     }
 
     /**

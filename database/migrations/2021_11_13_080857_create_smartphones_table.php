@@ -17,7 +17,9 @@ class CreateSmartphonesTable extends Migration
             $table->id();
             $table->string('name')->nullable(false);
             $table->float('price')->nullable(false);
+            $table->float('quantity')->nullable(false);
             $table->foreignId('brand_id')->constrained('brands');
+            $table->foreignId('color_id')->constrained('colors');
             $table->longText('description');
             $table->integer('ram');
             $table->string('operating_system');
@@ -27,7 +29,6 @@ class CreateSmartphonesTable extends Migration
             $table->float('height');
             $table->float('width');
             $table->float('thickness');
-            $table->string('color');
             $table->timestamps();
         });
     }

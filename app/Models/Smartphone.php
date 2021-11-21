@@ -27,22 +27,24 @@ class Smartphone extends Model
 
     public function scopeOfBrand($query, $brandNames)
     {
-        $brands = Brand::all()->whereIn('name', $brandNames);
-        $brandArray = [];
-        foreach ($brands as $key => $value) {
-            array_push($brandArray, $value->id);
-        }
-        return $query->whereIn('brand_id', $brandArray);
+        $brand_ids = Brand::all()->whereIn('name', $brandNames)->pluck('id');
+        return $query->whereIn('brand_id', $brand_ids);
     }
 
-    public function scopeOfColor($query, $colorArray)
+    public function scopeOfColor($query, $colorNames)
     {
-        return $query->whereIn('color', $colorArray);
+        $color_ids = Color::all()->whereIn('name_en', $colorNames)->pluck('id');
+        return $query->whereIn('color_id', $color_ids);
     }
 
     public function brand()
     {
         return $this->belongsTo(Brand::class);
+    }
+
+    public function color()
+    {
+        return $this->belongsTo(Color::class);
     }
 
     public function images()

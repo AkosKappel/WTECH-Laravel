@@ -42,30 +42,44 @@
             <p class="mt-2 text-lg">Tieto smartfóny si naši zákazníci zamilovali</p>
         </div>
         <div class="grid grid-cols-12 w-11/12 lg:w-3/4 mx-auto mt-4 mb-2">
+            @foreach($smartphones as $smartphone)
             <div class="col-span-12 sm:col-span-6 lg:col-span-4 text-center">
                 <!-- https://themayanagari.com/2021/04/22/samsung-galaxy-s21-ultra-5g-png-transparen/ -->
-                <a href="#" class="text-white text-xs sm:text-base">
-                    <img src="{{ url('/images/samsung.png')}}" alt="Samsung Galaxy S21 Ultra 5G" class="h-64 inline" />
+                <a href="{{ 'smartphones/' . $smartphone->id }}" class="text-white text-xs sm:text-base">
+                    @if($smartphone->images->first())
+                    <img src="{{ $smartphone->images->first()->source }}" alt="{{ $smartphone->images->first()->name }}" class="h-64 inline" />
+                    @else
+                    <img alt="image does not exist" src="{{ asset('images/no_img_available.jpg') }}" class="h-64 inline" />
+                    @endif
                 </a>
-                <p class="font-bold">Samsung Galaxy S21 Ultra 5G</p>
-                <p>1099,99 €</p>
+                <p class="font-bold">{{ $smartphone->name }}</p>
+                <p>{{ number_format((float) $smartphone->price, 2, ',', ' ') }} €</p>
             </div>
-            <div class="col-span-12 sm:col-span-6 lg:col-span-4 text-center">
-                <!-- https://themayanagari.com -->
-                <a href="#" class="text-white text-xs sm:text-base">
-                    <img src="{{ url('/images/iphone12.png')}}" alt="Apple iPhone 12 Pro" class="h-64 inline" />
-                </a>
-                <p class="font-bold">Apple iPhone 12 Pro</p>
-                <p>1299,99 €</p>
-            </div>
-            <div class="col-span-12 sm:col-span-6 lg:col-span-4 text-center">
-                <!-- https://themayanagari.com -->
-                <a href="#" class="text-white text-xs sm:text-base">
-                    <img src="{{ url('/images/moto.png')}}"  alt="Motorola moto G6 Power lite design" class="h-64 inline" />
-                </a>
-                <p class="font-bold">Motorola moto G6 Power lite design</p>
-                <p>229,99 €</p>
-            </div>
+            @endforeach
+{{--            <div class="col-span-12 sm:col-span-6 lg:col-span-4 text-center">--}}
+{{--                <!-- https://themayanagari.com/2021/04/22/samsung-galaxy-s21-ultra-5g-png-transparen/ -->--}}
+{{--                <a href="#" class="text-white text-xs sm:text-base">--}}
+{{--                    <img src="{{ url('/images/samsung.png')}}" alt="Samsung Galaxy S21 Ultra 5G" class="h-64 inline" />--}}
+{{--                </a>--}}
+{{--                <p class="font-bold">Samsung Galaxy S21 Ultra 5G</p>--}}
+{{--                <p>1099,99 €</p>--}}
+{{--            </div>--}}
+{{--            <div class="col-span-12 sm:col-span-6 lg:col-span-4 text-center">--}}
+{{--                <!-- https://themayanagari.com -->--}}
+{{--                <a href="#" class="text-white text-xs sm:text-base">--}}
+{{--                    <img src="{{ url('/images/iphone12.png')}}" alt="Apple iPhone 12 Pro" class="h-64 inline" />--}}
+{{--                </a>--}}
+{{--                <p class="font-bold">Apple iPhone 12 Pro</p>--}}
+{{--                <p>1299,99 €</p>--}}
+{{--            </div>--}}
+{{--            <div class="col-span-12 sm:col-span-6 lg:col-span-4 text-center">--}}
+{{--                <!-- https://themayanagari.com -->--}}
+{{--                <a href="#" class="text-white text-xs sm:text-base">--}}
+{{--                    <img src="{{ url('/images/moto.png')}}"  alt="Motorola moto G6 Power lite design" class="h-64 inline" />--}}
+{{--                </a>--}}
+{{--                <p class="font-bold">Motorola moto G6 Power lite design</p>--}}
+{{--                <p>229,99 €</p>--}}
+{{--            </div>--}}
         </div>
     </section>
 </main>

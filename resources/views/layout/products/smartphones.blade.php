@@ -13,6 +13,7 @@
         <!-- sidebar with filters -->
         <aside class="col-span-1 mx-10 min-w-min">
             <div class="my-8 bg-blue-100 text-center">
+
                 <section>
                     <h2 class="font-bold uppercase px-16 py-4 border-b border-gray-100 bg-gray-700 text-gray-100">Filtrovanie</h2>
                     <div class="px-4 cursor-pointer md:hidden" id="burger-icon">
@@ -21,108 +22,49 @@
                         </svg>
                     </div>
                 </section>
+
                 <form method="GET" action="{{ route('smartphones') }}" class="w-full max-w-sm">
                     <div class="text-sm mt-4 hidden md:block" id="filters">
 
-                        <!-- product price -->
+                        <!-- filter for product price -->
                         <section class="pb-4">
                             <span class="text-gray-700 font-bold py-4 px-8 flex justify-start">Cena (€)</span>
                             <div class="px-12 flex items-center mb-2">
                                 <label class="block text-gray-600 mb-1 md:mb-0 pr-4" for="min-price">Od</label>
                                 <input class="bg-gray-100 appearance-none border-2 border-gray-200 rounded-xl w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                       id="min-price" name="min-price" type="number" min="0" value="" />
+                                       id="min-price" name="min-price" type="number" min="0" value="{{ $params['min-price'] }}" />
                             </div>
                             <div class="px-12 flex items-center mb-2">
                                 <label class="block text-gray-600 mb-1 md:mb-0 pr-4" for="max-price">Do</label>
                                 <input class="bg-gray-100 appearance-none border-2 border-gray-200 rounded-xl w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                       id="max-price" name="max-price" type="number" min="0" value="" />
+                                       id="max-price" name="max-price" type="number" min="0" value="{{ $params['max-price'] }}" />
                             </div>
                         </section>
 
-                        <!-- product brand -->
+                        <!-- filter for product brand -->
                         <section class="pb-4">
                             <span class="text-gray-700 font-bold py-4 px-8 flex justify-start">Značka</span>
                             <div class="flex flex-col text-left px-16">
-                                <label class="text-lg inline-flex items-center" for="Samsung">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 brand-select" id="Samsung" name="Samsung" />
-                                    <span class="ml-2">Samsung</span>
+                            @foreach($params['brands'] as $brand)
+                                <label class="text-lg inline-flex items-center" for="{{ $brand['name'] }}">
+                                    {{ Form::checkbox($brand['name'], $brand['name'], $brand['status'], ['id' => $brand['name'], 'class' => 'form-checkbox h-4 w-4']) }}
+                                    <span class="ml-2">{{ $brand['name'] }}</span>
                                 </label>
-                                <label class="text-lg inline-flex items-center" for="Apple">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 brand-select" id="Apple" name="Apple" />
-                                    <span class="ml-2">Apple</span>
-                                </label>
-                                <label class="text-lg inline-flex items-center" for="Xiaomi">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 brand-select" id="Xiaomi" name="Xiaomi" />
-                                    <span class="ml-2">Xiaomi</span>
-                                </label>
-                                <label class="text-lg inline-flex items-center" for="Nokia">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 brand-select" id="Nokia" name="Nokia" />
-                                    <span class="ml-2">Nokia</span>
-                                </label>
-                                <label class="text-lg inline-flex items-center" for="Huawei">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 brand-select" id="Huawei" name="Huawei" />
-                                    <span class="ml-2">Huawei</span>
-                                </label>
-                                <label class="text-lg inline-flex items-center" for="Sony">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 brand-select" id="Sony" name="Sony" />
-                                    <span class="ml-2">Sony</span>
-                                </label>
-                                <label class="text-lg inline-flex items-center" for="Lenovo">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 brand-select" id="Lenovo" name="Lenovo" />
-                                    <span class="ml-2">Lenovo</span>
-                                </label>
+                            @endforeach
                             </div>
                         </section>
 
-                        <!-- product color -->
+                        <!-- filter for product color -->
                         <section class="pb-4">
                             <span class="text-gray-700 font-bold py-4 px-8 flex justify-start">Farba</span>
                             <div class="flex flex-col text-left px-16">
-                                <label class="text-lg inline-flex items-center" for="red">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 color-select" id="Red" name="Červená" />
-                                    <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-red-600 border-2 border-black"></span>
-                                    <span class="mx-2">Červená</span>
+                            @foreach($params['colors'] as $color)
+                                <label class="text-lg inline-flex items-center" for="{{ $color['name-en'] }}">
+                                    {{ Form::checkbox($color['name-en'], $color['name-en'], $color['status'], ['id' => $color['name-en'], 'class' => 'form-checkbox h-4 w-4']) }}
+                                    <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-{{ $color['name-en'] }}-600 bg-{{ $color['name-en'] }} border-2 border-black"></span>
+                                    <span class="mx-2">{{ $color['name-sk'] }}</span>
                                 </label>
-                                <label class="text-lg inline-flex items-center" for="green">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 color-select" id="Green" name="Zelená" />
-                                    <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-green-600 border-2 border-black"></span>
-                                    <span class="mx-2">Zelená</span>
-                                </label>
-                                <label class="text-lg inline-flex items-center" for="blue">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 color-select" id="Blue" name="Modrá" />
-                                    <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-blue-600 border-2 border-black"></span>
-                                    <span class="mx-2">Modrá</span>
-                                </label>
-                                <label class="text-lg inline-flex items-center" for="yellow">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 color-select" id="Yellow" name="Žltá" />
-                                    <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-yellow-600 border-2 border-black"></span>
-                                    <span class="mx-2">Žltá</span>
-                                </label>
-                                <label class="text-lg inline-flex items-center" for="purple">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 color-select" id="Purple" name="Fialová" />
-                                    <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-purple-600 border-2 border-black"></span>
-                                    <span class="mx-2">Fialová</span>
-                                </label>
-                                <label class="text-lg inline-flex items-center" for="pink">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 color-select" id="Pink" name="Ružová" />
-                                    <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-pink-600 border-2 border-black"></span>
-                                    <span class="mx-2">Ružová</span>
-                                </label>
-                                <label class="text-lg inline-flex items-center" for="white">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 color-select" id="White" name="Biela" />
-                                    <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-white border-2 border-black"></span>
-                                    <span class="mx-2">Biela</span>
-                                </label>
-                                <label class="text-lg inline-flex items-center" for="gray">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 color-select" id="Gray" name="Sivá" />
-                                    <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-gray-700 border-2 border-black"></span>
-                                    <span class="mx-2">Sivá</span>
-                                </label>
-                                <label class="text-lg inline-flex items-center" for="black">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 color-select" id="Black" name="Čierna" />
-                                    <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-black border-2 border-black"></span>
-                                    <span class="mx-2">Čierna</span>
-                                </label>
+                            @endforeach
                             </div>
                         </section>
 
@@ -165,17 +107,29 @@
             <!-- grid content -->
             <div class="mt-8 grid 2xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-1 gap-12">
                 <!-- products -->
-                @foreach($smartphones as $smartphone)
-                    <a href="{{ url('smartphones/' . $smartphone->id) }}">
-                        <section class="bg-white border-gray-200 rounded max-w-sm overflow-hidden relative shadow-md hover:shadow-lg">
-                            <img src="{{ $smartphone->images->first()->source }}" alt="{{ $smartphone->images->first()->name }}" class="h-64 w-full object-cover" />
-                            <div class="m-4 text-center">
-                                <h2 class="font-bold">{{ $smartphone->name }}</h2>
-                                <p class="block text-gray-900 text-md">{{ number_format((float) $smartphone->price, 2, ',', ' ') }} €</p>
-                            </div>
-                        </section>
-                    </a>
-                @endforeach
+
+                @if(count($smartphones) > 0)
+                    @foreach($smartphones as $smartphone)
+                        <a href="{{ url('smartphones/' . $smartphone->id) }}">
+                            <section class="bg-white border-gray-200 rounded max-w-sm overflow-hidden relative shadow-md hover:shadow-lg">
+                                @if($smartphone->images->first())
+                                    <img src="{{ $smartphone->images->first()->source }}" alt="{{ $smartphone->images->first()->name }}" class="h-64 w-full object-cover" />
+                                @else
+                                    <img src="{{ asset('images/no_img_available.jpg') }}" alt="image does not exist" class="h-64 w-full object-cover" />
+                                @endif
+                                <div class="m-4 text-center">
+                                    <h2 class="font-bold">{{ $smartphone->name }}</h2>
+                                    <p class="block text-gray-900 text-md">{{ number_format((float) $smartphone->price, 2, ',', ' ') }} €</p>
+                                </div>
+                            </section>
+                        </a>
+                    @endforeach
+                @else
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 text-yellow-800 p-4" role="alert">
+                        <p class="font-bold">Nenašli sa žiadne výsledky</p>
+                        <h2>Skúste vyhľadávanie podľa iných kritérií.</h2>
+                    </div>
+                @endif
             </div>
 
             <!-- page numbers -->
