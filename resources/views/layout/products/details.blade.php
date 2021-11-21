@@ -25,7 +25,7 @@
                     </div>
                 @else
                     <div class="flex justify-center max-w-max-sm max-h-screen max-w-2xl overflow-hidden shadow-lg">
-                        <img alt="image does not exist" src="{{ asset('images/no_img_available.jpg') }}"
+                        <img alt="missing product image" src="{{ asset('images/no_img_available.jpg') }}"
                              id="mainImage" class="rounded border-2 shadow-lg border-gray-300 object-cover h-96 w-full" />
                     </div>
                 @endif
@@ -44,20 +44,24 @@
             <section class="col-span-1">
                 <form action="{{ route('cart.store') }}" method="POST" class="grid">
                     @csrf
+                    <input type="hidden" name="smartphone" value="{{ $smartphone }}">
                     <input type="hidden" name="id" value="{{ $smartphone->id }}">
                     <input type="hidden" name="name" value="{{ $smartphone->name }}">
                     <input type="hidden" name="price" value="{{ $smartphone->price }}">
-{{--                    @if($smartphone->images->first())--}}
-{{--                        <input type="hidden" name="image" value="{{ $smartphone->images->first() }}">--}}
-{{--                    @else--}}
-{{--                        <input type="hidden" name="price" value="--}}{{--  --}}{{--">--}}
-{{--                    @endif--}}
+                    <input type="hidden" name="max_quantity" value="{{ $smartphone->quantity }}">
+                    @if($smartphone->images->first())
+                        <input type="hidden" name="image_source" value="{{ $smartphone->images->first()->source }}">
+                        <input type="hidden" name="image_name" value="{{ $smartphone->images->first()->name }}">
+                    @else
+                        <input type="hidden" name="image_source" value="images/no_img_available.jpg">
+                        <input type="hidden" name="image_name" value="missing product image">
+                    @endif
                     <div class="row order-1 sm:order-1">
                         <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{{ $smartphone->name }}</h1>
                     </div>
                     <div class="row order-3 sm:order-2">
                         <h2 class="mt-2 pb-4 font-medium text-2xl border-b text-gray-900 border-gray-30" id="single-price">
-                            {{ number_format((float) $smartphone->price, 2, ',', ' ') }} €
+                            {{ formattedPrice($smartphone->price) }}
                         </h2>
                     </div>
 
@@ -82,7 +86,7 @@
                                 <label for="total-price" class="m-8 text-gray-700 text-lg font-semibold">Suma</label>
                                 <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent overflow-hidden">
                                     <span id="total-price" class="text-center w-full text-xl font-medium text-base bg-blue-500 text-white rounded-lg py-1.5">
-                                        {{ number_format((float) $smartphone->price, 2, ',', ' ') }} €
+                                        {{ formattedPrice($smartphone->price) }}
                                     </span>
                                 </div>
                             </div>

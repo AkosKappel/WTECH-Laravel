@@ -9,8 +9,8 @@
     <main class="personal-info flex justify-center mt-5 md:mt-0">
         <div class="grid grid-cols-12 bg-white justify-center lg:w-4/5 xl:w-3/5 shadow-2xl rounded-2xl border px-4 pt-6 pb-8 mb-4">
             <form class="col-span-12" method="POST" action="{{ route('profile') }}">
-                <input type="hidden" name="_method" value="PUT">
-                @csrf
+                {{ method_field('PUT') }}
+                {{ csrf_field() }}
 
                 <!-- Personal data -->
                 <div class="grid grid-cols-12">

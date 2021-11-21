@@ -21,7 +21,9 @@
             </svg>
             <h2 class="inline">Platba</h2>
         </div>
-        <form class="mx-16" action="" method="post">
+
+        <form class="mx-16" action="{{ route('delivery.store') }}" method="POST">
+            {{ csrf_field() }}
             <div class="block">
                 <div class="my-12 mx-4">
                     <div>
@@ -61,18 +63,14 @@
             <!-- buttons -->
             <div class="grid lg:grid-cols-2 grid-cols-1 col-gap-32">
                 <div class="col-span-1 flex justify-center items-end lg:h-64">
-                    <a href="{{ url('/address') }}" title="Späť na dodacie údaje">
+                    <a href="{{ route('address') }}" title="Späť na dodacie údaje">
                         <div class="w-48 bg-blue-500 text-center hover:bg-blue-700 text-white font-bold py-2 mb-16 px-4 rounded focus:outline-none focus:shadow-outline rounded-full">
                             Späť
                         </div>
                     </a>
                 </div>
                 <div class="col-span-1 flex justify-center items-end lg:h-64">
-                    <a href="{{ url('/payment') }}" title="Pokračuj na spôsob platby">
-                        <div class="w-48 text-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 mb-16 px-4 rounded focus:outline-none focus:shadow-outline rounded-full">
-                            Pokračovať
-                        </div>
-                    </a>
+                    <button type="submit" class="w-48 text-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 mb-16 px-4 rounded focus:outline-none focus:shadow-outline rounded-full">Pokračovať</button>
                 </div>
             </div>
         </form>

@@ -119,7 +119,7 @@
                                 @endif
                                 <div class="m-4 text-center">
                                     <h2 class="font-bold">{{ $smartphone->name }}</h2>
-                                    <p class="block text-gray-900 text-md">{{ number_format((float) $smartphone->price, 2, ',', ' ') }} €</p>
+                                    <p class="block text-gray-900 text-md">{{ formattedPrice($smartphone->price) }}</p>
                                 </div>
                             </section>
                         </a>

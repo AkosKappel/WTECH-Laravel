@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SmartphoneController;
 use App\Http\Controllers\UserController;
@@ -40,6 +41,8 @@ Route::put('/passwordChange', [PasswordChangeController::class, 'update'])->midd
 // Cart
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::post('/cart/', [CartController::class, 'store'])->name('cart.store');
+Route::delete('/cart/{product}', [CartController::class, 'destroy'])->name('cart.destroy');
+Route::put('/cart/{product}', [CartController::class, 'update'])->name('cart.update');
 
 
 // Products
@@ -53,20 +56,10 @@ Route::delete('/smartphones/{smartphone}/', [SmartphoneController::class, 'destr
 
 
 // Order
-Route::get('/address', function () {
-    return view('layout/order/address');
-})->name('address');
+Route::get('/address', [OrderController::class, 'addressIndex'])->name('address');
+Route::post('/address', [OrderController::class, 'addressStore'])->name('address.store');
+Route::get('/delivery', [OrderController::class, 'deliveryIndex'])->name('delivery');
+Route::post('/delivery', [OrderController::class, 'deliveryStore'])->name('delivery.store');
+Route::get('/payment', [OrderController::class, 'paymentIndex'])->name('payment');
+Route::post('/payment', [OrderController::class, 'paymentStore'])->name('payment.store');
 
-Route::get('/delivery', function () {
-    return view('layout/order/delivery');
-})->name('delivery');
-
-Route::get('/payment', function () {
-    return view('layout/order/payment');
-})->name('payment');
-
-
-// Resources
-//Route::resource('smartphones', SmartphoneController::class);
-
-//Route::resource('user', UserController::class);

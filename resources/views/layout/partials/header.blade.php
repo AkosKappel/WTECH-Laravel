@@ -59,7 +59,11 @@
                     <div class="w-14 py-1 bg-white text-white font-bold rounded focus:outline-none focus:shadow-outline rounded-full inline-flex items-center">
                         <img src="{{ url('/images/cart.png') }}" alt="Nákupný košík" class="w-8 ml-3"/>
                         <div class="relative ml-2">
-                            <span class="absolute right-1 inline-flex items-center justify-center px-1 w-5 h-5 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full bottom-0">2</span>
+                        @if(Cart::count() > 0)
+                            <span class="absolute right-1 inline-flex items-center justify-center px-1 w-5 h-5 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full bottom-0">
+                                {{ Cart::count() }}
+                            </span>
+                        @endif
                         </div>
                     </div>
                 </a>
@@ -71,6 +75,7 @@
             </div>
         </div>
     </div>
+
     <nav class="hidden mobile-menu text-center">
         <ul>
             <li class="py-3">

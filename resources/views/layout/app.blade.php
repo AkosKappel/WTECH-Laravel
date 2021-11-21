@@ -53,7 +53,7 @@
                     @endif
                 </a>
                 <p class="font-bold">{{ $smartphone->name }}</p>
-                <p>{{ number_format((float) $smartphone->price, 2, ',', ' ') }} €</p>
+                <p>{{ formattedPrice($smartphone->price) }}</p>
             </div>
             @endforeach
 {{--            <div class="col-span-12 sm:col-span-6 lg:col-span-4 text-center">--}}

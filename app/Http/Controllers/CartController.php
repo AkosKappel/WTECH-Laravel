@@ -12,7 +12,7 @@ class CartController extends Controller
      *
      * @return \Illuminate\Contracts\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
         return view('layout/cart/cart');
     }
@@ -35,18 +35,18 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        Cart::add($request->id, $request->name, $request->quantity, $request->price)->associate('App\Smartphone');
+        Cart::add($request->id, $request->name, $request->quantity, $request->price, [
+                'image_source' => $request->image_source,
+                'image_name' => $request->image_name,
+                'max_quantity' => $request->max_quantity
+            ]
+        )->associate('App\Smartphone');
         return redirect('cart')->with('success_message', 'Produkt bol úspešne pridaný do košíka!');
-    }
-
-    public function empty() {
-        Cart::destroy();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Cart  $cart
      * @return \Illuminate\Http\Response
      */
     public function show(Cart $cart)
@@ -57,7 +57,6 @@ class CartController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Cart  $cart
      * @return \Illuminate\Http\Response
      */
     public function edit(Cart $cart)
@@ -69,22 +68,22 @@ class CartController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Cart  $cart
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, Cart $cart)
+    public function update(Request $request, $rowId)
     {
-        //
+        Cart::update($rowId, $request->product_quantity);
+        return redirect('cart');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Cart $cart)
+    public function destroy($id)
     {
-        //
+        Cart::remove($id);
+        return back()->with('success_message', 'Produkt bol úspešne odstránený z košíka!');
     }
 }

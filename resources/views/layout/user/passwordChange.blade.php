@@ -8,7 +8,7 @@
     <main class="flex h-screen">
         <div class="w-10/12 sm:w-full max-w-md mx-auto m-auto">
             <form action="{{ url('passwordChange') }}" method="POST" class="bg-white shadow-2xl rounded-2xl border px-8 pt-6 pb-8 mb-4 w-full">
-                <input type="hidden" name="_method" value="PUT">
+                {{ method_field('PUT') }}
                 {{ csrf_field() }}
                 <h1 class="text-3xl font-medium text-center">Zmena hesla</h1>
                 <div class="mb-4 mt-8 text-center relative">
