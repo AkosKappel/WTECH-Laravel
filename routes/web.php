@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SmartphoneController;
 use App\Http\Controllers\UserController;
@@ -37,9 +38,8 @@ Route::put('/passwordChange', [PasswordChangeController::class, 'update'])->midd
 
 
 // Cart
-Route::get('/cart', function () {
-    return view('layout/cart/cart');
-})->name('cart');
+Route::get('/cart', [CartController::class, 'index'])->name('cart');
+Route::post('/cart/', [CartController::class, 'store'])->name('cart.store');
 
 
 // Products

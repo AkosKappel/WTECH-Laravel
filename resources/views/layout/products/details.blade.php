@@ -42,7 +42,16 @@
 
             <!-- product name, quantity, add to cart button, ... -->
             <section class="col-span-1">
-                <form action="" method="GET" class="grid">
+                <form action="{{ route('cart.store') }}" method="POST" class="grid">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $smartphone->id }}">
+                    <input type="hidden" name="name" value="{{ $smartphone->name }}">
+                    <input type="hidden" name="price" value="{{ $smartphone->price }}">
+{{--                    @if($smartphone->images->first())--}}
+{{--                        <input type="hidden" name="image" value="{{ $smartphone->images->first() }}">--}}
+{{--                    @else--}}
+{{--                        <input type="hidden" name="price" value="--}}{{--  --}}{{--">--}}
+{{--                    @endif--}}
                     <div class="row order-1 sm:order-1">
                         <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{{ $smartphone->name }}</h1>
                     </div>
@@ -61,7 +70,7 @@
                                     <button type="button" data-action="decrement" class="bg-blue-500 text-gray-100 hover:text-gray-100 hover:bg-blue-800 h-full w-20 rounded-l cursor-pointer outline-none">
                                         <span class="text-2xl font-bold">−</span>
                                     </button>
-                                    <input type="number" id="product-quantity" value="1" min="1" max="{{ $smartphone->quantity }}"
+                                    <input type="number" id="product-quantity" name="quantity" value="1" min="1" max="{{ $smartphone->quantity }}"
                                            class="outline-none text-center w-full bg-blue-500 font-bold text-lg flex items-center text-gray-100" />
                                     <button type="button" data-action="increment" class="bg-blue-500 text-gray-100 hover:text-gray-100 hover:bg-blue-800 h-full w-20 rounded-r cursor-pointer outline-none">
                                         <span class="text-2xl font-bold">+</span>

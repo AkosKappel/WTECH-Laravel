@@ -6,7 +6,7 @@ function decrement(e) {
     if (quantity > quantityField.min) {
         quantity--;
     }
-    total.innerText = `${(quantity * parseFloat(priceStr)).toFixed(2)} €`.replace('.', ',');
+    total.innerText = `${(quantity * parseFloat(priceStr.replace(',', '.'))).toFixed(2)} €`.replace('.', ',');
     quantityField.value = quantity;
 }
 
@@ -17,7 +17,7 @@ function increment(e) {
     if (quantity < quantityField.max) {
         quantity++;
     }
-    total.innerText = `${(quantity * parseFloat(priceStr)).toFixed(2)} €`.replace('.', ',');
+    total.innerText = `${(quantity * parseFloat(priceStr.replace(',', '.'))).toFixed(2)} €`.replace('.', ',');
     quantityField.value = quantity;
 }
 
