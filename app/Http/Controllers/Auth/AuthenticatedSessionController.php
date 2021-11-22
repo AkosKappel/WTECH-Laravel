@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,10 +29,14 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
+        $request->session()->flush();
         $request->authenticate();
 
         $request->session()->regenerate();
 
+        if (Auth::check()) {
+            Cart::restore(Auth::user()->email);
+        }
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
@@ -43,6 +48,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request)
     {
+        Cart::store(Auth::user()->email);
+
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();

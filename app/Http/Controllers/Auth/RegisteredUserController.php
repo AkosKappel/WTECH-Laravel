@@ -49,4 +49,26 @@ class RegisteredUserController extends Controller
 
         return redirect(RouteServiceProvider::HOME);
     }
+
+    public function redirectAfterOrder(Request $request) {
+        return view('layout.user.finishRegister');
+    }
+
+    public function storeAfterOrder(Request $request)
+    {
+        $request->validate([
+            'password' => ['required', Rules\Password::defaults()],
+        ]);
+
+        $user = User::firstWhere('email', $request->session()->get('email'));
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        event(new Registered($user));
+
+        Auth::login($user);
+
+        return redirect(RouteServiceProvider::HOME);
+    }
 }

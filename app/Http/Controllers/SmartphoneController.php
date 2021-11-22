@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use App\Models\Color;
-use App\Models\Image;
 use App\Models\Smartphone;
 use Illuminate\Http\Request;
 
@@ -49,10 +48,15 @@ class SmartphoneController extends Controller
             }
         }
         $params['colors'] = $colorParams;
+        $sortParams = [];
+        array_push($sortParams, ['id' => 'asc', 'name' => 'Najlacnejších', 'status' => $request['sort'] == 'asc']);
+        array_push($sortParams, ['id' => 'desc', 'name' => 'Najdrahších', 'status' => $request['sort'] == 'desc']);
 
+        $params['sort'] = $sortParams;
 
         // creating query with filters, pagination and ordering
         $smartphones = Smartphone::query();
+
 
         // apply search query
         if ($request['search']) {
@@ -96,8 +100,12 @@ class SmartphoneController extends Controller
         }
 
         // ordering and pagination
-        $sort = $request['sort'] ? $request['sort'] : 'desc';
-        $smartphones = $smartphones->orderBy('price', $sort)->paginate(12);
+        $sort = $request['sort'] ? $request['sort'] : null;
+        if($sort != null) {
+            $smartphones = $smartphones->orderBy('price', $sort);
+        }
+
+        $smartphones = $smartphones->paginate(12);
 
         return view('layout.products.smartphones',
             ['smartphones' => $smartphones],

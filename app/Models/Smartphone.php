@@ -37,6 +37,11 @@ class Smartphone extends Model
         return $query->whereIn('color_id', $color_ids);
     }
 
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class);
+    }
+
     public function brand()
     {
         return $this->belongsTo(Brand::class);

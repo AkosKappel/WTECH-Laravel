@@ -28,7 +28,7 @@
                 <div class="my-12 mx-4">
                     <div>
                         <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="transport" value="1" />
+                            <input type="radio" class="form-radio" name="payment" value="Platba kartou" />
                             <span class="text-lg font-medium mx-4 my-1">Platba kartou</span>
                             <svg class="mx-2 h-10 w-10" width="61px" height="20px" viewBox="0 0 61 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
                                 <title>Credit Card/Visa/Visa</title>
@@ -166,19 +166,19 @@
                     </div>
                     <div>
                         <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="transport" value="2" />
+                            <input type="radio" class="form-radio" name="payment" value="Dobierka" />
                             <span class="text-lg font-medium mx-4 my-1">Dobierka</span>
                         </label>
                     </div>
                     <div>
                         <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="transport" value="3" />
+                            <input type="radio" class="form-radio" name="payment" value="Prevod na účet" />
                             <span class="text-left font-medium text-lg mx-4 my-1">Prevod na účet</span>
                         </label>
                     </div>
                     <div>
                         <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="transport" value="3" />
+                            <input type="radio" class="form-radio" name="payment" value="Apple Pay" />
                             <span class="text-lg font-medium mx-4 my-1">Apple Pay</span>
                             <svg class="mx-2 h-10 w-10" width="71px" height="33px" viewBox="0 0 71 33" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
                                 <title>Payment/Apple/Apple</title>
@@ -215,30 +215,42 @@
                     </div>
                     <div>
                         <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="transport" value="3" />
+                            <input type="radio" class="form-radio" name="payment" value="Google Pay" />
                             <span class="text-lg font-medium mx-4 my-1">Google Pay</span>
                         </label>
                     </div>
                 </div>
+                <!-- Errors -->
+                @if ($errors->any())
+                    <div class="text-center my-4 text-red-600">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
             </div>
             <!-- buttons -->
-            <div class="grid lg:grid-cols-2 grid-cols-1 col-gap-32">
+            <div class="grid lg:grid-cols-2 grid-cols-1 col-gap-32 mb-16">
                 <div class="col-span-1 flex justify-center items-end lg:h-64">
                     <div class="col-span-1 flex justify-center items-end lg:h-64">
                         <a href="{{ route('delivery') }}" title="Späť na výber dopravy">
-                            <div class="w-48 bg-blue-500 text-center hover:bg-blue-700 text-white font-bold py-2 mb-16 px-4 rounded focus:outline-none focus:shadow-outline rounded-full">Späť</div>
+                            <div class="w-48 bg-blue-500 text-center hover:bg-blue-700 text-white font-bold mb-5 lg:mb-0 py-2 px-4 rounded focus:outline-none focus:shadow-outline rounded-full">Späť</div>
                         </a>
                     </div>
                 </div>
                 <div class="col-span-1 flex justify-center items-end lg:h-64 relative">
-                    <button type="submit" class="w-48 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 mb-16 px-4 rounded focus:outline-none focus:shadow-outline rounded-full">
-                        Objednať a zaplatiť
-                    </button>
-                    <div class="absolute sm:m-32">
-                        <label class="inline-flex items-center px-12">
-                            <input type="checkbox" class="form-checkbox" />
+                    <div class="flex flex-col">
+                        @if(Session::get('showCreateAccount'))
+                        <label class="w-48 mb-4">
+                            <input type="checkbox" name="create_account" class="form-checkbox ml-4" />
                             <span class="ml-2 font-bold text-lg">Vytvoriť účet</span>
                         </label>
+                        @endif
+                        <button type="submit" class="w-48 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline rounded-full">
+                            Objednať a zaplatiť
+                        </button>
                     </div>
                 </div>
             </div>

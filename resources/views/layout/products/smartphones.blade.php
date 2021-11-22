@@ -15,7 +15,7 @@
             <div class="my-8 bg-blue-100 text-center">
 
                 <section>
-                    <h2 class="font-bold uppercase px-16 py-4 border-b border-gray-100 bg-gray-700 text-gray-100">Filtrovanie</h2>
+                    <h2 class="font-bold uppercase px-16 py-4 border-b border-gray-100 bg-gray-700 text-gray-100">Filtrovanie a zoradenie</h2>
                     <div class="px-4 cursor-pointer md:hidden" id="burger-icon">
                         <svg class="w-6 h-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
                             <path d="M4 6h16M4 12h16M4 18h16"></path>
@@ -55,7 +55,7 @@
                         </section>
 
                         <!-- filter for product color -->
-                        <section class="pb-4">
+                        <section>
                             <span class="text-gray-700 font-bold py-4 px-8 flex justify-start">Farba</span>
                             <div class="flex flex-col text-left px-16">
                             @foreach($params['colors'] as $color)
@@ -68,10 +68,23 @@
                             </div>
                         </section>
 
+                        <!-- Selection for order -->
+                        <section class="pb-4">
+                            <span class="text-gray-700 font-bold py-4 px-8 flex justify-start">Zoradiť od</span>
+                            <div class="flex flex-col text-left px-16">
+                                @foreach($params['sort'] as $sort)
+                                    <label class="text-lg inline-flex items-center" for="{{ $sort['id'] }}">
+                                        {{ Form::radio('sort', $sort['id'], $sort['status'], ['id' => $sort['id'], 'class' => 'form-checkbox h-4 w-4']) }}
+                                        <span class="mx-2">{{ $sort['name']}}</span>
+                                    </label>
+                                @endforeach
+                            </div>
+                        </section>
+
                         <!-- apply filters button -->
                         <div class="p-10 flex justify-center">
                             <button class="bg-gray-600 text-white font-bold text-sm px-4 py-2 rounded-full shadow hover:shadow-lg" type="submit">
-                                Filtrovať výsledky
+                                Zobraziť výsledky
                             </button>
                         </div>
                     </div>
@@ -84,24 +97,6 @@
             <!-- grid header -->
             <section class="relative flex justify-between ml-4 border-b">
                 <h1 class="text-xl font-bold pb-2 mt-4 border-gray-300">Dostupné smartfóny</h1>
-                <form method="GET" action="{{ route('smartphones') }}">
-                    <label class="text-sm mr-2">
-                        <span class="m-2 hidden lg:inline">Zoradiť podľa:</span>
-                        <select id="sort" name="sort" class="font-bold rounded-md border shadow-sm appearance-none border-gray-400 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-gray-100 focus:ring-indigo-500 border-2 text-base pl-3 pr-10">
-                            <option id="desc" value="desc" class="sort-option rounded-md text-lg">
-                                <a href="{{ route('smartphones', ['sort' => 'desc']) }}" style="color:black;">Najdrahšie</a>
-                            </option>
-                            <option id="asc" value="asc" class="sort-option rounded-md text-lg">
-                                <a href="{{ route('smartphones', ['sort' => 'asc']) }}" style="color:black;">Najlacnejšie</a>
-                            </option>
-                        </select>
-                    </label>
-                    <span class="absolute right-2 -top-1.5 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
-                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                        </svg>
-                    </span>
-                </form>
             </section>
 
             <!-- grid content -->

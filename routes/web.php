@@ -7,6 +7,7 @@ use App\Http\Controllers\SmartphoneController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\PasswordChangeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,8 @@ Route::get('/', [ShopController::class, 'index'])->name('home');
 // User
 Route::get('/profile', [UserController::class, 'index'])->middleware(['auth'])->name('profile');
 Route::put('/profile', [UserController::class, 'update'])->middleware(['auth']);
+Route::get('/finishRegister', [RegisteredUserController::class, 'redirectAfterOrder'])->name('finishRegister');
+Route::post('/finishRegister', [RegisteredUserController::class, 'storeAfterOrder'])->name('storeAfterOrder');
 
 Route::get('/passwordChange', [PasswordChangeController::class, 'create'])->middleware(['auth'])->name('passwordChange');
 Route::put('/passwordChange', [PasswordChangeController::class, 'update'])->middleware(['auth']);
@@ -57,7 +60,7 @@ Route::delete('/smartphones/{smartphone}/', [SmartphoneController::class, 'destr
 
 // Order
 Route::get('/address', [OrderController::class, 'addressIndex'])->name('address');
-Route::post('/address', [OrderController::class, 'addressStore'])->name('address.store');
+Route::put('/address', [OrderController::class, 'addressStore'])->name('address.store');
 Route::get('/delivery', [OrderController::class, 'deliveryIndex'])->name('delivery');
 Route::post('/delivery', [OrderController::class, 'deliveryStore'])->name('delivery.store');
 Route::get('/payment', [OrderController::class, 'paymentIndex'])->name('payment');

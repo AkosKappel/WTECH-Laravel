@@ -15,9 +15,19 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cart_id')->constrained('carts');
+            $table->float('total_price')->unsigned();
+            $table->boolean('paid')->default(false);
+            $table->foreignId('user_id')->constrained('users');
             $table->string('delivery_method');
             $table->string('payment_method');
+            $table->timestamps();
+        });
+
+        Schema::create('order_smartphone', function (Blueprint $table) {
+            $table->id();
+            $table->integer('count');
+            $table->foreignId('smartphone_id')->constrained('smartphones');
+            $table->foreignId('order_id')->constrained('orders');
             $table->timestamps();
         });
     }
@@ -29,6 +39,7 @@ class CreateOrdersTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('order_smartphone');
         Schema::dropIfExists('orders');
     }
 }

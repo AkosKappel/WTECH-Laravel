@@ -66,7 +66,6 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\User $user
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request)
@@ -75,13 +74,12 @@ class UserController extends Controller
             'first_name' => 'string|max:255|nullable',
             'last_name' => 'string|max:255|nullable',
             'phone_number' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:10|nullable',
-            'email' => 'string|max:255|nullable',
+            'email' => 'required|email|max:255',
             'street' => 'string|max:255|nullable',
             'descriptive_number' => 'string|max:255|nullable',
             'city' => 'string|max:255|nullable',
             'country' => 'string|max:255|nullable',
         ]);
-//        dd($request);
 
         User::find(Auth()->user()->id)->update([
             'first_name' => $request->first_name,

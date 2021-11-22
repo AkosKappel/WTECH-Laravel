@@ -28,7 +28,7 @@
                 <div class="my-12 mx-4">
                     <div>
                         <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="transport" value="1" />
+                            <input type="radio" class="form-radio" name="transport" value="Doručenie kuriérom" {{ Session::get('delivery') === "Doručenie kuriérom" ? 'checked' : null }}/>
                             <span class="text-lg mx-4 my-1">Doručenie kuriérom</span>
                         </label>
                         <span class="text-right">
@@ -37,7 +37,7 @@
                     </div>
                     <div>
                         <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="transport" value="2" />
+                            <input type="radio" class="form-radio" name="transport" value="Osobný odber" {{ Session::get('delivery') === "Osobný odber" ? 'checked' : null }}/>
                             <span class="text-lg mx-4 my-1">Osobný odber</span>
                         </label>
                         <span class="text-right w-16">
@@ -46,19 +46,29 @@
                     </div>
                     <div>
                         <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="transport" value="3" />
+                            <input type="radio" class="form-radio" name="transport" value="Doručenie na poštu" {{ Session::get('delivery') === "Doručenie na poštu" ? 'checked' : null }}/>
                             <span class="text-left text-lg mx-4 my-1">Doručenie na poštu</span>
                             <strong class="text-right text-lg">0.00 €</strong>
                         </label>
                     </div>
                     <div>
                         <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="transport" value="3" />
+                            <input type="radio" class="form-radio" name="transport" value="Zásielkovňa" {{ Session::get('delivery') === "Zásielkovňa" ? 'checked' : null }}/>
                             <span class="text-lg mx-4 my-1">Zásielkovňa</span>
                             <strong class="text-right text-lg">0.00 €</strong>
                         </label>
                     </div>
                 </div>
+                <!-- Errors -->
+                @if ($errors->any())
+                    <div class="text-center my-4 text-red-600">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
             </div>
             <!-- buttons -->
             <div class="grid lg:grid-cols-2 grid-cols-1 col-gap-32">

@@ -25,6 +25,7 @@
     @endif
 
     <h1 class="text-center font-bold text-3xl lg:text-4xl px-2 mt-4">Váš nákupný košík</h1>
+    @if(Cart::count() > 0)
     <div class="hidden md:grid grid-cols-12 mx-auto w-11/12 2xl:w-4/5 rounded-md mt-5 -mb-2 items-center">
         <div class="col-span-5"></div>
         <div class="col-span-2 text-center text-xl">Cena za kus</div>
@@ -33,7 +34,6 @@
     </div>
 
     <div class="text-center mx-auto w-11/12 2xl:w-4/5">
-        @if(Cart::count() > 0)
         @foreach(Cart::content() as $product)
         <div class="grid grid-cols-12 mx-auto bg-gray-300 rounded-md p-2 my-4 items-center">
             <div class="col-span-12 md:col-span-5 text-center md:text-left">
@@ -85,8 +85,12 @@
             </div>
         </div>
         @endforeach
-        @endif
     </div>
+    @else
+    <div class="flex justify-center bg-yellow-100 border-t border-b border-yellow-500 text-yellow-700 px-4 py-3 mt-4" role="alert">
+        <p class="font-bold">Nemáte žiadne položky v košíku.</p>
+    </div>
+    @endif
 
     <div class="flex w-11/12 2xl:w-4/5 mx-auto mt-2 sm:mt-10 sm:pr-2 text-right justify-self-center justify-center md:justify-end">
         <p class="text-2xl font-bold">Celková cena: {{ Cart::total() . ' €'}}</p>
@@ -97,11 +101,13 @@
             <div class="col-span-12 md:col-span-6">
                 <a href="{{ url('/smartphones') }}" title="Pokračovať v nákupe" class="text-xl font-bold underline md:mr-10">Pokračovať v nákupe</a>
             </div>
+            @if(Cart::count() > 0)
             <div class="col-span-12 md:col-span-6">
                 <a href="{{ url('/address') }}" title="Pokračovať v objednávke" class="w-full mt-2 md:mt-0 block md:inline bg-gray-300 rounded-md py-3 px-5 text-center text-xl font-bold">
                     Pokračovať v objednávke
                 </a>
             </div>
+            @endif
         </div>
     </div>
 </main>

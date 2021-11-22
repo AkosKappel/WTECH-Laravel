@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -41,6 +42,11 @@ class CartController extends Controller
                 'max_quantity' => $request->max_quantity
             ]
         )->associate('App\Smartphone');
+
+//        if (Auth::check()) {
+//            Cart::store(Auth::user()->email);
+//        }
+
         return redirect('cart')->with('success_message', 'Produkt bol úspešne pridaný do košíka!');
     }
 

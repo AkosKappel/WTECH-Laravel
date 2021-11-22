@@ -47,7 +47,7 @@
                 <!-- https://themayanagari.com/2021/04/22/samsung-galaxy-s21-ultra-5g-png-transparen/ -->
                 <a href="{{ 'smartphones/' . $smartphone->id }}" class="text-white text-xs sm:text-base">
                     @if($smartphone->images->first())
-                    <img src="{{ $smartphone->images->first()->source }}" alt="{{ $smartphone->images->first()->name }}" class="h-64 inline" />
+                    <img src="{{ $smartphone->images->first()->source }}" alt="{{ $smartphone->images->first()->name }}" class="h-64 inline overflow-hidden" />
                     @else
                     <img alt="image does not exist" src="{{ asset('images/no_img_available.jpg') }}" class="h-64 inline" />
                     @endif
@@ -56,30 +56,6 @@
                 <p>{{ formattedPrice($smartphone->price) }}</p>
             </div>
             @endforeach
-{{--            <div class="col-span-12 sm:col-span-6 lg:col-span-4 text-center">--}}
-{{--                <!-- https://themayanagari.com/2021/04/22/samsung-galaxy-s21-ultra-5g-png-transparen/ -->--}}
-{{--                <a href="#" class="text-white text-xs sm:text-base">--}}
-{{--                    <img src="{{ url('/images/samsung.png')}}" alt="Samsung Galaxy S21 Ultra 5G" class="h-64 inline" />--}}
-{{--                </a>--}}
-{{--                <p class="font-bold">Samsung Galaxy S21 Ultra 5G</p>--}}
-{{--                <p>1099,99 €</p>--}}
-{{--            </div>--}}
-{{--            <div class="col-span-12 sm:col-span-6 lg:col-span-4 text-center">--}}
-{{--                <!-- https://themayanagari.com -->--}}
-{{--                <a href="#" class="text-white text-xs sm:text-base">--}}
-{{--                    <img src="{{ url('/images/iphone12.png')}}" alt="Apple iPhone 12 Pro" class="h-64 inline" />--}}
-{{--                </a>--}}
-{{--                <p class="font-bold">Apple iPhone 12 Pro</p>--}}
-{{--                <p>1299,99 €</p>--}}
-{{--            </div>--}}
-{{--            <div class="col-span-12 sm:col-span-6 lg:col-span-4 text-center">--}}
-{{--                <!-- https://themayanagari.com -->--}}
-{{--                <a href="#" class="text-white text-xs sm:text-base">--}}
-{{--                    <img src="{{ url('/images/moto.png')}}"  alt="Motorola moto G6 Power lite design" class="h-64 inline" />--}}
-{{--                </a>--}}
-{{--                <p class="font-bold">Motorola moto G6 Power lite design</p>--}}
-{{--                <p>229,99 €</p>--}}
-{{--            </div>--}}
         </div>
     </section>
 </main>
