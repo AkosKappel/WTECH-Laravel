@@ -33,15 +33,30 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
+        $emailValidation = ['required', 'string', 'email', 'max:255'];
+
+        $potentialUser = User::firstWhere('email', $request->email);
+        if (!is_null($potentialUser) && !is_null($potentialUser->password)) {
+            array_push($emailValidation, 'unique:users');
+        }
+
         $request->validate([
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => $emailValidation,
             'password' => ['required', Rules\Password::defaults()],
         ]);
 
-        $user = User::create([
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        if (!is_null($potentialUser) && is_null($potentialUser->password)) {
+            $potentialUser->update([
+                'password' => Hash::make($request->password),
+            ]);
+            $user = $potentialUser;
+        } else {
+            $user = User::create([
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+        }
+
 
         event(new Registered($user));
 
