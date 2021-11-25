@@ -9,6 +9,8 @@ class Brand extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name'];
+
     public function smartphones()
     {
         return $this->hasMany(\App\Models\Smartphone::class);

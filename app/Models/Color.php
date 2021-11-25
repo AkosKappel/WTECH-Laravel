@@ -9,6 +9,8 @@ class Color extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name_en', 'name_sk'];
+
     public function smartphones()
     {
         return $this->hasMany(\App\Models\Smartphone::class);

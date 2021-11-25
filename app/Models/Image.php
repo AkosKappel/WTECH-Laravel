@@ -9,6 +9,8 @@ class Image extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'source', 'smartphone_id'];
+
     public function smartphone()
     {
         return $this->belongsTo(\App\Models\Smartphone::class);

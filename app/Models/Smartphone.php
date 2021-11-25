@@ -9,6 +9,9 @@ class Smartphone extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'price', 'quantity', 'brand_id', 'color_id', 'description', 'ram',
+        'operating_system', 'os_version', 'display_size', 'resolution', 'height', 'width', 'thickness'];
+
     public function scopeMaxPrice($query, $price)
     {
         if (!is_null($price)) {
