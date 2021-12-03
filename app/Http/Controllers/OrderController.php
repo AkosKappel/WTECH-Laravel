@@ -6,6 +6,12 @@ use App\Models\Smartphone;
 use App\Models\User;
 use App\Models\Order;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -14,7 +20,7 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function addressIndex()
     {
@@ -24,7 +30,7 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return Application|Factory|View|Response
      */
     public function deliveryIndex()
     {
@@ -34,7 +40,7 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return Application|Factory|View|Response
      */
     public function paymentIndex()
     {
@@ -44,7 +50,7 @@ class OrderController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -54,8 +60,8 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
+     * @param Request $request
+     * @return Application|RedirectResponse|Redirector
      */
     public function addressStore(Request $request)
     {
@@ -64,9 +70,9 @@ class OrderController extends Controller
         $potentialUser = User::firstWhere('email', $request->email);
         $showCreateAccount = true;
 
-        if(!is_null($potentialUser)) {
+        if (!is_null($potentialUser)) {
             $emailValidation = 'required|email|max:255';
-            if(!is_null($potentialUser->password)) {
+            if (!is_null($potentialUser->password)) {
                 $showCreateAccount = false;
             }
         }
@@ -84,7 +90,7 @@ class OrderController extends Controller
         ]);
 
         // Ak je používateľ prihlásený
-        if(Auth::check()) {
+        if (Auth::check()) {
             User::find(Auth()->user()->id)->update([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
@@ -114,8 +120,8 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
+     * @param Request $request
+     * @return Application|RedirectResponse|Response|Redirector
      */
     public function deliveryStore(Request $request)
     {
@@ -127,8 +133,8 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
+     * @param Request $request
+     * @return Application|RedirectResponse|Response|Redirector
      */
     public function paymentStore(Request $request)
     {
@@ -137,7 +143,7 @@ class OrderController extends Controller
         $user = null;
         if (!Auth::check()) {
             $user = User::firstWhere('email', $request->session()->get('email'));
-            if($user == null) {
+            if ($user == null) {
                 $user = User::create([
                     'email' => $request->session()->get('email'),
                     'first_name' => $request->session()->get('first_name'),
@@ -162,12 +168,16 @@ class OrderController extends Controller
 
         foreach (Cart::content() as $cartSmartphone) {
             $smartphone = Smartphone::find(intval($cartSmartphone->id));
-            $order->smartphones()->save($smartphone, ['count' => intval($smartphone->qty)]);
+            $count = intval($cartSmartphone->qty);
+            $order->smartphones()->save($smartphone, ['count' => $count]);
+            $smartphone->quantity -= $count;
+            $smartphone->save();
         }
+
         Cart::destroy();
         $request->session()->forget('showCreateAccount');
 
-        if(!Auth::check() && $request->create_account) {
+        if (!Auth::check() && $request->create_account) {
             return redirect('/finishRegister');
         }
         return redirect('/');
@@ -175,8 +185,8 @@ class OrderController extends Controller
 
     /** Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function show($id)
     {
@@ -186,8 +196,8 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function edit($id)
     {
@@ -197,9 +207,9 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int $id
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -209,8 +219,8 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function destroy($id)
     {

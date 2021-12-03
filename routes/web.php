@@ -6,8 +6,8 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SmartphoneController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\PasswordChangeController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +20,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 |
 */
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 
 // Homepage

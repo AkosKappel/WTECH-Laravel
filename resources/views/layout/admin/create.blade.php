@@ -11,78 +11,78 @@
     <hr>
     <form action="{{ route('smartphones.create') }}" method="POST" enctype="multipart/form-data" >
         {{ csrf_field() }}
-        <div class="grid grid-cols-12">
-            <div class="col-span-12 md:col-span-6">
+        <div class="grid grid-cols-12 gap-x-4">
+            <div class="col-span-12 lg:col-span-6">
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
                         <label for="name">Názov produktu</label>
-                        <input type="text" class="form-control" id="name" name="name">
+                        <input type="text" class="form-control p-1" id="name" name="name">
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
                         <label for="price">Cena</label>
-                        <input type="number" class="form-control" id="price" name="price">
+                        <input type="number" class="form-control p-1" id="price" name="price">
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
                         <label for="quantity">Množstvo na sklade</label>
-                        <input type="number" class="form-control" id="quantity" name="quantity">
+                        <input type="number" class="form-control p-1" id="quantity" name="quantity">
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
                         <label for="description">Popis produktu</label>
-                        <textarea class="form-control" id="description" name="description"></textarea>
+                        <textarea class="form-control p-1" id="description" name="description"></textarea>
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
                         <label for="ram">Pamäť RAM (MB)</label>
-                        <input type="number" class="form-control" id="ram" name="ram">
+                        <input type="number" class="form-control p-1" id="ram" name="ram">
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
                         <label for="operating_system">Operačný systém</label>
-                        <input type="text" class="form-control" id="operating_system" name="operating_system">
+                        <input type="text" class="form-control p-1" id="operating_system" name="operating_system">
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
                         <label for="os_version">Verzia operačného systému</label>
-                        <input type="number" class="form-control" id="os_version" name="os_version">
+                        <input type="number" class="form-control p-1" id="os_version" name="os_version">
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
                         <label for="display_size">Veľkosť displeja (V palcoch)</label>
-                        <input type="number" class="form-control" id="display_size" name="display_size">
+                        <input type="number" class="form-control p-1" id="display_size" name="display_size">
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
                         <label for="resolution">Rozlíšenie displeja</label>
-                        <input type="text" class="form-control" id="resolution" name="resolution">
+                        <input type="text" class="form-control p-1" id="resolution" name="resolution">
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
                         <label for="height">Výška (mm)</label>
-                        <input type="number" class="form-control" id="height" name="height">
+                        <input type="number" class="form-control p-1" id="height" name="height">
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
                         <label for="width">Šírka (mm)</label>
-                        <input type="number" class="form-control" id="width" name="width">
+                        <input type="number" class="form-control p-1" id="width" name="width">
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
                         <label for="thickness">Hrúbka (mm)</label>
-                        <input type="number" class="form-control" id="thickness" name="thickness">
+                        <input type="number" class="form-control p-1" id="thickness" name="thickness">
                     </div>
                 </div>
             </div>
@@ -115,24 +115,9 @@
         </div>
 
         <div class="m-2">
-            <label class="block text-sm font-medium text-gray-700 font-bold py-4 px-8 flex justify-start tray-700">
+            <label class="text-gray-700 font-bold py-4 px-8 flex justify-start block tray-700">
                 Obrázky
             </label>
-{{--            <div class="input-group control-group lst " >--}}
-{{--                <input type="file" name="filenames[]" class="fileInput form-control">--}}
-{{--                <div class="input-group-btn">--}}
-{{--                    <button class="btn btn-success" onClick="addInput()" type="button">Pridať obrázok</button>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--            <div class="clone hide">--}}
-{{--                <div class="control-group input-group">--}}
-{{--                    <input type="file" name="filenames[]" class="form-control">--}}
-{{--                    <div class="input-group-btn">--}}
-{{--                        <button class="btn btn-danger removeButton" onClick="removeInput(this)" type="button">Odstrániť obrázok</button>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-
             <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                 <div class="space-y-1 text-center">
                     <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="True">
@@ -161,15 +146,11 @@
             </div>
         @endif
 
-        <button type="submit" class="bg-blue-500 text-white active:bg-pink-600 font-bold uppercase text-xs my-2 px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150">
+        <button type="submit" class="bg-blue-500 text-white active:bg-pink-600 font-bold uppercase text-xs my-4 px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150">
             Vytvoriť produkt
         </button>
     </form>
 </main>
-
-<script type="text/javascript">
-
-</script>
 
 </body>
 </html>

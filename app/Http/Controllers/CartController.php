@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -11,7 +16,7 @@ class CartController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\View\View
+     * @return View
      */
     public function index(Request $request)
     {
@@ -21,7 +26,7 @@ class CartController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -31,8 +36,8 @@ class CartController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
+     * @param Request $request
+     * @return Application|RedirectResponse|Redirector
      */
     public function store(Request $request)
     {
@@ -43,17 +48,13 @@ class CartController extends Controller
             ]
         )->associate('App\Smartphone');
 
-//        if (Auth::check()) {
-//            Cart::store(Auth::user()->email);
-//        }
-
         return redirect('cart')->with('success_message', 'Produkt bol úspešne pridaný do košíka!');
     }
 
     /**
      * Display the specified resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Cart $cart)
     {
@@ -63,7 +64,7 @@ class CartController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(Cart $cart)
     {
@@ -73,8 +74,8 @@ class CartController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
+     * @param Request $request
+     * @return Application|RedirectResponse|Response|Redirector
      */
     public function update(Request $request, $rowId)
     {
@@ -85,7 +86,7 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function destroy($id)
     {

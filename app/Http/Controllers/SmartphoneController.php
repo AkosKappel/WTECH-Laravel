@@ -11,7 +11,10 @@ use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 
 class SmartphoneController extends Controller
@@ -131,7 +134,7 @@ class SmartphoneController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Application|Factory|View|\Illuminate\Http\Response
+     * @return Application|Factory|View|Response
      */
     public function create()
     {
@@ -143,8 +146,8 @@ class SmartphoneController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Application|RedirectResponse|Redirector
      */
     public function store(Request $request)
     {
@@ -200,8 +203,8 @@ class SmartphoneController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\Smartphone $smartphone
-     * @return Application|Factory|View|\Illuminate\Http\Response
+     * @param Smartphone $smartphone
+     * @return Application|Factory|View
      */
     public function show(Smartphone $smartphone)
     {
@@ -211,8 +214,8 @@ class SmartphoneController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\Smartphone $smartphone
-     * @return Application|Factory|View|\Illuminate\Http\Response
+     * @param Smartphone $smartphone
+     * @return Application|Factory|View|Response
      */
     public function edit(Smartphone $smartphone)
     {
@@ -222,9 +225,9 @@ class SmartphoneController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Smartphone $smartphone
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Smartphone $smartphone
+     * @return Response
      */
     public function update(Request $request, Smartphone $smartphone)
     {
@@ -234,8 +237,8 @@ class SmartphoneController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Smartphone $smartphone
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     * @param Smartphone $smartphone
+     * @return RedirectResponse|Response
      */
     public function destroy(Request $request, Smartphone $smartphone)
     {
