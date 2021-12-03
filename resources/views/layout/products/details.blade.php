@@ -130,15 +130,15 @@
                     <dl>
                         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-gray-500">Výrobca</dt>
-                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->brand->name}}</dd>
+                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->brand ? $smartphone->brand->name : 'neznámy výrobca'}}</dd>
                         </div>
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-gray-500">Farba</dt>
-                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->color->name_sk}}</dd>
+                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->color ? $smartphone->color->name_sk : ''}}</dd>
                         </div>
                         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-gray-500">Pamäť RAM</dt>
-                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->ram}} MB</dd>
+                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->ram ? $smartphone->ram . ' MB' : ''}} </dd>
                         </div>
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-gray-500">Operačný systém</dt>
@@ -150,7 +150,7 @@
                         </div>
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-gray-500">Veľkosť displeja</dt>
-                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->display_size}}"</dd>
+                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->display_size ? $smartphone->display_size . ' "' : ''}}</dd>
                         </div>
                         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-gray-500">Rozlíšenie displeja</dt>
@@ -158,15 +158,15 @@
                         </div>
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-gray-500">Výška</dt>
-                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->height}} mm</dd>
+                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->height ? $smartphone->height . ' mm' : ''}}</dd>
                         </div>
                         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-gray-500">Šírka</dt>
-                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->width}} mm</dd>
+                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->width ? $smartphone->width . ' mm' : ''}}</dd>
                         </div>
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-gray-500">Hĺbka</dt>
-                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->thickness}} mm</dd>
+                            <dd class="mt-1 text-gray-900 sm:mt-0 xl:ml-32 lg:ml-16 sm:ml-24">{{$smartphone->thickness ? $smartphone->thickness . ' mm' : ''}}</dd>
                         </div>
                     </dl>
                 </div>

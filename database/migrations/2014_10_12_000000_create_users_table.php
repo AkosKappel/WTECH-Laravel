@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('descriptive_number')->nullable();
             $table->string('country')->nullable();
             $table->string('city')->nullable();
+            $table->string('role')->nullable()->default('customer');
 
             $table->rememberToken();
             $table->timestamps();

@@ -15,6 +15,11 @@
                     <div class="pl-3">
                         <a href="#" class="text-white mr-2 font-semibold">Obchodné podmienky</a>
                     </div>
+                    @if(Auth::check() && Auth::user()->role == 'admin')
+                    <div class="pl-3">
+                        <a href="{{ route('admin') }}" class="text-white mr-2 font-semibold">Admin</a>
+                    </div>
+                    @endif
                 </div>
             </nav>
             <div class="flex space-x-2 lg:space-x-4 items-center mr-2 md:mr-0">
@@ -84,6 +89,11 @@
             <li class="py-3">
                 <a href="#" class="p-3 text-white font-semibold">Obchodné podmienky</a>
             </li>
+            @if(Auth::check() && Auth::user()->role == 'admin')
+            <li class="py-3">
+                <a href="{{ route('admin') }}" class="p-3 text-white font-semibold">Admin</a>
+            </li>
+            @endif
         </ul>
     </nav>
 </header>

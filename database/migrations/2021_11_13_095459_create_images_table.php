@@ -17,7 +17,7 @@ class CreateImagesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('source');
-            $table->foreignId('smartphone_id')->constrained('smartphones');
+            $table->foreignId('smartphone_id')->constrained('smartphones')->onDelete('cascade');
             $table->timestamps();
         });
     }

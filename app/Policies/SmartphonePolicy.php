@@ -41,7 +41,7 @@ class SmartphonePolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->role == 'admin';
     }
 
     /**
@@ -53,7 +53,7 @@ class SmartphonePolicy
      */
     public function update(User $user, Smartphone $smartphone)
     {
-        //
+        return $user->role == 'admin';
     }
 
     /**
@@ -65,7 +65,7 @@ class SmartphonePolicy
      */
     public function delete(User $user, Smartphone $smartphone)
     {
-        //
+        return $user->role == 'admin';
     }
 
     /**

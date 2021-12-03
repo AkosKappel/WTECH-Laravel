@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Color;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ColorSeeder::class);
         $this->call(SmartphoneSeeder::class);
         $this->call(ImageSeeder::class);
+        $this->call(UserSeeder::class);
     }
 }

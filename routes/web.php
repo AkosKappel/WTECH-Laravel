@@ -50,12 +50,12 @@ Route::put('/cart/{product}', [CartController::class, 'update'])->name('cart.upd
 
 // Products
 Route::get('/smartphones', [SmartphoneController::class, 'index'])->name('smartphones');
-Route::get('/smartphones/create', [SmartphoneController::class, 'create']);
-Route::post('/smartphones/', [SmartphoneController::class, 'store']);
+Route::get('/smartphones/create', [SmartphoneController::class, 'create'])->name('smartphones.add');
+Route::post('/smartphones/add', [SmartphoneController::class, 'store'])->name('smartphones.create');
 Route::get('/smartphones/{smartphone}/', [SmartphoneController::class, 'show'])->name('details');
-Route::get('/smartphones/{smartphone}/edit/', [SmartphoneController::class, 'edit']);
+Route::get('/smartphones/{smartphone}/edit/', [SmartphoneController::class, 'edit'])->name('smartphones.edit');
 Route::put('/smartphones/{smartphone}', [SmartphoneController::class, 'update']);
-Route::delete('/smartphones/{smartphone}/', [SmartphoneController::class, 'destroy']);
+Route::delete('/smartphones/{smartphone}/', [SmartphoneController::class, 'destroy'])->name('smartphones.delete');
 
 
 // Order
@@ -65,4 +65,8 @@ Route::get('/delivery', [OrderController::class, 'deliveryIndex'])->name('delive
 Route::post('/delivery', [OrderController::class, 'deliveryStore'])->name('delivery.store');
 Route::get('/payment', [OrderController::class, 'paymentIndex'])->name('payment');
 Route::post('/payment', [OrderController::class, 'paymentStore'])->name('payment.store');
+
+
+// Admin
+Route::get('/admin', [SmartphoneController::class, 'adminIndex'])->middleware(['auth', 'can:isAdmin'])->name('admin');
 

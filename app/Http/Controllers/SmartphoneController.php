@@ -5,15 +5,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use App\Models\Color;
+use App\Models\Image;
 use App\Models\Smartphone;
+use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SmartphoneController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\View\View
+     * @return View
      */
     public function index(Request $request)
     {
@@ -101,7 +107,7 @@ class SmartphoneController extends Controller
 
         // ordering and pagination
         $sort = $request['sort'] ? $request['sort'] : null;
-        if($sort != null) {
+        if ($sort != null) {
             $smartphones = $smartphones->orderBy('price', $sort);
         }
 
@@ -113,14 +119,25 @@ class SmartphoneController extends Controller
         );
     }
 
+    public function adminIndex(Request $request)
+    {
+        $smartphones = Smartphone::query()->orderBy('name');
+        $smartphones = $smartphones->paginate(12);
+        return view('layout.admin.admin',
+            ['smartphones' => $smartphones]
+        );
+    }
+
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View|\Illuminate\Http\Response
      */
     public function create()
     {
-        //
+        $brands = Brand::all()->pluck('name')->toArray();
+        $colors = Color::all()->pluck('name_sk')->toArray();
+        return view('layout.admin.create', ['colors' => $colors, 'brands' => $brands]);
     }
 
     /**
@@ -131,14 +148,60 @@ class SmartphoneController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'quantity' => 'required|numeric',
+        ]);
+
+        if ($request->color != null) {
+            $color_id = Color::firstWhere('name_sk', $request->color)->id;
+        } else {
+            $color_id = null;
+        }
+
+        if ($request->brand != null) {
+            $brand_id = Brand::firstWhere('name', $request->brand)->id;
+        } else {
+            $brand_id = null;
+        }
+
+        $smartphone = Smartphone::create([
+            'name' => $request->name,
+            'price' => $request->price,
+            'quantity' => $request->quantity,
+            'description' => $request->description,
+            'operating_system' => $request->operating_system,
+            'os_version' => $request->os_version,
+            'display_size' => $request->display_size,
+            'resolution' => $request->resolution,
+            'height' => $request->height,
+            'width' => $request->width,
+            'thickness' => $request->thickness,
+            'ram' => $request->ram,
+            'color_id' => $color_id,
+            'brand_id' => $brand_id
+        ]);
+
+        if ($request->images != null) {
+            foreach ($request->images as $image) {
+                Image::create([
+                    'name' => 'Obrázok smartfónu',
+                    'source' => '/images/' . $image->getClientOriginalName(),
+                    'smartphone_id' => $smartphone->id,
+                ]);
+            }
+        }
+
+        $request->session()->flash('message', 'Produkt bol úspešne pridaný.');
+        return redirect('admin')->with('success_message', "Produkt {$request->name} bol úspešne pridaný!");
     }
 
     /**
      * Display the specified resource.
      *
      * @param \App\Models\Smartphone $smartphone
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View|\Illuminate\Http\Response
      */
     public function show(Smartphone $smartphone)
     {
@@ -149,11 +212,11 @@ class SmartphoneController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param \App\Models\Smartphone $smartphone
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View|\Illuminate\Http\Response
      */
     public function edit(Smartphone $smartphone)
     {
-        //
+        return view('layout.admin.edit', ['smartphone' => $smartphone]);
     }
 
     /**
@@ -172,10 +235,11 @@ class SmartphoneController extends Controller
      * Remove the specified resource from storage.
      *
      * @param \App\Models\Smartphone $smartphone
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
-    public function destroy(Smartphone $smartphone)
+    public function destroy(Request $request, Smartphone $smartphone)
     {
-        //
+        $smartphone->delete();
+        return back()->with('success_message', "Produkt {$smartphone->name} bol úspešne vymazaný!");
     }
 }

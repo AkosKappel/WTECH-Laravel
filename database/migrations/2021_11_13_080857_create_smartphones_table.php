@@ -18,17 +18,17 @@ class CreateSmartphonesTable extends Migration
             $table->string('name')->nullable(false);
             $table->float('price')->nullable(false);
             $table->float('quantity')->nullable(false);
-            $table->foreignId('brand_id')->constrained('brands');
-            $table->foreignId('color_id')->constrained('colors');
-            $table->longText('description');
-            $table->integer('ram');
-            $table->string('operating_system');
-            $table->integer('os_version');
-            $table->float('display_size');
-            $table->string('resolution');
-            $table->float('height');
-            $table->float('width');
-            $table->float('thickness');
+            $table->foreignId('brand_id')->nullable()->constrained('brands');
+            $table->foreignId('color_id')->nullable()->constrained('colors');
+            $table->longText('description')->nullable();
+            $table->integer('ram')->nullable();
+            $table->string('operating_system')->nullable();
+            $table->integer('os_version')->nullable();
+            $table->float('display_size')->nullable();
+            $table->string('resolution')->nullable();
+            $table->float('height')->nullable();
+            $table->float('width')->nullable();
+            $table->float('thickness')->nullable();
             $table->timestamps();
         });
     }
