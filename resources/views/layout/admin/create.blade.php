@@ -16,19 +16,19 @@
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
                         <label for="name">Názov produktu</label>
-                        <input type="text" class="form-control p-1" id="name" name="name">
+                        <input type="text" class="form-control p-1" id="name" name="name" required>
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
                         <label for="price">Cena</label>
-                        <input type="number" class="form-control p-1" id="price" name="price">
+                        <input type="number" step=".01" class="form-control" id="price" name="price" required>
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
                         <label for="quantity">Množstvo na sklade</label>
-                        <input type="number" class="form-control p-1" id="quantity" name="quantity">
+                        <input type="number" class="form-control p-1" id="quantity" name="quantity" required>
                     </div>
                 </div>
                 <div class="form-group m-2">
@@ -58,7 +58,7 @@
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
                         <label for="display_size">Veľkosť displeja (V palcoch)</label>
-                        <input type="number" class="form-control p-1" id="display_size" name="display_size">
+                        <input type="number" step=".01" class="form-control p-1" id="display_size" name="display_size">
                     </div>
                 </div>
                 <div class="form-group m-2">
@@ -76,13 +76,13 @@
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
                         <label for="width">Šírka (mm)</label>
-                        <input type="number" class="form-control p-1" id="width" name="width">
+                        <input type="number" step=".01" class="form-control p-1" id="width" name="width">
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
                         <label for="thickness">Hrúbka (mm)</label>
-                        <input type="number" class="form-control p-1" id="thickness" name="thickness">
+                        <input type="number" step=".01" class="form-control p-1" id="thickness" name="thickness">
                     </div>
                 </div>
             </div>

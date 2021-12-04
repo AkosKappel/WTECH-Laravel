@@ -8,6 +8,7 @@ use App\Models\Color;
 use App\Models\Image;
 use App\Models\Smartphone;
 use App\Models\User;
+use Intervention\Image\ImageManagerStatic as InterventionImage;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -16,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class SmartphoneController extends Controller
 {
@@ -187,10 +189,18 @@ class SmartphoneController extends Controller
         ]);
 
         if ($request->images != null) {
-            foreach ($request->images as $image) {
+            foreach ($request->images as $key => $image) {
+                $extension = $image->extension();
+                $imageName = 'smartphone-' . $smartphone->id . '-' . $key . '.' . $extension;
+//                $image->move(public_path('images'), $imageName);
+
+                $image_resize = InterventionImage::make($image->getRealPath());
+//                $image_resize->resize(400, 600);
+                $image_resize->save(public_path('/images/') . $imageName);
+
                 Image::create([
                     'name' => 'Obrázok smartfónu',
-                    'source' => '/images/' . $image->getClientOriginalName(),
+                    'source' => '/images/' . $imageName,
                     'smartphone_id' => $smartphone->id,
                 ]);
             }
@@ -219,7 +229,13 @@ class SmartphoneController extends Controller
      */
     public function edit(Smartphone $smartphone)
     {
-        return view('layout.admin.edit', ['smartphone' => $smartphone]);
+        $brands = Brand::all()->pluck('name')->toArray();
+        $colors = Color::all()->pluck('name_sk')->toArray();
+        return view('layout.admin.edit', [
+            'smartphone' => $smartphone,
+            'brands' => $brands,
+            'colors' => $colors,
+        ]);
     }
 
     /**
@@ -227,11 +243,65 @@ class SmartphoneController extends Controller
      *
      * @param Request $request
      * @param Smartphone $smartphone
-     * @return Response
+     * @return Application|RedirectResponse|Response|Redirector
      */
     public function update(Request $request, Smartphone $smartphone)
     {
-        //
+        $count = 0;
+        foreach ($smartphone->images()->get() as $image) {
+            $count++;
+            if ($request->has(str_replace('.', '_', $image->source))) {
+                $image_model = Image::query()->firstWhere('source', $image->source);
+                $image_model->delete();
+                if (File::exists(public_path($image->source))) {
+                    File::delete(public_path($image->source));
+                }
+            }
+        }
+
+        if ($request->images != null) {
+            foreach ($request->images as $key => $image) {
+                $extension = $image->extension();
+                $id = $count + $key;
+                $imageName = 'smartphone-' . $smartphone->id . '-' . $id . '.' . $extension;
+                $image->move(public_path('images'), $imageName);
+                Image::create([
+                    'name' => 'Obrázok smartfónu',
+                    'source' => '/images/' . $imageName,
+                    'smartphone_id' => $smartphone->id,
+                ]);
+            }
+        }
+
+        if ($request->color != null) {
+            $color_id = Color::firstWhere('name_sk', $request->color)->id;
+        } else {
+            $color_id = null;
+        }
+
+        if ($request->brand != null) {
+            $brand_id = Brand::firstWhere('name', $request->brand)->id;
+        } else {
+            $brand_id = null;
+        }
+
+        $smartphone->update([
+            'name' => $request->name,
+            'price' => $request->price,
+            'quantity' => $request->quantity,
+            'description' => $request->description,
+            'operating_system' => $request->operating_system,
+            'os_version' => $request->os_version,
+            'display_size' => $request->display_size,
+            'resolution' => $request->resolution,
+            'height' => $request->height,
+            'width' => $request->width,
+            'thickness' => $request->thickness,
+            'ram' => $request->ram,
+            'color_id' => $color_id,
+            'brand_id' => $brand_id
+        ]);
+        return redirect('admin')->with('success_message', "Produkt {$smartphone->name} bol úspešne aktualizovaný!");
     }
 
     /**
@@ -242,6 +312,11 @@ class SmartphoneController extends Controller
      */
     public function destroy(Request $request, Smartphone $smartphone)
     {
+        foreach ($smartphone->images()->get() as $image) {
+            if (File::exists(public_path($image->source))) {
+                File::delete(public_path($image->source));
+            }
+        }
         $smartphone->delete();
         return back()->with('success_message', "Produkt {$smartphone->name} bol úspešne vymazaný!");
     }

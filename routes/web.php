@@ -54,7 +54,7 @@ Route::get('/smartphones/create', [SmartphoneController::class, 'create'])->name
 Route::post('/smartphones/add', [SmartphoneController::class, 'store'])->name('smartphones.create');
 Route::get('/smartphones/{smartphone}/', [SmartphoneController::class, 'show'])->name('details');
 Route::get('/smartphones/{smartphone}/edit/', [SmartphoneController::class, 'edit'])->name('smartphones.edit');
-Route::put('/smartphones/{smartphone}', [SmartphoneController::class, 'update']);
+Route::put('/smartphones/{smartphone}', [SmartphoneController::class, 'update'])->name('smartphones.update');
 Route::delete('/smartphones/{smartphone}/', [SmartphoneController::class, 'destroy'])->name('smartphones.delete');
 
 
