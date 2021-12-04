@@ -2,6 +2,7 @@
 <html lang="sk">
 <head>
     @include('layout.partials.head', ['title' => "Detaily produktu" ])
+    <link href="{{ asset('css/quantity-selector.css') }}" rel="stylesheet" type="text/css">
 </head>
 
 <body>

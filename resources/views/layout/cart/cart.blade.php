@@ -2,6 +2,7 @@
 <html lang="sk">
 <head>
     @include('layout.partials.head', ['title' => "Nákupný košík" ])
+    <link href="{{ asset('css/quantity-selector.css') }}" rel="stylesheet" type="text/css">
 </head>
 
 <body class="font-body text-gray-600 bg-gray-100 flex flex-col h-screen justify-between">
