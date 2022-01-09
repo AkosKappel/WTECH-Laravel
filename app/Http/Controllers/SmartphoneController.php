@@ -8,6 +8,7 @@ use App\Models\Color;
 use App\Models\Image;
 use App\Models\Smartphone;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic as InterventionImage;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -247,9 +248,7 @@ class SmartphoneController extends Controller
      */
     public function update(Request $request, Smartphone $smartphone)
     {
-        $count = 0;
         foreach ($smartphone->images()->get() as $image) {
-            $count++;
             if ($request->has(str_replace('.', '_', $image->source))) {
                 $image_model = Image::query()->firstWhere('source', $image->source);
                 $image_model->delete();
@@ -259,6 +258,7 @@ class SmartphoneController extends Controller
             }
         }
 
+        $count = DB::table('images')->max('id') + 1;
         if ($request->images != null) {
             foreach ($request->images as $key => $image) {
                 $extension = $image->extension();
