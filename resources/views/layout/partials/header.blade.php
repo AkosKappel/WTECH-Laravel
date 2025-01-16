@@ -3,7 +3,7 @@
         <div class="flex flex-row">
             <nav class="flex flex-auto space-x-2 lg:space-x-7 items-center">
                 <div>
-                    <a href="/" class="flex items-center py-2 px-2">
+                    <a href="{{ route('home') }}" class="flex items-center py-2 px-2">
                         <!-- https://pixabay.com/illustrations/smartphone-phone-android-ios-1818253/ -->
                         <img src="{{ url('/images/logo.png') }}" alt="logo" class="w-8 sm:w-12 mr-10 text-white"/>
                     </a>
@@ -46,7 +46,7 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit">
-                                <img src="{{ url('/images/logout-icon.png') }}" alt="Odhlásenie" class="w-8 mx-4"/>
+                                <img src="{{ url('/images/logout-icon.png') }}" title="Odhlásiť sa" alt="Odhlásenie" class="w-8 mx-4"/>
                             </button>
                         </form>
                     </div>

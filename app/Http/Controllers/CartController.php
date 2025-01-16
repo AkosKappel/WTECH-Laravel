@@ -48,7 +48,7 @@ class CartController extends Controller
             ]
         )->associate('App\Smartphone');
 
-        return redirect('cart')->with('success_message', 'Produkt bol úspešne pridaný do košíka!');
+        return redirect('/wtech/cart')->with('success_message', 'Produkt bol úspešne pridaný do košíka!');
     }
 
     /**

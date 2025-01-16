@@ -16,8 +16,8 @@ class UserSeeder extends Seeder
     public function run()
     {
         $admin = new User([
-            'email' => 'admin@eshop.sk',
-            'password' => Hash::make('123456789'),
+            'email' => env('ADMIN_EMAIL', 'admin@eshop.sk'),
+            'password' => Hash::make(env('ADMIN_PASSWORD', '123456789')),
             'role' => 'admin',
         ]);
         $admin->save();

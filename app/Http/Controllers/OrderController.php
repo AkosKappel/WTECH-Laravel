@@ -180,7 +180,7 @@ class OrderController extends Controller
         if (!Auth::check() && $request->create_account) {
             return redirect('/finishRegister');
         }
-        return redirect('/');
+        return redirect('/wtech');
     }
 
     /** Display the specified resource.

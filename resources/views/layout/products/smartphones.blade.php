@@ -87,6 +87,13 @@
                                 Zobraziť výsledky
                             </button>
                         </div>
+
+                        <!-- reset filters button -->
+                        <div class="p-10 flex justify-center">
+                            <a href="{{ route('smartphones') }}" class="bg-gray-600 text-white font-bold text-sm px-4 py-2 rounded-full shadow hover:shadow-lg">
+                                Vymazat filtre
+                            </a>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -105,7 +112,7 @@
 
                 @if(count($smartphones) > 0)
                     @foreach($smartphones as $smartphone)
-                        <a href="{{ url('smartphones/' . $smartphone->id) }}">
+                        <a href="{{ route('details', $smartphone->id) }}">
                             <section class="bg-white border-gray-200 rounded max-w-sm overflow-hidden relative shadow-md hover:shadow-lg">
                                 @if($smartphone->images->first())
                                     <img src="{{ $smartphone->images->first()->source }}" alt="{{ $smartphone->images->first()->name }}" class="h-64 w-full object-cover" />
