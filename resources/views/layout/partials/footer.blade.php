@@ -10,19 +10,19 @@
             <div class="hidden sm:flex justify-self-center col-span-12 sm:col-span-6 text-center self-center">
                 <div class="bg-white sm:rounded-md p-2">
                     <a href="#">
-                        <img src="{{ url('/images/yt.png') }}" alt="Youtube" class="w-6 inline mx-1 md:mx-4"/>
+                        <img src="{{ url('wtech/images/yt.png') }}" alt="Youtube" class="w-6 inline mx-1 md:mx-4"/>
                     </a>
                     <a href="#">
-                        <img src="{{ url('/images/linkedin.png') }}" alt="LinkedIn" class="w-6 inline mx-1 md:mx-4"/>
+                        <img src="{{ url('wtech/images/linkedin.png') }}" alt="LinkedIn" class="w-6 inline mx-1 md:mx-4"/>
                     </a>
                     <a href="#">
-                        <img src="{{ url('/images/fb.png') }}" alt="Facebook" class="w-6 inline mx-1 md:mx-4"/>
+                        <img src="{{ url('wtech/images/fb.png') }}" alt="Facebook" class="w-6 inline mx-1 md:mx-4"/>
                     </a>
                     <a href="#">
-                        <img src="{{ url('/images/ig.png') }}" alt="Instagram" class="w-6 inline mx-1 md:mx-4"/>
+                        <img src="{{ url('wtech/images/ig.png') }}" alt="Instagram" class="w-6 inline mx-1 md:mx-4"/>
                     </a>
                     <a href="#">
-                        <img src="{{ url('/images/twitter.png') }}" alt="Twitter" class="w-6 inline mx-1 md:mx-4"/>
+                        <img src="{{ url('wtech/images/twitter.png') }}" alt="Twitter" class="w-6 inline mx-1 md:mx-4"/>
                     </a>
                 </div>
             </div>
@@ -42,4 +42,4 @@
         </div>
     </div>
 </footer>
-<script type="text/javascript" src="{{ asset('/js/nav.js') }}"></script>
+<script type="text/javascript" src="{{ url('wtech/js/nav.js') }}"></script>

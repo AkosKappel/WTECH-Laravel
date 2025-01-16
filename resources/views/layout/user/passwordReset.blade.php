@@ -12,7 +12,7 @@
                 <div class="mb-4 mt-8 text-center relative">
                     <input class="shadow appearance-none border rounded w-full sm:w-4/5 py-2 px-3 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" id="email" type="text" placeholder="Email" />
                     <div class="absolute right-2 sm:right-10 top-1">
-                        <img src="{{ url('/images/email.png') }}" alt="Email" class="w-7 mr-2" />
+                        <img src="{{ url('wtech/images/email.png') }}" alt="Email" class="w-7 mr-2" />
                     </div>
                 </div>
                 <p class="text-center">Zadajte svoj prihlasovací email<br />Na túto adresu obdržíte nové heslo</p>

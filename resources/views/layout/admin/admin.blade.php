@@ -47,7 +47,7 @@
                                 {{ method_field('DELETE') }}
                                 {{ csrf_field() }}
                                 <button class="bg-red-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-3 py-1 h-8 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150" type="submit">
-                                    <img src="{{ url('/images/delete.png')}}" alt="edit" class="w-5"/>
+                                    <img src="{{ url('wtech/images/delete.png')}}" alt="edit" class="w-5"/>
                                 </button>
                             </form>
                             @endcan
@@ -56,7 +56,7 @@
                             @can('update', $product)
                             <form action="{{ route('smartphones.edit', [$product->id]) }}" method="GET">
                                 <button class="bg-yellow-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-3 py-1 h-8 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150" type="submit">
-                                    <img src="{{ url('/images/edit.png')}}" alt="edit" class="w-5"/>
+                                    <img src="{{ url('wtech/images/edit.png')}}" alt="edit" class="w-5"/>
                                 </button>
                             </form>
                             @endcan

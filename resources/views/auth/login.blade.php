@@ -11,14 +11,13 @@
                     @csrf
 
                     <h1 class="text-3xl font-medium text-center">Prihlásenie</h1>
-
                     <!-- Input fields: email, password -->
                     <div class="mb-4 mt-8 text-center relative">
                         <label for="email"></label>
                         <input id="email" type="email" name="email" :value="old('email')" placeholder="Email" required autofocus
                                class="shadow appearance-none border rounded w-full sm:w-4/5 py-2 px-3 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" />
                         <div class="absolute right-2 sm:right-10 top-1">
-                            <img src="{{ url('/images/email.png') }}" alt="Email" class="w-7 mr-2" />
+                            <img src="{{ url('wtech/images/email.png') }}" alt="Email" class="w-7 mr-2" />
                         </div>
                     </div>
                     <div class="text-center relative">
@@ -26,7 +25,7 @@
                         <input class="shadow appearance-none border rounded w-full sm:w-4/5 py-2 px-3 text-gray-700 mb-3 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full"
                                name="password" id="password" required autocomplete="current-password" type="password" placeholder="Heslo" />
                         <div class="absolute right-2 sm:right-10 top-1">
-                            <img src="{{ url('/images/password.png') }}" alt="Heslo" class="w-7 mr-2" />
+                            <img src="{{ url('wtech/images/password.png') }}" alt="Heslo" class="w-7 mr-2" />
                         </div>
                     </div>
 

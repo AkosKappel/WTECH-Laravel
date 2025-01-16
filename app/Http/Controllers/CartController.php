@@ -80,7 +80,7 @@ class CartController extends Controller
     public function update(Request $request, $rowId)
     {
         Cart::update($rowId, $request->product_quantity);
-        return redirect('cart');
+        return redirect('wtech/cart');
     }
 
     /**

@@ -2,7 +2,7 @@
 <html lang="sk">
 <head>
     @include('layout.partials.head', ['title' => "Detaily produktu" ])
-    <link href="{{ asset('css/quantity-selector.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url('wtech/css/quantity-selector.css') }}" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -16,29 +16,31 @@
                 <div class="flex justify-evenly">
                 @if($smartphone->images->first())
                     <div class="flex justify-center max-w-max-sm max-h-screen max-w-2xl overflow-hidden shadow-lg">
-                        <img alt="{{ url($smartphone->images->first()->name) }}" src="{{ url($smartphone->images->first()->source) }}"
+                        <img alt="{{ $smartphone->images->first()->name }}" src="{{ url('wtech/' . $smartphone->images->first()->source) }}"
                              id="mainImage" class="rounded border-2 shadow-lg border-gray-300 object-cover h-96 w-full" />
                     </div>
                     <div hidden>
                         @foreach($smartphone->images as $image)
-                            <img src="{{ $image->source }}" alt="{{ $image->name }}" class="productImage">
+                            <img src="{{ url('wtech/' . $image->source) }}" alt="{{ $image->name }}" class="productImage">
                         @endforeach
                     </div>
                 @else
                     <div class="flex justify-center max-w-max-sm max-h-screen max-w-2xl overflow-hidden shadow-lg">
-                        <img alt="missing product image" src="{{ asset('images/no_img_available.jpg') }}"
+                        <img alt="missing product image" src="{{ url('wtech/images/no_img_available.jpg') }}"
                              id="mainImage" class="rounded border-2 shadow-lg border-gray-300 object-cover h-96 w-full" />
                     </div>
                 @endif
                 </div>
-                <div class="flex justify-evenly">
-                    <button id="prev-img-btn" class="rounded-full h-12 w-12 flex items-center justify-center bg-blue-500 hover:bg-blue-800 text-gray-100 mt-4">
-                        <span class="text-xl font-bold"><</span>
-                    </button>
-                    <button id="next-img-btn" class="rounded-full h-12 w-12 flex items-center justify-center bg-blue-500 hover:bg-blue-800 text-gray-100 mt-4">
-                        <span class="text-xl font-bold">></span>
-                    </button>
-                </div>
+                @if($smartphone->images->count() > 1)
+                    <div class="flex justify-evenly">
+                        <button id="prev-img-btn" class="rounded-full h-12 w-12 flex items-center justify-center bg-blue-500 hover:bg-blue-800 text-gray-100 mt-4">
+                            <span class="text-xl font-bold"><</span>
+                        </button>
+                        <button id="next-img-btn" class="rounded-full h-12 w-12 flex items-center justify-center bg-blue-500 hover:bg-blue-800 text-gray-100 mt-4">
+                            <span class="text-xl font-bold">></span>
+                        </button>
+                    </div>
+                @endif
             </section>
 
             <!-- product name, quantity, add to cart button, ... -->
@@ -184,7 +186,7 @@
     </div>
 </main>
 
-<script src="{{ asset('js/details.js') }}" type="text/javascript"></script>
+<script src="{{ url('wtech/js/details.js') }}" type="text/javascript"></script>
 
 @include('layout.partials.footer')
 </body>

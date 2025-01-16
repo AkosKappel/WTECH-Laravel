@@ -5,7 +5,7 @@
                 <div>
                     <a href="{{ route('home') }}" class="flex items-center py-2 px-2">
                         <!-- https://pixabay.com/illustrations/smartphone-phone-android-ios-1818253/ -->
-                        <img src="{{ url('/images/logo.png') }}" alt="logo" class="w-8 sm:w-12 mr-10 text-white"/>
+                        <img src="{{ url('wtech/images/logo.png') }}" alt="logo" class="w-8 sm:w-12 mr-10 text-white"/>
                     </a>
                 </div>
                 <div class="hidden md:flex items-center divide-x-2 divide-white space-x-2">
@@ -29,7 +29,7 @@
                             <input type="search" name="search" placeholder="Tvoj vysnívaný smartfón" autocomplete="off"
                                    class="w-64 pl-5 pr-10 py-2 bg-white text-black placeholder-gray-600 focus:outline-none rounded-full"/>
                             <button type="submit" class="absolute inset-y-0 right-0 flex items-center">
-                                <img src="{{ url('/images/search.png')}}" alt="Vyhľadávanie" class="w-8 mr-2"/>
+                                <img src="{{ url('wtech/images/search.png')}}" alt="Vyhľadávanie" class="w-8 mr-2"/>
                             </button>
                         </div>
                     </form>
@@ -38,7 +38,7 @@
                 @if (Auth::check())
                     <div class="bg-white text-white font-bold py-1 px-2 focus:outline-none focus:shadow-outline rounded-full space-between inline-flex items-center">
                         <a href="{{ route('profile') }}" class="inline-flex">
-                            <img src="{{ url('/images/person.png') }}" alt="Profil" class="w-8 mx-4"/>
+                            <img src="{{ url('wtech/images/person.png') }}" alt="Profil" class="w-8 mx-4"/>
                             <span class="hidden lg:inline text-black mt-1">
                                 {{ Auth::user()->email }}
                             </span>
@@ -46,7 +46,7 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit">
-                                <img src="{{ url('/images/logout-icon.png') }}" title="Odhlásiť sa" alt="Odhlásenie" class="w-8 mx-4"/>
+                                <img src="{{ url('wtech/images/logout-icon.png') }}" title="Odhlásiť sa" alt="Odhlásenie" class="w-8 mx-4"/>
                             </button>
                         </form>
                     </div>
@@ -54,7 +54,7 @@
                     <form method="GET" action="{{ route('login') }}">
                         @csrf
                         <button type="submit" class="bg-white text-white font-bold py-1 pl-2 lg:pr-10 focus:outline-none focus:shadow-outline rounded-full inline-flex items-center">
-                            <img src="{{ url('/images/person.png') }}" alt="Prihlásenie" class="w-8 mr-2 lg:mr-6"/>
+                            <img src="{{ url('wtech/images/person.png') }}" alt="Prihlásenie" class="w-8 mr-2 lg:mr-6"/>
                             <span class="hidden lg:inline text-black">Prihlásiť sa</span>
                         </button>
                     </form>
@@ -62,7 +62,7 @@
 
                 <a href="{{ route('cart') }}">
                     <div class="w-14 py-1 bg-white text-white font-bold rounded focus:outline-none focus:shadow-outline rounded-full inline-flex items-center">
-                        <img src="{{ url('/images/cart.png') }}" alt="Nákupný košík" class="w-8 ml-3"/>
+                        <img src="{{ url('wtech/images/cart.png') }}" alt="Nákupný košík" class="w-8 ml-3"/>
                         <div class="relative ml-2">
                         @if(Cart::count() > 0)
                             <span class="absolute right-1 inline-flex items-center justify-center px-1 w-5 h-5 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full bottom-0">
@@ -75,7 +75,7 @@
             </div>
             <div class="flex flex-end md:hidden items-center">
                 <button class="outline-none mobile-menu-button">
-                    <img src="{{ url('/images/menu.png') }}" alt="Navigácia" class="w-6 inline mx-1 md:mx-4"/>
+                    <img src="{{ url('wtech/images/menu.png') }}" alt="Navigácia" class="w-6 inline mx-1 md:mx-4"/>
                 </button>
             </div>
         </div>

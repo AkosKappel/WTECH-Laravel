@@ -115,9 +115,9 @@
                         <a href="{{ route('details', $smartphone->id) }}">
                             <section class="bg-white border-gray-200 rounded max-w-sm overflow-hidden relative shadow-md hover:shadow-lg">
                                 @if($smartphone->images->first())
-                                    <img src="{{ $smartphone->images->first()->source }}" alt="{{ $smartphone->images->first()->name }}" class="h-64 w-full object-cover" />
+                                    <img src="{{ url('wtech/' . $smartphone->images->first()->source) }}" alt="{{ $smartphone->images->first()->name }}" class="h-64 w-full object-cover" />
                                 @else
-                                    <img src="{{ asset('images/no_img_available.jpg') }}" alt="image does not exist" class="h-64 w-full object-cover" />
+                                    <img src="{{ url('wtech/images/no_img_available.jpg') }}" alt="image does not exist" class="h-64 w-full object-cover" />
                                 @endif
                                 <div class="m-4 text-center">
                                     <h2 class="font-bold">{{ $smartphone->name }}</h2>
@@ -143,7 +143,7 @@
     </div>
 </div>
 
-<script src="{{ url('/js/smartphones.js') }}" type="text/javascript"></script>
+<script src="{{ url('wtech/js/smartphones.js') }}" type="text/javascript"></script>
 
 @include('layout.partials.footer')
 </body>

@@ -2,7 +2,7 @@
 <html lang="sk">
 <head>
     @include('layout.partials.head', ['title' => "Nákupný košík" ])
-    <link href="{{ asset('css/quantity-selector.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url('wtech/css/quantity-selector.css') }}" rel="stylesheet" type="text/css">
 </head>
 
 <body class="font-body text-gray-600 bg-gray-100 flex flex-col h-screen justify-between">
@@ -40,7 +40,7 @@
             <div class="col-span-12 md:col-span-5 text-center md:text-left">
                 <div class="grid grid-cols-12 items-center">
                     <div class="col-span-12 md:col-span-7 xl:col-span-5 text-center">
-                        <img src="{{ $product->options->image_source }}" alt="{{ $product->options->image_name }}" class="h-36 inline-block" />
+                        <img src="{{ url('wtech/' . $product->options->image_source) }}" alt="{{ $product->options->image_name }}" class="h-36 inline-block" />
                     </div>
                     <div class="col-span-12 md:col-span-5 xl:col-span-7">
                         <p class="inline text-lg font-semibold">{{ $product->name }}</p>
@@ -60,7 +60,7 @@
                     <button type="button" data-action="decrement" onClick="decrement({{$loop->index}})" class="bg-blue-500 text-gray-100 hover:text-gray-100 hover:bg-blue-800 h-full w-20 rounded-l cursor-pointer outline-none">
                         <span class="text-2xl font-bold">−</span>
                     </button>
-                    <input type="number" id={{ 'product-' . $loop->index . '-quantity' }} name="product_quantity" max="{{ $product->options->max_quantity }}" value="{{ $product->qty }}" min="1"
+                    <input type="number" id="{{ 'product-' . $loop->index . '-quantity' }}" name="product_quantity" max="{{ $product->options->max_quantity }}" value="{{ $product->qty }}" min="1"
                            class="pl-1 md:pl-2 outline-none text-center w-full bg-blue-500 font-bold text-lg flex items-center text-gray-100" />
                     <button type="button" data-action="increment" onClick="increment({{$loop->index}})" class="bg-blue-500 text-gray-100 hover:text-gray-100 hover:bg-blue-800 h-full w-20 rounded-r cursor-pointer">
                         <span class="text-2xl font-bold">+</span>
@@ -113,7 +113,7 @@
     </div>
 </main>
 
-<script src="{{ asset('js/cart.js') }}" type="text/javascript"></script>
+<script src="{{ url('wtech/js/cart.js') }}" type="text/javascript"></script>
 @include('layout.partials.footer')
 </body>
 </html>

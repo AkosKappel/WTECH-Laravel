@@ -35,7 +35,12 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         if (Auth::check()) {
-            Cart::restore(Auth::user()->email);
+            try {
+                Cart::restore(Auth::user()->email);
+            } catch (\Exception $e) {
+                \Log::error('Failed to restore cart: ' . $e->getMessage());
+                Cart::destroy();
+            }
         }
         return redirect()->intended(RouteServiceProvider::HOME);
     }

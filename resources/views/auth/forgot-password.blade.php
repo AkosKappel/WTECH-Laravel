@@ -16,7 +16,7 @@
                                id="email" type="text" placeholder="Email" />
 
                         <div class="absolute right-2 sm:right-10 top-1">
-                            <img src="{{ url('/images/email.png') }}" alt="Email" class="w-7 mr-2" />
+                            <img src="{{ url('wtech/images/email.png') }}" alt="Email" class="w-7 mr-2" />
                         </div>
                     </div>
 

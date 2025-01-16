@@ -114,7 +114,7 @@ class OrderController extends Controller
             ]);
         }
 
-        return redirect('delivery');
+        return redirect('wtech/delivery');
     }
 
     /**

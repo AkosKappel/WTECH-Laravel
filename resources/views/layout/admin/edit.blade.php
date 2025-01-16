@@ -122,7 +122,7 @@
             @foreach($smartphone->images as $image)
                 <div class="grid grid-cols-12 m-2">
                     <div class="col-span-12 md:col-span-6">
-                        <img src="{{ $image->source }}" alt="{{ $image->name }}" class="w-36 inline-block" />
+                        <img src="{{ url('wtech/' . $image->source) }}" alt="{{ $image->name }}" class="w-36 inline-block" />
                     </div>
                     <div class="col-span-12 md:col-span-6 self-center">
                         {{ Form::checkbox($image->source, $image->source, false) }}

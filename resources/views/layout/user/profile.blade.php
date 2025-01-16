@@ -16,7 +16,7 @@
                 <div class="grid grid-cols-12">
                     <div class="col-span-12 md:col-span-6 md:mr-5">
                         <div class="text-center">
-                            <img src="{{ url('/images/person.png') }}" alt="Osoba" class="w-7 h-7 mb-3 inline" />
+                            <img src="{{ url('wtech/images/person.png') }}" alt="Osoba" class="w-7 h-7 mb-3 inline" />
                             <h1 class="text-3xl font-medium text-center ml-2 inline">Osobné údaje</h1>
                         </div>
                         <div class="mb-4 mt-8 text-left relative">
@@ -68,7 +68,7 @@
                     <!-- Delivery data -->
                     <div class="col-span-12 md:col-span-6 md:ml-5">
                         <div class="text-center">
-                            <img src="{{ url('/images/truck.png') }}" alt="Osoba" class="w-7 h-7 mb-3 inline" />
+                            <img src="{{ url('wtech/images/truck.png') }}" alt="Osoba" class="w-7 h-7 mb-3 inline" />
                             <h1 class="text-3xl font-medium text-center ml-2 inline">Dodacie údaje</h1>
                         </div>
                         <div class="mb-4 mt-8 text-left relative">
