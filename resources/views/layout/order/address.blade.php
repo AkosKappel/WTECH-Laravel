@@ -33,40 +33,52 @@
                         <div class="col-span-1">
                             <label class="text-base" for="name">Meno:</label>
                         </div>
-                        <div class="md:w-2/3 col-span-2 flex justify-en">
-                            <input value="{{Auth::check() && Auth::user()->first_name ? Auth::user()->first_name : Session::get('first_name')}}"
+                        <div class="md:w-2/3 col-span-2">
+                            <input value="{{ old('first_name', Auth::check() ? Auth::user()->first_name : Session::get('first_name')) }}"
                                    id="name" type="text" placeholder="Meno" name="first_name"
-                                   class="text-base shadow appearance-none border rounded -mt-1 sm:-mt-2 w-full py-2 ml-2 sm:ml-0 px-3 sm:mr-2 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" />
+                                   class="text-base shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full @error('first_name') border-red-500 @enderror" />
+                            @error('first_name')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
                     <div class="my-6 text-left grid grid-cols-3">
                         <div class="col-span-1">
                             <label class="text-sm sm:text-base" for="surname">Priezvisko:</label>
                         </div>
-                        <div class="md:w-2/3 col-span-2 flex justify-end">
-                            <input value="{{Auth::check() && Auth::user()->last_name ? Auth::user()->last_name : Session::get('last_name') }}"
+                        <div class="md:w-2/3 col-span-2">
+                            <input value="{{ old('last_name', Auth::check() ? Auth::user()->last_name : Session::get('last_name')) }}"
                                    id="surname" type="text" placeholder="Priezvisko" name="last_name"
-                                   class="text-base shadow appearance-none border rounded -mt-1 sm:-mt-2 w-full py-2 ml-2 sm:ml-0 px-3 sm:mr-2 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" />
+                                   class="text-base shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full @error('last_name') border-red-500 @enderror" />
+                            @error('last_name')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
                     <div class="my-6 text-left grid grid-cols-3">
                         <div class="col-span-1">
                             <label class="text-sm sm:text-base" for="phone">Telefón:</label>
                         </div>
-                        <div class="md:w-2/3 col-span-2 flex justify-end">
-                            <input value="{{Auth::check() && Auth::user()->phone_number ? Auth::user()->phone_number : Session::get('phone_number') }}"
+                        <div class="md:w-2/3 col-span-2">
+                            <input value="{{ old('phone_number', Auth::check() ? Auth::user()->phone_number : Session::get('phone_number')) }}"
                                    id="phone" type="text" placeholder="Telefón" name="phone_number"
-                                   class="text-base shadow appearance-none border rounded -mt-1 sm:-mt-2 w-full py-2 ml-2 sm:ml-0 px-3 sm:mr-2 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" />
+                                   class="text-base shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full @error('phone_number') border-red-500 @enderror" />
+                            @error('phone_number')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
                     <div class="my-6 text-left grid grid-cols-3">
                         <div class="col-span-1">
                             <label class="text-sm sm:text-base" for="email">Email:</label>
                         </div>
-                        <div class="md:w-2/3 col-span-2 flex justify-end">
-                            <input value="{{Auth::check() && Auth::user()->email ? Auth::user()->email : Session::get('email') }}"
-                                   id="email" type="text" placeholder="Email" name="email"
-                                   class="text-base shadow appearance-none border rounded -mt-1 sm:-mt-2 w-full py-2 ml-2 sm:ml-0 px-3 sm:mr-2 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" />
+                        <div class="md:w-2/3 col-span-2">
+                            <input value="{{ old('email', Auth::check() ? Auth::user()->email : Session::get('email')) }}"
+                                   id="email" type="email" placeholder="Email" name="email"
+                                   class="text-base shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full @error('email') border-red-500 @enderror" />
+                            @error('email')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -76,58 +88,61 @@
                         <div class="col-span-1">
                             <label class="text-sm sm:text-base" for="street">Ulica:</label>
                         </div>
-                        <div class="md:w-2/3 col-span-2 flex justify-end">
-                            <input value="{{Auth::check() && Auth::user()->street ? Auth::user()->street : Session::get('street') }}"
+                        <div class="md:w-2/3 col-span-2">
+                            <input value="{{ old('street', Auth::check() ? Auth::user()->street : Session::get('street')) }}"
                                    id="street" type="text" placeholder="Ulica" name="street"
-                                   class="text-base shadow appearance-none border rounded w-full -mt-1 sm:-mt-2 py-2 ml-2 sm:ml-0 px-3 sm:mr-2 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" />
+                                   class="text-base shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full @error('street') border-red-500 @enderror" />
+                            @error('street')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
                     <div class="my-6 text-left grid grid-cols-3">
                         <div class="col-span-1">
                             <label class="text-sm sm:text-base" for="streetNumber">Popisné číslo:</label>
                         </div>
-                        <div class="md:w-2/3 col-span-2 flex justify-end">
-                            <input value="{{Auth::check() && Auth::user()->descriptive_number ? Auth::user()->descriptive_number : Session::get('descriptive_number') }}"
+                        <div class="md:w-2/3 col-span-2">
+                            <input value="{{ old('descriptive_number', Auth::check() ? Auth::user()->descriptive_number : Session::get('descriptive_number')) }}"
                                    id="streetNumber" type="text" placeholder="Popisné číslo" name="descriptive_number"
-                                   class="text-base shadow appearance-none sm:mr-2 border rounded w-full ml-2 sm:ml-0 py-2 -mt-1 sm:-mt-2 px-3 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" />
+                                   class="text-base shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full @error('descriptive_number') border-red-500 @enderror" />
+                            @error('descriptive_number')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
                     <div class="my-6 text-left grid grid-cols-3">
                         <div class="col-span-1">
                             <label class="text-sm sm:text-base" for="city">Mesto:</label>
                         </div>
-                        <div class="md:w-2/3 col-span-2 flex justify-end">
-                            <input value="{{Auth::check() && Auth::user()->city ? Auth::user()->city : Session::get('city') }}"
+                        <div class="md:w-2/3 col-span-2">
+                            <input value="{{ old('city', Auth::check() ? Auth::user()->city : Session::get('city')) }}"
                                    id="city" type="text" placeholder="Mesto" name="city"
-                                   class="text-base shadow sm:mr-2 appearance-none border rounded ml-2 sm:ml-0 w-full py-2 px-3 text-gray-700 -mt-1 sm:-mt-2 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" />
+                                   class="text-base shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full @error('city') border-red-500 @enderror" />
+                            @error('city')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
                     <div class="my-6 text-left grid grid-cols-3">
                         <div class="col-span-1">
-                            <label class="text-sm sm:text-base" for="country">Krajina</label>
+                            <label class="text-sm sm:text-base" for="country">Krajina:</label>
                         </div>
-                        <div class="md:w-2/3 col-span-2 flex justify-end">
-                            <input value="{{Auth::check() && Auth::user()->country ? Auth::user()->country : Session::get('country') }}"
+                        <div class="md:w-2/3 col-span-2">
+                            <input value="{{ old('country', Auth::check() ? Auth::user()->country : Session::get('country')) }}"
                                    id="country" type="text" placeholder="Krajina" name="country"
-                                   class="text-base shadow appearance-none sm:mr-2 border rounded w-full ml-2 sm:ml-0 py-2 -mt-1 sm:-mt-2 px-3 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full" />
+                                   class="text-base shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full @error('country') border-red-500 @enderror" />
+                            @error('country')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
                 </div>
             </div>
+
             @if (Session::has('message'))
                 <div class="text-center my-4 text-green-600">{{ Session::get('message') }}</div>
             @endif
 
-            <!-- Errors -->
-            @if ($errors->any())
-                <div class="text-center my-4 text-red-600">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
             <!-- buttons -->
             <div class="grid lg:grid-cols-2 grid-cols-1 col-gap-32">
                 <div class="col-span-1 flex justify-center items-end lg:h-64">
