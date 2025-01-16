@@ -10,7 +10,7 @@
                 </div>
                 <div class="hidden md:flex items-center divide-x-2 divide-white space-x-2">
                     <div>
-                        <a href="#" class="text-white mr-2 font-semibold">Kontakt</a>
+                        <a href="{{ route('smartphones') }}" class="text-white mr-2 font-semibold">Produkty</a>
                     </div>
                     <div class="pl-3">
                         <a href="#" class="text-white mr-2 font-semibold">Obchodné podmienky</a>
