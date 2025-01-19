@@ -2,10 +2,13 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             {{-- Logo & Primary Navigation --}}
-            <div class="flex">
+            <div class="flex items-center">
                 <div class="flex-shrink-0 flex items-center">
                     <a href="{{ route('home') }}" class="flex items-center" aria-label="{{ __('Home') }}">
                         <img src="{{ url('wtech/images/logo.png') }}" alt="{{ __('Logo') }}" class="h-8 w-auto hover:opacity-90 transition-opacity"/>
+                        <span class="ml-3 text-3xl font-bold italic text-white tracking-tight hidden sm:block">
+                            SmartTech
+                        </span>
                     </a>
                 </div>
                 
@@ -130,3 +133,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
