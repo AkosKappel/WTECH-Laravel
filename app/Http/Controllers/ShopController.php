@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Smartphone;
+use App\Models\Brand;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -19,9 +20,11 @@ class ShopController extends Controller
     public function index(Request $request)
     {
         $recommendedSmartphones = Smartphone::inRandomOrder()->take(3)->get();
+        $topBrands = Brand::inRandomOrder()->take(6)->get();
 
         return view('layout/app', [
             'smartphones' => $recommendedSmartphones,
+            'brands' => $topBrands,
         ]);
     }
 }

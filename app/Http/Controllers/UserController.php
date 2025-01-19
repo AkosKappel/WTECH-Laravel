@@ -97,9 +97,9 @@ class UserController extends Controller
             'country' => $request->country,
         ]);
 
-        $request->session()->flash('message', 'Zmeny boli úspešne uložené.');
+        $request->session()->flash('message', 'Changes saved.');
 
-        return redirect('profile');
+        return redirect('wtech/profile');
     }
 
     /**

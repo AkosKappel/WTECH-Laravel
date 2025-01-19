@@ -48,7 +48,7 @@ class CartController extends Controller
             ]
         )->associate('App\Smartphone');
 
-        return redirect('/wtech/cart')->with('success_message', 'Produkt bol úspešne pridaný do košíka!');
+        return redirect('/wtech/cart')->with('success_message', 'Product was added to cart!');
     }
 
     /**
@@ -91,6 +91,6 @@ class CartController extends Controller
     public function destroy($id)
     {
         Cart::remove($id);
-        return back()->with('success_message', 'Produkt bol úspešne odstránený z košíka!');
+        return back()->with('success_message', 'Product was removed from cart!');
     }
 }

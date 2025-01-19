@@ -127,7 +127,7 @@ class OrderController extends Controller
     {
         $request->validate(['transport' => 'required']);
         $request->session()->put('delivery', $request->transport);
-        return redirect('payment');
+        return redirect('wtech/payment');
     }
 
     /**
@@ -180,7 +180,7 @@ class OrderController extends Controller
         if (!Auth::check() && $request->create_account) {
             return redirect('/finishRegister');
         }
-        return redirect('/wtech');
+        return redirect('/wtech')->with('success_message', 'Order was created!');
     }
 
     /** Display the specified resource.

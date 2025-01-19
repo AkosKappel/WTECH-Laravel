@@ -1,54 +1,75 @@
-<!doctype html>
-<html lang="sk">
-    <head>
-        @include('layout.partials.head', ['title' => "Obnova hesla" ])
-    </head>
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    @include('layout.partials.head', ['title' => __('Password Recovery') ])
+</head>
 
-    <body class="font-body text-gray-600 bg-gray-100">
-        <main class="flex h-screen">
-            <div class="w-10/12 sm:w-full max-w-md mx-auto m-auto">
+<body class="font-sans bg-gradient-to-br from-indigo-50 to-purple-50 text-gray-900">
+    <main class="min-h-screen flex items-center justify-center p-4">
+        <div class="w-full max-w-md">
+            <div class="text-center mb-8">
+                <a href="{{ route('home') }}" class="inline-block">
+                    <img src="{{ url('wtech/images/logo.png') }}" alt="{{ __('Logo') }}" class="h-12 mx-auto"/>
+                </a>
+            </div>
 
-                <form method="GET" action="{{--  --}}" class="bg-white shadow-2xl rounded-2xl border px-8 pt-6 pb-8 mb-4 w-full">
-                    <h1 class="text-3xl font-medium text-center">Obnova hesla</h1>
-                    <div class="mb-4 mt-8 text-center relative">
-                        <label for="email"></label>
-                        <input class="shadow appearance-none border rounded w-full sm:w-4/5 py-2 px-3 text-gray-700 leading-tight focus:border-gray-500 focus:outline-none focus:shadow-outline rounded-full"
-                               id="email" type="text" placeholder="Email" />
+            <form method="GET" action="{{--  --}}" class="bg-white shadow-xl rounded-2xl p-8 space-y-6">
+                <h1 class="text-2xl font-bold text-center text-gray-900">
+                    {{ __('Password Recovery') }}
+                </h1>
 
-                        <div class="absolute right-2 sm:right-10 top-1">
-                            <img src="{{ url('wtech/images/email.png') }}" alt="Email" class="w-7 mr-2" />
+                {{-- Email Field --}}
+                <div class="space-y-2">
+                    <label for="email" class="block text-sm font-medium text-gray-700">
+                        {{ __('Email') }}
+                    </label>
+                    <div class="relative">
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email"
+                            class="w-full px-4 py-2 pl-4 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors @error('email') border-red-500 @enderror"
+                            placeholder="{{ __('Enter your email') }}"
+                            required
+                            autocomplete="email"
+                        />
+                        <div class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                            <img src="{{ url('wtech/images/email.png') }}" alt="Email" class="w-6 h-6" />
                         </div>
                     </div>
+                    @error('email')
+                        <p class="text-red-500 text-sm">{{ $message }}</p>
+                    @enderror
+                </div>
 
-                    <!-- Session Status -->
-                    <x-auth-session-status class="text-center my-4 text-red-600" :status="session('status')" />
+                {{-- Session Status --}}
+                <x-auth-session-status class="text-center my-4 text-green-600" :status="session('status')" />
 
-                    <!-- Validation Errors -->
-                    <x-auth-validation-errors class="text-center my-4 text-red-600" :errors="$errors" />
+                {{-- Validation Errors --}}
+                <x-auth-validation-errors class="text-center my-4 text-red-600" :errors="$errors" />
 
-                    <p class="text-center">Zadajte svoj prihlasovací email<br />Na túto adresu obdržíte nové heslo</p>
-                    <div class="flex justify-center mt-5">
-                        <button class="w-4/5 sm:w-3/5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline rounded-full" type="submit">Obnoviť heslo</button>
-                    </div>
-                </form>
+                <p class="text-center text-sm text-gray-600">
+                    {{ __('Enter your registered email address. A password reset link will be sent to your email.') }}
+                </p>
 
-            </div>
-        </main>
-    </body>
-{{--        <form method="POST" action="{{ route('password.email') }}">--}}
-{{--            @csrf--}}
+                {{-- Submit Button --}}
+                <div>
+                    <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                        {{ __('Recover Password') }}
+                    </button>
+                </div>
 
-{{--            <!-- Email Address -->--}}
-{{--            <div>--}}
-{{--                <x-label for="email" :value="__('Email')" />--}}
-
-{{--                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />--}}
-{{--            </div>--}}
-
-{{--            <div class="flex items-center justify-end mt-4">--}}
-{{--                <x-button>--}}
-{{--                    {{ __('Email Password Reset Link') }}--}}
-{{--                </x-button>--}}
-{{--            </div>--}}
-{{--        </form>--}}
+                {{-- Back to Login Link --}}
+                <div class="text-center space-y-4">
+                    <p class="text-sm text-gray-600">
+                        {{ __('Remember your password?') }}
+                    </p>
+                    <a href="{{ route('login') }}" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                        {{ __('Back to Login') }}
+                    </a>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
 </html>

@@ -38,7 +38,6 @@ class PasswordChangeController extends Controller
 
         User::find(Auth()->user()->id)->update(['password' => Hash::make($request->newPassword)]);
 
-//        dd('Password change successfully.');
-        return redirect('profile');
+        return redirect('wtech/profile');
     }
 }

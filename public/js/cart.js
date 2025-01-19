@@ -1,13 +1,21 @@
-const decrement = (index) => {
-    let inputField = document.getElementById(`product-${index}-quantity`);
-    let form = document.getElementById(`quantity-${index}-form`);
-    inputField.value = Math.max(parseInt(inputField.value) - 1, 1);
-    form.submit();
+
+function increment(index) {
+    const input = document.getElementById(`product-${index}-quantity`);
+    const maxQuantity = parseInt(input.getAttribute('max'));
+    const currentValue = parseInt(input.value);
+    
+    if (currentValue < maxQuantity) {
+        input.value = currentValue + 1;
+        document.getElementById(`quantity-${index}-form`).submit();
+    }
 }
 
-const increment = (index) => {
-    let inputField = document.getElementById(`product-${index}-quantity`);
-    let form = document.getElementById(`quantity-${index}-form`);
-    inputField.value = Math.min(parseInt(inputField.value) + 1, inputField.max);
-    form.submit();
+function decrement(index) {
+    const input = document.getElementById(`product-${index}-quantity`);
+    const currentValue = parseInt(input.value);
+    
+    if (currentValue > 1) {
+        input.value = currentValue - 1;
+        document.getElementById(`quantity-${index}-form`).submit();
+    }
 }

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="sk">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     @include('layout.partials.head', ['title' => "Vytvorenie účtu" ])
 </head>

@@ -1,150 +1,187 @@
-<!doctype html>
-<html lang="sk">
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    @include('layout.partials.head', ['title' => "Všetky produkty" ])
+    @include('layout.partials.head', ['title' => __('Smartphones') ])
 </head>
 
-<body>
-@include('layout.partials.header')
+<body class="bg-gray-50">
+    @include('layout.partials.header')
 
-<div class="flex justify-center">
-    <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1">
-
-        <!-- sidebar with filters -->
-        <aside class="col-span-1 mx-10 min-w-min">
-            <div class="my-8 bg-blue-100 text-center">
-
-                <section>
-                    <h2 class="font-bold uppercase px-16 py-4 border-b border-gray-100 bg-gray-700 text-gray-100">Filtrovanie a zoradenie</h2>
-                    <div class="px-4 cursor-pointer md:hidden" id="burger-icon">
-                        <svg class="w-6 h-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
-                            <path d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </div>
-                </section>
-
-                <form method="GET" action="{{ route('smartphones') }}" class="w-full max-w-sm">
-                    <div class="text-sm mt-4 hidden md:block" id="filters">
-
-                        <!-- filter for product price -->
-                        <section class="pb-4">
-                            <span class="text-gray-700 font-bold py-4 px-8 flex justify-start">Cena (€)</span>
-                            <div class="px-12 flex items-center mb-2">
-                                <label class="block text-gray-600 mb-1 md:mb-0 pr-4" for="min-price">Od</label>
-                                <input class="bg-gray-100 appearance-none border-2 border-gray-200 rounded-xl w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                       id="min-price" name="min-price" type="number" min="0" value="{{ $params['min-price'] }}" />
-                            </div>
-                            <div class="px-12 flex items-center mb-2">
-                                <label class="block text-gray-600 mb-1 md:mb-0 pr-4" for="max-price">Do</label>
-                                <input class="bg-gray-100 appearance-none border-2 border-gray-200 rounded-xl w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                       id="max-price" name="max-price" type="number" min="0" value="{{ $params['max-price'] }}" />
-                            </div>
-                        </section>
-
-                        <!-- filter for product brand -->
-                        <section class="pb-4">
-                            <span class="text-gray-700 font-bold py-4 px-8 flex justify-start">Značka</span>
-                            <div class="flex flex-col text-left px-16">
-                            @foreach($params['brands'] as $brand)
-                                <label class="text-lg inline-flex items-center" for="{{ $brand['name'] }}">
-                                    {{ Form::checkbox($brand['name'], $brand['name'], $brand['status'], ['id' => $brand['name'], 'class' => 'form-checkbox h-4 w-4']) }}
-                                    <span class="ml-2">{{ $brand['name'] }}</span>
-                                </label>
-                            @endforeach
-                            </div>
-                        </section>
-
-                        <!-- filter for product color -->
-                        <section>
-                            <span class="text-gray-700 font-bold py-4 px-8 flex justify-start">Farba</span>
-                            <div class="flex flex-col text-left px-16">
-                            @foreach($params['colors'] as $color)
-                                <label class="text-lg inline-flex items-center" for="{{ $color['name-en'] }}">
-                                    {{ Form::checkbox($color['name-en'], $color['name-en'], $color['status'], ['id' => $color['name-en'], 'class' => 'form-checkbox h-4 w-4']) }}
-                                    <span class="rounded-full h-6 w-6 m-2 flex justify-evenly bg-{{ $color['name-en'] }}-600 bg-{{ $color['name-en'] }} border-2 border-black"></span>
-                                    <span class="mx-2">{{ $color['name-sk'] }}</span>
-                                </label>
-                            @endforeach
-                            </div>
-                        </section>
-
-                        <!-- Selection for order -->
-                        <section class="pb-4">
-                            <span class="text-gray-700 font-bold py-4 px-8 flex justify-start">Zoradiť od</span>
-                            <div class="flex flex-col text-left px-16">
-                                @foreach($params['sort'] as $sort)
-                                    <label class="text-lg inline-flex items-center" for="{{ $sort['id'] }}">
-                                        {{ Form::radio('sort', $sort['id'], $sort['status'], ['id' => $sort['id'], 'class' => 'form-checkbox h-4 w-4']) }}
-                                        <span class="mx-2">{{ $sort['name']}}</span>
-                                    </label>
-                                @endforeach
-                            </div>
-                        </section>
-
-                        <!-- apply filters button -->
-                        <div class="p-10 flex justify-center">
-                            <button class="bg-gray-600 text-white font-bold text-sm px-4 py-2 rounded-full shadow hover:shadow-lg" type="submit">
-                                Zobraziť výsledky
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="lg:grid lg:grid-cols-4 lg:gap-8">
+            {{-- Sidebar Filters --}}
+            <aside class="lg:col-span-1">
+                <div class="sticky top-20">
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                        <div class="flex items-center justify-between p-4 bg-gradient-to-r from-indigo-600 to-purple-600">
+                            <h2 class="text-lg font-semibold text-white">
+                                {{ __('Filters') }}
+                            </h2>
+                            <button class="lg:hidden text-white hover:text-indigo-100" id="burger-icon">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                                </svg>
                             </button>
                         </div>
 
-                        <!-- reset filters button -->
-                        <div class="p-10 flex justify-center">
-                            <a href="{{ route('smartphones') }}" class="bg-gray-600 text-white font-bold text-sm px-4 py-2 rounded-full shadow hover:shadow-lg">
-                                Vymazat filtre
-                            </a>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </aside>
-
-        <!-- main grid -->
-        <main class="max-w-7xl px-4 sm:px-16 py-8 xl:col-span-3 lg:col-span-3 md:col-span-2 sm:col-span-1">
-            <!-- grid header -->
-            <section class="relative flex justify-between ml-4 border-b">
-                <h1 class="text-xl font-bold pb-2 mt-4 border-gray-300">Dostupné smartfóny</h1>
-            </section>
-
-            <!-- grid content -->
-            <div class="mt-8 grid 2xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-1 gap-12">
-                <!-- products -->
-
-                @if(count($smartphones) > 0)
-                    @foreach($smartphones as $smartphone)
-                        <a href="{{ route('details', $smartphone->id) }}">
-                            <section class="bg-white border-gray-200 rounded max-w-sm overflow-hidden relative shadow-md hover:shadow-lg">
-                                @if($smartphone->images->first())
-                                    <img src="{{ url('wtech/' . $smartphone->images->first()->source) }}" alt="{{ $smartphone->images->first()->name }}" class="h-64 w-full object-cover" />
-                                @else
-                                    <img src="{{ url('wtech/images/no_img_available.jpg') }}" alt="image does not exist" class="h-64 w-full object-cover" />
-                                @endif
-                                <div class="m-4 text-center">
-                                    <h2 class="font-bold">{{ $smartphone->name }}</h2>
-                                    <p class="block text-gray-900 text-md">{{ formattedPrice($smartphone->price) }}</p>
+                        <form method="GET" action="{{ route('smartphones') }}" class="hidden lg:block" id="filters">
+                            {{-- Price Filter --}}
+                            <div class="p-4 border-b border-gray-200">
+                                <h3 class="text-sm font-medium text-gray-900 mb-4">{{ __('Price') }} (€)</h3>
+                                <div class="flex items-center space-x-2">
+                                    <label class="text-sm text-gray-600" for="min-price">{{ __('Min') }}</label>
+                                    <input type="number" 
+                                           id="min-price" 
+                                           name="min-price" 
+                                           min="0" 
+                                           value="{{ $params['min-price'] ?? 0 }}"
+                                           class="w-20 rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/>
+                                    <label class="text-sm text-gray-600" for="max-price">{{ __('Max') }}</label>
+                                    <input type="number" 
+                                           id="max-price" 
+                                           name="max-price" 
+                                           min="0" 
+                                           value="{{ $params['max-price'] }}"
+                                           class="w-20 rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/>
                                 </div>
-                            </section>
-                        </a>
-                    @endforeach
-                @else
-                    <div class="bg-yellow-50 border-l-4 border-yellow-500 text-yellow-800 p-4" role="alert">
-                        <p class="font-bold">Nenašli sa žiadne výsledky</p>
-                        <h2>Skúste vyhľadávanie podľa iných kritérií.</h2>
+                            </div>
+
+                            {{-- Brand Filter --}}
+                            <div class="p-4 border-b border-gray-200 grid grid-cols-2 gap-x-4 gap-y-2">
+                                <h3 class="text-sm font-medium text-gray-900 mb-4 col-span-2">{{ __('Brand') }}</h3>
+                                @foreach($params['brands'] as $brand)
+                                    <label class="flex items-center">
+                                        {{ Form::checkbox($brand['name'], $brand['name'], $brand['status'], [
+                                            'id' => $brand['name'],
+                                            'class' => 'rounded border-gray-300 text-indigo-600 focus:ring-indigo-500'
+                                        ]) }}
+                                        <span class="ml-2 text-sm text-gray-600">{{ $brand['name'] }}</span>
+                                    </label>
+                                @endforeach
+                            </div>
+
+                            {{-- Color Filter --}}
+                            <div class="p-4 border-b border-gray-200 grid grid-cols-2 gap-x-4 gap-y-2">
+                                <h3 class="text-sm font-medium text-gray-900 mb-4 col-span-2">{{ __('Color') }}</h3>
+                                @foreach($params['colors'] as $color)
+                                    <label class="flex items-center">
+                                        {{ Form::checkbox($color['name-en'], $color['name-en'], $color['status'], [
+                                            'id' => $color['name-en'],
+                                            'class' => 'rounded border-gray-300 text-indigo-600 focus:ring-indigo-500'
+                                        ]) }}
+                                        <span class="ml-2 flex items-center">
+                                            <span class="h-4 w-4 rounded-full border border-gray-200 bg-{{ $color['name-en'] }}-600 bg-{{ $color['name-en'] }}"></span>
+                                            <span class="ml-2 text-sm text-gray-600">{{ $color['name-en'] }}</span>
+                                        </span>
+                                    </label>
+                                @endforeach
+                            </div>
+
+                            {{-- Sort Options --}}
+                            <div class="p-4 border-b border-gray-200">
+                                <h3 class="text-sm font-medium text-gray-900 mb-4">{{ __('Sort By') }}</h3>
+                                <div class="space-y-2">
+                                    @foreach($params['sort'] as $sort)
+                                        <label class="flex items-center">
+                                            {{ Form::radio('sort', $sort['id'], $sort['status'], [
+                                                'id' => $sort['id'],
+                                                'class' => 'border-gray-300 text-indigo-600 focus:ring-indigo-500'
+                                            ]) }}
+                                            <span class="ml-2 text-sm text-gray-600">{{ $sort['name'] }}</span>
+                                        </label>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            {{-- Action Buttons --}}
+                            <div class="p-4 space-y-3">
+                                <button type="submit" class="w-full bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors">
+                                    {{ __('Apply Filters') }}
+                                </button>
+                                <a href="{{ route('smartphones') }}" class="block text-center w-full bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200 transition-colors">
+                                    {{ __('Reset Filters') }}
+                                </a>
+                            </div>
+                        </form>
                     </div>
-                @endif
-            </div>
+                </div>
+            </aside>
 
-            <!-- page numbers -->
-            <nav class="my-12 text-center flex justify-center">
-                {{ $smartphones->withQueryString()->onEachSide(1)->links('layout.partials.pagination') }}
-            </nav>
+            {{-- Main Content --}}
+            <main class="lg:col-span-3 mt-8 lg:mt-0">
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <header class="flex items-center justify-between mb-6">
+                        <h1 class="text-2xl font-bold text-gray-900">{{ __('Available Smartphones') }}</h1>
+                    </header>
 
-        </main>
+                    @if(count($smartphones) > 0)
+                        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            @foreach($smartphones as $smartphone)
+                                <a href="{{ route('details', $smartphone->id) }}" class="group">
+                                    <article class="bg-white rounded-lg overflow-hidden border border-gray-200 transition-shadow hover:shadow-lg">
+                                        <div class="aspect-w-3 aspect-h-4 bg-gray-200">
+                                            @if($smartphone->images->first())
+                                                <img src="{{ url('wtech/' . $smartphone->images->first()->source) }}" 
+                                                     alt="{{ $smartphone->images->first()->name }}"
+                                                     class="h-full w-full object-cover object-center group-hover:opacity-75 transition-opacity"/>
+                                            @else
+                                                <img src="{{ url('wtech/images/no_img_available.jpg') }}" 
+                                                     alt="{{ __('No image available') }}"
+                                                     class="h-full w-full object-cover object-center"/>
+                                            @endif
+                                        </div>
+                                        <div class="p-4">
+                                            <h2 class="text-lg font-medium text-gray-900">{{ $smartphone->name }}</h2>
+                                            <p class="mt-1 text-lg font-semibold text-indigo-600">{{ formattedPrice($smartphone->price) }}</p>
+                                        </div>
+                                    </article>
+                                </a>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="rounded-md bg-yellow-50 p-4">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <svg class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="text-sm font-medium text-yellow-800">{{ __('No results found') }}</h3>
+                                    <p class="mt-2 text-sm text-yellow-700">{{ __('Try adjusting your search criteria.') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    {{-- Pagination --}}
+                    <nav class="mt-8">
+                        {{ $smartphones->withQueryString()->onEachSide(1)->links('layout.partials.pagination') }}
+                    </nav>
+                </div>
+            </main>
+        </div>
     </div>
-</div>
 
-<script src="{{ url('wtech/js/smartphones.js') }}" type="text/javascript"></script>
+    @include('layout.partials.footer')
 
-@include('layout.partials.footer')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const burgerIcon = document.getElementById('burger-icon');
+            const filters = document.getElementById('filters');
+
+            burgerIcon.addEventListener('click', function() {
+                filters.classList.toggle('hidden');
+            });
+
+            // Close filters when clicking outside on mobile
+            document.addEventListener('click', function(event) {
+                const isClickInside = filters.contains(event.target) || burgerIcon.contains(event.target);
+                if (!isClickInside && !filters.classList.contains('lg:block') && window.innerWidth < 1024) {
+                    filters.classList.add('hidden');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

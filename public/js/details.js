@@ -1,23 +1,23 @@
 // changing quantity field
 function decrement(e) {
-    let priceStr = single.innerText;
+    let priceStr = productPrice.innerText;
     priceStr = priceStr.replace(' ', '').substring(0, priceStr.length - 1);
     let quantity = Number(quantityField.value);
     if (quantity > quantityField.min) {
         quantity--;
     }
-    total.innerText = `${(quantity * parseFloat(priceStr.replace(',', '.'))).toFixed(2)} €`.replace('.', ',');
+    totalPrice.innerText = `${(quantity * parseFloat(priceStr.replace(',', '.'))).toFixed(2)} €`.replace('.', ',');
     quantityField.value = quantity;
 }
 
 function increment(e) {
-    let priceStr = single.innerText;
+    let priceStr = productPrice.innerText;
     priceStr = priceStr.replace(' ', '').substring(0, priceStr.length - 1);
     let quantity = Number(quantityField.value);
     if (quantity < quantityField.max) {
         quantity++;
     }
-    total.innerText = `${(quantity * parseFloat(priceStr.replace(',', '.'))).toFixed(2)} €`.replace('.', ',');
+    totalPrice.innerText = `${(quantity * parseFloat(priceStr.replace(',', '.'))).toFixed(2)} €`.replace('.', ',');
     quantityField.value = quantity;
 }
 
@@ -26,8 +26,8 @@ const decrementButtons = document.querySelectorAll(`button[data-action="decremen
 const incrementButtons = document.querySelectorAll(`button[data-action="increment"]`);
 const quantityField = document.getElementById('product-quantity');
 
-const total = document.getElementById('total-price');
-const single = document.getElementById('single-price');
+const totalPrice = document.getElementById('total-price');
+const productPrice = document.getElementById('product-price');
 
 
 decrementButtons.forEach(btn => {

@@ -61,8 +61,8 @@ class SmartphoneController extends Controller
         }
         $params['colors'] = $colorParams;
         $sortParams = [];
-        array_push($sortParams, ['id' => 'asc', 'name' => 'Najlacnejších', 'status' => $request['sort'] == 'asc']);
-        array_push($sortParams, ['id' => 'desc', 'name' => 'Najdrahších', 'status' => $request['sort'] == 'desc']);
+        array_push($sortParams, ['id' => 'asc', 'name' => 'Cheapest', 'status' => $request['sort'] == 'asc']);
+        array_push($sortParams, ['id' => 'desc', 'name' => 'Most Expensive', 'status' => $request['sort'] == 'desc']);
 
         $params['sort'] = $sortParams;
 
@@ -207,8 +207,8 @@ class SmartphoneController extends Controller
             }
         }
 
-        $request->session()->flash('message', 'Produkt bol úspešne pridaný.');
-        return redirect('admin')->with('success_message', "Produkt {$request->name} bol úspešne pridaný!");
+        $request->session()->flash('message', "Product {$request->name} was successfully added!");
+        return redirect('admin')->with('success_message', "Product {$request->name} was successfully added!");
     }
 
     /**
@@ -301,7 +301,7 @@ class SmartphoneController extends Controller
             'color_id' => $color_id,
             'brand_id' => $brand_id
         ]);
-        return redirect('admin')->with('success_message', "Produkt {$smartphone->name} bol úspešne aktualizovaný!");
+        return redirect('admin')->with('success_message', "Product {$smartphone->name} was successfully updated!");
     }
 
     /**
@@ -318,6 +318,6 @@ class SmartphoneController extends Controller
             }
         }
         $smartphone->delete();
-        return back()->with('success_message', "Produkt {$smartphone->name} bol úspešne vymazaný!");
+        return back()->with('success_message', "Product {$smartphone->name} was successfully deleted!");
     }
 }
