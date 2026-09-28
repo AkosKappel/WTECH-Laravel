@@ -1,4 +1,4 @@
-FROM php:8.0-fpm
+FROM php:8.1-fpm-bookworm
 
 RUN apt-get update && apt-get install -y \
     git \
@@ -16,7 +16,8 @@ RUN docker-php-ext-install pdo_pgsql mbstring exif pcntl bcmath gd
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN useradd -G www-data,root -u 1001 -d /home/dev dev
+ARG UID=1000
+RUN useradd -G www-data,root -u ${UID} -d /home/dev dev
 RUN mkdir -p /home/dev/.composer && \
     chown -R dev:dev /home/dev
 
