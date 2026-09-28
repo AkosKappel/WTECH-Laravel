@@ -9,8 +9,6 @@ use App\Models\Image;
 use App\Models\Smartphone;
 use App\Support\CatalogFilters;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
-use Intervention\Image\ImageManagerStatic as InterventionImage;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -19,7 +17,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 
 class SmartphoneController extends Controller
 {
@@ -85,7 +82,7 @@ class SmartphoneController extends Controller
                     'name' => $smartphone->name,
                     'price' => formattedPrice($smartphone->price),
                     'in_stock' => $smartphone->quantity > 0,
-                    'image' => $image ? url('wtech/' . ltrim($image->source, '/')) : null,
+                    'image' => $image ? $image->url : null,
                     'url' => route('details', $smartphone),
                 ];
             });
@@ -158,22 +155,8 @@ class SmartphoneController extends Controller
             'brand_id' => $brand_id
         ]);
 
-        if ($request->images != null) {
-            foreach ($request->images as $key => $image) {
-                $extension = $image->extension();
-                $imageName = 'smartphone-' . $smartphone->id . '-' . $key . '.' . $extension;
-//                $image->move(public_path('images'), $imageName);
-
-                $image_resize = InterventionImage::make($image->getRealPath());
-//                $image_resize->resize(400, 600);
-                $image_resize->save(public_path('/images/') . $imageName);
-
-                Image::create([
-                    'name' => $smartphone->name,
-                    'source' => '/images/' . $imageName,
-                    'smartphone_id' => $smartphone->id,
-                ]);
-            }
+        foreach ($request->file('images', []) as $image) {
+            Image::storeUpload($image, $smartphone);
         }
 
         $request->session()->flash('message', __('Product :name was successfully added!', ['name' => $request->name]));
@@ -219,29 +202,16 @@ class SmartphoneController extends Controller
     {
         $request->validate($this->rules());
 
+        // images ticked for removal (checkbox named after the image path)
         foreach ($smartphone->images()->get() as $image) {
             if ($request->has(str_replace('.', '_', $image->source))) {
-                $image_model = Image::query()->firstWhere('source', $image->source);
-                $image_model->delete();
-                if (File::exists(public_path($image->source))) {
-                    File::delete(public_path($image->source));
-                }
+                $image->deleteFile();
+                $image->delete();
             }
         }
 
-        $count = DB::table('images')->max('id') + 1;
-        if ($request->images != null) {
-            foreach ($request->images as $key => $image) {
-                $extension = $image->extension();
-                $id = $count + $key;
-                $imageName = 'smartphone-' . $smartphone->id . '-' . $id . '.' . $extension;
-                $image->move(public_path('images'), $imageName);
-                Image::create([
-                    'name' => $smartphone->name,
-                    'source' => '/images/' . $imageName,
-                    'smartphone_id' => $smartphone->id,
-                ]);
-            }
+        foreach ($request->file('images', []) as $image) {
+            Image::storeUpload($image, $smartphone);
         }
 
         if ($request->color != null) {
@@ -285,9 +255,7 @@ class SmartphoneController extends Controller
     public function destroy(Request $request, Smartphone $smartphone)
     {
         foreach ($smartphone->images()->get() as $image) {
-            if (File::exists(public_path($image->source))) {
-                File::delete(public_path($image->source));
-            }
+            $image->deleteFile();
         }
         $smartphone->delete();
         return back()->with('success_message', __('Product :name was successfully deleted!', ['name' => $smartphone->name]));
@@ -335,7 +303,7 @@ class SmartphoneController extends Controller
             'thickness' => 'nullable|numeric|min:0',
             'color' => 'nullable|exists:colors,name_en',
             'brand' => 'nullable|exists:brands,name',
-            // only real images, so nothing executable ends up in public/images
+            // only real images, so nothing executable ends up in public/uploads
             'images' => 'nullable|array',
             'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:10240',
         ];

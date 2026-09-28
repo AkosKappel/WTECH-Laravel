@@ -18,7 +18,7 @@
                         @if($smartphone->images->first())
                             <img 
                                 id="mainImage" 
-                                src="{{ url('wtech/' . $smartphone->images->first()->source) }}"
+                                src="{{ $smartphone->images->first()->url }}"
                                 alt="{{ $smartphone->images->first()->name }}"
                                 class="w-full h-full object-cover"
                             />
@@ -55,7 +55,7 @@
 
                         <div class="hidden">
                             @foreach($smartphone->images as $image)
-                                <img src="{{ url('wtech/' . $image->source) }}" alt="{{ $image->name }}" class="productImage">
+                                <img src="{{ $image->url }}" alt="{{ $image->name }}" class="productImage">
                             @endforeach
                         </div>
                     @endif

@@ -48,7 +48,7 @@
                         <li class="px-6 py-4 flex items-center justify-between gap-4">
                             <div class="flex items-center gap-4 min-w-0">
                                 @if ($smartphone->images->first())
-                                    <img src="{{ url('wtech/' . ltrim($smartphone->images->first()->source, '/')) }}"
+                                    <img src="{{ $smartphone->images->first()->url }}"
                                          alt="{{ $smartphone->name }}" class="h-16 w-16 object-contain shrink-0"/>
                                 @endif
                                 <div class="min-w-0">

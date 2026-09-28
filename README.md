@@ -298,7 +298,7 @@ The database is filled by seeders with **13 brands** (Samsung, Apple, Xiaomi, Hu
 - **Guest customers are regular users.** `users.password` is nullable. A guest who places an order is saved as a user without a password, so every order links to a user record with the delivery details. The guest can then register afterwards without typing their details again.
 - **Using a cart package.** `hardevine/shoppingcart` provides a tested session cart with row IDs, quantities and totals. It can also save a cart to the database under an identifier, which was exactly what the "keep the cart across sessions" requirement needed.
 - **Lookup tables for brands and colours.** They support the filters and the admin `<select>` lists. Colours are stored in English and Slovak to support both UI languages.
-- **Images on disk, paths in the database.** Uploaded images go to `public/images/` with predictable names (`smartphone-{id}-{n}.{ext}`). The `images` table stores only their paths, which makes it easy to delete the files later.
+- **Images on disk, paths in the database.** Seed images live in `public/images/` (tracked in git); images uploaded in the admin zone go to a separate, gitignored `public/uploads/products/` with unique names (`smartphone-{id}-{random}.{ext}`). The `images` table stores only their paths, and the `Image` model builds their URLs, so uploads never mix with the repository's files.
 - **PostgreSQL.** This was the recommended database for the course. The search uses PostgreSQL's case-insensitive `ILIKE`.
 
 ## Implementation Highlights
@@ -358,7 +358,7 @@ The three checkout steps (address, delivery, payment) each validate their input.
 5. empties the cart.
 
 ### Image Upload
-The admin forms accept several images (`images[]`). Each one is processed with Intervention Image, saved to `public/images/` and recorded in the `images` table. When a product is edited, the selected images are removed from both the database and the disk. When a product is deleted, all of its image files are deleted too.
+The admin forms accept several images (`images[]`, JPG, PNG or WebP up to 10 MB). Each one is re-encoded with Intervention Image, so only the image data is kept, saved to `public/uploads/products/` and recorded in the `images` table (`Image::storeUpload()`). When a product is edited, the selected images are removed from both the database and the disk; when a product is deleted, its uploaded files are deleted too. Seed images are never deleted from disk, so a product removed in the demo comes back complete after the nightly reset. nginx refuses to run scripts from the uploads folder.
 
 ## Project Structure
 

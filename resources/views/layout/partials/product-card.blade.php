@@ -8,7 +8,7 @@
    class="group flex flex-col h-full bg-white rounded-xl border border-gray-200 overflow-hidden shadow-xs hover:shadow-lg hover:border-indigo-200 transition">
     <div class="product-card-media relative overflow-hidden {{ $isPhoto ? 'bg-gray-100' : 'bg-linear-to-b from-gray-50 to-gray-200 p-5' }}">
         @if ($image)
-            <img src="{{ url('wtech/' . ltrim($image->source, '/')) }}"
+            <img src="{{ $image->url }}"
                  alt="{{ $smartphone->name }}"
                  loading="lazy"
                  class="w-full h-full {{ $isPhoto ? 'object-cover' : 'object-contain' }} object-center group-hover:scale-105 transition-transform duration-500"/>

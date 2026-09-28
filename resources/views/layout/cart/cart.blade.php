@@ -47,7 +47,7 @@
                             {{-- Product Info --}}
                             <div class="col-span-12 md:col-span-5 flex flex-col sm:flex-row items-center gap-4">
                                 <div class="w-24 h-24 shrink-0">
-                                    <img src="{{ url('wtech/' . $product->options->image_source) }}" 
+                                    <img src="{{ url('wtech/' . ltrim($product->options->image_source, '/')) }}" 
                                          alt="{{ $product->options->image_name }}"
                                          class="w-full h-full object-contain"/>
                                 </div>

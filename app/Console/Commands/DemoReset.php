@@ -58,19 +58,24 @@ class DemoReset extends Command
     }
 
     /**
-     * Delete product images uploaded through the admin zone. They are named
-     * smartphone-{id}-{n}.{ext}; seeded images that happen to match that pattern
-     * are still referenced in the freshly seeded database and are kept.
+     * Delete product images uploaded through the admin zone (public/uploads/products).
+     * Also removes uploads from before they had their own folder: files named
+     * smartphone-{id}-{n}.{ext} in public/images that no seeded product uses.
      *
      * @return int
      */
     private function removeUploadedImages()
     {
+        $removed = 0;
+        $uploads = public_path(Image::UPLOAD_DIR);
+        if (File::isDirectory($uploads)) {
+            $removed += count(File::allFiles($uploads));
+            File::cleanDirectory($uploads);
+        }
+
         $seeded = Image::pluck('source')->map(function ($source) {
             return basename($source);
         })->all();
-
-        $removed = 0;
         foreach (File::files(public_path('images')) as $file) {
             $name = $file->getFilename();
             if (preg_match('/^smartphone-\d+-\d+\.(jpe?g|png|webp)$/i', $name) && !in_array($name, $seeded)) {
