@@ -22,4 +22,15 @@ return [
         'portfolio' => env('DEMO_PORTFOLIO_URL'),
     ],
 
+    /*
+    | Scheduled demo reset (php artisan demo:reset): rebuilds the database from
+    | the seeders and removes everything visitors added. Off unless enabled,
+    | because it deletes all data.
+    */
+    'reset' => [
+        'enabled' => env('DEMO_RESET_ENABLED', false),
+        'time' => env('DEMO_RESET_TIME', '03:00'),
+        'timezone' => env('DEMO_RESET_TIMEZONE', 'Europe/Bratislava'),
+    ],
+
 ];

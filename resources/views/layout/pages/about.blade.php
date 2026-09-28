@@ -13,7 +13,7 @@
             <ul class="list-disc pl-5 space-y-1">
                 <li>{{ __('orders are never shipped and no payment is ever taken,') }}</li>
                 <li>{{ __('products, prices and stock are sample data,') }}</li>
-                <li>{{ __('the data you enter may be deleted at any time.') }}</li>
+                <li>@include('layout.partials.reset-notice')</li>
             </ul>
             <p class="font-medium text-gray-900">
                 {{ __('Please use made-up names, addresses and e-mails when you try it out.') }}

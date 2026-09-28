@@ -24,7 +24,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('demo:reset', ['--force'])
+            ->dailyAt(config('demo.reset.time'))
+            ->timezone(config('demo.reset.timezone'))
+            ->when(function () {
+                return config('demo.reset.enabled');
+            })
+            ->appendOutputTo(storage_path('logs/demo-reset.log'));
     }
 
     /**

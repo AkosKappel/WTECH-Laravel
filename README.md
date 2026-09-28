@@ -149,6 +149,11 @@ The sections below cover the same topics.
 - Remove individual images when editing a product
 - Deleting a product also **deletes its image files** from disk
 
+### Demo Mode
+- A **demo notice** on every page, plus About, Contact, Terms, Privacy and fictional shop-policy pages
+- Author and profile links configured through `DEMO_*` variables in `.env`
+- **Nightly reset** (`php artisan demo:reset`): rebuilds the database from the seeders, removes uploaded images, and clears sessions and caches, run by Laravel's scheduler in its own container
+
 ## Screenshots
 
 > Screenshots will be added soon.
@@ -329,6 +334,7 @@ The admin forms accept several images (`images[]`). Each one is processed with I
 
 ```
 app/
+├── Console/Commands/DemoReset.php   # nightly demo reset
 ├── Http/Controllers/
 │   ├── ShopController.php          # homepage
 │   ├── SmartphoneController.php    # catalog, detail, admin CRUD
@@ -414,6 +420,7 @@ The seeder creates an administrator account:
 | Nginx (web server) | `wtech-nginx` | `8082` (`APP_BIND`/`APP_PORT`) |
 | PHP-FPM 8.1 (application) | `wtech-app` | – |
 | PostgreSQL 15 | `wtech-db` | `5433` (localhost only) |
+| Laravel scheduler (runs the demo reset) | `wtech-scheduler` | – |
 
 PostgreSQL is published only on `127.0.0.1`, so a database client can connect from the host itself (or through an SSH tunnel), but not from other machines.
 
@@ -427,6 +434,11 @@ Before exposing the shop publicly, set these in `.env`:
 - A strong `DB_PASSWORD`, set before the database container is first created.
 - Your own `ADMIN_EMAIL` and `ADMIN_PASSWORD` before seeding.
 - A real `MAIL_MAILER` configuration if password-reset e-mails should actually be delivered.
+- `DEMO_RESET_ENABLED=true` to wipe visitor data every night (`DEMO_RESET_TIME`, `DEMO_RESET_TIMEZONE`). The reset deletes **all** data, so it is off by default. To run it by hand:
+
+  ```bash
+  docker compose exec app php artisan demo:reset
+  ```
 
 ### Rebuilding Frontend Assets (optional)
 

@@ -29,7 +29,8 @@
     <section class="bg-white rounded-xl shadow-sm p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('4. Your data and accounts') }}</h2>
         <p class="text-gray-700 leading-relaxed">
-            {{ __('Accounts and orders may be deleted at any time, for example when the demo is reset. Please don\'t enter real personal data. See the') }}
+            @include('layout.partials.reset-notice')
+            {{ __('Please don\'t enter real personal data. See the') }}
             <a href="{{ route('privacy') }}" class="text-indigo-600 hover:text-indigo-800 underline">{{ __('privacy notice') }}</a>
             {{ __('for what is stored.') }}
         </p>

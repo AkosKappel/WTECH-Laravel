@@ -62,7 +62,8 @@
     <section class="bg-white rounded-xl shadow-sm p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('How long data is kept') }}</h2>
         <p class="text-gray-700 leading-relaxed">
-            {{ __('As long as the demo keeps it. The shop can be reset at any time, which deletes all accounts, orders and carts. If you entered real data by mistake, or want your data deleted, get in touch and I will remove it.') }}
+            @include('layout.partials.reset-notice')
+            {{ __('Server logs are kept separately for troubleshooting. If you entered real data by mistake, or want your data deleted sooner, get in touch and I will remove it.') }}
         </p>
     </section>
 
