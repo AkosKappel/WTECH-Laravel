@@ -33,18 +33,7 @@
             <div class="flex items-center space-x-4">
                 {{-- Search Bar --}}
                 <div class="hidden sm:block">
-                    <form action="{{ route('smartphones') }}" method="GET" class="relative">
-                        <input type="search" 
-                               name="search" 
-                               placeholder="{{ __('Search smartphone...') }}" 
-                               class="w-64 pl-4 pr-10 py-2 rounded-full text-sm bg-indigo-500/50 text-black placeholder-indigo-400 focus:outline-none focus:ring-2 focus:ring-white focus:bg-indigo-500/70 transition-colors"
-                               autocomplete="off"/>
-                        <button type="submit" class="absolute right-0 top-0 mt-2 mr-3" aria-label="{{ __('Search') }}">
-                            <svg class="h-5 w-5 text-indigo-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                        </button>
-                    </form>
+                    @include('layout.partials.search-box', ['id' => 'header-search'])
                 </div>
 
                 {{-- Language --}}
@@ -105,6 +94,9 @@
     {{-- Mobile menu --}}
     <div class="hidden mobile-menu md:hidden">
         <div class="px-2 pt-2 pb-3 space-y-1">
+            <div class="sm:hidden px-1 pb-2">
+                @include('layout.partials.search-box', ['id' => 'mobile-search'])
+            </div>
             <a href="{{ route('smartphones') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-indigo-100 hover:bg-indigo-500/70 transition-colors">
                 {{ __('Products') }}
             </a>
@@ -123,6 +115,7 @@
     </div>
 </header>
 
+<script src="{{ url('wtech/js/search-suggest.js') }}?v={{ filemtime(public_path('js/search-suggest.js')) }}" defer></script>
 <script>
 // close the language dropdown when clicking outside it or pressing Escape
 document.addEventListener('click', function (event) {

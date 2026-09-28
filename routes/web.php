@@ -71,6 +71,7 @@ Route::prefix('wtech')->group(function () {
 
     // Products
     Route::get('/smartphones', [SmartphoneController::class, 'index'])->name('smartphones');
+    Route::get('/search/suggest', [SmartphoneController::class, 'suggest'])->middleware('throttle:60,1')->name('search.suggest');
     Route::get('/smartphones/{smartphone}/', [SmartphoneController::class, 'show'])->name('details');
 
     // Order

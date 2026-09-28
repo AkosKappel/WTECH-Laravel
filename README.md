@@ -120,10 +120,12 @@ The sections below cover the same topics.
 
 ### Storefront
 - **Homepage** with randomly picked recommended phones and a brand showcase
-- **Product catalog** with 12 products per page and pagination that keeps the current query string
-- **Filtering** by price range (min/max), several brands and several colours at once
-- **Sorting** by price, cheapest or most expensive first
-- **Full-text search** across product name, description and operating system, available from the header on every page
+- **Product catalog** with 12 products per page and equal-size product cards
+- **Typo-tolerant search** ("samsng", "iphon 15", "gogle pixel") using PostgreSQL trigram similarity, across names, brands and descriptions in every language, ranked by relevance
+- **Live search suggestions** in the header while typing: image, price and stock, with keyboard navigation
+- **Filters:** price range (a dual slider plus number fields), brands with logos and a quick brand search, colour swatches, RAM, display size, operating system and in-stock only, each with a live count of matching phones
+- **Sorting** by relevance, newest, price or name; active filters shown as removable chips with "Clear all"
+- **Clean, shareable URLs** such as `/smartphones?brand=apple,google&price=-800&sort=price-asc`. Changes apply immediately with JavaScript, the form still works without it, and old-style links redirect permanently
 - **Product detail** page with technical specs (RAM, OS and version, display size, resolution, dimensions), an image gallery, and a quantity selector that updates the total price live
 
 ### Cart & Checkout
@@ -293,20 +295,30 @@ The database is filled by seeders with **13 brands** (Samsung, Apple, Xiaomi, Hu
 ## Implementation Highlights
 
 ### Filtering, Sorting & Pagination
-Filters are written as reusable **Eloquent query scopes** on the `Smartphone` model (`minPrice`, `maxPrice`, `ofBrand`, `ofColor`). The controller applies only the filters present in the request, then sorts and paginates:
+All catalog parameters go through one class, `App\Support\CatalogFilters`. It:
+- reads the clean parameters (and the old 2021 format, for redirects),
+- builds the **canonical URL** (fixed parameter order, no empty or default values),
+- applies the filters to the query and sorts it,
+- computes **facet counts**, the number of matching phones per option with all the *other* filters applied.
+
+The controller redirects any non-canonical URL to its clean form, so every set of filters has exactly one URL:
 
 ```php
-if ($request['min-price']) {
-    $smartphones = $smartphones->minPrice($request['min-price']);
+$filters = CatalogFilters::fromRequest($request);
+if ($request->server('QUERY_STRING') !== $filters->canonicalQueryString()) {
+    return redirect()->to($filters->url([], true), $filters->legacy ? 301 : 302);
 }
-// ... max price, brands, colours ...
-$smartphones = $smartphones->orderBy('price', $sort)->paginate(12);
+$smartphones = $filters->applySort($filters->apply(Smartphone::query()))
+    ->with(['images', 'brand', 'color'])   // no N+1 queries
+    ->paginate(12)->withPath($filters->url());
 ```
 
-In the view, the pagination links are rendered with `withQueryString()` and a custom Blade template, so the active filters, search term and sort order are kept when moving between pages.
+### Typo-tolerant Search
+Search uses PostgreSQL's **`pg_trgm`** and **`unaccent`** extensions, with a trigram GIN index on the product name. A phone matches when:
+- the `word_similarity` between the query and "Brand Model" is at least 0.4 (so "pixl" finds "Pixel", while unrelated phones score about 0.2), **or**
+- the text appears in its name, operating system or description in any language. Accents are ignored, so "bateria" finds "batéria".
 
-### Full-text Search
-The search box in the header sends a `search` query parameter to the catalog. That parameter becomes a case-insensitive `ILIKE` match across `name`, `description` and `operating_system`.
+Results are ranked with exact name matches first, then by similarity. The same logic powers the header's live suggestions (`GET /wtech/search/suggest?q=…`, JSON, rate-limited).
 
 ### Adding to Cart & Changing Quantity
 On the product detail page, a small script (`public/js/details.js`) drives a +/− quantity selector, updates the total price live and switches between product images. When the form is submitted, the item is added to the session cart through `Cart::add()`. In the cart, changing a quantity submits the form automatically (`public/js/cart.js`). The quantity cannot go above the stock available, and the server applies it with `Cart::update($rowId, $qty)`.
@@ -354,6 +366,7 @@ app/
 │   ├── UserController.php          # profile
 │   └── Auth/                       # Breeze controllers (+ cart restore, password change)
 ├── Models/                         # Smartphone, Brand, Color, Image, Order, User
+├── Support/CatalogFilters.php      # catalog search, filters, sorting, clean URLs
 ├── Policies/SmartphonePolicy.php
 ├── Providers/                      # gates, login/logout listeners, HTTPS in production
 ├── Rules/MatchOldPassword.php

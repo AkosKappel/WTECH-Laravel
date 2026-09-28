@@ -7,6 +7,7 @@ use App\Models\Brand;
 use App\Models\Color;
 use App\Models\Image;
 use App\Models\Smartphone;
+use App\Support\CatalogFilters;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic as InterventionImage;
@@ -29,102 +30,59 @@ class SmartphoneController extends Controller
      */
     public function index(Request $request)
     {
-        $brands = Brand::all()->pluck('name')->toArray();
-        $colors = Color::all()->pluck('name_sk', 'name_en')->toArray();
+        $filters = CatalogFilters::fromRequest($request);
 
-        // JSON styled container for saving applied filters
-        $params = [];
-
-        // save applied prices to JSON
-        $params['min-price'] = $request['min-price'];
-        $params['max-price'] = $request['max-price'];
-
-        // save applied brands to JSON
-        $brandParams = [];
-        foreach ($brands as $brand) {
-            if ($request[$brand]) {
-                array_push($brandParams, ['name' => $brand, 'status' => true]);
-            } else {
-                array_push($brandParams, ['name' => $brand, 'status' => false]);
-            }
+        // one clean URL per set of filters; old links (?Apple=Apple&min-price=…) redirect permanently
+        if ((string) $request->server('QUERY_STRING') !== $filters->canonicalQueryString()) {
+            return redirect()->to($filters->url([], true), $filters->legacy ? 301 : 302);
         }
-        $params['brands'] = $brandParams;
 
-        // save applied colors to JSON
-        $colorParams = [];
-        foreach ($colors as $color_en => $color_sk) {
-            if ($request[$color_en]) {
-                array_push($colorParams, ['name-en' => $color_en, 'name-sk' => $color_sk, 'status' => true]);
-            } else {
-                array_push($colorParams, ['name-en' => $color_en, 'name-sk' => $color_sk, 'status' => false]);
-            }
+        $smartphones = $filters->applySort($filters->apply(Smartphone::query()))
+            ->with(['images', 'brand', 'color'])
+            ->paginate(12)
+            ->withPath($filters->url());
+
+        return view('layout.products.smartphones', [
+            'smartphones' => $smartphones,
+            'filters' => $filters,
+            'facets' => $filters->facets(),
+            'priceBounds' => CatalogFilters::priceBounds(),
+        ]);
+    }
+
+    /**
+     * Search suggestions for the header search box.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function suggest(Request $request)
+    {
+        $filters = CatalogFilters::fromRequest($request);
+        if (mb_strlen($filters->q) < 2) {
+            return response()->json(['results' => [], 'total' => 0]);
         }
-        $params['colors'] = $colorParams;
-        $sortParams = [];
-        array_push($sortParams, ['id' => 'asc', 'name' => 'Cheapest', 'status' => $request['sort'] == 'asc']);
-        array_push($sortParams, ['id' => 'desc', 'name' => 'Most Expensive', 'status' => $request['sort'] == 'desc']);
 
-        $params['sort'] = $sortParams;
+        $query = $filters->apply(Smartphone::query());
+        $total = (clone $query)->count();
+        $results = $filters->applySort($query)->with(['images', 'brand'])->limit(6)->get()
+            ->map(function (Smartphone $smartphone) {
+                $image = $smartphone->images->first();
 
-        // creating query with filters, pagination and ordering
-        $smartphones = Smartphone::query();
-
-
-        // apply search query
-        if ($request['search']) {
-            $searchQuery = '%' . $request['search'] . '%';
-            // grouped so the OR conditions don't bypass the filters below
-            $smartphones = $smartphones->where(function ($query) use ($searchQuery) {
-                $query->where('name', 'ILIKE', $searchQuery)
-                    ->orWhere('description', 'ILIKE', $searchQuery)
-                    ->orWhere('operating_system', 'ILIKE', $searchQuery);
+                return [
+                    'name' => $smartphone->name,
+                    'price' => formattedPrice($smartphone->price),
+                    'in_stock' => $smartphone->quantity > 0,
+                    'image' => $image ? url('wtech/' . ltrim($image->source, '/')) : null,
+                    'url' => route('details', $smartphone),
+                ];
             });
-        }
 
-        // filter by min and max price
-        if ($request['min-price']) {
-            $smartphones = $smartphones->minPrice($request['min-price']);
-        }
-        if ($request['max-price']) {
-            $smartphones = $smartphones->maxPrice($request['max-price']);
-        }
-
-        // filter by brands
-        $selectedBrands = [];
-        foreach ($request->all() as $brand) {
-            if (in_array($brand, $brands)) {
-                array_push($selectedBrands, $brand);
-            }
-        }
-
-        if (!empty($selectedBrands)) {
-            $smartphones = $smartphones->ofBrand($selectedBrands);
-        }
-
-        // filter by colors
-        $selectedColors = [];
-        foreach ($request->all() as $color) {
-            if (in_array($color, array_keys($colors))) {
-                array_push($selectedColors, $color);
-            }
-        }
-
-        if (!empty($selectedColors)) {
-            $smartphones = $smartphones->ofColor($selectedColors);
-        }
-
-        // ordering and pagination
-        $sort = $request['sort'] ? $request['sort'] : null;
-        if ($sort != null) {
-            $smartphones = $smartphones->orderBy('price', $sort);
-        }
-
-        $smartphones = $smartphones->paginate(12);
-
-        return view('layout.products.smartphones',
-            ['smartphones' => $smartphones],
-            ['params' => $params],
-        );
+        return response()->json([
+            'results' => $results,
+            'total' => $total,
+            'all_url' => $filters->url(),
+        ]);
     }
 
     public function adminIndex(Request $request)

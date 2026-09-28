@@ -121,7 +121,7 @@
                 </div>
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8">
                     @foreach($brands as $brand)
-                    <a href="{{ route('smartphones', [$brand->name => $brand->name]) }}" class="group relative bg-gray-100 rounded-lg shadow-lg p-6 transform hover:scale-105 transition-transform hover:shadow-xl">
+                    <a href="{{ route('smartphones', ['brand' => \Illuminate\Support\Str::slug($brand->name)]) }}" class="group relative bg-gray-100 rounded-lg shadow-lg p-6 transform hover:scale-105 transition-transform hover:shadow-xl">
                         <div class="flex items-center justify-center">
                             @include('layout.partials.brand-logo', ['brand' => $brand, 'size' => 'w-16 h-16'])
                         </div>

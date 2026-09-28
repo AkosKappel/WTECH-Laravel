@@ -26,7 +26,6 @@ class LangMissing extends Command
      */
     const DYNAMIC = [
         'red', 'green', 'blue', 'yellow', 'purple', 'pink', 'white', 'gray', 'black',
-        'Cheapest', 'Most Expensive',
         'Courier Delivery', 'Personal Pickup', 'Post Office Delivery', 'Parcel Locker',
         'Cash on Delivery', 'Bank Transfer', 'Credit Card', 'Apple Pay', 'Google Pay',
         'Free Shipping', 'Enjoy free delivery on all orders', 'Best Price Guarantee',
@@ -79,7 +78,7 @@ class LangMissing extends Command
                 if ($file->getExtension() !== 'php') {
                     continue;
                 }
-                preg_match_all('/__\(\s*(?:\'((?:[^\'\\\\]|\\\\.)*)\'|"((?:[^"\\\\$]|\\\\.)*)")/', $file->getContents(), $matches, PREG_SET_ORDER);
+                preg_match_all('/(?:__|trans_choice)\(\s*(?:\'((?:[^\'\\\\]|\\\\.)*)\'|"((?:[^"\\\\$]|\\\\.)*)")/', $file->getContents(), $matches, PREG_SET_ORDER);
                 foreach ($matches as $match) {
                     $key = isset($match[2]) && $match[2] !== '' ? stripslashes($match[2]) : str_replace("\\'", "'", $match[1]);
                     if ($key !== '' && !preg_match('/^[a-z_]+\.[a-z_.]+$/', $key)) {
