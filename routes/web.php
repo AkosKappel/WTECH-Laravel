@@ -45,14 +45,19 @@ Route::prefix('wtech')->group(function () {
     Route::delete('/cart/{product}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::put('/cart/{product}', [CartController::class, 'update'])->name('cart.update');
 
+    // Admin
+    Route::middleware(['auth', 'can:isAdmin'])->group(function () {
+        Route::get('/admin', [SmartphoneController::class, 'adminIndex'])->name('admin');
+        Route::get('/smartphones/create', [SmartphoneController::class, 'create'])->name('smartphones.add');
+        Route::post('/smartphones/add', [SmartphoneController::class, 'store'])->name('smartphones.create');
+        Route::get('/smartphones/{smartphone}/edit/', [SmartphoneController::class, 'edit'])->name('smartphones.edit');
+        Route::put('/smartphones/{smartphone}', [SmartphoneController::class, 'update'])->name('smartphones.update');
+        Route::delete('/smartphones/{smartphone}/', [SmartphoneController::class, 'destroy'])->name('smartphones.delete');
+    });
+
     // Products
     Route::get('/smartphones', [SmartphoneController::class, 'index'])->name('smartphones');
-    Route::get('/smartphones/create', [SmartphoneController::class, 'create'])->name('smartphones.add');
-    Route::post('/smartphones/add', [SmartphoneController::class, 'store'])->name('smartphones.create');
     Route::get('/smartphones/{smartphone}/', [SmartphoneController::class, 'show'])->name('details');
-    Route::get('/smartphones/{smartphone}/edit/', [SmartphoneController::class, 'edit'])->name('smartphones.edit');
-    Route::put('/smartphones/{smartphone}', [SmartphoneController::class, 'update'])->name('smartphones.update');
-    Route::delete('/smartphones/{smartphone}/', [SmartphoneController::class, 'destroy'])->name('smartphones.delete');
 
     // Order
     Route::get('/address', [OrderController::class, 'addressIndex'])->name('address');
@@ -61,7 +66,4 @@ Route::prefix('wtech')->group(function () {
     Route::post('/delivery', [OrderController::class, 'deliveryStore'])->name('delivery.store');
     Route::get('/payment', [OrderController::class, 'paymentIndex'])->name('payment');
     Route::post('/payment', [OrderController::class, 'paymentStore'])->name('payment.store');
-
-    // Admin
-    Route::get('/admin', [SmartphoneController::class, 'adminIndex'])->middleware(['auth', 'can:isAdmin'])->name('admin');
 });
