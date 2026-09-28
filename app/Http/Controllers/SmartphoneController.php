@@ -156,11 +156,7 @@ class SmartphoneController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'quantity' => 'required|numeric',
-        ]);
+        $request->validate($this->rules());
 
         if ($request->color != null) {
             $color_id = Color::firstWhere('name_sk', $request->color)->id;
@@ -250,6 +246,8 @@ class SmartphoneController extends Controller
      */
     public function update(Request $request, Smartphone $smartphone)
     {
+        $request->validate($this->rules());
+
         foreach ($smartphone->images()->get() as $image) {
             if ($request->has(str_replace('.', '_', $image->source))) {
                 $image_model = Image::query()->firstWhere('source', $image->source);
@@ -321,5 +319,33 @@ class SmartphoneController extends Controller
         }
         $smartphone->delete();
         return back()->with('success_message', "Product {$smartphone->name} was successfully deleted!");
+    }
+
+    /**
+     * Validation rules shared by the create and edit forms.
+     *
+     * @return array
+     */
+    private function rules()
+    {
+        return [
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'quantity' => 'required|integer|min:0',
+            'description' => 'nullable|string',
+            'ram' => 'nullable|integer|min:0',
+            'operating_system' => 'nullable|string|max:255',
+            'os_version' => 'nullable|integer|min:0',
+            'display_size' => 'nullable|numeric|min:0',
+            'resolution' => 'nullable|string|max:255',
+            'height' => 'nullable|numeric|min:0',
+            'width' => 'nullable|numeric|min:0',
+            'thickness' => 'nullable|numeric|min:0',
+            'color' => 'nullable|exists:colors,name_sk',
+            'brand' => 'nullable|exists:brands,name',
+            // only real images, so nothing executable ends up in public/images
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:10240',
+        ];
     }
 }

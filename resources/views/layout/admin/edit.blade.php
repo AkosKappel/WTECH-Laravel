@@ -9,6 +9,15 @@
 <main class="mx-3 lg:mx-16 my-12 ">
     <h1 class="text-xl font-bold pb-2 mt-4 border-gray-300">Nový produkt</h1>
     <hr>
+    @if(count($errors) > 0)
+        <div class="my-4 rounded-lg bg-red-50 p-4 text-sm text-red-700" role="alert">
+            <ul class="list-disc list-inside space-y-1">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form action="{{ route('smartphones.update', [$smartphone->id]) }}" method="POST" enctype="multipart/form-data" >
         {{ method_field('PUT') }}
         {{ csrf_field() }}
