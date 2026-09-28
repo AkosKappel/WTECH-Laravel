@@ -177,7 +177,9 @@ class OrderController extends Controller
         Cart::destroy();
         $request->session()->forget('showCreateAccount');
 
-        if (!Auth::check() && $request->create_account) {
+        // only the password-less guest who just ordered may set a password afterwards
+        if (!Auth::check() && $request->create_account && is_null($user->password)) {
+            $request->session()->put('finishRegisterUserId', $user->id);
             return redirect()->route('finishRegister');
         }
         return redirect('/wtech')->with('success_message', 'Order was created!');

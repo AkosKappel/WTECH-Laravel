@@ -70,16 +70,25 @@ class RegisteredUserController extends Controller
 
     public function redirectAfterOrder(Request $request)
     {
+        if (!$request->session()->has('finishRegisterUserId')) {
+            return redirect(RouteServiceProvider::HOME);
+        }
         return view('layout.user.finishRegister');
     }
 
     public function storeAfterOrder(Request $request)
     {
+        // set by OrderController@paymentStore for the guest who just ordered
+        $user = User::find($request->session()->get('finishRegisterUserId'));
+        if (is_null($user) || !is_null($user->password)) {
+            abort(403);
+        }
+
         $request->validate([
             'password' => ['required', Rules\Password::defaults()],
         ]);
 
-        $user = User::firstWhere('email', $request->session()->get('email'));
+        $request->session()->forget('finishRegisterUserId');
         $user->update([
             'password' => Hash::make($request->password)
         ]);
