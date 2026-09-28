@@ -14,7 +14,8 @@ built with **Laravel 8**, **PostgreSQL** and **Tailwind CSS**.
 ![Alpine.js](https://img.shields.io/badge/Alpine.js-3-8BC0D0?logo=alpinedotjs&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
 
-**Live demo:** _coming soon_
+**Live demo:** [akap-ntbk.tailb52c43.ts.net/wtech](https://akap-ntbk.tailb52c43.ts.net/wtech)<br>
+<sub>Self-hosted on a home server, so it may occasionally be offline.</sub>
 
 </div>
 
