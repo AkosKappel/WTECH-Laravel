@@ -378,20 +378,7 @@ sql/database.sql                    # raw SQL seed
    cp .env.example .env
    ```
 
-   Change the database settings in `.env` so they point to the PostgreSQL container:
-
-   ```dotenv
-   APP_URL=http://localhost:8082
-
-   DB_CONNECTION=pgsql
-   DB_HOST=db
-   DB_PORT=5432
-   DB_DATABASE=wtech_laravel
-   DB_USERNAME=wtech
-   DB_PASSWORD=secret
-   ```
-
-   Docker Compose reads the same `DB_*` values to set up the PostgreSQL container.
+   The example file is already set up for the Docker environment. It connects to the `db` PostgreSQL container, and e-mails (password reset, verification) are written to `storage/logs/laravel.log` instead of being sent. Docker Compose reads the same `DB_*` values to set up the database container, so change the password in `.env` before starting it for the first time.
 
 3. **Build and start the containers**
 
@@ -417,7 +404,7 @@ The seeder creates an administrator account:
 |---|---|
 | `admin@eshop.sk` | `123456789` |
 
-> These defaults are meant for local development only. Set `ADMIN_EMAIL` and `ADMIN_PASSWORD` in `.env` before seeding to change them, and always change them in production.
+> These defaults are meant for local development only. Change `ADMIN_EMAIL` and `ADMIN_PASSWORD` in `.env` before seeding, and always use your own values in production.
 
 ### Services
 
@@ -456,7 +443,7 @@ All routes are served under the `/wtech` prefix.
 | `GET` `PUT` | `/wtech/smartphones/{id}/edit`, `/wtech/smartphones/{id}` | Edit product |
 | `DELETE` | `/wtech/smartphones/{id}` | Delete product |
 
-Authentication routes (`/login`, `/register`, `/forgot-password`, `/reset-password`, …) come from Laravel Breeze.
+Authentication routes (`/wtech/login`, `/wtech/register`, `/wtech/forgot-password`, `/wtech/reset-password`, …) come from Laravel Breeze.
 
 ## Project History
 
