@@ -29,14 +29,14 @@
     <div class="mt-3 flex items-center gap-2">
         <label class="flex-1">
             <span class="block text-xs text-gray-500">{{ __('From') }} (€)</span>
-            <input type="number" name="price_min" min="0" step="1" inputmode="numeric" data-price="min"
+            <input type="number" name="price_min" min="{{ $priceBounds[0] }}" max="{{ $priceBounds[1] }}" step="1" inputmode="numeric" data-price="min"
                    value="{{ $filters->priceMin !== null ? (int) $filters->priceMin : '' }}" placeholder="{{ $priceBounds[0] }}"
                    class="mt-1 w-full rounded-md border border-gray-300 px-2 py-1 text-sm focus:border-indigo-500 focus:ring-indigo-500"/>
         </label>
         <span class="pt-5 text-gray-400" aria-hidden="true">–</span>
         <label class="flex-1">
             <span class="block text-xs text-gray-500">{{ __('To') }} (€)</span>
-            <input type="number" name="price_max" min="0" step="1" inputmode="numeric" data-price="max"
+            <input type="number" name="price_max" min="{{ $priceBounds[0] }}" max="{{ $priceBounds[1] }}" step="1" inputmode="numeric" data-price="max"
                    value="{{ $filters->priceMax !== null ? (int) $filters->priceMax : '' }}" placeholder="{{ $priceBounds[1] }}"
                    class="mt-1 w-full rounded-md border border-gray-300 px-2 py-1 text-sm focus:border-indigo-500 focus:ring-indigo-500"/>
         </label>

@@ -98,6 +98,9 @@
 
     function render(data) {
         const focus = focusKey();
+        // don't overwrite a price the visitor is still typing or stepping through
+        const editing = document.activeElement && document.activeElement.dataset && document.activeElement.dataset.price
+            ? { min: form.querySelector('[data-price="min"]').value, max: form.querySelector('[data-price="max"]').value } : null;
         const brandSearch = form.querySelector('[data-brand-search]');
         const brandQuery = brandSearch ? brandSearch.value : '';
         const brandList = form.querySelector('[data-brand-list]');
@@ -111,6 +114,12 @@
         if (status) status.textContent = data.status;
 
         restoreSections();
+        if (editing) {
+            ['min', 'max'].forEach(function (side) {
+                form.querySelector('[data-price="' + side + '"]').value = editing[side];
+                if (editing[side] !== '') form.querySelector('[data-thumb="' + side + '"]').value = editing[side];
+            });
+        }
         initForm();
         const newSearch = form.querySelector('[data-brand-search]');
         if (newSearch && brandQuery) { newSearch.value = brandQuery; filterBrands(); }
@@ -138,16 +147,20 @@
 
     // form controls (delegated, so they keep working after the form is re-rendered)
     form.addEventListener('submit', function (event) { event.preventDefault(); apply(); });
-    let sliderTimer = null;
+    let priceTimer = null;
     form.addEventListener('change', function (event) {
         const target = event.target;
-        if (target.matches('[data-thumb]')) {
-            // arrow keys fire a change per step, so wait until they stop
-            clearTimeout(sliderTimer);
-            sliderTimer = setTimeout(apply, 350);
-        } else if (target.matches('input[type="checkbox"], [data-price]')) {
+        if (target.matches('[data-thumb], [data-price]')) {
+            // arrow keys and spinner buttons fire a change per step, so wait until they stop
+            clearTimeout(priceTimer);
+            priceTimer = setTimeout(apply, target.dataset.price ? 700 : 350);
+        } else if (target.matches('input[type="checkbox"]')) {
             apply();
         }
+    });
+    // an empty price field steps from the catalog's lowest/highest price, not from 0
+    form.addEventListener('focusin', function (event) {
+        if (event.target.dataset.price && event.target.value === '') event.target.value = event.target.placeholder;
     });
     form.addEventListener('keydown', function (event) {
         if (event.key === 'Enter' && event.target.matches('[data-brand-search]')) event.preventDefault();
