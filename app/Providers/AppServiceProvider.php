@@ -23,7 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (env('APP_ENV') === 'production') {
+        // behind a TLS-terminating proxy the app itself only sees plain HTTP
+        if (str_starts_with(config('app.url'), 'https://')) {
             \URL::forceScheme('https');
         }
     }

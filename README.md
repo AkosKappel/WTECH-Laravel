@@ -410,7 +410,7 @@ The seeder creates an administrator account:
 
 | Service | Container | Port |
 |---|---|---|
-| Nginx (web server) | `wtech-nginx` | `8082` |
+| Nginx (web server) | `wtech-nginx` | `8082` (`APP_BIND`/`APP_PORT`) |
 | PHP-FPM 8.1 (application) | `wtech-app` | – |
 | PostgreSQL 15 | `wtech-db` | `5433` (localhost only) |
 
@@ -420,8 +420,9 @@ PostgreSQL is published only on `127.0.0.1`, so a database client can connect fr
 
 Before exposing the shop publicly, set these in `.env`:
 
-- `APP_ENV=production` and `APP_DEBUG=false`. In production the app also forces HTTPS links, so put it behind a TLS-terminating reverse proxy.
-- `APP_URL` set to the public URL.
+- `APP_ENV=production` and `APP_DEBUG=false`.
+- `APP_URL` set to the address people will use. If it starts with `https://`, the app generates HTTPS links, which is what you want behind a TLS-terminating proxy such as Tailscale Funnel or Cloudflare Tunnel.
+- `APP_BIND` to choose the network interface the web server listens on. For example, set it to the host's Tailscale IP to make the shop reachable only from your tailnet.
 - A strong `DB_PASSWORD`, set before the database container is first created.
 - Your own `ADMIN_EMAIL` and `ADMIN_PASSWORD` before seeding.
 - A real `MAIL_MAILER` configuration if password-reset e-mails should actually be delivered.
