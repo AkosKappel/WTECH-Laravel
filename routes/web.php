@@ -29,6 +29,15 @@ Route::prefix('wtech')->group(function () {
     // Homepage
     Route::get('/', [ShopController::class, 'index'])->name('home');
 
+    // Information pages
+    Route::view('/about', 'layout.pages.about')->name('about');
+    Route::view('/contact', 'layout.pages.contact')->name('contact');
+    Route::view('/shipping', 'layout.pages.shipping')->name('shipping');
+    Route::view('/payment-methods', 'layout.pages.payment-methods')->name('payment-methods');
+    Route::view('/returns', 'layout.pages.returns')->name('returns');
+    Route::view('/terms', 'layout.pages.terms')->name('terms');
+    Route::view('/privacy', 'layout.pages.privacy')->name('privacy');
+
     // User
     Route::get('/profile', [UserController::class, 'index'])->middleware(['auth'])->name('profile');
     Route::put('/profile', [UserController::class, 'update'])->middleware(['auth']);

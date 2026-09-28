@@ -17,8 +17,8 @@
                     <a href="{{ route('smartphones') }}" class="text-white hover:text-indigo-100 px-3 py-2 text-sm font-medium transition-colors">
                         {{ __('Products') }}
                     </a>
-                    <a href="#" class="text-white hover:text-indigo-100 px-3 py-2 text-sm font-medium transition-colors">
-                        {{ __('Terms and Conditions') }}
+                    <a href="{{ route('about') }}" class="text-white hover:text-indigo-100 px-3 py-2 text-sm font-medium transition-colors">
+                        {{ __('About') }}
                     </a>
                     @if(Auth::check() && Auth::user()->role == 'admin')
                         <a href="{{ route('admin') }}" class="text-white hover:text-indigo-100 px-3 py-2 text-sm font-medium transition-colors">
@@ -102,8 +102,8 @@
             <a href="{{ route('smartphones') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-indigo-100 hover:bg-indigo-500/70 transition-colors">
                 {{ __('Products') }}
             </a>
-            <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-indigo-100 hover:bg-indigo-500/70 transition-colors">
-                {{ __('Terms and Conditions') }}
+            <a href="{{ route('about') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-indigo-100 hover:bg-indigo-500/70 transition-colors">
+                {{ __('About') }}
             </a>
             @if(Auth::check() && Auth::user()->role == 'admin')
                 <a href="{{ route('admin') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-indigo-100 hover:bg-indigo-500/70 transition-colors">
