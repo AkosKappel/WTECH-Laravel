@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Smartphone;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\View;
@@ -41,12 +42,29 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        Cart::add($request->id, $request->name, $request->quantity, $request->price, [
-                'image_source' => $request->image_source,
-                'image_name' => $request->image_name,
-                'max_quantity' => $request->max_quantity
+        $request->validate([
+            'id' => 'required|integer|exists:smartphones,id',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        // name, price and stock are taken from the database, never from the form
+        $smartphone = Smartphone::findOrFail($request->id);
+        $image = $smartphone->images()->first();
+        $inCart = Cart::search(function ($item) use ($smartphone) {
+            return $item->id == $smartphone->id;
+        })->sum('qty');
+        $quantity = min($request->quantity, $smartphone->quantity - $inCart);
+
+        if ($quantity < 1) {
+            return redirect('/wtech/cart')->withErrors(['quantity' => "No more {$smartphone->name} in stock."]);
+        }
+
+        Cart::add($smartphone->id, $smartphone->name, $quantity, $smartphone->price, [
+                'image_source' => $image ? $image->source : 'images/no_img_available.jpg',
+                'image_name' => $image ? $image->name : 'No image available',
+                'max_quantity' => $smartphone->quantity
             ]
-        )->associate('App\Smartphone');
+        )->associate(Smartphone::class);
 
         return redirect('/wtech/cart')->with('success_message', 'Product was added to cart!');
     }
@@ -79,7 +97,11 @@ class CartController extends Controller
      */
     public function update(Request $request, $rowId)
     {
-        Cart::update($rowId, $request->product_quantity);
+        $request->validate(['product_quantity' => 'required|integer|min:0']);
+
+        $item = Cart::get($rowId);
+        $quantity = min($request->product_quantity, $item->options->max_quantity);
+        Cart::update($rowId, $quantity);
         return redirect('wtech/cart');
     }
 
