@@ -150,6 +150,12 @@ The sections below cover the same topics.
 - Remove individual images when editing a product
 - Deleting a product also **deletes its image files** from disk
 
+### Languages
+- The whole shop is available in **English, German and Slovak**: interface, info pages, validation messages, e-mails and product descriptions
+- A **language switcher with flags** in the header; the choice is remembered in a cookie, and first-time visitors get their browser's language if it's supported
+- Product descriptions are stored per language (the admin form has a field for each), falling back to English
+- `php artisan lang:missing` lists any texts that still need a translation
+
 ### Demo Mode
 - A **demo notice** on every page, plus About, Contact, Terms, Privacy and fictional shop-policy pages
 - Author and profile links configured through `DEMO_*` variables in `.env`
@@ -190,6 +196,8 @@ The sections below cover the same topics.
 | [`intervention/image`](https://image.intervention.io/) | Processing and saving uploaded product images |
 | [`laravelcollective/html`](https://laravelcollective.com/) | Form helpers used in the admin forms |
 | [`laravel/breeze`](https://github.com/laravel/breeze) | Starting point for authentication (login, registration, password reset) |
+| [Laravel-Lang](https://github.com/Laravel-Lang/lang) 8.1.3 (MIT) | German and Slovak validation, auth, password and framework messages (copied into `resources/lang`) |
+| [flag-icons](https://github.com/lipis/flag-icons) 7.5.0 (MIT) | Flags in the language switcher (`public/images/flags`) |
 
 ## Data Model
 
@@ -335,7 +343,9 @@ The admin forms accept several images (`images[]`). Each one is processed with I
 
 ```
 app/
-├── Console/Commands/DemoReset.php   # nightly demo reset
+├── Console/Commands/
+│   ├── DemoReset.php               # nightly demo reset
+│   └── LangMissing.php             # lists missing translations
 ├── Http/Controllers/
 │   ├── ShopController.php          # homepage
 │   ├── SmartphoneController.php    # catalog, detail, admin CRUD
@@ -351,6 +361,7 @@ app/
 database/
 ├── migrations/
 └── seeders/                        # brands, colours, smartphones, images, admin user
+resources/lang/                     # de.json, sk.json + validation/auth messages per language
 resources/views/
 ├── layout/
 │   ├── partials/                   # head, header, footer, pagination

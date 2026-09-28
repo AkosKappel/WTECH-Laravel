@@ -71,7 +71,7 @@
                                         ]) }}
                                         <span class="ml-2 flex items-center">
                                             <span class="h-4 w-4 rounded-full border border-gray-200 bg-{{ $color['name-en'] }}-600 bg-{{ $color['name-en'] }}"></span>
-                                            <span class="ml-2 text-sm text-gray-600">{{ $color['name-en'] }}</span>
+                                            <span class="ml-2 text-sm text-gray-600">{{ __($color['name-en']) }}</span>
                                         </span>
                                     </label>
                                 @endforeach
@@ -87,7 +87,7 @@
                                                 'id' => $sort['id'],
                                                 'class' => 'border-gray-300 text-indigo-600 focus:ring-indigo-500'
                                             ]) }}
-                                            <span class="ml-2 text-sm text-gray-600">{{ $sort['name'] }}</span>
+                                            <span class="ml-2 text-sm text-gray-600">{{ __($sort['name']) }}</span>
                                         </label>
                                     @endforeach
                                 </div>

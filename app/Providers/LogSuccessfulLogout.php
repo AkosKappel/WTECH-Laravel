@@ -27,6 +27,6 @@ class LogSuccessfulLogout
      */
     public function handle(Logout $event)
     {
-        Log::info('Pouzivatel sa odhlasil', ['id' => $event->user->id]);
+        Log::info('User logged out', ['id' => $event->user->id]);
     }
 }

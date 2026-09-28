@@ -96,6 +96,6 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         return redirect()->route('order.complete')
-            ->with('success_message', 'Your account was created and you are now logged in.');
+            ->with('success_message', __('Your account was created and you are now logged in.'));
     }
 }

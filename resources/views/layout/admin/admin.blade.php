@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    @include('layout.partials.head', ['title' => "Všetky produkty" ])
+    @include('layout.partials.head', ['title' => __('All products')])
 </head>
 
 <body class="font-body text-gray-600 bg-gray-100 flex flex-col h-screen justify-between">
@@ -14,10 +14,10 @@
         @endif
 
         <div class="hidden md:grid grid-cols-12 mx-auto w-11/12 2xl:w-4/5 rounded-md mt-5 -mb-2 items-center">
-            <div class="col-span-5 text-center text-xl">Názov produktu</div>
-            <div class="col-span-3 text-center text-xl">Cena za kus</div>
-            <div class="col-span-2 text-center text-xl">Množstvo na sklade</div>
-            <div class="col-span-2 text-center text-xl">Akcie</div>
+            <div class="col-span-5 text-center text-xl">{{ __('Product name') }}</div>
+            <div class="col-span-3 text-center text-xl">{{ __('Unit price') }}</div>
+            <div class="col-span-2 text-center text-xl">{{ __('Stock quantity') }}</div>
+            <div class="col-span-2 text-center text-xl">{{ __('Actions') }}</div>
         </div>
 
         <div class="text-center mx-auto w-11/12 2xl:w-4/5">
@@ -30,12 +30,12 @@
                 </div>
 
                 <div class="col-span-12 mt-2 md:col-span-3 md:mt-0 text-center">
-                    <p class="inline text-lg font-semibold md:hidden">Cena za kus:</p>
+                    <p class="inline text-lg font-semibold md:hidden">{{ __('Unit price') }}:</p>
                     <p class="inline text-lg font-semibold">{{ formattedPrice($product->price) }}</p>
                 </div>
 
                 <div class="col-span-12 mt-2 md:col-span-2 md:mt-0 text-center">
-                    <p class="inline text-lg font-semibold md:hidden">Množstvo na sklade:</p>
+                    <p class="inline text-lg font-semibold md:hidden">{{ __('Stock quantity') }}:</p>
                     <p class="inline text-lg font-semibold">{{ $product->quantity }}</p>
                 </div>
 
@@ -70,7 +70,7 @@
                 @can('update', $product)
                 <form action="{{ route('smartphones.add') }}" method="GET">
                     <button type="submit" class="bg-blue-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150">
-                        Pridať produkt
+                        {{ __('Add product') }}
                     </button>
                 </form>
                 @endcan

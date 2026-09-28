@@ -144,7 +144,7 @@ class SmartphoneController extends Controller
     public function create()
     {
         $brands = Brand::all()->pluck('name')->toArray();
-        $colors = Color::all()->pluck('name_sk')->toArray();
+        $colors = Color::all()->pluck('name_en')->toArray();
         return view('layout.admin.create', ['colors' => $colors, 'brands' => $brands]);
     }
 
@@ -159,7 +159,7 @@ class SmartphoneController extends Controller
         $request->validate($this->rules());
 
         if ($request->color != null) {
-            $color_id = Color::firstWhere('name_sk', $request->color)->id;
+            $color_id = Color::firstWhere('name_en', $request->color)->id;
         } else {
             $color_id = null;
         }
@@ -175,6 +175,7 @@ class SmartphoneController extends Controller
             'price' => $request->price,
             'quantity' => $request->quantity,
             'description' => $request->description,
+            'description_translations' => $this->descriptionTranslations($request),
             'operating_system' => $request->operating_system,
             'os_version' => $request->os_version,
             'display_size' => $request->display_size,
@@ -198,15 +199,15 @@ class SmartphoneController extends Controller
                 $image_resize->save(public_path('/images/') . $imageName);
 
                 Image::create([
-                    'name' => 'Obrázok smartfónu',
+                    'name' => $smartphone->name,
                     'source' => '/images/' . $imageName,
                     'smartphone_id' => $smartphone->id,
                 ]);
             }
         }
 
-        $request->session()->flash('message', "Product {$request->name} was successfully added!");
-        return redirect()->route('admin')->with('success_message', "Product {$request->name} was successfully added!");
+        $request->session()->flash('message', __('Product :name was successfully added!', ['name' => $request->name]));
+        return redirect()->route('admin')->with('success_message', __('Product :name was successfully added!', ['name' => $request->name]));
     }
 
     /**
@@ -229,7 +230,7 @@ class SmartphoneController extends Controller
     public function edit(Smartphone $smartphone)
     {
         $brands = Brand::all()->pluck('name')->toArray();
-        $colors = Color::all()->pluck('name_sk')->toArray();
+        $colors = Color::all()->pluck('name_en')->toArray();
         return view('layout.admin.edit', [
             'smartphone' => $smartphone,
             'brands' => $brands,
@@ -266,7 +267,7 @@ class SmartphoneController extends Controller
                 $imageName = 'smartphone-' . $smartphone->id . '-' . $id . '.' . $extension;
                 $image->move(public_path('images'), $imageName);
                 Image::create([
-                    'name' => 'Obrázok smartfónu',
+                    'name' => $smartphone->name,
                     'source' => '/images/' . $imageName,
                     'smartphone_id' => $smartphone->id,
                 ]);
@@ -274,7 +275,7 @@ class SmartphoneController extends Controller
         }
 
         if ($request->color != null) {
-            $color_id = Color::firstWhere('name_sk', $request->color)->id;
+            $color_id = Color::firstWhere('name_en', $request->color)->id;
         } else {
             $color_id = null;
         }
@@ -290,6 +291,7 @@ class SmartphoneController extends Controller
             'price' => $request->price,
             'quantity' => $request->quantity,
             'description' => $request->description,
+            'description_translations' => $this->descriptionTranslations($request),
             'operating_system' => $request->operating_system,
             'os_version' => $request->os_version,
             'display_size' => $request->display_size,
@@ -301,7 +303,7 @@ class SmartphoneController extends Controller
             'color_id' => $color_id,
             'brand_id' => $brand_id
         ]);
-        return redirect()->route('admin')->with('success_message', "Product {$smartphone->name} was successfully updated!");
+        return redirect()->route('admin')->with('success_message', __('Product :name was successfully updated!', ['name' => $smartphone->name]));
     }
 
     /**
@@ -318,7 +320,25 @@ class SmartphoneController extends Controller
             }
         }
         $smartphone->delete();
-        return back()->with('success_message', "Product {$smartphone->name} was successfully deleted!");
+        return back()->with('success_message', __('Product :name was successfully deleted!', ['name' => $smartphone->name]));
+    }
+
+    /**
+     * Non-English descriptions from the form, e.g. description_de → ['de' => ...].
+     *
+     * @param Request $request
+     * @return array
+     */
+    private function descriptionTranslations(Request $request)
+    {
+        $translations = [];
+        foreach (array_keys(config('app.locales')) as $locale) {
+            if ($locale !== 'en' && filled($request->input("description_$locale"))) {
+                $translations[$locale] = $request->input("description_$locale");
+            }
+        }
+
+        return $translations;
     }
 
     /**
@@ -333,6 +353,8 @@ class SmartphoneController extends Controller
             'price' => 'required|numeric|min:0',
             'quantity' => 'required|integer|min:0',
             'description' => 'nullable|string',
+            'description_de' => 'nullable|string',
+            'description_sk' => 'nullable|string',
             'ram' => 'nullable|integer|min:0',
             'operating_system' => 'nullable|string|max:255',
             'os_version' => 'nullable|integer|min:0',
@@ -341,7 +363,7 @@ class SmartphoneController extends Controller
             'height' => 'nullable|numeric|min:0',
             'width' => 'nullable|numeric|min:0',
             'thickness' => 'nullable|numeric|min:0',
-            'color' => 'nullable|exists:colors,name_sk',
+            'color' => 'nullable|exists:colors,name_en',
             'brand' => 'nullable|exists:brands,name',
             // only real images, so nothing executable ends up in public/images
             'images' => 'nullable|array',

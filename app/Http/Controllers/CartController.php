@@ -56,7 +56,7 @@ class CartController extends Controller
         $quantity = min($request->quantity, $smartphone->quantity - $inCart);
 
         if ($quantity < 1) {
-            return redirect('/wtech/cart')->withErrors(['quantity' => "No more {$smartphone->name} in stock."]);
+            return redirect('/wtech/cart')->withErrors(['quantity' => __('No more :name in stock.', ['name' => $smartphone->name])]);
         }
 
         Cart::add($smartphone->id, $smartphone->name, $quantity, $smartphone->price, [
@@ -66,7 +66,7 @@ class CartController extends Controller
             ]
         )->associate(Smartphone::class);
 
-        return redirect('/wtech/cart')->with('success_message', 'Product was added to cart!');
+        return redirect('/wtech/cart')->with('success_message', __('Product was added to cart!'));
     }
 
     /**
@@ -113,6 +113,6 @@ class CartController extends Controller
     public function destroy($id)
     {
         Cart::remove($id);
-        return back()->with('success_message', 'Product was removed from cart!');
+        return back()->with('success_message', __('Product was removed from cart!'));
     }
 }

@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    @include('layout.partials.head', ['title' => "Všetky produkty" ])
+    @include('layout.partials.head', ['title' => __('New product')])
 </head>
 
 <body class="font-body text-gray-600 bg-gray-100 flex flex-col h-screen justify-between">
 @include('layout.partials.header')
 <main class="mx-3 lg:mx-16 my-12 ">
-    <h1 class="text-xl font-bold pb-2 mt-4 border-gray-300">Nový produkt</h1>
+    <h1 class="text-xl font-bold pb-2 mt-4 border-gray-300">{{ __('New product') }}</h1>
     <hr>
     @if(count($errors) > 0)
         <div class="my-4 rounded-lg bg-red-50 p-4 text-sm text-red-700" role="alert">
@@ -24,85 +24,97 @@
             <div class="col-span-12 lg:col-span-6">
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
-                        <label for="name">Názov produktu</label>
+                        <label for="name">{{ __('Product name') }}</label>
                         <input type="text" class="form-control p-1" id="name" name="name" required>
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
-                        <label for="price">Cena</label>
+                        <label for="price">{{ __('Price (€)') }}</label>
                         <input type="number" step=".01" class="form-control" id="price" name="price" required>
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
-                        <label for="quantity">Množstvo na sklade</label>
+                        <label for="quantity">{{ __('Stock quantity') }}</label>
                         <input type="number" class="form-control p-1" id="quantity" name="quantity" required>
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
-                        <label for="description">Popis produktu</label>
+                        <label for="description">{{ __('Description (English)') }}</label>
                         <textarea class="form-control p-1" id="description" name="description"></textarea>
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
-                        <label for="ram">Pamäť RAM (MB)</label>
+                        <label for="description_de">{{ __('Description (German)') }}</label>
+                        <textarea class="form-control p-1" id="description_de" name="description_de" lang="de">{{ old('description_de') }}</textarea>
+                    </div>
+                </div>
+                <div class="form-group m-2">
+                    <div class="grid grid-cols-2">
+                        <label for="description_sk">{{ __('Description (Slovak)') }}</label>
+                        <textarea class="form-control p-1" id="description_sk" name="description_sk" lang="sk">{{ old('description_sk') }}</textarea>
+                    </div>
+                </div>
+                <div class="form-group m-2">
+                    <div class="grid grid-cols-2">
+                        <label for="ram">{{ __('RAM (MB)') }}</label>
                         <input type="number" class="form-control p-1" id="ram" name="ram">
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
-                        <label for="operating_system">Operačný systém</label>
+                        <label for="operating_system">{{ __('Operating system') }}</label>
                         <input type="text" class="form-control p-1" id="operating_system" name="operating_system">
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
-                        <label for="os_version">Verzia operačného systému</label>
+                        <label for="os_version">{{ __('OS version') }}</label>
                         <input type="number" class="form-control p-1" id="os_version" name="os_version">
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
-                        <label for="display_size">Veľkosť displeja (V palcoch)</label>
+                        <label for="display_size">{{ __('Display size (inches)') }}</label>
                         <input type="number" step=".01" class="form-control p-1" id="display_size" name="display_size">
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
-                        <label for="resolution">Rozlíšenie displeja</label>
+                        <label for="resolution">{{ __('Display resolution') }}</label>
                         <input type="text" class="form-control p-1" id="resolution" name="resolution">
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
-                        <label for="height">Výška (mm)</label>
+                        <label for="height">{{ __('Height (mm)') }}</label>
                         <input type="number" class="form-control p-1" id="height" name="height">
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
-                        <label for="width">Šírka (mm)</label>
+                        <label for="width">{{ __('Width (mm)') }}</label>
                         <input type="number" step=".01" class="form-control p-1" id="width" name="width">
                     </div>
                 </div>
                 <div class="form-group m-2">
                     <div class="grid grid-cols-2">
-                        <label for="thickness">Hrúbka (mm)</label>
+                        <label for="thickness">{{ __('Thickness (mm)') }}</label>
                         <input type="number" step=".01" class="form-control p-1" id="thickness" name="thickness">
                     </div>
                 </div>
             </div>
             <div class="col-span-12 md:col-span-6 lg:col-span-3">
                 <section>
-                    <span class="text-gray-700 font-bold py-4 px-8 flex justify-start">Farba</span>
+                    <span class="text-gray-700 font-bold py-4 px-8 flex justify-start">{{ __('Color') }}</span>
                     <div class="flex flex-col text-left px-16">
                         @foreach($colors as $color)
                             <label class="text-lg inline-flex items-center" for="{{ $color }}">
                                 {{ Form::radio('color', $color , false, ['id' => $color, 'class' => 'form-checkbox h-4 w-4']) }}
-                                <span class="mx-2">{{ $color }}</span>
+                                <span class="mx-2">{{ __($color) }}</span>
                             </label>
                         @endforeach
                     </div>
@@ -110,7 +122,7 @@
             </div>
             <div class="col-span-12 md:col-span-6 lg:col-span-3">
                 <section>
-                    <span class="text-gray-700 font-bold py-4 px-8 flex justify-start">Výrobca</span>
+                    <span class="text-gray-700 font-bold py-4 px-8 flex justify-start">{{ __('Brand') }}</span>
                     <div class="flex flex-col text-left px-16">
                         @foreach($brands as $brand)
                             <label class="text-lg inline-flex items-center" for="{{ $brand }}">
@@ -125,7 +137,7 @@
 
         <div class="m-2">
             <label class="text-gray-700 font-bold py-4 px-8 flex justify-start block tray-700">
-                Obrázky
+                {{ __('Images') }}
             </label>
             <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                 <div class="space-y-1 text-center">
@@ -134,12 +146,12 @@
                     </svg>
                     <div class="flex text-sm text-gray-600">
                         <label for="file-upload" class="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                            <span>Upload a file</span>
+                            <span>{{ __('Upload a file') }}</span>
                             <input id="file-upload" name="images[]" type="file" class="sr-only" multiple>
                         </label>
                     </div>
                     <p class="text-xs text-gray-500">
-                        PNG, JPG up to 10MB
+                        {{ __('JPG, PNG or WebP up to 10 MB') }}
                     </p>
                 </div>
             </div>
@@ -156,7 +168,7 @@
         @endif
 
         <button type="submit" class="bg-blue-500 text-white active:bg-pink-600 font-bold uppercase text-xs my-4 px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150">
-            Vytvoriť produkt
+            {{ __('Create product') }}
         </button>
     </form>
 </main>

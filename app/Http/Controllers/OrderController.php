@@ -89,8 +89,8 @@ class OrderController extends Controller
             'country' => 'required|string|max:255',
         ], [
             'email.unique' => Auth::check()
-                ? 'This e-mail is already used by another account.'
-                : 'An account with this e-mail already exists. Please log in to order with it.',
+                ? __('This e-mail is already used by another account.')
+                : __('An account with this e-mail already exists. Please log in to order with it.'),
         ]);
 
         // Ak je používateľ prihlásený
@@ -146,7 +146,7 @@ class OrderController extends Controller
 
         // the earlier checkout steps must be completed first
         if (Cart::count() == 0) {
-            return redirect()->route('cart')->withErrors(['cart' => 'Your cart is empty.']);
+            return redirect()->route('cart')->withErrors(['cart' => __('Your cart is empty.')]);
         }
         if (!Auth::check() && !$request->session()->has('email')) {
             return redirect()->route('address');
@@ -171,11 +171,11 @@ class OrderController extends Controller
             foreach ($counts as $id => $count) {
                 $smartphone = $smartphones->get($id);
                 if (is_null($smartphone)) {
-                    $stockError = 'A product in your cart is no longer available. Please remove it.';
+                    $stockError = __('A product in your cart is no longer available. Please remove it.');
                     return null;
                 }
                 if ($smartphone->quantity < $count) {
-                    $stockError = "Only {$smartphone->quantity} × {$smartphone->name} left in stock. Please update your cart.";
+                    $stockError = __('Only :count × :name left in stock. Please update your cart.', ['count' => (int) $smartphone->quantity, 'name' => $smartphone->name]);
                     return null;
                 }
                 $total += $smartphone->price * $count;

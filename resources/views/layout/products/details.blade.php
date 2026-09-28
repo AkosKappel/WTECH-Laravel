@@ -71,18 +71,8 @@
                     <form action="{{ route('cart.store') }}" method="POST" class="space-y-8">
                         @csrf
                         {{-- Hidden Fields --}}
-                        <input type="hidden" name="smartphone" value="{{ $smartphone }}">
+                        {{-- only the ID is sent; name, price and stock are read from the database --}}
                         <input type="hidden" name="id" value="{{ $smartphone->id }}">
-                        <input type="hidden" name="name" value="{{ $smartphone->name }}">
-                        <input type="hidden" name="price" value="{{ $smartphone->price }}">
-                        <input type="hidden" name="max_quantity" value="{{ $smartphone->quantity }}">
-                        @if($smartphone->images->first())
-                            <input type="hidden" name="image_source" value="{{ $smartphone->images->first()->source }}">
-                            <input type="hidden" name="image_name" value="{{ $smartphone->images->first()->name }}">
-                        @else
-                            <input type="hidden" name="image_source" value="images/no_img_available.jpg">
-                            <input type="hidden" name="image_name" value="{{ __('No image available') }}">
-                        @endif
 
                         @if($smartphone->quantity > 0)
                             <div class="grid sm:grid-cols-2 gap-6">
@@ -169,11 +159,11 @@
                         </div>
                         <div class="px-6 py-4 grid grid-cols-3 gap-4">
                             <dt class="text-sm font-medium text-gray-500">{{ __('Color') }}</dt>
-                            <dd class="text-sm text-gray-900 col-span-2">{{$smartphone->color ? $smartphone->color->name_sk : ''}}</dd>
+                            <dd class="text-sm text-gray-900 col-span-2">{{ $smartphone->color ? __($smartphone->color->name_en) : '' }}</dd>
                         </div>
                         <div class="px-6 py-4 grid grid-cols-3 gap-4">
                             <dt class="text-sm font-medium text-gray-500">{{ __('RAM Memory') }}</dt>
-                            <dd class="text-sm text-gray-900 col-span-2">{{ $smartphone->ram ? ($smartphone->ram >= 1024 ? round($smartphone->ram / 1024, 1) . ' GB' : $smartphone->ram . ' MB') : '' }}</dd>
+                            <dd class="text-sm text-gray-900 col-span-2">{{ $smartphone->ram ? ($smartphone->ram >= 1024 ? localizedNumber(round($smartphone->ram / 1024, 1)) . ' GB' : $smartphone->ram . ' MB') : '' }}</dd>
                         </div>
                         <div class="px-6 py-4 grid grid-cols-3 gap-4">
                             <dt class="text-sm font-medium text-gray-500">{{ __('Operating System') }}</dt>
@@ -185,7 +175,7 @@
                         </div>
                         <div class="px-6 py-4 grid grid-cols-3 gap-4">
                             <dt class="text-sm font-medium text-gray-500">{{ __('Display Size') }}</dt>
-                            <dd class="text-sm text-gray-900 col-span-2">{{$smartphone->display_size ? $smartphone->display_size . ' "' : ''}}</dd>
+                            <dd class="text-sm text-gray-900 col-span-2">{{ $smartphone->display_size ? localizedNumber($smartphone->display_size) . ' "' : '' }}</dd>
                         </div>
                         <div class="px-6 py-4 grid grid-cols-3 gap-4">
                             <dt class="text-sm font-medium text-gray-500">{{ __('Display Resolution') }}</dt>
@@ -193,15 +183,15 @@
                         </div>
                         <div class="px-6 py-4 grid grid-cols-3 gap-4">
                             <dt class="text-sm font-medium text-gray-500">{{ __('Height') }}</dt>
-                            <dd class="text-sm text-gray-900 col-span-2">{{$smartphone->height ? $smartphone->height . ' mm' : ''}}</dd>
+                            <dd class="text-sm text-gray-900 col-span-2">{{ $smartphone->height ? localizedNumber($smartphone->height) . ' mm' : '' }}</dd>
                         </div>
                         <div class="px-6 py-4 grid grid-cols-3 gap-4">
                             <dt class="text-sm font-medium text-gray-500">{{ __('Width') }}</dt>
-                            <dd class="text-sm text-gray-900 col-span-2">{{$smartphone->width ? $smartphone->width . ' mm' : ''}}</dd>
+                            <dd class="text-sm text-gray-900 col-span-2">{{ $smartphone->width ? localizedNumber($smartphone->width) . ' mm' : '' }}</dd>
                         </div>
                         <div class="px-6 py-4 grid grid-cols-3 gap-4">
                             <dt class="text-sm font-medium text-gray-500">{{ __('Depth') }}</dt>
-                            <dd class="text-sm text-gray-900 col-span-2">{{$smartphone->thickness ? $smartphone->thickness . ' mm' : ''}}</dd>
+                            <dd class="text-sm text-gray-900 col-span-2">{{ $smartphone->thickness ? localizedNumber($smartphone->thickness) . ' mm' : '' }}</dd>
                         </div>
                     </dl>
                 </section>
@@ -212,7 +202,7 @@
                         <h2 class="text-xl font-semibold text-gray-900">{{ __('Product Description') }}</h2>
                     </div>
                     <div class="p-6">
-                        <p class="text-gray-700 leading-relaxed">{{$smartphone->description}}</p>
+                        <p class="text-gray-700 leading-relaxed">{{ $smartphone->localized_description }}</p>
                     </div>
                 </section>
             </div>

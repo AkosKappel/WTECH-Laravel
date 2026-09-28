@@ -44,7 +44,7 @@
     <section class="bg-white rounded-xl shadow-sm p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('Cookies') }}</h2>
         <p class="text-gray-700 leading-relaxed">
-            {{ __('The site uses only the cookies it needs to work: a session cookie that keeps you logged in and remembers your cart, and a security cookie that protects forms against forgery. If you tick "Remember me" when logging in, a cookie keeps you logged in for longer, and closing the demo notice sets a cookie that keeps it hidden for a year. There are no analytics, advertising or tracking cookies.') }}
+            {{ __('The site uses only the cookies it needs to work: a session cookie that keeps you logged in and remembers your cart, and a security cookie that protects forms against forgery. If you tick "Remember me" when logging in, a cookie keeps you logged in for longer, closing the demo notice sets a cookie that keeps it hidden for a year, and your chosen language is remembered in a cookie as well. There are no analytics, advertising or tracking cookies.') }}
         </p>
     </section>
 

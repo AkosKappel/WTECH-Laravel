@@ -27,6 +27,6 @@ class LogSuccessfulLogin
      */
     public function handle(Login $event)
     {
-        Log::info('Pouzivatel sa prihlasil', ['id' => $event->user->id]);
+        Log::info('User logged in', ['id' => $event->user->id]);
     }
 }
