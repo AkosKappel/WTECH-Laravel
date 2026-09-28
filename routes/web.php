@@ -77,4 +77,5 @@ Route::prefix('wtech')->group(function () {
     Route::post('/delivery', [OrderController::class, 'deliveryStore'])->name('delivery.store');
     Route::get('/payment', [OrderController::class, 'paymentIndex'])->name('payment');
     Route::post('/payment', [OrderController::class, 'paymentStore'])->name('payment.store');
+    Route::get('/order/complete', [OrderController::class, 'complete'])->name('order.complete');
 });

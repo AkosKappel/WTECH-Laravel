@@ -163,7 +163,7 @@ class OrderController extends Controller
         }
 
         $stockError = null;
-        $user = DB::transaction(function () use ($request, $counts, &$stockError) {
+        $order = DB::transaction(function () use ($request, $counts, &$stockError) {
             // lock the rows so two orders can't sell the same last piece
             $smartphones = Smartphone::whereIn('id', array_keys($counts))->lockForUpdate()->get()->keyBy('id');
 
@@ -207,11 +207,11 @@ class OrderController extends Controller
 
             foreach ($counts as $id => $count) {
                 $smartphone = $smartphones->get($id);
-                $order->smartphones()->attach($smartphone->id, ['count' => $count]);
+                $order->smartphones()->attach($smartphone->id, ['count' => $count, 'price' => $smartphone->price]);
                 $smartphone->decrement('quantity', $count);
             }
 
-            return $user;
+            return $order;
         });
 
         if (!is_null($stockError)) {
@@ -219,14 +219,36 @@ class OrderController extends Controller
         }
 
         Cart::destroy();
-        $request->session()->forget('showCreateAccount');
+        $request->session()->forget(['showCreateAccount', 'finishRegisterUserId']);
+
+        // the confirmation page is tied to this session, so nobody can open other orders by ID
+        $request->session()->put('lastOrderId', $order->id);
 
         // only the password-less guest who just ordered may set a password afterwards
-        if (!Auth::check() && $request->create_account && is_null($user->password)) {
-            $request->session()->put('finishRegisterUserId', $user->id);
-            return redirect()->route('finishRegister');
+        if (!Auth::check() && $request->create_account && is_null($order->user->password)) {
+            $request->session()->put('finishRegisterUserId', $order->user_id);
         }
-        return redirect('/wtech')->with('success_message', 'Order was created!');
+        return redirect()->route('order.complete');
+    }
+
+    /**
+     * Show the confirmation of the order placed in this session.
+     *
+     * @param Request $request
+     * @return Application|Factory|View|RedirectResponse
+     */
+    public function complete(Request $request)
+    {
+        $order = Order::with(['smartphones', 'user'])->find($request->session()->get('lastOrderId'));
+        if (is_null($order)) {
+            return redirect()->route('home');
+        }
+
+        return view('layout/order/complete', [
+            'order' => $order,
+            'canCreateAccount' => $request->session()->get('finishRegisterUserId') === $order->user_id
+                && is_null($order->user->password),
+        ]);
     }
 
     /** Display the specified resource.

@@ -20,7 +20,17 @@ class Order extends Model
     public function smartphones()
     {
         return $this->belongsToMany(Smartphone::class)
-            ->withPivot('count')->withTimestamps();
+            ->withPivot('count', 'price')->withTimestamps();
+    }
+
+    /**
+     * Order number shown to customers, e.g. ST-000042.
+     *
+     * @return string
+     */
+    public function getNumberAttribute()
+    {
+        return 'ST-' . str_pad($this->id, 6, '0', STR_PAD_LEFT);
     }
 
     public function user() {

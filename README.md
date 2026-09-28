@@ -132,7 +132,8 @@ The sections below cover the same topics.
 - **Three-step checkout**: delivery address, then delivery method, then payment method
   - Delivery: courier, personal pickup, post office, parcel locker
   - Payment: cash on delivery, bank transfer, credit card, Apple Pay, Google Pay (simulated; no real payment is taken)
-- **Guest checkout**, with an optional step after the order to turn the guest into a registered account
+- **Order confirmation page** with the order number, items at the prices paid, total, delivery and payment details. Guests who ticked "create an account" can set a password right there
+- **Guest checkout**, with the option to turn the guest into a registered account after ordering
 - **Stock tracking**: available quantities are reduced when an order is placed
 
 ### User Accounts

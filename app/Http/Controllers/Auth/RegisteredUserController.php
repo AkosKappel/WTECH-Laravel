@@ -70,10 +70,8 @@ class RegisteredUserController extends Controller
 
     public function redirectAfterOrder(Request $request)
     {
-        if (!$request->session()->has('finishRegisterUserId')) {
-            return redirect(RouteServiceProvider::HOME);
-        }
-        return view('layout.user.finishRegister');
+        // account creation after an order now happens on the order confirmation page
+        return redirect()->route('order.complete');
     }
 
     public function storeAfterOrder(Request $request)
@@ -85,7 +83,7 @@ class RegisteredUserController extends Controller
         }
 
         $request->validate([
-            'password' => ['required', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $request->session()->forget('finishRegisterUserId');
@@ -97,6 +95,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect()->route('order.complete')
+            ->with('success_message', 'Your account was created and you are now logged in.');
     }
 }
