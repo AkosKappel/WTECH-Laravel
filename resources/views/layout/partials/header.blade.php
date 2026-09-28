@@ -47,6 +47,11 @@
                     </form>
                 </div>
 
+                {{-- Language --}}
+                <div class="hidden md:block">
+                    @include('layout.partials.locale-switcher', ['variant' => 'dropdown'])
+                </div>
+
                 {{-- User Menu --}}
                 @if (Auth::check())
                     <div class="relative group">
@@ -111,11 +116,23 @@
                     {{ __('Admin') }}
                 </a>
             @endif
+            <div class="pt-2 mt-2 border-t border-white border-opacity-20">
+                @include('layout.partials.locale-switcher', ['variant' => 'list'])
+            </div>
         </div>
     </div>
 </header>
 
 <script>
+// close the language dropdown when clicking outside it or pressing Escape
+document.addEventListener('click', function (event) {
+    document.querySelectorAll('details.locale-switcher[open]').forEach(function (details) {
+        if (!details.contains(event.target)) details.removeAttribute('open');
+    });
+});
+document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') document.querySelectorAll('details.locale-switcher[open]').forEach(function (d) { d.removeAttribute('open'); });
+});
 document.addEventListener('DOMContentLoaded', function() {
     // Mobile menu toggle
     const btn = document.querySelector('.mobile-menu-button');

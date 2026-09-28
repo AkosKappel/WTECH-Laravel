@@ -30,6 +30,7 @@ Route::prefix('wtech')->group(function () {
     Route::get('/', [ShopController::class, 'index'])->name('home');
 
     Route::post('/demo-notice/dismiss', [ShopController::class, 'dismissDemoNotice'])->name('demo-notice.dismiss');
+    Route::post('/locale/{locale}', [ShopController::class, 'switchLocale'])->name('locale.switch');
 
     // Information pages
     Route::view('/about', 'layout.pages.about')->name('about');

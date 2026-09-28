@@ -97,6 +97,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Available Locales
+    |--------------------------------------------------------------------------
+    |
+    | Languages visitors can switch between. The key is the locale code, "flag"
+    | is the file in public/images/flags. See App\Http\Middleware\SetLocale.
+    |
+    */
+
+    'locales' => [
+        'en' => ['name' => 'English', 'flag' => 'gb'],
+        'de' => ['name' => 'Deutsch', 'flag' => 'de'],
+        'sk' => ['name' => 'Slovenčina', 'flag' => 'sk'],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Faker Locale
     |--------------------------------------------------------------------------
     |

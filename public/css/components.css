@@ -14,3 +14,7 @@
 .product-card-media {
     aspect-ratio: 4 / 3;
 }
+
+/* Language switcher: hide the native <details> marker */
+.locale-switcher > summary { list-style: none; }
+.locale-switcher > summary::-webkit-details-marker { display: none; }
