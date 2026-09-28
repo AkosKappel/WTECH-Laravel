@@ -8,7 +8,7 @@ A full-stack, server-side rendered e-commerce web application for selling smartp
 built with **Laravel 8**, **PostgreSQL** and **Tailwind CSS**.
 
 ![Laravel](https://img.shields.io/badge/Laravel-8-FF2D20?logo=laravel&logoColor=white)
-![PHP](https://img.shields.io/badge/PHP-8.0-777BB4?logo=php&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-8.1-777BB4?logo=php&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-4169E1?logo=postgresql&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-2-06B6D4?logo=tailwindcss&logoColor=white)
 ![Alpine.js](https://img.shields.io/badge/Alpine.js-3-8BC0D0?logo=alpinedotjs&logoColor=white)
@@ -168,7 +168,7 @@ The sections below cover the same topics.
 
 | Layer | Technology |
 |---|---|
-| **Backend** | PHP 8.0, Laravel 8 (MVC, Eloquent ORM, Blade) |
+| **Backend** | PHP 8.1, Laravel 8 (MVC, Eloquent ORM, Blade) |
 | **Database** | PostgreSQL 15 |
 | **Frontend** | Blade templates, Tailwind CSS 2, Alpine.js 3, vanilla JavaScript |
 | **Auth** | Laravel Breeze (customised), Gates & Policies |
@@ -411,7 +411,7 @@ The seeder creates an administrator account:
 | Service | Container | Port |
 |---|---|---|
 | Nginx (web server) | `wtech-nginx` | `8082` |
-| PHP-FPM 8.0 (application) | `wtech-app` | – |
+| PHP-FPM 8.1 (application) | `wtech-app` | – |
 | PostgreSQL 15 | `wtech-db` | `5432` |
 
 ### Rebuilding Frontend Assets (optional)
@@ -462,6 +462,13 @@ Authentication routes (`/wtech/login`, `/wtech/register`, `/wtech/forgot-passwor
 - Fixed broken image links, and made forms remember their values after a failed validation
 - **Redesigned every page** with a modern, responsive Tailwind UI
 - Gave the shop its brand name, **SmartTech**
+
+**September 2026: hardening.** Before deploying the shop publicly, I reviewed the code and:
+
+- restricted every admin route with the `auth` and `isAdmin` middleware
+- made the cart take prices and stock limits from the database instead of the submitted form
+- fixed the search so it combines correctly with the filters, and fixed several broken redirects and forms
+- moved the Docker image to **PHP 8.1** on Debian 12 after Debian 11 reached end of life
 
 ## What I Learned
 
