@@ -10,9 +10,13 @@ class TrustProxies extends Middleware
     /**
      * The trusted proxies for this application.
      *
+     * The web server is only published on a private interface, so whatever connects
+     * to it directly is our own reverse proxy (e.g. Tailscale Funnel). '*' trusts just
+     * that direct peer, so the client IP is the one the proxy appended, not a spoofed one.
+     *
      * @var array|string|null
      */
-    protected $proxies;
+    protected $proxies = '*';
 
     /**
      * The headers that should be used to detect proxies.
