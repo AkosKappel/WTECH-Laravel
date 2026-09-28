@@ -73,10 +73,12 @@ class SmartphoneController extends Controller
         // apply search query
         if ($request['search']) {
             $searchQuery = '%' . $request['search'] . '%';
-            $smartphones = $smartphones
-                ->where('name', 'ILIKE', $searchQuery)
-                ->orWhere('description', 'ILIKE', $searchQuery)
-                ->orWhere('operating_system', 'ILIKE', $searchQuery);
+            // grouped so the OR conditions don't bypass the filters below
+            $smartphones = $smartphones->where(function ($query) use ($searchQuery) {
+                $query->where('name', 'ILIKE', $searchQuery)
+                    ->orWhere('description', 'ILIKE', $searchQuery)
+                    ->orWhere('operating_system', 'ILIKE', $searchQuery);
+            });
         }
 
         // filter by min and max price
