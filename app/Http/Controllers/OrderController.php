@@ -178,7 +178,7 @@ class OrderController extends Controller
         $request->session()->forget('showCreateAccount');
 
         if (!Auth::check() && $request->create_account) {
-            return redirect('/finishRegister');
+            return redirect()->route('finishRegister');
         }
         return redirect('/wtech')->with('success_message', 'Order was created!');
     }

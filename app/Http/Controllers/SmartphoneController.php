@@ -210,7 +210,7 @@ class SmartphoneController extends Controller
         }
 
         $request->session()->flash('message', "Product {$request->name} was successfully added!");
-        return redirect('admin')->with('success_message', "Product {$request->name} was successfully added!");
+        return redirect()->route('admin')->with('success_message', "Product {$request->name} was successfully added!");
     }
 
     /**
@@ -303,7 +303,7 @@ class SmartphoneController extends Controller
             'color_id' => $color_id,
             'brand_id' => $brand_id
         ]);
-        return redirect('admin')->with('success_message', "Product {$smartphone->name} was successfully updated!");
+        return redirect()->route('admin')->with('success_message', "Product {$smartphone->name} was successfully updated!");
     }
 
     /**
