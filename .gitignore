@@ -73,3 +73,7 @@ yarn-error.log
 package-lock.json
 
 .DS_Store
+
+# private planning and operations notes
+BACKLOG.md
+OPERATIONS.md
