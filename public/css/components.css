@@ -1,0 +1,11 @@
+/* Small components the CDN build of Tailwind 2 doesn't provide */
+
+/* Product card name: at most 2 lines, and always 2 lines tall so cards line up */
+.product-card-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.5rem;
+    min-height: 3rem;
+}

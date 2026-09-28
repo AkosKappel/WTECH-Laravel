@@ -117,30 +117,7 @@
                     @if(count($smartphones) > 0)
                         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                             @foreach($smartphones as $smartphone)
-                                <a href="{{ route('details', $smartphone->id) }}" class="group">
-                                    <article class="bg-white rounded-lg overflow-hidden border border-gray-200 transition-shadow hover:shadow-lg">
-                                        <div class="aspect-w-3 aspect-h-4 bg-gray-200">
-                                            @if($smartphone->images->first())
-                                                <img src="{{ url('wtech/' . $smartphone->images->first()->source) }}" 
-                                                     alt="{{ $smartphone->images->first()->name }}"
-                                                     class="h-full w-full object-cover object-center group-hover:opacity-75 transition-opacity"/>
-                                            @else
-                                                <img src="{{ url('wtech/images/no_img_available.jpg') }}" 
-                                                     alt="{{ __('No image available') }}"
-                                                     class="h-full w-full object-cover object-center"/>
-                                            @endif
-                                        </div>
-                                        <div class="p-4">
-                                            <h2 class="text-lg font-medium text-gray-900">{{ $smartphone->name }}</h2>
-                                            <p class="mt-1 text-lg font-semibold text-indigo-600">{{ formattedPrice($smartphone->price) }}</p>
-                                            @if ($smartphone->quantity <= 0)
-                                                <p class="mt-2 inline-block px-2 py-0.5 rounded-full bg-gray-100 text-xs font-medium text-gray-600">{{ __('Out of stock') }}</p>
-                                            @elseif ($smartphone->quantity <= 3)
-                                                <p class="mt-2 inline-block px-2 py-0.5 rounded-full bg-yellow-100 text-xs font-medium text-yellow-800">{{ __('Only :count left', ['count' => (int) $smartphone->quantity]) }}</p>
-                                            @endif
-                                        </div>
-                                    </article>
-                                </a>
+                                @include('layout.partials.product-card', ['smartphone' => $smartphone])
                             @endforeach
                         </div>
                     @else

@@ -85,26 +85,7 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach($smartphones as $smartphone)
-                    <div class="group">
-                        <a href="{{ route('details', $smartphone->id) }}" 
-                           class="block bg-gray-50 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
-                            <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-                                @if($smartphone->images->first())
-                                <img src="{{ url('wtech/' . $smartphone->images->first()->source) }}" 
-                                     alt="{{ $smartphone->images->first()->name }}"
-                                     class="h-64 w-full object-cover object-center group-hover:opacity-75 transition-opacity"/>
-                                @else
-                                <img src="{{ url('wtech/images/no_img_available.jpg') }}" 
-                                     alt="{{ __('No image available') }}"
-                                     class="h-64 w-full object-cover object-center"/>
-                                @endif
-                            </div>
-                            <div class="p-6">
-                                <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ $smartphone->name }}</h3>
-                                <p class="text-xl font-bold text-indigo-600">{{ formattedPrice($smartphone->price) }}</p>
-                            </div>
-                        </a>
-                    </div>
+                        @include('layout.partials.product-card', ['smartphone' => $smartphone, 'level' => 3])
                     @endforeach
                 </div>
             </div>
