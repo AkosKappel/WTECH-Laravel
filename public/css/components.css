@@ -22,7 +22,39 @@
 /* ---- Catalog filters ------------------------------------------------------ */
 .sort-menu > summary { list-style: none; }
 .sort-menu > summary::-webkit-details-marker { display: none; }
-.catalog-filters.is-loading { opacity: .6; pointer-events: none; transition: opacity .15s; }
+
+/* Without JavaScript: no brand search; with it: no "Apply" button (changes apply immediately) */
+.js-only { display: none; }
+.is-enhanced .js-only { display: block; }
+.is-enhanced [data-apply] { display: none; }
+
+/* Results while new ones load: dimmed, with a progress bar on top */
+.catalog-results { position: relative; transition: opacity .15s; }
+.catalog-results.is-loading { opacity: .55; }
+.catalog-results.is-loading::before {
+    content: ""; position: absolute; top: 0; left: 0; height: 3px; width: 40%; border-radius: 9999px;
+    background: #4f46e5; animation: catalog-progress 1s ease-in-out infinite;
+}
+@keyframes catalog-progress { from { left: -40%; } to { left: 100%; } }
+
+/* Collapsible filter sections; a collapsed one shows its selected values */
+.filter-section > details > summary { list-style: none; }
+.filter-section > details > summary::-webkit-details-marker { display: none; }
+.filter-section > details > summary:focus-visible { outline: 2px solid #6366f1; outline-offset: -2px; }
+.filter-chevron { transition: transform .15s; }
+.filter-section > details:not([open]) .filter-chevron { transform: rotate(-90deg); }
+.filter-summary { display: none; }
+.filter-section > details:not([open]) .filter-summary { display: block; margin-top: 2px; }
+
+/* Active filter chips: colour dot, brand logo */
+.chip-dot { display: inline-block; width: 12px; height: 12px; border-radius: 9999px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); flex-shrink: 0; }
+.chip-logo { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 9999px; background: #fff; flex-shrink: 0; }
+.chip-logo img { width: 12px; height: 12px; object-fit: contain; }
+
+@media (prefers-reduced-motion: reduce) {
+    .catalog-results.is-loading::before { animation: none; width: 100%; opacity: .5; }
+    .filter-chevron, .catalog-results { transition: none; }
+}
 
 /* Dual-thumb price slider: two overlapping range inputs on one track */
 .price-range-track, .price-range-fill { position: absolute; top: 50%; height: 4px; margin-top: -2px; border-radius: 9999px; }

@@ -42,12 +42,24 @@ class SmartphoneController extends Controller
             ->paginate(12)
             ->withPath($filters->url());
 
-        return view('layout.products.smartphones', [
+        $data = [
             'smartphones' => $smartphones,
             'filters' => $filters,
             'facets' => $filters->facets(),
             'priceBounds' => CatalogFilters::priceBounds(),
-        ]);
+        ];
+
+        // filter changes from catalog-filters.js: only the parts of the page that change
+        if ($request->header('X-Catalog-Partial') === '1') {
+            return response()->json([
+                'title' => $filters->pageTitle(),
+                'status' => trans_choice(':count phone|:count phones', $smartphones->total(), ['count' => $smartphones->total()]),
+                'filters' => view('layout.products.partials.filters', $data)->render(),
+                'results' => view('layout.products.partials.results', $data)->render(),
+            ])->header('Vary', 'X-Catalog-Partial')->header('Cache-Control', 'no-store, private');
+        }
+
+        return response()->view('layout.products.smartphones', $data)->header('Vary', 'X-Catalog-Partial');
     }
 
     /**

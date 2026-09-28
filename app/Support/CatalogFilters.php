@@ -244,7 +244,8 @@ class CatalogFilters
     }
 
     /**
-     * Active filters as chips: [label, url that removes it].
+     * Active filters as chips: label, URL that removes it, and the type and
+     * value, so the chip can show a colour dot, brand logo or icon.
      *
      * @return array
      */
@@ -252,31 +253,98 @@ class CatalogFilters
     {
         $chips = [];
         if ($this->q !== '') {
-            $chips[] = ['label' => '“' . $this->q . '”', 'url' => $this->url(['q' => null, 'sort' => $this->sort === 'relevance' ? null : $this->sort])];
+            $chips[] = $this->chip('q', $this->q, '“' . $this->q . '”', $this->clearUrl('q'));
         }
         foreach ($this->brands as $slug) {
-            $chips[] = ['label' => $this->brandNames[$slug], 'url' => $this->toggleUrl('brand', $slug)];
+            $chips[] = $this->chip('brand', $slug, $this->brandNames[$slug], $this->toggleUrl('brand', $slug));
         }
         foreach ($this->colors as $color) {
-            $chips[] = ['label' => __($color), 'url' => $this->toggleUrl('color', $color)];
+            $chips[] = $this->chip('color', $color, Str::ucfirst(__($color)), $this->toggleUrl('color', $color));
         }
         if ($this->priceMin !== null || $this->priceMax !== null) {
-            $chips[] = ['label' => $this->priceLabel(), 'url' => $this->url(['price' => null])];
+            $chips[] = $this->chip('price', null, $this->priceLabel(), $this->clearUrl('price'));
         }
-        foreach ($this->ram as $ram) {
-            $chips[] = ['label' => self::ramLabel($ram), 'url' => $this->toggleUrl('ram', $ram)];
-        }
-        foreach ($this->display as $display) {
-            $chips[] = ['label' => self::displayLabel($display), 'url' => $this->toggleUrl('display', $display)];
-        }
-        foreach ($this->os as $os) {
-            $chips[] = ['label' => self::osLabel($os), 'url' => $this->toggleUrl('os', $os)];
+        foreach (['ram', 'display', 'os'] as $filter) {
+            foreach ($this->$filter as $value) {
+                $chips[] = $this->chip($filter, $value, $this->optionLabel($filter, $value), $this->toggleUrl($filter, $value));
+            }
         }
         if ($this->inStock) {
-            $chips[] = ['label' => __('In stock'), 'url' => $this->url(['stock' => null])];
+            $chips[] = $this->chip('stock', 'in', __('In stock'), $this->clearUrl('stock'));
         }
 
         return $chips;
+    }
+
+    private function chip($type, $value, $label, $url)
+    {
+        return ['type' => $type, 'value' => $value, 'label' => $label, 'url' => $url];
+    }
+
+    /**
+     * Link that removes one whole filter (all brands, the price range, …).
+     *
+     * @param string $filter q, brand, color, price, ram, display, os or stock
+     * @return string
+     */
+    public function clearUrl($filter)
+    {
+        $overrides = [$filter => null];
+        if ($filter === 'q' && $this->sort === 'relevance') {
+            $overrides['sort'] = null;
+        }
+
+        return $this->url($overrides);
+    }
+
+    /**
+     * Labels of the values set for one filter, for the summary of a collapsed section.
+     *
+     * @param string $filter
+     * @return array
+     */
+    public function selectedLabels($filter)
+    {
+        switch ($filter) {
+            case 'price':
+                return $this->priceMin !== null || $this->priceMax !== null ? [$this->priceLabel()] : [];
+            case 'brand':
+                return array_map(function ($slug) {
+                    return $this->brandNames[$slug];
+                }, $this->brands);
+            case 'color':
+                return array_map(function ($color) {
+                    return Str::ucfirst(__($color));
+                }, $this->colors);
+            default:
+                return array_map(function ($value) use ($filter) {
+                    return $this->optionLabel($filter, $value);
+                }, $this->{$this->property($filter)});
+        }
+    }
+
+    public function optionLabel($filter, $value)
+    {
+        return [
+            'ram' => [self::class, 'ramLabel'],
+            'display' => [self::class, 'displayLabel'],
+            'os' => [self::class, 'osLabel'],
+        ][$filter]($value);
+    }
+
+    public function pageTitle()
+    {
+        return ($this->q !== '' ? __('Search: :query', ['query' => $this->q]) : __('Smartphones')) . ' | SmartTech';
+    }
+
+    /**
+     * Logo of a brand by slug, or null when there's no logo file.
+     */
+    public static function brandLogoUrl($slug)
+    {
+        $file = 'images/brands/' . $slug . '.svg';
+
+        return file_exists(public_path($file)) ? url('wtech/' . $file) : null;
     }
 
     /**

@@ -124,8 +124,10 @@ The sections below cover the same topics.
 - **Typo-tolerant search** ("samsng", "iphon 15", "gogle pixel") using PostgreSQL trigram similarity, across names, brands and descriptions in every language, ranked by relevance
 - **Live search suggestions** in the header while typing: image, price and stock, with keyboard navigation
 - **Filters:** price range (a dual slider plus number fields), brands with logos and a quick brand search, colour swatches, RAM, display size, operating system and in-stock only, each with a live count of matching phones
-- **Sorting** by relevance, newest, price or name; active filters shown as removable chips with "Clear all"
-- **Clean, shareable URLs** such as `/smartphones?brand=apple,google&price=-800&sort=price-asc`. Changes apply immediately with JavaScript, the form still works without it, and old-style links redirect permanently
+- **Collapsible filter sections** that remember their state and still show the selected values when collapsed, each with its own "Clear"
+- **Sorting** by relevance, newest, price or name; active filters shown as removable chips (with colour dots, brand logos and icons) and "Clear all"
+- **No page reloads:** filter changes, chips, sorting and pagination update the results in place, with the address bar, title and back/forward buttons kept in sync; screen readers hear the new result count
+- **Clean, shareable URLs** such as `/smartphones?brand=apple,google&price=-800&sort=price-asc`. The form and links still work without JavaScript, and old-style links redirect permanently
 - **Product detail** page with technical specs (RAM, OS and version, display size, resolution, dimensions), an image gallery, and a quantity selector that updates the total price live
 
 ### Cart & Checkout
