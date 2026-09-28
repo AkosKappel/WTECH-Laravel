@@ -29,6 +29,8 @@ Route::prefix('wtech')->group(function () {
     // Homepage
     Route::get('/', [ShopController::class, 'index'])->name('home');
 
+    Route::post('/demo-notice/dismiss', [ShopController::class, 'dismissDemoNotice'])->name('demo-notice.dismiss');
+
     // Information pages
     Route::view('/about', 'layout.pages.about')->name('about');
     Route::view('/contact', 'layout.pages.contact')->name('contact');

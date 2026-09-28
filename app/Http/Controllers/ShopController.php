@@ -27,4 +27,16 @@ class ShopController extends Controller
             'brands' => $topBrands,
         ]);
     }
+
+    /**
+     * Hide the demo notice for a year. Fallback for browsers without JavaScript;
+     * with JavaScript the cookie is set directly in the browser.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function dismissDemoNotice(Request $request)
+    {
+        return back()->withCookie(cookie('demo_notice_dismissed', '1', 60 * 24 * 365));
+    }
 }

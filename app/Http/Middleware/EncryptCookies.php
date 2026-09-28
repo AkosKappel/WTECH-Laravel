@@ -12,6 +12,7 @@ class EncryptCookies extends Middleware
      * @var array
      */
     protected $except = [
-        //
+        // only ever "1"; set from JavaScript when the demo notice is closed
+        'demo_notice_dismissed',
     ];
 }
