@@ -9,3 +9,8 @@
     line-height: 1.5rem;
     min-height: 3rem;
 }
+
+/* Product card image frame: the same 4:3 shape for every card */
+.product-card-media {
+    aspect-ratio: 4 / 3;
+}

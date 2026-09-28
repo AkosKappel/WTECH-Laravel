@@ -1,12 +1,25 @@
-{{-- Product card for grids. All cards are the same height: fixed image area, 2-line name, price row pinned to the bottom. --}}
-@php $image = $smartphone->images->first(); @endphp
+{{-- Product card for grids. All cards are the same size: a 4:3 image frame, a 2-line name and the price row pinned to the bottom. --}}
+@php
+    $image = $smartphone->images->first();
+    // photos fill the frame; illustrations (SVG) and the placeholder are shown whole on a backdrop
+    $isPhoto = $image && !\Illuminate\Support\Str::endsWith($image->source, '.svg');
+@endphp
 <a href="{{ route('details', $smartphone->id) }}"
    class="group flex flex-col h-full bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg hover:border-indigo-200 transition">
-    <div class="h-56 sm:h-64 flex items-center justify-center bg-white p-4 border-b border-gray-100">
-        <img src="{{ $image ? url('wtech/' . ltrim($image->source, '/')) : url('wtech/images/no_img_available.jpg') }}"
-             alt="{{ $image ? $smartphone->name : __('No image available') }}"
-             loading="lazy"
-             class="max-h-full max-w-full object-contain transform group-hover:scale-105 transition-transform duration-300"/>
+    <div class="product-card-media relative overflow-hidden {{ $isPhoto ? 'bg-gray-100' : 'bg-gradient-to-b from-gray-50 to-gray-200 p-5' }}">
+        @if ($image)
+            <img src="{{ url('wtech/' . ltrim($image->source, '/')) }}"
+                 alt="{{ $smartphone->name }}"
+                 loading="lazy"
+                 class="w-full h-full {{ $isPhoto ? 'object-cover' : 'object-contain' }} object-center transform group-hover:scale-105 transition-transform duration-500"/>
+        @else
+            <div class="w-full h-full flex flex-col items-center justify-center text-gray-400" role="img" aria-label="{{ __('No image available') }}">
+                <svg class="h-12 w-12" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A1.5 1.5 0 0021.75 19.5V4.5A1.5 1.5 0 0020.25 3H3.75A1.5 1.5 0 002.25 4.5v15A1.5 1.5 0 003.75 21zM14.25 8.625a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
+                </svg>
+                <span class="mt-2 text-sm font-medium">{{ __('No image') }}</span>
+            </div>
+        @endif
     </div>
     <div class="flex flex-col flex-grow p-4">
         <h{{ $level ?? 2 }} class="product-card-title text-base font-medium text-gray-900 group-hover:text-indigo-600 transition-colors" title="{{ $smartphone->name }}">

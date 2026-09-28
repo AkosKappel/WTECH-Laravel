@@ -7,6 +7,6 @@
 
 <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
 <link href="{{ url('wtech/css/nav.css') }}" rel="stylesheet" />
-<link href="{{ url('wtech/css/components.css') }}" rel="stylesheet" />
+<link href="{{ url('wtech/css/components.css') }}?v={{ filemtime(public_path('css/components.css')) }}" rel="stylesheet" />
 
 <title>{{ $title }}</title>
