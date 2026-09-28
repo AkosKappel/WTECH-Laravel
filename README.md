@@ -412,7 +412,19 @@ The seeder creates an administrator account:
 |---|---|---|
 | Nginx (web server) | `wtech-nginx` | `8082` |
 | PHP-FPM 8.1 (application) | `wtech-app` | – |
-| PostgreSQL 15 | `wtech-db` | `5432` |
+| PostgreSQL 15 | `wtech-db` | `5433` (localhost only) |
+
+PostgreSQL is published only on `127.0.0.1`, so a database client can connect from the host itself (or through an SSH tunnel), but not from other machines.
+
+### Production Checklist
+
+Before exposing the shop publicly, set these in `.env`:
+
+- `APP_ENV=production` and `APP_DEBUG=false`. In production the app also forces HTTPS links, so put it behind a TLS-terminating reverse proxy.
+- `APP_URL` set to the public URL.
+- A strong `DB_PASSWORD`, set before the database container is first created.
+- Your own `ADMIN_EMAIL` and `ADMIN_PASSWORD` before seeding.
+- A real `MAIL_MAILER` configuration if password-reset e-mails should actually be delivered.
 
 ### Rebuilding Frontend Assets (optional)
 
