@@ -1,3 +1,4 @@
+@include('layout.partials.demo-banner')
 <header class="bg-gradient-to-r from-indigo-600 to-purple-600 sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">

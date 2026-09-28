@@ -5,6 +5,7 @@
 </head>
 
 <body class="font-body text-gray-600 bg-gray-100">
+    @include('layout.partials.demo-banner')
 <main class="flex h-screen">
     <div class="w-10/12 sm:w-full max-w-md mx-auto m-auto">
 

@@ -5,6 +5,7 @@
 </head>
 
 <body class="font-sans bg-gradient-to-br from-indigo-50 to-purple-50 text-gray-900">
+    @include('layout.partials.demo-banner')
     <main class="min-h-screen flex items-center justify-center p-4">
         <div class="w-full max-w-md">
             <div class="text-center mb-8">
