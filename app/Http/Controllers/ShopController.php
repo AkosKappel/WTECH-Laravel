@@ -53,4 +53,24 @@ class ShopController extends Controller
 
         return back()->withCookie(cookie(\App\Http\Middleware\SetLocale::COOKIE, $locale, 60 * 24 * 365));
     }
+
+    /**
+     * Unknown URLs. Missing files (images, scripts) get a plain 404 instead of the full page.
+     */
+    public function notFound(Request $request)
+    {
+        if (preg_match('/\.(png|jpe?g|gif|svg|webp|ico|css|js|map|json|xml|txt|woff2?|ttf|eot|php)$/i', $request->path())) {
+            return response('Not Found', 404)->header('Content-Type', 'text/plain');
+        }
+
+        abort(404);
+    }
+
+    /**
+     * Throws on purpose, so admins can check the 500 page and its diagnostics.
+     */
+    public function errorTest()
+    {
+        throw new \RuntimeException('Test error triggered from the admin zone. Nothing is broken.');
+    }
 }

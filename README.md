@@ -153,6 +153,13 @@ The sections below cover the same topics.
 - **Upload several images** at once, processed with Intervention Image
 - Remove individual images when editing a product
 - Deleting a product also **deletes its image files** from disk
+- **Error diagnostics:** when something breaks, admins see the exception, the stack trace (app code with the surrounding lines, framework frames collapsed) and the request, with passwords, tokens and cookies hidden, right on the error page, while debug mode stays off. A "Preview error page" link shows it on demand
+
+### Error Pages
+- Styled, translated pages for **404, 403, 419 (expired form), 429 (too many requests), 500 and 503**, plus generic 4xx/5xx pages
+- A **smart 404**: for a missing product URL such as `/smartphones/pixel-8` it searches for matching phones, otherwise it shows the newest ones
+- Unexpected errors get a **reference** (e.g. `ERR-7F3A9C`) that is shown to the visitor and written to the log, so a reported error can be found
+- The 500 page doesn't touch the database or session, and if an error page itself fails, a plain fallback page is shown
 
 ### Languages
 - The whole shop is available in **English, German and Slovak**: interface, info pages, validation messages, e-mails and product descriptions
@@ -481,7 +488,8 @@ All routes are served under the `/wtech` prefix.
 | Method | URI | Description |
 |---|---|---|
 | `GET` | `/wtech` | Homepage |
-| `GET` | `/wtech/smartphones` | Catalog (supports `search`, `min-price`, `max-price`, brand and colour checkboxes, `sort=asc\|desc`) |
+| `GET` | `/wtech/smartphones` | Catalog: `q`, `brand`, `color`, `price`, `ram`, `display`, `os`, `stock`, `sort`, `page` (see [Filtering](#filtering-sorting--pagination)); returns JSON partials for the `X-Catalog-Partial` header |
+| `GET` | `/wtech/search/suggest` | Live search suggestions (JSON, throttled) |
 | `GET` | `/wtech/smartphones/{id}` | Product detail |
 | `GET` `POST` | `/wtech/cart` | View cart, add item |
 | `PUT` `DELETE` | `/wtech/cart/{rowId}` | Update quantity, remove item |
@@ -495,6 +503,8 @@ All routes are served under the `/wtech` prefix.
 | `GET` `POST` | `/wtech/smartphones/create`, `/wtech/smartphones/add` | Create product |
 | `GET` `PUT` | `/wtech/smartphones/{id}/edit`, `/wtech/smartphones/{id}` | Edit product |
 | `DELETE` | `/wtech/smartphones/{id}` | Delete product |
+| `GET` | `/wtech/admin/error-test` | Throws on purpose, to preview the 500 page with diagnostics (admins only) |
+| any | anything else | Shop 404 page with suggestions |
 
 Authentication routes (`/wtech/login`, `/wtech/register`, `/wtech/forgot-password`, `/wtech/reset-password`, …) come from Laravel Breeze.
 

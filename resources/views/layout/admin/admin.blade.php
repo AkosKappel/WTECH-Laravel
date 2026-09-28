@@ -66,7 +66,9 @@
             </div>
             @endforeach
 
-            <div class="text-right mr-5">
+            <div class="flex items-center justify-end gap-4 mr-5">
+                <a href="{{ route('admin.error-test') }}" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-700 underline"
+                   title="{{ __('Opens the error page with the details only admins see') }}">{{ __('Preview error page') }}</a>
                 @can('update', $product)
                 <form action="{{ route('smartphones.add') }}" method="GET">
                     <button type="submit" class="bg-blue-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150">

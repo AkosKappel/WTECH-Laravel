@@ -64,15 +64,16 @@ Route::prefix('wtech')->group(function () {
         Route::get('/admin', [SmartphoneController::class, 'adminIndex'])->name('admin');
         Route::get('/smartphones/create', [SmartphoneController::class, 'create'])->name('smartphones.add');
         Route::post('/smartphones/add', [SmartphoneController::class, 'store'])->name('smartphones.create');
-        Route::get('/smartphones/{smartphone}/edit/', [SmartphoneController::class, 'edit'])->name('smartphones.edit');
-        Route::put('/smartphones/{smartphone}', [SmartphoneController::class, 'update'])->name('smartphones.update');
-        Route::delete('/smartphones/{smartphone}/', [SmartphoneController::class, 'destroy'])->name('smartphones.delete');
+        Route::get('/smartphones/{smartphone}/edit/', [SmartphoneController::class, 'edit'])->name('smartphones.edit')->whereNumber('smartphone');
+        Route::put('/smartphones/{smartphone}', [SmartphoneController::class, 'update'])->name('smartphones.update')->whereNumber('smartphone');
+        Route::delete('/smartphones/{smartphone}/', [SmartphoneController::class, 'destroy'])->name('smartphones.delete')->whereNumber('smartphone');
+        Route::get('/admin/error-test', [ShopController::class, 'errorTest'])->name('admin.error-test');
     });
 
     // Products
     Route::get('/smartphones', [SmartphoneController::class, 'index'])->name('smartphones');
     Route::get('/search/suggest', [SmartphoneController::class, 'suggest'])->middleware('throttle:60,1')->name('search.suggest');
-    Route::get('/smartphones/{smartphone}/', [SmartphoneController::class, 'show'])->name('details');
+    Route::get('/smartphones/{smartphone}/', [SmartphoneController::class, 'show'])->name('details')->whereNumber('smartphone');
 
     // Order
     Route::get('/address', [OrderController::class, 'addressIndex'])->name('address');
@@ -83,3 +84,6 @@ Route::prefix('wtech')->group(function () {
     Route::post('/payment', [OrderController::class, 'paymentStore'])->name('payment.store');
     Route::get('/order/complete', [OrderController::class, 'complete'])->name('order.complete');
 });
+
+// Unknown URLs: the shop's 404 page, with the session, so it's translated and knows the visitor
+Route::fallback([ShopController::class, 'notFound']);

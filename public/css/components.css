@@ -100,3 +100,13 @@
 /* Colour without matches: keep the real colour, strike it through */
 .swatch.is-empty .swatch-dot { position: relative; opacity: .55; }
 .swatch.is-empty .swatch-dot::after { content: ""; position: absolute; left: 50%; top: -2px; bottom: -2px; width: 2px; margin-left: -1px; background: #6b7280; transform: rotate(45deg); border-radius: 1px; }
+
+/* ---- Error page diagnostics (admins only) ----------------------------------- */
+.diag-block > summary { cursor: pointer; font-size: .875rem; font-weight: 600; color: #111827; list-style-position: inside; }
+.diag-vendor > summary { cursor: pointer; padding: 4px 12px; font-size: .75rem; color: #6b7280; list-style-position: inside; }
+.diag-frame > summary { cursor: pointer; list-style: none; }
+.diag-frame > summary::-webkit-details-marker { display: none; }
+.diag-code { margin: 0 12px 10px; padding: 8px 0; overflow-x: auto; border-radius: 6px; background: #111827; color: #e5e7eb; font-size: .75rem; line-height: 1.25rem; }
+.diag-code > code > span { display: block; padding-right: 12px; white-space: pre; }
+.diag-code .is-current { background: rgba(239, 68, 68, .3); }
+.diag-line { display: inline-block; width: 3.5rem; padding-right: 12px; text-align: right; color: #6b7280; user-select: none; }
