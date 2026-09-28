@@ -270,7 +270,7 @@ erDiagram
     }
 ```
 
-The database is filled by seeders with **8 brands** (Samsung, Apple, Xiaomi, Huawei, Google, Sony, Nokia, Lenovo), **9 colours** and about **20 smartphones** with images. A plain SQL version of the same data is in [`sql/database.sql`](sql/database.sql).
+The database is filled by seeders with **13 brands** (Samsung, Apple, Xiaomi, Huawei, Google, Sony, Nokia, Lenovo, OnePlus, Motorola, Honor, Fairphone, Nothing), **9 colours** and **41 smartphones** from 2019–2024, including out-of-stock and low-stock items. The 19 original phones use product photos; the newer ones use generated SVG illustrations in each phone's colour (`public/images/products/`). Brand logos come from [Simple Icons](https://simpleicons.org/) (CC0) in `public/images/brands/`, and brands without a logo fall back to their first letter. [`sql/database.sql`](sql/database.sql) is the original 2021 SQL seed and only contains the first catalog.
 
 ## Design Decisions
 

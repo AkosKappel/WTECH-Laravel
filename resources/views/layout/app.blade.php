@@ -142,9 +142,7 @@
                     @foreach($brands as $brand)
                     <a href="{{ route('smartphones', [$brand->name => $brand->name]) }}" class="group relative bg-gray-100 rounded-lg shadow-lg p-6 transform hover:scale-105 transition-transform hover:shadow-xl">
                         <div class="flex items-center justify-center">
-                            <div class="w-16 h-16 bg-indigo-200 rounded-full flex items-center justify-center">
-                                <span class="text-4xl font-bold text-gray-800">{{ mb_substr($brand->name, 0, 1) }}</span>
-                            </div>
+                            @include('layout.partials.brand-logo', ['brand' => $brand, 'size' => 'w-16 h-16'])
                         </div>
                         <div class="mt-6 text-center">
                             <h3 class="text-xl font-bold italic text-gray-800 transition-colors duration-300 hover:text-indigo-600">

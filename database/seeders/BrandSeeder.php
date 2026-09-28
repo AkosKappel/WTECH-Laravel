@@ -37,5 +37,20 @@ class BrandSeeder extends Seeder
 
         $brand = new Brand(['name' => 'Google']);
         $brand->save();
+
+        $brand = new Brand(['name' => 'OnePlus']);
+        $brand->save();
+
+        $brand = new Brand(['name' => 'Motorola']);
+        $brand->save();
+
+        $brand = new Brand(['name' => 'Honor']);
+        $brand->save();
+
+        $brand = new Brand(['name' => 'Fairphone']);
+        $brand->save();
+
+        $brand = new Brand(['name' => 'Nothing']);
+        $brand->save();
     }
 }

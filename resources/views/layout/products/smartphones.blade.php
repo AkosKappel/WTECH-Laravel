@@ -133,6 +133,11 @@
                                         <div class="p-4">
                                             <h2 class="text-lg font-medium text-gray-900">{{ $smartphone->name }}</h2>
                                             <p class="mt-1 text-lg font-semibold text-indigo-600">{{ formattedPrice($smartphone->price) }}</p>
+                                            @if ($smartphone->quantity <= 0)
+                                                <p class="mt-2 inline-block px-2 py-0.5 rounded-full bg-gray-100 text-xs font-medium text-gray-600">{{ __('Out of stock') }}</p>
+                                            @elseif ($smartphone->quantity <= 3)
+                                                <p class="mt-2 inline-block px-2 py-0.5 rounded-full bg-yellow-100 text-xs font-medium text-yellow-800">{{ __('Only :count left', ['count' => (int) $smartphone->quantity]) }}</p>
+                                            @endif
                                         </div>
                                     </article>
                                 </a>
