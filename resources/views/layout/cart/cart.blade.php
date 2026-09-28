@@ -42,11 +42,11 @@
             {{-- Cart Items --}}
             <div class="space-y-4">
                 @foreach(Cart::content() as $product)
-                    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <div class="bg-white rounded-lg shadow-xs overflow-hidden">
                         <div class="grid grid-cols-12 gap-4 p-4 items-center">
                             {{-- Product Info --}}
                             <div class="col-span-12 md:col-span-5 flex flex-col sm:flex-row items-center gap-4">
-                                <div class="w-24 h-24 flex-shrink-0">
+                                <div class="w-24 h-24 shrink-0">
                                     <img src="{{ url('wtech/' . $product->options->image_source) }}" 
                                          alt="{{ $product->options->image_name }}"
                                          class="w-full h-full object-contain"/>

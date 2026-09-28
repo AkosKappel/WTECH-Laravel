@@ -8,5 +8,5 @@
 ])
 
 @section('actions')
-    <a href="{{ url()->current() }}" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-indigo-600 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 transition-colors">{{ __('Try again') }}</a>
+    <a href="{{ url()->current() }}" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-indigo-600 text-sm font-medium text-white shadow-xs hover:bg-indigo-700 transition-colors">{{ __('Try again') }}</a>
 @endsection

@@ -39,7 +39,7 @@
             </div>
 
             {{-- Address Form --}}
-            <form action="{{ route('address.store') }}" method="POST" class="bg-white shadow-sm rounded-lg overflow-hidden">
+            <form action="{{ route('address.store') }}" method="POST" class="bg-white shadow-xs rounded-lg overflow-hidden">
                 {{ method_field('PUT') }}
                 {{ csrf_field() }}
 
@@ -57,7 +57,7 @@
                                         id="name" 
                                         name="first_name" 
                                         value="{{ old('first_name', Auth::check() ? Auth::user()->first_name : Session::get('first_name')) }}"
-                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 @error('first_name') border-red-500 @enderror"
+                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 @error('first_name') border-red-500 @enderror"
                                     >
                                     @error('first_name')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -72,7 +72,7 @@
                                         id="surname" 
                                         name="last_name"
                                         value="{{ old('last_name', Auth::check() ? Auth::user()->last_name : Session::get('last_name')) }}"
-                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 @error('last_name') border-red-500 @enderror"
+                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 @error('last_name') border-red-500 @enderror"
                                     >
                                     @error('last_name')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -87,7 +87,7 @@
                                         id="phone" 
                                         name="phone_number"
                                         value="{{ old('phone_number', Auth::check() ? Auth::user()->phone_number : Session::get('phone_number')) }}"
-                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 @error('phone_number') border-red-500 @enderror"
+                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 @error('phone_number') border-red-500 @enderror"
                                     >
                                     @error('phone_number')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -102,7 +102,7 @@
                                         id="email" 
                                         name="email"
                                         value="{{ old('email', Auth::check() ? Auth::user()->email : Session::get('email')) }}"
-                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 @error('email') border-red-500 @enderror"
+                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 @error('email') border-red-500 @enderror"
                                     >
                                     @error('email')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -123,7 +123,7 @@
                                         id="street" 
                                         name="street"
                                         value="{{ old('street', Auth::check() ? Auth::user()->street : Session::get('street')) }}"
-                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 @error('street') border-red-500 @enderror"
+                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 @error('street') border-red-500 @enderror"
                                     >
                                     @error('street')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -138,7 +138,7 @@
                                         id="streetNumber" 
                                         name="descriptive_number"
                                         value="{{ old('descriptive_number', Auth::check() ? Auth::user()->descriptive_number : Session::get('descriptive_number')) }}"
-                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 @error('descriptive_number') border-red-500 @enderror"
+                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 @error('descriptive_number') border-red-500 @enderror"
                                     >
                                     @error('descriptive_number')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -153,7 +153,7 @@
                                         id="city" 
                                         name="city"
                                         value="{{ old('city', Auth::check() ? Auth::user()->city : Session::get('city')) }}"
-                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 @error('city') border-red-500 @enderror"
+                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 @error('city') border-red-500 @enderror"
                                     >
                                     @error('city')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -168,7 +168,7 @@
                                         id="country" 
                                         name="country"
                                         value="{{ old('country', Auth::check() ? Auth::user()->country : Session::get('country')) }}"
-                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 @error('country') border-red-500 @enderror"
+                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 @error('country') border-red-500 @enderror"
                                     >
                                     @error('country')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -183,7 +183,7 @@
                 @if ($errors->any())
                     <div class="rounded-md bg-red-50 p-4">
                         <div class="flex">
-                            <div class="flex-shrink-0">
+                            <div class="shrink-0">
                                 <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
                                 </svg>
@@ -208,7 +208,7 @@
                 <div class="bg-gray-50 px-8 py-6 flex items-center justify-between">
                     <a 
                         href="{{ route('cart') }}" 
-                        class="inline-flex items-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        class="inline-flex items-center px-6 py-3 border border-gray-300 shadow-xs text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
                         <svg class="mr-2 -ml-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
@@ -217,7 +217,7 @@
                     </a>
                     <button 
                         type="submit"
-                        class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
                         {{ __('Continue to Shipping') }}
                         <svg class="ml-2 -mr-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

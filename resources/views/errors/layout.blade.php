@@ -11,7 +11,7 @@
 </head>
 <body class="font-sans text-gray-800 bg-gray-50 flex flex-col min-h-screen">
     @if ($minimal)
-        <header class="bg-gradient-to-r from-indigo-600 to-purple-600">
+        <header class="bg-linear-to-r from-indigo-600 to-purple-600">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center">
                 <a href="{{ url('wtech') }}" class="flex items-center" aria-label="{{ __('Home') }}">
                     <img src="{{ url('wtech/images/logo.png') }}" alt="{{ __('Logo') }}" class="h-8 w-auto"/>
@@ -23,7 +23,7 @@
         @include('layout.partials.header')
     @endif
 
-    <main class="flex-grow py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
+    <main class="grow py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
         <div class="max-w-2xl mx-auto text-center">
             <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-600">
                 <svg class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
@@ -38,7 +38,7 @@
 
             <div class="mt-8 flex flex-wrap justify-center gap-3">
                 @section('actions')
-                    <a href="{{ url('wtech') }}" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-indigo-600 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 transition-colors">{{ __('Go to homepage') }}</a>
+                    <a href="{{ url('wtech') }}" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-indigo-600 text-sm font-medium text-white shadow-xs hover:bg-indigo-700 transition-colors">{{ __('Go to homepage') }}</a>
                     <a href="{{ url('wtech/smartphones') }}" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-white text-sm font-medium text-gray-700 ring-1 ring-gray-300 hover:bg-gray-50 transition-colors">{{ __('Browse phones') }}</a>
                 @show
             </div>

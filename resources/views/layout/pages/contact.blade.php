@@ -4,7 +4,7 @@
 ])
 
 @section('content')
-    <section class="bg-white rounded-xl shadow-sm p-6">
+    <section class="bg-white rounded-xl shadow-xs p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('Get in touch') }}</h2>
         <p class="text-gray-700 leading-relaxed mb-4">
             {{ __('Questions about the project, feedback, a bug you found, or a request to delete data you entered: reach') }}
@@ -14,7 +14,7 @@
         @include('layout.partials.author-links')
     </section>
 
-    <section class="bg-white rounded-xl shadow-sm p-6">
+    <section class="bg-white rounded-xl shadow-xs p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('About orders') }}</h2>
         <p class="text-gray-700 leading-relaxed">
             {{ __('Orders placed in this shop are never processed or shipped, so there is nothing to track, cancel or return.') }}

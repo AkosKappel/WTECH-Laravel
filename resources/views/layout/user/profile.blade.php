@@ -7,7 +7,7 @@
 <body class="font-sans bg-gray-50 flex flex-col min-h-screen">
     @include('layout.partials.header')
     
-    <main class="flex-grow container mx-auto px-4 py-8 my-24">
+    <main class="grow container mx-auto px-4 py-8 my-24">
         <div class="max-w-6xl mx-auto">
             <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
                 <form method="POST" action="{{ route('profile') }}">

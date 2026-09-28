@@ -7,7 +7,7 @@
 <body class="font-sans text-gray-800 bg-gray-50 flex flex-col min-h-screen">
     @include('layout.partials.header')
 
-    <main class="flex-grow py-12 px-4 sm:px-6 lg:px-8">
+    <main class="grow py-12 px-4 sm:px-6 lg:px-8">
         <article class="max-w-3xl mx-auto">
             <header class="mb-8">
                 <h1 class="text-3xl lg:text-4xl font-bold text-gray-900">{{ $title }}</h1>

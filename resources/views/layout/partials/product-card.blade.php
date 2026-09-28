@@ -5,13 +5,13 @@
     $isPhoto = $image && !\Illuminate\Support\Str::endsWith($image->source, '.svg');
 @endphp
 <a href="{{ route('details', $smartphone->id) }}"
-   class="group flex flex-col h-full bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg hover:border-indigo-200 transition">
-    <div class="product-card-media relative overflow-hidden {{ $isPhoto ? 'bg-gray-100' : 'bg-gradient-to-b from-gray-50 to-gray-200 p-5' }}">
+   class="group flex flex-col h-full bg-white rounded-xl border border-gray-200 overflow-hidden shadow-xs hover:shadow-lg hover:border-indigo-200 transition">
+    <div class="product-card-media relative overflow-hidden {{ $isPhoto ? 'bg-gray-100' : 'bg-linear-to-b from-gray-50 to-gray-200 p-5' }}">
         @if ($image)
             <img src="{{ url('wtech/' . ltrim($image->source, '/')) }}"
                  alt="{{ $smartphone->name }}"
                  loading="lazy"
-                 class="w-full h-full {{ $isPhoto ? 'object-cover' : 'object-contain' }} object-center transform group-hover:scale-105 transition-transform duration-500"/>
+                 class="w-full h-full {{ $isPhoto ? 'object-cover' : 'object-contain' }} object-center group-hover:scale-105 transition-transform duration-500"/>
         @else
             <div class="w-full h-full flex flex-col items-center justify-center text-gray-400" role="img" aria-label="{{ __('No image available') }}">
                 <svg class="h-12 w-12" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
@@ -21,7 +21,7 @@
             </div>
         @endif
     </div>
-    <div class="flex flex-col flex-grow p-4">
+    <div class="flex flex-col grow p-4">
         <h{{ $level ?? 2 }} class="product-card-title text-base font-medium text-gray-900 group-hover:text-indigo-600 transition-colors" title="{{ $smartphone->name }}">
             {{ $smartphone->name }}
         </h{{ $level ?? 2 }}>

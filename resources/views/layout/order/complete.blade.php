@@ -7,7 +7,7 @@
 <body class="font-sans bg-gray-50 flex flex-col min-h-screen">
     @include('layout.partials.header')
 
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <main class="grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="max-w-3xl mx-auto space-y-8">
             @if (session()->has('success_message'))
                 <div class="rounded-lg bg-green-50 border border-green-200 p-4 text-sm font-medium text-green-800" role="status">
@@ -17,7 +17,7 @@
 
             {{-- Confirmation Header --}}
             <div class="text-center">
-                <div class="mx-auto h-16 w-16 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center">
+                <div class="mx-auto h-16 w-16 rounded-full bg-linear-to-r from-indigo-600 to-purple-600 flex items-center justify-center">
                     <svg class="h-8 w-8 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                     </svg>
@@ -40,7 +40,7 @@
             </div>
 
             {{-- Ordered Items --}}
-            <section class="bg-white shadow-sm rounded-lg overflow-hidden">
+            <section class="bg-white shadow-xs rounded-lg overflow-hidden">
                 <h2 class="px-6 py-4 text-lg font-semibold text-gray-900 border-b border-gray-100">{{ __('Order summary') }}</h2>
                 <ul class="divide-y divide-gray-100">
                     @foreach ($order->smartphones as $smartphone)
@@ -49,7 +49,7 @@
                             <div class="flex items-center gap-4 min-w-0">
                                 @if ($smartphone->images->first())
                                     <img src="{{ url('wtech/' . ltrim($smartphone->images->first()->source, '/')) }}"
-                                         alt="{{ $smartphone->name }}" class="h-16 w-16 object-contain flex-shrink-0"/>
+                                         alt="{{ $smartphone->name }}" class="h-16 w-16 object-contain shrink-0"/>
                                 @endif
                                 <div class="min-w-0">
                                     <a href="{{ route('details', $smartphone) }}" class="font-medium text-gray-900 hover:text-indigo-600">{{ $smartphone->name }}</a>
@@ -74,7 +74,7 @@
 
             {{-- Delivery & Payment --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <section class="bg-white shadow-sm rounded-lg p-6">
+                <section class="bg-white shadow-xs rounded-lg p-6">
                     <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-3">{{ __('Delivery') }}</h2>
                     <p class="font-medium text-gray-900">{{ __($order->delivery_method) }}</p>
                     <address class="mt-2 not-italic text-sm text-gray-600 leading-relaxed">
@@ -84,7 +84,7 @@
                         {{ $order->user->phone_number }}
                     </address>
                 </section>
-                <section class="bg-white shadow-sm rounded-lg p-6">
+                <section class="bg-white shadow-xs rounded-lg p-6">
                     <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-3">{{ __('Payment') }}</h2>
                     <p class="font-medium text-gray-900">{{ __($order->payment_method) }}</p>
                     <p class="mt-2 text-sm text-gray-600">{{ __('Not charged – demo order.') }}</p>
@@ -94,7 +94,7 @@
 
             {{-- Create Account (guests who ticked the checkbox at checkout) --}}
             @if ($canCreateAccount)
-                <section class="bg-white shadow-sm rounded-lg p-6">
+                <section class="bg-white shadow-xs rounded-lg p-6">
                     <h2 class="text-lg font-semibold text-gray-900">{{ __('Create your account') }}</h2>
                     <p class="mt-1 text-sm text-gray-600">
                         {{ __('Choose a password to save your details for the next order. Your account will use') }}
@@ -122,7 +122,7 @@
                                    class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"/>
                         </div>
                         <div class="sm:col-span-2">
-                            <button type="submit" class="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <button type="submit" class="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                 {{ __('Create account') }}
                             </button>
                         </div>

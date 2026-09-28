@@ -4,7 +4,7 @@
     @include('layout.partials.head', ['title' => __('Password Recovery') ])
 </head>
 
-<body class="font-sans bg-gradient-to-br from-indigo-50 to-purple-50 text-gray-900">
+<body class="font-sans bg-linear-to-br from-indigo-50 to-purple-50 text-gray-900">
     @include('layout.partials.demo-banner')
     <main class="min-h-screen flex items-center justify-center p-4">
         <div class="w-full max-w-md">
@@ -37,7 +37,7 @@
                             required
                             autocomplete="email"
                         />
-                        <div class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                        <div class="absolute right-3 top-1/2 -translate-y-1/2">
                             <img src="{{ url('wtech/images/email.png') }}" alt="Email" class="w-6 h-6" />
                         </div>
                     </div>
@@ -58,7 +58,7 @@
 
                 {{-- Submit Button --}}
                 <div>
-                    <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                    <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-xs text-sm font-medium text-white bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
                         {{ __('Recover Password') }}
                     </button>
                 </div>
@@ -68,7 +68,7 @@
                     <p class="text-sm text-gray-600">
                         {{ __('Remember your password?') }}
                     </p>
-                    <a href="{{ route('login') }}" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                    <a href="{{ route('login') }}" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-xs text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
                         {{ __('Back to Login') }}
                     </a>
                 </div>

@@ -11,7 +11,8 @@
 <link rel="apple-touch-icon" href="{{ url('wtech/apple-touch-icon.png') }}?v={{ filemtime(public_path('apple-touch-icon.png')) }}" />
 <meta name="theme-color" content="#4f46e5" />
 
-<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+{{-- Tailwind CSS 4, built from resources/css/app.css (npm run build:css) --}}
+<link href="{{ url('wtech/css/app.css') }}?v={{ filemtime(public_path('css/app.css')) }}" rel="stylesheet" />
 <link href="{{ url('wtech/css/nav.css') }}" rel="stylesheet" />
 <link href="{{ url('wtech/css/components.css') }}?v={{ filemtime(public_path('css/components.css')) }}" rel="stylesheet" />
 

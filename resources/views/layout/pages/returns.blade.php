@@ -5,7 +5,7 @@
 ])
 
 @section('content')
-    <section class="bg-white rounded-xl shadow-sm p-6">
+    <section class="bg-white rounded-xl shadow-xs p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('Returns within 14 days') }}</h2>
         <div class="space-y-3 text-gray-700 leading-relaxed">
             <p>{{ __('You can return any product within 14 days of receiving it, without giving a reason. The product should be complete, undamaged and, if possible, in its original packaging.') }}</p>
@@ -17,7 +17,7 @@
         </div>
     </section>
 
-    <section class="bg-white rounded-xl shadow-sm p-6">
+    <section class="bg-white rounded-xl shadow-xs p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('2-year warranty') }}</h2>
         <div class="space-y-3 text-gray-700 leading-relaxed">
             <p>{{ __('Every phone comes with a 2-year warranty. If a defect appears, file a claim and we will repair or replace the device, or refund it if neither is possible.') }}</p>

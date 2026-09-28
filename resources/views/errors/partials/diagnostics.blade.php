@@ -18,7 +18,7 @@
 @endphp
 
 <section class="max-w-6xl mx-auto mt-14 text-left" aria-labelledby="diagnostics-title">
-    <div class="rounded-xl bg-white shadow-sm ring-1 ring-gray-200 overflow-hidden">
+    <div class="rounded-xl bg-white shadow-xs ring-1 ring-gray-200 overflow-hidden">
         <div class="border-t-4 border-red-500 px-6 py-5">
             <div class="flex flex-wrap items-center justify-between gap-3">
                 <h2 id="diagnostics-title" class="text-lg font-semibold text-gray-900">{{ __('Error details') }}</h2>

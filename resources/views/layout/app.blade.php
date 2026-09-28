@@ -24,7 +24,7 @@
                     {{-- Image Column --}}
                     <div class="hidden sm:block sm:col-span-5">
                         <div class="relative">
-                            <div class="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl transform rotate-6 opacity-10"></div>
+                            <div class="absolute inset-0 bg-linear-to-r from-indigo-600 to-purple-600 rounded-2xl rotate-6 opacity-10"></div>
                             <img src="{{ url('wtech/images/iphone.png') }}" 
                                  alt="{{ __('Featured Image') }}" 
                                  class="relative z-10 w-full max-w-md mx-auto"/>
@@ -40,9 +40,9 @@
                                 'Best Price Guarantee' => 'We match any competitor\'s price',
                                 '2-Year Premium Warranty' => 'Extended protection for your device'
                             ] as $title => $description)
-                            <div class="flex items-start space-x-4 bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-                                <div class="flex-shrink-0">
-                                    <div class="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center">
+                            <div class="flex items-start space-x-4 bg-white p-4 rounded-xl shadow-xs hover:shadow-md transition-shadow">
+                                <div class="shrink-0">
+                                    <div class="w-10 h-10 bg-linear-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center">
                                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                         </svg>
@@ -58,7 +58,7 @@
                             {{-- CTA Button --}}
                             <div class="mt-8 text-center sm:text-left">
                                 <a href="{{ route('smartphones') }}" 
-                                   class="inline-flex items-center px-8 py-3 text-lg font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-transform hover:scale-105">
+                                   class="inline-flex items-center px-8 py-3 text-lg font-medium text-white bg-linear-to-r from-indigo-600 to-purple-600 rounded-full hover:from-indigo-700 hover:to-purple-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform hover:scale-105">
                                     {{ __('Buy Your Smartphone Today') }}
                                     <svg class="ml-2 -mr-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
@@ -92,7 +92,7 @@
         </section>
 
         {{-- Marketing Section --}}
-        <section class="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-50 to-indigo-50">
+        <section class="py-16 px-4 sm:px-6 lg:px-8 bg-linear-to-r from-blue-50 to-indigo-50">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl lg:text-5xl font-extrabold text-indigo-900 mb-4">
@@ -121,7 +121,7 @@
                 </div>
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8">
                     @foreach($brands as $brand)
-                    <a href="{{ route('smartphones', ['brand' => \Illuminate\Support\Str::slug($brand->name)]) }}" class="group relative bg-gray-100 rounded-lg shadow-lg p-6 transform hover:scale-105 transition-transform hover:shadow-xl">
+                    <a href="{{ route('smartphones', ['brand' => \Illuminate\Support\Str::slug($brand->name)]) }}" class="group relative bg-gray-100 rounded-lg shadow-lg p-6 hover:scale-105 transition-transform hover:shadow-xl">
                         <div class="flex items-center justify-center">
                             @include('layout.partials.brand-logo', ['brand' => $brand, 'size' => 'w-16 h-16'])
                         </div>
@@ -130,7 +130,7 @@
                                 {{ $brand->name }}
                             </h3>
                         </div>
-                        <div class="absolute inset-0 rounded-lg bg-gradient-to-t from-transparent to-gray-100 opacity-50"></div>
+                        <div class="absolute inset-0 rounded-lg bg-linear-to-t from-transparent to-gray-100 opacity-50"></div>
                     </a>
                     @endforeach
                 </div>

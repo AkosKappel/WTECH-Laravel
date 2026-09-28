@@ -7,6 +7,6 @@
 ])
 
 @section('actions')
-    <a href="{{ url()->previous() !== url()->current() ? url()->previous() : url('wtech') }}" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-indigo-600 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 transition-colors">{{ __('Go back and try again') }}</a>
+    <a href="{{ url()->previous() !== url()->current() ? url()->previous() : url('wtech') }}" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-indigo-600 text-sm font-medium text-white shadow-xs hover:bg-indigo-700 transition-colors">{{ __('Go back and try again') }}</a>
     <a href="{{ url('wtech') }}" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-white text-sm font-medium text-gray-700 ring-1 ring-gray-300 hover:bg-gray-50 transition-colors">{{ __('Go to homepage') }}</a>
 @endsection

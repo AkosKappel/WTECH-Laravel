@@ -1,3 +1,33 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+/*
+ * Tailwind CSS 4, built into public/css/app.css:
+ *   docker compose run --rm assets npm run build:css
+ * Only the class names found in the sources below end up in the build.
+ */
+@import "tailwindcss" source(none);
+
+@source "../views";
+@source "../../app";
+@source "../../public/js";
+@source not "../../public/js/app.js";
+
+/*
+ * Tailwind 2 defaults the templates were written for (changed in Tailwind 4)
+ */
+@layer base {
+    *, ::after, ::before, ::backdrop, ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+
+    /* form fields keep the browser's white background (Tailwind 4 makes them transparent) */
+    input:where(:not([type="checkbox"], [type="radio"], [type="range"], [type="file"], [type="submit"], [type="button"])), textarea, select {
+        background-color: #fff;
+    }
+
+    input::placeholder, textarea::placeholder {
+        color: var(--color-gray-400);
+    }
+
+    button:not(:disabled), [role="button"]:not(:disabled) {
+        cursor: pointer;
+    }
+}

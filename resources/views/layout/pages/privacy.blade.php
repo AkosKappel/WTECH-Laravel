@@ -4,7 +4,7 @@
 ])
 
 @section('content')
-    <section class="bg-white rounded-xl shadow-sm p-6">
+    <section class="bg-white rounded-xl shadow-xs p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('Who runs this site') }}</h2>
         <p class="text-gray-700 leading-relaxed">
             {{ __('SmartTech is a personal portfolio project by') }} <span class="font-semibold">{{ config('demo.author') }}</span>,
@@ -12,14 +12,14 @@
         </p>
     </section>
 
-    <section class="bg-white rounded-xl shadow-sm p-6">
+    <section class="bg-white rounded-xl shadow-xs p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('Please use made-up data') }}</h2>
         <p class="text-gray-700 leading-relaxed">
             {{ __('The shop is a demo, so there is no reason to enter your real name, address, phone number or e-mail. Invented details work just as well. The checkout never asks for card or payment details.') }}
         </p>
     </section>
 
-    <section class="bg-white rounded-xl shadow-sm p-6">
+    <section class="bg-white rounded-xl shadow-xs p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('What is stored') }}</h2>
         <ul class="list-disc pl-5 space-y-2 text-gray-700 leading-relaxed">
             <li>
@@ -41,14 +41,14 @@
         </ul>
     </section>
 
-    <section class="bg-white rounded-xl shadow-sm p-6">
+    <section class="bg-white rounded-xl shadow-xs p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('Cookies') }}</h2>
         <p class="text-gray-700 leading-relaxed">
             {{ __('The site uses only the cookies it needs to work: a session cookie that keeps you logged in and remembers your cart, and a security cookie that protects forms against forgery. If you tick "Remember me" when logging in, a cookie keeps you logged in for longer, closing the demo notice sets a cookie that keeps it hidden for a year, and your chosen language is remembered in a cookie as well. There are no analytics, advertising or tracking cookies.') }}
         </p>
     </section>
 
-    <section class="bg-white rounded-xl shadow-sm p-6">
+    <section class="bg-white rounded-xl shadow-xs p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('Third parties') }}</h2>
         <div class="space-y-3 text-gray-700 leading-relaxed">
             <p>{{ __('Your data is never sold or shared. Two outside services are involved in delivering the site:') }}</p>
@@ -59,7 +59,7 @@
         </div>
     </section>
 
-    <section class="bg-white rounded-xl shadow-sm p-6">
+    <section class="bg-white rounded-xl shadow-xs p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('How long data is kept') }}</h2>
         <p class="text-gray-700 leading-relaxed">
             @include('layout.partials.reset-notice')
@@ -67,7 +67,7 @@
         </p>
     </section>
 
-    <section class="bg-white rounded-xl shadow-sm p-6">
+    <section class="bg-white rounded-xl shadow-xs p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('Contact') }}</h2>
         <p class="text-gray-700 leading-relaxed mb-4">
             {{ __('For any question about this notice or your data, reach me through one of these profiles:') }}

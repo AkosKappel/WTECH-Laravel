@@ -57,6 +57,17 @@ services:
     networks:
       - app-network
 
+  # Front-end build tools, only started on demand:
+  #   docker compose run --rm assets npm ci
+  #   docker compose run --rm assets npm run build:css
+  assets:
+    image: node:22-alpine
+    profiles: ["tools"]
+    working_dir: /app
+    user: "${UID:-1000}:${UID:-1000}"
+    volumes:
+      - ./:/app
+
 networks:
   app-network:
     driver: bridge

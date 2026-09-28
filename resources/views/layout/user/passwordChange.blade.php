@@ -4,7 +4,7 @@
     @include('layout.partials.head', ['title' => __('Change Password') ])
 </head>
 
-<body class="font-sans bg-gradient-to-br from-indigo-50 to-purple-50 text-gray-900">
+<body class="font-sans bg-linear-to-br from-indigo-50 to-purple-50 text-gray-900">
     @include('layout.partials.demo-banner')
     <main class="min-h-screen flex items-center justify-center p-4">
         <div class="w-full max-w-md">
@@ -66,7 +66,7 @@
 
                 {{-- Submit Button --}}
                 <div>
-                    <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                    <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-xs text-sm font-medium text-white bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
                         {{ __('Change Password') }}
                     </button>
                 </div>
@@ -88,7 +88,7 @@
                     <p class="text-sm text-gray-600">
                         {{ __('Want to go back?') }}
                     </p>
-                    <a href="{{ route('profile') }}" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                    <a href="{{ route('profile') }}" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-xs text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
                         {{ __('Back to Profile') }}
                     </a>
                 </div>

@@ -4,7 +4,7 @@
     @include('layout.partials.head', ['title' => __('Sign In')])
 </head>
 
-<body class="font-sans bg-gradient-to-br from-indigo-50 to-purple-50 text-gray-900">
+<body class="font-sans bg-linear-to-br from-indigo-50 to-purple-50 text-gray-900">
     @include('layout.partials.demo-banner')
     <main class="min-h-screen flex items-center justify-center p-4">
         <div class="w-full max-w-md">
@@ -81,7 +81,7 @@
                             type="checkbox" 
                             id="remember" 
                             name="remember"
-                            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded-sm"
                         />
                         <label for="remember" class="ml-2 block text-sm text-gray-700">
                             {{ __('Remember me') }}
@@ -94,7 +94,7 @@
 
                 {{-- Submit Button --}}
                 <div>
-                    <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                    <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-xs text-sm font-medium text-white bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
                         {{ __('Sign In') }}
                     </button>
                 </div>
@@ -116,7 +116,7 @@
                     <p class="text-sm text-gray-600">
                         {{ __("Don't have an account?") }}
                     </p>
-                    <a href="{{ route('register') }}" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                    <a href="{{ route('register') }}" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-xs text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
                         {{ __('Create Account') }}
                     </a>
                 </div>

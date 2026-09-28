@@ -4,7 +4,7 @@
 ])
 
 @section('content')
-    <section class="bg-white rounded-xl shadow-sm p-6">
+    <section class="bg-white rounded-xl shadow-xs p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('A sample shop') }}</h2>
         <div class="space-y-3 text-gray-700 leading-relaxed">
             <p>
@@ -22,7 +22,7 @@
         </div>
     </section>
 
-    <section class="bg-white rounded-xl shadow-sm p-6">
+    <section class="bg-white rounded-xl shadow-xs p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('Where it comes from') }}</h2>
         <div class="space-y-3 text-gray-700 leading-relaxed">
             <p>
@@ -39,7 +39,7 @@
         </div>
     </section>
 
-    <section class="bg-white rounded-xl shadow-sm p-6">
+    <section class="bg-white rounded-xl shadow-xs p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('Things to try') }}</h2>
         <ul class="list-disc pl-5 space-y-1 text-gray-700 leading-relaxed">
             <li>
@@ -51,7 +51,7 @@
         </ul>
     </section>
 
-    <section class="bg-white rounded-xl shadow-sm p-6">
+    <section class="bg-white rounded-xl shadow-xs p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('Built with') }}</h2>
         <div class="flex flex-wrap gap-2">
             @foreach (['Laravel 8', 'PHP 8.1', 'PostgreSQL', 'Blade', 'Tailwind CSS', 'Alpine.js', 'Docker', 'Nginx'] as $technology)
@@ -60,7 +60,7 @@
         </div>
     </section>
 
-    <section class="bg-white rounded-xl shadow-sm p-6">
+    <section class="bg-white rounded-xl shadow-xs p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('Author') }}</h2>
         <p class="text-gray-700 leading-relaxed mb-4">
             {{ __('Designed and developed by') }} <span class="font-semibold text-gray-900">{{ config('demo.author') }}</span>.

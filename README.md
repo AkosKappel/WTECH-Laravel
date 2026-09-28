@@ -10,7 +10,7 @@ built with **Laravel 8**, **PostgreSQL** and **Tailwind CSS**.
 ![Laravel](https://img.shields.io/badge/Laravel-8-FF2D20?logo=laravel&logoColor=white)
 ![PHP](https://img.shields.io/badge/PHP-8.1-777BB4?logo=php&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-4169E1?logo=postgresql&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-2-06B6D4?logo=tailwindcss&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
 ![Alpine.js](https://img.shields.io/badge/Alpine.js-3-8BC0D0?logo=alpinedotjs&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
 
@@ -194,9 +194,9 @@ The sections below cover the same topics.
 |---|---|
 | **Backend** | PHP 8.1, Laravel 8 (MVC, Eloquent ORM, Blade) |
 | **Database** | PostgreSQL 15 |
-| **Frontend** | Blade templates, Tailwind CSS 2, Alpine.js 3, vanilla JavaScript |
+| **Frontend** | Blade templates, Tailwind CSS 4, vanilla JavaScript |
 | **Auth** | Laravel Breeze (customised), Gates & Policies |
-| **Build** | Laravel Mix (webpack), PostCSS, Autoprefixer |
+| **Build** | Tailwind CLI (only the classes the templates use end up in the ~50 KB stylesheet), run in a Node container |
 | **Infrastructure** | Docker Compose (PHP-FPM, Nginx, PostgreSQL) |
 
 **Additional packages**
@@ -402,7 +402,7 @@ sql/database.sql                    # raw SQL seed
 
 ### Prerequisites
 - [Docker](https://docs.docker.com/get-docker/) with Docker Compose
-- _(optional)_ Node.js and npm, only if you want to rebuild the frontend assets
+- _(optional)_ nothing extra for the CSS: it is committed pre-built, and rebuilding it runs in a Node container
 
 ### Installation
 
@@ -474,11 +474,13 @@ Before exposing the shop publicly, set these in `.env`:
   docker compose exec app php artisan demo:reset
   ```
 
-### Rebuilding Frontend Assets (optional)
+### Rebuilding the CSS
+
+The stylesheet `public/css/app.css` is built by Tailwind CSS 4 from `resources/css/app.css` and the class names in the Blade views and scripts, and it is committed, so the app runs without Node.js. After adding or changing Tailwind classes, rebuild it (no local Node.js needed):
 
 ```bash
-npm install
-npm run dev
+docker compose run --rm assets npm ci             # first time only
+docker compose run --rm assets npm run build:css  # or watch:css while editing
 ```
 
 ## Routes Overview

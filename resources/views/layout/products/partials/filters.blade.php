@@ -53,9 +53,9 @@
             <li data-brand-name="{{ $name }}">
                 <label class="flex items-center gap-2 px-1 py-1 rounded-md cursor-pointer hover:bg-gray-50 {{ $count === 0 && !$checked ? 'opacity-40' : '' }}">
                     <input type="checkbox" name="brand[]" value="{{ $slug }}" {{ $checked ? 'checked' : '' }}
-                           class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                           class="rounded-sm border-gray-300 text-indigo-600 focus:ring-indigo-500">
                     @include('layout.partials.brand-logo', ['brand' => (object) ['name' => $name, 'logo_url' => \App\Support\CatalogFilters::brandLogoUrl($slug)], 'size' => 'w-6 h-6'])
-                    <span class="flex-grow text-sm text-gray-700">{{ $name }}</span>
+                    <span class="grow text-sm text-gray-700">{{ $name }}</span>
                     <span class="text-xs text-gray-400">{{ $count }}</span>
                 </label>
             </li>

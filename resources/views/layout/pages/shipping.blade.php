@@ -5,7 +5,7 @@
 ])
 
 @section('content')
-    <section class="bg-white rounded-xl shadow-sm divide-y divide-gray-100">
+    <section class="bg-white rounded-xl shadow-xs divide-y divide-gray-100">
         @foreach ([
             __('Courier Delivery') => __('Delivered to your door within 1–2 working days. The courier contacts you by phone before arriving.'),
             __('Personal Pickup') => __('Pick up your order at our store in Bratislava, usually on the same day. We send you an e-mail when it is ready.'),
@@ -17,12 +17,12 @@
                     <h2 class="text-lg font-semibold text-gray-900">{{ $method }}</h2>
                     <p class="mt-1 text-gray-700 leading-relaxed">{{ $description }}</p>
                 </div>
-                <span class="flex-shrink-0 px-3 py-1 rounded-full bg-green-50 text-green-700 text-sm font-medium">{{ __('Free') }}</span>
+                <span class="shrink-0 px-3 py-1 rounded-full bg-green-50 text-green-700 text-sm font-medium">{{ __('Free') }}</span>
             </div>
         @endforeach
     </section>
 
-    <section class="bg-white rounded-xl shadow-sm p-6">
+    <section class="bg-white rounded-xl shadow-xs p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('Good to know') }}</h2>
         <ul class="list-disc pl-5 space-y-1 text-gray-700 leading-relaxed">
             <li>{{ __('Orders placed on working days before 14:00 are dispatched the same day.') }}</li>

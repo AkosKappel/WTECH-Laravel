@@ -9,7 +9,7 @@
 
 @section('actions')
     @guest
-        <a href="{{ route('login') }}" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-indigo-600 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 transition-colors">{{ __('Sign In') }}</a>
+        <a href="{{ route('login') }}" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-indigo-600 text-sm font-medium text-white shadow-xs hover:bg-indigo-700 transition-colors">{{ __('Sign In') }}</a>
     @endguest
-    <a href="{{ url('wtech') }}" class="inline-flex items-center px-5 py-2.5 rounded-lg {{ auth()->check() ? 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm' : 'bg-white text-gray-700 ring-1 ring-gray-300 hover:bg-gray-50' }} text-sm font-medium transition-colors">{{ __('Go to homepage') }}</a>
+    <a href="{{ url('wtech') }}" class="inline-flex items-center px-5 py-2.5 rounded-lg {{ auth()->check() ? 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-xs' : 'bg-white text-gray-700 ring-1 ring-gray-300 hover:bg-gray-50' }} text-sm font-medium transition-colors">{{ __('Go to homepage') }}</a>
 @endsection

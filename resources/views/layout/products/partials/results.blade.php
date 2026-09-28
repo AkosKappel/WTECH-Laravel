@@ -22,7 +22,7 @@
 
 <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
     <div>
-        <h1 class="text-2xl font-bold text-gray-900 focus:outline-none" tabindex="-1" data-results-heading>
+        <h1 class="text-2xl font-bold text-gray-900 focus:outline-hidden" tabindex="-1" data-results-heading>
             {{ $filters->q !== '' ? __('Results for “:query”', ['query' => $filters->q]) : __('Smartphones') }}
         </h1>
         <p class="mt-1 text-sm text-gray-500">{{ trans_choice(':count phone|:count phones', $total, ['count' => $total]) }}</p>
@@ -35,7 +35,7 @@
             <span><span class="text-gray-500">{{ __('Sort') }}:</span> {{ \App\Support\CatalogFilters::sortLabel($filters->sort()) }}</span>
             <svg class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </summary>
-        <ul class="absolute right-0 sm:right-0 left-0 sm:left-auto mt-2 w-60 py-2 bg-white rounded-lg shadow-xl ring-1 ring-black ring-opacity-5 z-40">
+        <ul class="absolute right-0 sm:right-0 left-0 sm:left-auto mt-2 w-60 py-2 bg-white rounded-lg shadow-xl ring-1 ring-black/5 z-40">
             @foreach ($sorts as $sort)
                 <li>
                     <a data-catalog-link href="{{ $filters->url(['sort' => $sort === $filters->defaultSort() ? null : $sort]) }}"

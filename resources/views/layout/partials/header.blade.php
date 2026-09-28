@@ -1,10 +1,10 @@
 @include('layout.partials.demo-banner')
-<header class="bg-gradient-to-r from-indigo-600 to-purple-600 sticky top-0 z-50">
+<header class="bg-linear-to-r from-indigo-600 to-purple-600 sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             {{-- Logo & Primary Navigation --}}
             <div class="flex items-center">
-                <div class="flex-shrink-0 flex items-center">
+                <div class="shrink-0 flex items-center">
                     <a href="{{ route('home') }}" class="flex items-center" aria-label="{{ __('Home') }}">
                         <img src="{{ url('wtech/images/logo.png') }}" alt="{{ __('Logo') }}" class="h-8 w-auto hover:opacity-90 transition-opacity"/>
                         <span class="ml-3 text-3xl font-bold italic text-white tracking-tight hidden sm:block">
@@ -108,7 +108,7 @@
                     {{ __('Admin') }}
                 </a>
             @endif
-            <div class="pt-2 mt-2 border-t border-white border-opacity-20">
+            <div class="pt-2 mt-2 border-t border-white/20">
                 @include('layout.partials.locale-switcher', ['variant' => 'list'])
             </div>
         </div>

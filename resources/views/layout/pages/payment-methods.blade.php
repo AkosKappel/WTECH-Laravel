@@ -5,7 +5,7 @@
 ])
 
 @section('content')
-    <section class="bg-white rounded-xl shadow-sm divide-y divide-gray-100">
+    <section class="bg-white rounded-xl shadow-xs divide-y divide-gray-100">
         @foreach ([
             __('Cash on Delivery') => __('Pay in cash or by card when the courier hands you the parcel, or when you collect it.'),
             __('Bank Transfer') => __('You receive our bank details and a payment reference by e-mail. We dispatch the order once the payment arrives.'),
@@ -20,7 +20,7 @@
         @endforeach
     </section>
 
-    <section class="bg-white rounded-xl shadow-sm p-6">
+    <section class="bg-white rounded-xl shadow-xs p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('In this demo') }}</h2>
         <p class="text-gray-700 leading-relaxed">
             {{ __('Choosing a payment method only records your choice with the order. No payment is ever requested or processed, and the checkout never asks for card details.') }}

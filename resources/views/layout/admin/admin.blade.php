@@ -46,7 +46,7 @@
                             <form action="{{ route('smartphones.delete', [$product->id]) }}" method="POST">
                                 {{ method_field('DELETE') }}
                                 {{ csrf_field() }}
-                                <button class="bg-red-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-3 py-1 h-8 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150" type="submit">
+                                <button class="bg-red-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-3 py-1 h-8 rounded-sm shadow-sm hover:shadow-md outline-hidden focus:outline-hidden ease-linear transition-all duration-150" type="submit">
                                     <img src="{{ url('wtech/images/delete.png')}}" alt="edit" class="w-5"/>
                                 </button>
                             </form>
@@ -55,7 +55,7 @@
                         <div class="col-span-6 text-left ml-1">
                             @can('update', $product)
                             <form action="{{ route('smartphones.edit', [$product->id]) }}" method="GET">
-                                <button class="bg-yellow-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-3 py-1 h-8 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150" type="submit">
+                                <button class="bg-yellow-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-3 py-1 h-8 rounded-sm shadow-sm hover:shadow-md outline-hidden focus:outline-hidden ease-linear transition-all duration-150" type="submit">
                                     <img src="{{ url('wtech/images/edit.png')}}" alt="edit" class="w-5"/>
                                 </button>
                             </form>
@@ -71,7 +71,7 @@
                    title="{{ __('Opens the error page with the details only admins see') }}">{{ __('Preview error page') }}</a>
                 @can('update', $product)
                 <form action="{{ route('smartphones.add') }}" method="GET">
-                    <button type="submit" class="bg-blue-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150">
+                    <button type="submit" class="bg-blue-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded-sm shadow-sm hover:shadow-md outline-hidden focus:outline-hidden ease-linear transition-all duration-150">
                         {{ __('Add product') }}
                     </button>
                 </form>

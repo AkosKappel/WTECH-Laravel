@@ -30,8 +30,8 @@
             } else {
                 panel.innerHTML = data.results.map(function (result, i) {
                     return '<a id="' + input.id + '-option-' + i + '" role="option" href="' + result.url + '" class="flex items-center gap-3 px-4 py-2 hover:bg-indigo-50">'
-                        + (result.image ? '<img src="' + result.image + '" alt="" class="h-10 w-10 object-contain flex-shrink-0">' : '<span class="h-10 w-10 flex-shrink-0 rounded bg-gray-100"></span>')
-                        + '<span class="flex-grow min-w-0"><span class="block text-sm text-gray-900 truncate">' + escape(result.name) + '</span>'
+                        + (result.image ? '<img src="' + result.image + '" alt="" class="h-10 w-10 object-contain shrink-0">' : '<span class="h-10 w-10 shrink-0 rounded-sm bg-gray-100"></span>')
+                        + '<span class="grow min-w-0"><span class="block text-sm text-gray-900 truncate">' + escape(result.name) + '</span>'
                         + (result.in_stock ? '' : '<span class="block text-xs text-gray-500">' + escape(panel.dataset.out) + '</span>') + '</span>'
                         + '<span class="text-sm font-semibold text-indigo-600 whitespace-nowrap">' + escape(result.price) + '</span></a>';
                 }).join('') + '<a href="' + data.all_url + '" class="block px-4 py-2 border-t border-gray-100 text-sm font-medium text-indigo-600 hover:bg-indigo-50">'
