@@ -1,66 +1,497 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<div align="center">
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<img src="public/images/logo.png" alt="SmartTech logo" width="96">
 
-## About Laravel
+# SmartTech – Smartphone E-shop
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+A full-stack, server-side rendered e-commerce web application for selling smartphones,
+built with **Laravel 8**, **PostgreSQL** and **Tailwind CSS**.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+![Laravel](https://img.shields.io/badge/Laravel-8-FF2D20?logo=laravel&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-8.0-777BB4?logo=php&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-4169E1?logo=postgresql&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-2-06B6D4?logo=tailwindcss&logoColor=white)
+![Alpine.js](https://img.shields.io/badge/Alpine.js-3-8BC0D0?logo=alpinedotjs&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**Live demo:** _coming soon_
 
-## Learning Laravel
+</div>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Table of Contents
 
-## Laravel Sponsors
+- [About the Project](#about-the-project)
+- [Academic Context](#academic-context)
+- [The Assignment](#the-assignment)
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [Tech Stack](#tech-stack)
+- [Data Model](#data-model)
+- [Design Decisions](#design-decisions)
+- [Implementation Highlights](#implementation-highlights)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Routes Overview](#routes-overview)
+- [Project History](#project-history)
+- [What I Learned](#what-i-learned)
+- [Author](#author)
+- [License](#license)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+---
 
-### Premium Partners
+## About the Project
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-- **[Romega Software](https://romegasoftware.com)**
+**SmartTech** is an online store for smartphones. It covers the whole shopping flow:
 
-## Contributing
+- browsing a catalog you can filter and search,
+- viewing product details,
+- managing a shopping cart that is kept across sessions,
+- a three-step checkout with delivery and payment selection, which works with or without an account.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+A separate, role-protected **admin zone** lets administrators manage the catalog, including uploading and deleting product images.
 
-## Code of Conduct
+The whole application is rendered on the server using Laravel's Blade templates. JavaScript is used only for small UI improvements such as quantity selectors, image switching and the mobile menu.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Academic Context
 
-## Security Vulnerabilities
+I built this project as the semester project for **Web Technologies (WTECH)** in the 2nd year of my Bachelor's studies at the
+[Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava](https://www.fiit.stuba.sk/)
+(_Fakulta informatiky a informačných technológií STU v Bratislave_), winter semester **2021/2022**.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+It was my **first project with Laravel**, and my introduction to MVC frameworks, the Eloquent ORM, migrations, authentication and server-side rendering in PHP.
+
+## The Assignment
+
+The goal was to build an e-shop in a domain of our choice that covers a defined set of use cases. The work was done in pairs over the semester and split into three graded phases. The recommended stack was **Laravel** with **PostgreSQL**.
+
+### Phases
+
+| Phase | Deadline | Deliverable | Points |
+|---|---|---|---|
+| **1. Sketches** | 10 Oct 2021 | Wireframes for every page, for extra-large (desktop) screens | 8 |
+| **2. Templates & data model** | 7 Nov 2021 | Responsive HTML/CSS templates for every use case (16 pts), logical data model as a UML class diagram (2 pts) | 18 |
+| **Checkpoint** | 15–16 Nov 2021 | Working customer-facing part, demonstrated live (pass/fail) | 4 |
+| **3. Implementation** | 5 Dec 2021 | Server-side rendered customer-facing part and admin zone in Laravel, complete database (schema and data), final documentation | 20 |
+
+Phase 2 was graded on template coverage, responsive design, correct use of HTML5 semantic elements, code formatting and naming consistency, and the quality of the logical data model.
+
+### Required Use Cases
+
+**Customer side**
+
+- Product listing for a category, with:
+  - filtering by at least 3 attributes (e.g. price range, brand, colour)
+  - pagination
+  - sorting (e.g. by price, ascending or descending)
+- Product detail page, with adding any quantity to the cart
+- Full-text search over the product catalog
+- Shopping cart:
+  - change the quantity of a product and remove products
+  - choose delivery and payment
+  - enter delivery details (with validation)
+  - complete the order
+  - **order without logging in** (guest checkout)
+  - **keep the cart across sessions** for logged-in users
+- Customer registration, login and logout
+
+**Admin side**
+
+- Admin login and logout, allowed only for users with the `ADMIN` role
+- Product list
+- Create a product, with image upload and at least one lookup list (e.g. choose a colour from a `<select>`)
+- Edit a product, with image upload and a list of existing images that can each be removed
+- Delete a product, which also deletes its image files from disk
+
+### Documentation Requirements
+
+The final submission had to include:
+
+- the physical data model,
+- the design decisions made (e.g. why each external library was added, how roles were handled),
+- a short description of how the key use cases were implemented (changing quantity, login, search, adding to cart, pagination, filtering),
+- screenshots of the homepage, product detail, login and cart.
+
+The sections below cover the same topics.
+
+## Features
+
+### Storefront
+- **Homepage** with randomly picked recommended phones and a brand showcase
+- **Product catalog** with 12 products per page and pagination that keeps the current query string
+- **Filtering** by price range (min/max), several brands and several colours at once
+- **Sorting** by price, cheapest or most expensive first
+- **Full-text search** across product name, description and operating system, available from the header on every page
+- **Product detail** page with technical specs (RAM, OS and version, display size, resolution, dimensions), an image gallery, and a quantity selector that updates the total price live
+
+### Cart & Checkout
+- **Session-based cart**: add, update quantity (limited to available stock) and remove items
+- **Cart kept across sessions**: the cart is saved to the database on logout and restored on login
+- **Three-step checkout**: delivery address, then delivery method, then payment method
+  - Delivery: courier, personal pickup, post office, parcel locker
+  - Payment: cash on delivery, bank transfer, credit card, Apple Pay, Google Pay (simulated; no real payment is taken)
+- **Guest checkout**, with an optional step after the order to turn the guest into a registered account
+- **Stock tracking**: available quantities are reduced when an order is placed
+
+### User Accounts
+- Registration, login, logout and password reset, built on Laravel Breeze
+- **Profile page** for editing personal and address details, which are used to pre-fill checkout
+- **Password change**, checked against the current password with a custom validation rule
+- Login and logout events are written to the application log
+
+### Admin Zone
+- Protected by an `isAdmin` gate and a `SmartphonePolicy`
+- Product list sorted alphabetically, with pagination
+- **Create and edit** products, with brand and colour chosen from lookup lists
+- **Upload several images** at once, processed with Intervention Image
+- Remove individual images when editing a product
+- Deleting a product also **deletes its image files** from disk
+
+## Screenshots
+
+> Screenshots will be added soon.
+
+| Homepage | Product Catalog |
+|---|---|
+| ![Homepage](docs/screenshots/homepage.png) | ![Catalog](docs/screenshots/catalog.png) |
+
+| Product Detail | Shopping Cart |
+|---|---|
+| ![Product detail](docs/screenshots/product-detail.png) | ![Cart](docs/screenshots/cart.png) |
+
+| Login | Admin Panel |
+|---|---|
+| ![Login](docs/screenshots/login.png) | ![Admin panel](docs/screenshots/admin.png) |
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Backend** | PHP 8.0, Laravel 8 (MVC, Eloquent ORM, Blade) |
+| **Database** | PostgreSQL 15 |
+| **Frontend** | Blade templates, Tailwind CSS 2, Alpine.js 3, vanilla JavaScript |
+| **Auth** | Laravel Breeze (customised), Gates & Policies |
+| **Build** | Laravel Mix (webpack), PostCSS, Autoprefixer |
+| **Infrastructure** | Docker Compose (PHP-FPM, Nginx, PostgreSQL) |
+
+**Additional packages**
+
+| Package | Purpose |
+|---|---|
+| [`hardevine/shoppingcart`](https://github.com/hardevine/LaravelShoppingcart) | Cart logic kept in the session, and saved to / restored from the database |
+| [`intervention/image`](https://image.intervention.io/) | Processing and saving uploaded product images |
+| [`laravelcollective/html`](https://laravelcollective.com/) | Form helpers used in the admin forms |
+| [`laravel/breeze`](https://github.com/laravel/breeze) | Starting point for authentication (login, registration, password reset) |
+
+## Data Model
+
+Physical data model of the application's own tables. Framework tables such as `password_resets`, `failed_jobs`, `sessions` and `personal_access_tokens` are left out.
+
+```mermaid
+erDiagram
+    USERS ||--o{ ORDERS : places
+    ORDERS ||--|{ ORDER_SMARTPHONE : contains
+    SMARTPHONES ||--o{ ORDER_SMARTPHONE : "ordered in"
+    BRANDS ||--o{ SMARTPHONES : manufactures
+    COLORS ||--o{ SMARTPHONES : "coloured in"
+    SMARTPHONES ||--o{ IMAGES : has
+
+    USERS {
+        bigint id PK
+        string first_name
+        string last_name
+        string phone_number
+        string email UK
+        string password "nullable - guest customers"
+        string street
+        string descriptive_number
+        string city
+        string country
+        string role "customer | admin"
+    }
+    ORDERS {
+        bigint id PK
+        float total_price
+        boolean paid
+        bigint user_id FK
+        string delivery_method
+        string payment_method
+    }
+    ORDER_SMARTPHONE {
+        bigint id PK
+        bigint order_id FK
+        bigint smartphone_id FK
+        int count
+    }
+    SMARTPHONES {
+        bigint id PK
+        string name
+        float price
+        float quantity "stock"
+        bigint brand_id FK
+        bigint color_id FK
+        text description
+        int ram
+        string operating_system
+        int os_version
+        float display_size
+        string resolution
+        float height
+        float width
+        float thickness
+    }
+    BRANDS {
+        bigint id PK
+        string name
+    }
+    COLORS {
+        bigint id PK
+        string name_en
+        string name_sk
+    }
+    IMAGES {
+        bigint id PK
+        string name
+        string source
+        bigint smartphone_id FK "cascade on delete"
+    }
+    SHOPPINGCARTS {
+        string identifier PK "user e-mail"
+        string instance PK
+        text content "serialised cart"
+    }
+```
+
+The database is filled by seeders with **8 brands** (Samsung, Apple, Xiaomi, Huawei, Google, Sony, Nokia, Lenovo), **9 colours** and about **20 smartphones** with images. A plain SQL version of the same data is in [`sql/database.sql`](sql/database.sql).
+
+## Design Decisions
+
+- **Server-side rendering with Blade.** The assignment required it. Each page is built from shared partials (`head`, `header`, `footer`, `pagination`), so the layout stays the same everywhere.
+- **Roles as a column, not a permissions system.** Each user has a `role` field (`customer` or `admin`). Access is checked by a single `isAdmin` gate and a `SmartphonePolicy`. With only two roles, a full roles-and-permissions package would have added complexity for no benefit.
+- **Guest customers are regular users.** `users.password` is nullable. A guest who places an order is saved as a user without a password, so every order links to a user record with the delivery details. The guest can then register afterwards without typing their details again.
+- **Using a cart package.** `hardevine/shoppingcart` provides a tested session cart with row IDs, quantities and totals. It can also save a cart to the database under an identifier, which was exactly what the "keep the cart across sessions" requirement needed.
+- **Lookup tables for brands and colours.** They support the filters and the admin `<select>` lists. Colours are stored in English and Slovak to support both UI languages.
+- **Images on disk, paths in the database.** Uploaded images go to `public/images/` with predictable names (`smartphone-{id}-{n}.{ext}`). The `images` table stores only their paths, which makes it easy to delete the files later.
+- **PostgreSQL.** This was the recommended database for the course. The search uses PostgreSQL's case-insensitive `ILIKE`.
+
+## Implementation Highlights
+
+### Filtering, Sorting & Pagination
+Filters are written as reusable **Eloquent query scopes** on the `Smartphone` model (`minPrice`, `maxPrice`, `ofBrand`, `ofColor`). The controller applies only the filters present in the request, then sorts and paginates:
+
+```php
+if ($request['min-price']) {
+    $smartphones = $smartphones->minPrice($request['min-price']);
+}
+// ... max price, brands, colours ...
+$smartphones = $smartphones->orderBy('price', $sort)->paginate(12);
+```
+
+In the view, the pagination links are rendered with `withQueryString()` and a custom Blade template, so the active filters, search term and sort order are kept when moving between pages.
+
+### Full-text Search
+The search box in the header sends a `search` query parameter to the catalog. That parameter becomes a case-insensitive `ILIKE` match across `name`, `description` and `operating_system`.
+
+### Adding to Cart & Changing Quantity
+On the product detail page, a small script (`public/js/details.js`) drives a +/− quantity selector, updates the total price live and switches between product images. When the form is submitted, the item is added to the session cart through `Cart::add()`. In the cart, changing a quantity submits the form automatically (`public/js/cart.js`). The quantity cannot go above the stock available, and the server applies it with `Cart::update($rowId, $qty)`.
+
+### Keeping the Cart Across Sessions
+The login and logout actions in Breeze were extended:
+
+```php
+// on logout – save the session cart under the user's e-mail
+Cart::store(Auth::user()->email);
+
+// on login – restore it
+Cart::restore(Auth::user()->email);
+```
+
+So a customer can add items, log out, log in again later or on another device, and find the same cart.
+
+### Login & Roles
+Authentication is built on Laravel Breeze, with the views redesigned to match the shop. Successful logins and logouts trigger event listeners (`LogSuccessfulLogin`, `LogSuccessfulLogout`) that write to the application log. The admin area uses the `auth` and `can:isAdmin` middleware, and admin-only controls in the views are wrapped in `@can` directives.
+
+### Checkout
+The three checkout steps (address, delivery, payment) each validate their input. For a logged-in user, the details are saved to their profile; for a guest, to the session. The final step, in one pass:
+
+1. finds or creates the customer,
+2. creates the `Order`,
+3. attaches the ordered phones through the `order_smartphone` pivot table with their quantities,
+4. reduces stock,
+5. empties the cart.
+
+### Image Upload
+The admin forms accept several images (`images[]`). Each one is processed with Intervention Image, saved to `public/images/` and recorded in the `images` table. When a product is edited, the selected images are removed from both the database and the disk. When a product is deleted, all of its image files are deleted too.
+
+## Project Structure
+
+```
+app/
+├── Http/Controllers/
+│   ├── ShopController.php          # homepage
+│   ├── SmartphoneController.php    # catalog, detail, admin CRUD
+│   ├── CartController.php          # cart operations
+│   ├── OrderController.php         # 3-step checkout
+│   ├── UserController.php          # profile
+│   └── Auth/                       # Breeze controllers (+ cart restore, password change)
+├── Models/                         # Smartphone, Brand, Color, Image, Order, User
+├── Policies/SmartphonePolicy.php
+├── Providers/                      # gates, login/logout listeners, HTTPS in production
+├── Rules/MatchOldPassword.php
+└── toolkit.php                     # formattedPrice() helper (e.g. "1 234,56 €")
+database/
+├── migrations/
+└── seeders/                        # brands, colours, smartphones, images, admin user
+resources/views/
+├── layout/
+│   ├── partials/                   # head, header, footer, pagination
+│   ├── products/                   # catalog & detail
+│   ├── cart/  order/  user/  admin/
+│   └── app.blade.php               # homepage
+└── auth/                           # login, register, password reset
+public/
+├── images/                         # logo, icons, product photos
+├── css/  js/                       # custom styles & scripts
+docker/                             # nginx.conf, php.ini
+sql/database.sql                    # raw SQL seed
+```
+
+## Getting Started
+
+### Prerequisites
+- [Docker](https://docs.docker.com/get-docker/) with Docker Compose
+- _(optional)_ Node.js and npm, only if you want to rebuild the frontend assets
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/AkosKappel/WTECH-Laravel.git
+   cd WTECH-Laravel
+   ```
+
+2. **Create the environment file**
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Change the database settings in `.env` so they point to the PostgreSQL container:
+
+   ```dotenv
+   APP_URL=http://localhost:8082
+
+   DB_CONNECTION=pgsql
+   DB_HOST=db
+   DB_PORT=5432
+   DB_DATABASE=wtech_laravel
+   DB_USERNAME=wtech
+   DB_PASSWORD=secret
+   ```
+
+   Docker Compose reads the same `DB_*` values to set up the PostgreSQL container.
+
+3. **Build and start the containers**
+
+   ```bash
+   docker compose up -d --build
+   ```
+
+4. **Install dependencies, generate the app key and seed the database**
+
+   ```bash
+   docker compose exec app composer install
+   docker compose exec app php artisan key:generate
+   docker compose exec app php artisan migrate --seed
+   ```
+
+5. **Open the shop** at **http://localhost:8082/wtech**
+
+### Default Admin Account
+
+The seeder creates an administrator account:
+
+| E-mail | Password |
+|---|---|
+| `admin@eshop.sk` | `123456789` |
+
+> These defaults are meant for local development only. Set `ADMIN_EMAIL` and `ADMIN_PASSWORD` in `.env` before seeding to change them, and always change them in production.
+
+### Services
+
+| Service | Container | Port |
+|---|---|---|
+| Nginx (web server) | `wtech-nginx` | `8082` |
+| PHP-FPM 8.0 (application) | `wtech-app` | – |
+| PostgreSQL 15 | `wtech-db` | `5432` |
+
+### Rebuilding Frontend Assets (optional)
+
+```bash
+npm install
+npm run dev
+```
+
+## Routes Overview
+
+All routes are served under the `/wtech` prefix.
+
+| Method | URI | Description |
+|---|---|---|
+| `GET` | `/wtech` | Homepage |
+| `GET` | `/wtech/smartphones` | Catalog (supports `search`, `min-price`, `max-price`, brand and colour checkboxes, `sort=asc\|desc`) |
+| `GET` | `/wtech/smartphones/{id}` | Product detail |
+| `GET` `POST` | `/wtech/cart` | View cart, add item |
+| `PUT` `DELETE` | `/wtech/cart/{rowId}` | Update quantity, remove item |
+| `GET` `PUT` | `/wtech/address` | Checkout step 1: delivery address |
+| `GET` `POST` | `/wtech/delivery` | Checkout step 2: delivery method |
+| `GET` `POST` | `/wtech/payment` | Checkout step 3: payment and placing the order |
+| `GET` `POST` | `/wtech/finishRegister` | Optional registration after a guest order |
+| `GET` `PUT` | `/wtech/profile` | User profile |
+| `GET` `PUT` | `/wtech/passwordChange` | Change password |
+| `GET` | `/wtech/admin` | Admin product list |
+| `GET` `POST` | `/wtech/smartphones/create`, `/wtech/smartphones/add` | Create product |
+| `GET` `PUT` | `/wtech/smartphones/{id}/edit`, `/wtech/smartphones/{id}` | Edit product |
+| `DELETE` | `/wtech/smartphones/{id}` | Delete product |
+
+Authentication routes (`/login`, `/register`, `/forgot-password`, `/reset-password`, …) come from Laravel Breeze.
+
+## Project History
+
+**November 2021 – January 2022: original development**
+
+- Page templates and views, then the product catalog with pagination, sorting and filtering
+- Authentication with Breeze, user profile, and a cart kept across sessions
+- Checkout flow, seeders, and the admin zone with image upload
+- Stock updates on orders, and logging of login and logout events
+
+**January 2025: modernisation.** I came back to the project to prepare it for my portfolio and for self-hosting:
+
+- **Containerised** the app with Docker Compose (PHP-FPM, Nginx, PostgreSQL 15)
+- Moved the app under a `/wtech` URL prefix so it can run behind a reverse proxy next to other projects
+- Forced **HTTPS in production**
+- Fixed broken image links, and made forms remember their values after a failed validation
+- **Redesigned every page** with a modern, responsive Tailwind UI
+- Gave the shop its brand name, **SmartTech**
+
+## What I Learned
+
+- The **MVC** pattern and how a modern PHP framework is structured
+- **Eloquent ORM**: relationships (one-to-many, many-to-many with pivot data) and query scopes
+- Keeping the database schema in version control with **migrations and seeders**
+- **Authentication and authorisation** with Breeze, Gates, Policies and middleware
+- Handling **sessions, forms, validation and file uploads** safely on the server
+- Building **responsive layouts** with semantic HTML5 and Tailwind CSS
+- Later on, **containerising** an older application and preparing it for deployment
+
+## Author
+
+**Ákos Kappel**
+
+- GitHub: [@AkosKappel](https://github.com/AkosKappel)
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open source and available under the [MIT License](https://opensource.org/licenses/MIT).
