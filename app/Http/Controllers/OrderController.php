@@ -13,10 +13,15 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    const DELIVERY_METHODS = ['Courier Delivery', 'Personal Pickup', 'Post Office Delivery', 'Parcel Locker'];
+    const PAYMENT_METHODS = ['Cash on Delivery', 'Bank Transfer', 'Credit Card', 'Apple Pay', 'Google Pay'];
+
     /**
      * Display a listing of the resource.
      *
@@ -65,18 +70,13 @@ class OrderController extends Controller
      */
     public function addressStore(Request $request)
     {
-        $emailValidation = Auth()->user() ? 'required|email|max:255' : 'required|email|max:255|unique:users';
-
-        $potentialUser = User::firstWhere('email', $request->email);
-        $showCreateAccount = true;
-
-        if (!is_null($potentialUser)) {
-            $emailValidation = 'required|email|max:255';
-            if (!is_null($potentialUser->password)) {
-                $showCreateAccount = false;
-            }
+        if (Auth::check()) {
+            $emailValidation = ['required', 'email', 'max:255', Rule::unique('users')->ignore(Auth::id())];
+        } else {
+            // a guest may reuse the e-mail of an earlier guest order, but not of a registered account
+            $emailValidation = ['required', 'email', 'max:255', Rule::unique('users')->whereNotNull('password')];
         }
-        $request->session()->put('showCreateAccount', $showCreateAccount);
+        $request->session()->put('showCreateAccount', !Auth::check());
 
         $request->validate([
             'first_name' => 'required|string|max:255|',
@@ -87,6 +87,10 @@ class OrderController extends Controller
             'descriptive_number' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'country' => 'required|string|max:255',
+        ], [
+            'email.unique' => Auth::check()
+                ? 'This e-mail is already used by another account.'
+                : 'An account with this e-mail already exists. Please log in to order with it.',
         ]);
 
         // Ak je používateľ prihlásený
@@ -125,7 +129,7 @@ class OrderController extends Controller
      */
     public function deliveryStore(Request $request)
     {
-        $request->validate(['transport' => 'required']);
+        $request->validate(['transport' => ['required', Rule::in(self::DELIVERY_METHODS)]]);
         $request->session()->put('delivery', $request->transport);
         return redirect('wtech/payment');
     }
@@ -138,40 +142,80 @@ class OrderController extends Controller
      */
     public function paymentStore(Request $request)
     {
-        $request->validate(['payment' => 'required']);
+        $request->validate(['payment' => ['required', Rule::in(self::PAYMENT_METHODS)]]);
 
-        $user = null;
-        if (!Auth::check()) {
-            $user = User::firstWhere('email', $request->session()->get('email'));
-            if ($user == null) {
-                $user = User::create([
-                    'email' => $request->session()->get('email'),
-                    'first_name' => $request->session()->get('first_name'),
-                    'last_name' => $request->session()->get('last_name'),
-                    'phone_number' => $request->session()->get('phone_number'),
-                    'street' => $request->session()->get('street'),
-                    'descriptive_number' => $request->session()->get('descriptive_number'),
-                    'city' => $request->session()->get('city'),
-                    'country' => $request->session()->get('country'),
-                ]);
-            }
-        } else {
-            $user = Auth::user();
+        // the earlier checkout steps must be completed first
+        if (Cart::count() == 0) {
+            return redirect()->route('cart')->withErrors(['cart' => 'Your cart is empty.']);
+        }
+        if (!Auth::check() && !$request->session()->has('email')) {
+            return redirect()->route('address');
+        }
+        if (!$request->session()->has('delivery')) {
+            return redirect()->route('delivery');
         }
 
-        $order = Order::create([
-            'total_price' => floatval(str_replace(',', '.', str_replace(' ', '', Cart::total()))),
-            'delivery_method' => $request->session()->get('delivery'),
-            'payment_method' => $request->payment,
-            'user_id' => $user->id,
-        ]);
-
+        // quantities per product, since the same phone can be in the cart more than once
+        $counts = [];
         foreach (Cart::content() as $cartSmartphone) {
-            $smartphone = Smartphone::find(intval($cartSmartphone->id));
-            $count = intval($cartSmartphone->qty);
-            $order->smartphones()->save($smartphone, ['count' => $count]);
-            $smartphone->quantity -= $count;
-            $smartphone->save();
+            $id = intval($cartSmartphone->id);
+            $counts[$id] = ($counts[$id] ?? 0) + intval($cartSmartphone->qty);
+        }
+
+        $stockError = null;
+        $user = DB::transaction(function () use ($request, $counts, &$stockError) {
+            // lock the rows so two orders can't sell the same last piece
+            $smartphones = Smartphone::whereIn('id', array_keys($counts))->lockForUpdate()->get()->keyBy('id');
+
+            $total = 0;
+            foreach ($counts as $id => $count) {
+                $smartphone = $smartphones->get($id);
+                if (is_null($smartphone)) {
+                    $stockError = 'A product in your cart is no longer available. Please remove it.';
+                    return null;
+                }
+                if ($smartphone->quantity < $count) {
+                    $stockError = "Only {$smartphone->quantity} × {$smartphone->name} left in stock. Please update your cart.";
+                    return null;
+                }
+                $total += $smartphone->price * $count;
+            }
+
+            if (Auth::check()) {
+                $user = Auth::user();
+            } else {
+                $details = $request->session()->only([
+                    'email', 'first_name', 'last_name', 'phone_number',
+                    'street', 'descriptive_number', 'city', 'country',
+                ]);
+                // an earlier guest order with this e-mail gets the new details, so a later
+                // account created from it never exposes the previous customer's address
+                $user = User::whereNull('password')->firstWhere('email', $details['email']);
+                if (is_null($user)) {
+                    $user = User::create($details);
+                } else {
+                    $user->update($details);
+                }
+            }
+
+            $order = Order::create([
+                'total_price' => round($total, 2),
+                'delivery_method' => $request->session()->get('delivery'),
+                'payment_method' => $request->payment,
+                'user_id' => $user->id,
+            ]);
+
+            foreach ($counts as $id => $count) {
+                $smartphone = $smartphones->get($id);
+                $order->smartphones()->attach($smartphone->id, ['count' => $count]);
+                $smartphone->decrement('quantity', $count);
+            }
+
+            return $user;
+        });
+
+        if (!is_null($stockError)) {
+            return redirect()->route('cart')->withErrors(['cart' => $stockError]);
         }
 
         Cart::destroy();
