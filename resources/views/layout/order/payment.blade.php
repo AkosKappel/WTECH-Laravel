@@ -151,6 +151,14 @@
                     </div>
                 @endif
 
+                {{-- Create Account --}}
+                @if(Session::get('showCreateAccount'))
+                    <label class="flex items-center px-8 py-4 border-t border-gray-200 cursor-pointer">
+                        <input type="checkbox" name="create_account" value="1" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"/>
+                        <span class="ml-3 text-sm text-gray-700">{{ __('Create an account with these details after placing the order') }}</span>
+                    </label>
+                @endif
+
                 {{-- Navigation Buttons --}}
                 <div class="bg-gray-50 px-8 py-6 flex items-center justify-between">
                     <a 
