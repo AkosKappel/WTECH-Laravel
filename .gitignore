@@ -78,3 +78,4 @@ BACKLOG.md
 OPERATIONS.md
 
 /docker/tailscale/ts.env
+.phpunit.cache
