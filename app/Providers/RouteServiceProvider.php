@@ -59,5 +59,21 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
         });
+
+        // Per visitor IP, which TrustProxies takes from the Tailscale sidecar's X-Forwarded-For.
+        // Password guessing: login, password reset and confirmation, password change.
+        RateLimiter::for('login', function (Request $request) {
+            return Limit::perMinute(10)->by($request->ip());
+        });
+
+        // Creating accounts and sending password-reset e-mails.
+        RateLimiter::for('signup', function (Request $request) {
+            return Limit::perMinute(5)->by($request->ip());
+        });
+
+        // Everything else that writes: cart, checkout, profile, language and demo notice.
+        RateLimiter::for('shop', function (Request $request) {
+            return Limit::perMinute(30)->by($request->ip());
+        });
     }
 }
