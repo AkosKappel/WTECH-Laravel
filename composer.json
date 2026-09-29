@@ -8,16 +8,16 @@
         "php": "^8.2",
         "ext-json": "*",
         "guzzlehttp/guzzle": "^7.8",
-        "hardevine/shoppingcart": "^3.3",
+        "hardevine/shoppingcart": "^3.4",
         "intervention/image": "^3.11",
-        "laravel/framework": "^11.31",
-        "laravel/tinker": "^2.9"
+        "laravel/framework": "^12.0",
+        "laravel/tinker": "^2.10.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
         "mockery/mockery": "^1.6",
-        "nunomaduro/collision": "^8.1",
-        "phpunit/phpunit": "^11.0"
+        "nunomaduro/collision": "^8.6",
+        "phpunit/phpunit": "^11.5.3"
     },
     "autoload": {
         "files": [
