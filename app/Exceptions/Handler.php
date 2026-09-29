@@ -128,7 +128,7 @@ class Handler extends ExceptionHandler
         }
     }
 
-    private function plainErrorPage(Throwable $renderError, HttpExceptionInterface $e = null)
+    private function plainErrorPage(Throwable $renderError, ?HttpExceptionInterface $e = null)
     {
         try {
             logger()->error('The error page could not be rendered: ' . $renderError->getMessage(), [
