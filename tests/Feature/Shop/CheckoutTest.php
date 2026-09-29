@@ -96,8 +96,10 @@ class CheckoutTest extends TestCase
         $this->checkoutUpToPayment();
         $this->post('/payment', ['payment' => 'Cash on Delivery', 'create_account' => '1']);
 
-        $this->post('/finishRegister', ['password' => 'secret-pass-123', 'password_confirmation' => 'secret-pass-123']);
+        $this->post('/finishRegister', ['password' => 'secret-pass-123', 'password_confirmation' => 'secret-pass-123'])
+            ->assertRedirect(route('order.complete'));
 
+        $this->assertAuthenticated();
         $this->assertNotNull(User::firstWhere('email', 'jana@example.com')->password);
     }
 }

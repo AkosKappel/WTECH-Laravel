@@ -13,6 +13,7 @@ class CatalogTest extends TestCase
 
     public function test_homepage_shows_recommended_phones()
     {
+        // the homepage shows inRandomOrder()->take(3): exactly 3 phones make this deterministic
         $phones = Smartphone::factory()->count(3)->create();
 
         $response = $this->get('/');
@@ -33,7 +34,7 @@ class CatalogTest extends TestCase
     public function test_catalog_filters_by_brand()
     {
         $wanted = Smartphone::factory()->create(['name' => 'Alpha Wanted']);
-        $other = Smartphone::factory()->create(['name' => 'Beta Other']);
+        Smartphone::factory()->create(['name' => 'Beta Other']);
 
         $this->followingRedirects()
             ->get('/smartphones?brand=' . Str::slug($wanted->brand->name))
@@ -57,10 +58,12 @@ class CatalogTest extends TestCase
     public function test_search_suggestions_return_json()
     {
         Smartphone::factory()->create(['name' => 'Nebula Phone X']);
+        Smartphone::factory()->create(['name' => 'Beta Other']);
 
         $this->getJson('/search/suggest?q=nebula')
             ->assertOk()
-            ->assertJsonPath('total', 1);
+            ->assertJsonPath('total', 1)
+            ->assertJsonPath('results.0.name', 'Nebula Phone X');
     }
 
     public function test_product_page_shows_the_phone()
