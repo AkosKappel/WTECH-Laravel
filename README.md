@@ -11,7 +11,6 @@ built with **Laravel 8**, **PostgreSQL** and **Tailwind CSS**.
 ![PHP](https://img.shields.io/badge/PHP-8.1-777BB4?logo=php&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-4169E1?logo=postgresql&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
-![Alpine.js](https://img.shields.io/badge/Alpine.js-3-8BC0D0?logo=alpinedotjs&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
 
 **Live demo:** [wtech.tailb52c43.ts.net](https://wtech.tailb52c43.ts.net)<br>
@@ -205,10 +204,10 @@ The sections below cover the same topics.
 |---|---|
 | [`hardevine/shoppingcart`](https://github.com/hardevine/LaravelShoppingcart) | Cart logic kept in the session, and saved to / restored from the database |
 | [`intervention/image`](https://image.intervention.io/) | Processing and saving uploaded product images |
-| [`laravelcollective/html`](https://laravelcollective.com/) | Form helpers used in the admin forms |
-| [`laravel/breeze`](https://github.com/laravel/breeze) | Starting point for authentication (login, registration, password reset) |
 | [Laravel-Lang](https://github.com/Laravel-Lang/lang) 8.1.3 (MIT) | German and Slovak validation, auth, password and framework messages (copied into `resources/lang`) |
 | [flag-icons](https://github.com/lipis/flag-icons) 7.5.0 (MIT) | Flags in the language switcher (`public/images/flags`) |
+
+Authentication was scaffolded with [Laravel Breeze](https://github.com/laravel/breeze); the generated code is part of the app and the package itself is no longer a dependency.
 
 ## Data Model
 
