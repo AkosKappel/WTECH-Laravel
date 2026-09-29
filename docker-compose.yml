@@ -1,3 +1,10 @@
+# Container output (e.g. nginx's access log) is kept in at most 3 files of 10 MB each.
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
 # Memory caps keep one container from starving the others (and other apps on the same host).
 services:
   app:
@@ -6,6 +13,7 @@ services:
       dockerfile: Dockerfile
     container_name: wtech-app
     restart: unless-stopped
+    logging: *logging
     deploy:
       resources:
         limits:
@@ -23,6 +31,7 @@ services:
       dockerfile: Dockerfile
     container_name: wtech-scheduler
     restart: unless-stopped
+    logging: *logging
     deploy:
       resources:
         limits:
@@ -41,6 +50,7 @@ services:
     image: nginx:alpine
     container_name: wtech-nginx
     restart: unless-stopped
+    logging: *logging
     deploy:
       resources:
         limits:
@@ -59,6 +69,7 @@ services:
     image: postgres:15
     container_name: wtech-db
     restart: unless-stopped
+    logging: *logging
     deploy:
       resources:
         limits:
