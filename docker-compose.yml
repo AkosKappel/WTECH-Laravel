@@ -11,7 +11,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: wtech-app
+    container_name: ${CONTAINER_PREFIX:-wtech}-app
     restart: unless-stopped
     logging: *logging
     deploy:
@@ -29,7 +29,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: wtech-scheduler
+    container_name: ${CONTAINER_PREFIX:-wtech}-scheduler
     restart: unless-stopped
     logging: *logging
     deploy:
@@ -48,7 +48,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: wtech-nginx
+    container_name: ${CONTAINER_PREFIX:-wtech}-nginx
     restart: unless-stopped
     logging: *logging
     deploy:
@@ -67,7 +67,7 @@ services:
 
   db:
     image: postgres:15
-    container_name: wtech-db
+    container_name: ${CONTAINER_PREFIX:-wtech}-db
     restart: unless-stopped
     logging: *logging
     deploy:
@@ -81,7 +81,7 @@ services:
     volumes:
       - dbdata:/var/lib/postgresql/data
     ports:
-      - "127.0.0.1:5433:5432"
+      - "127.0.0.1:${DB_HOST_PORT:-5433}:5432"
     networks:
       - app-network
 

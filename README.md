@@ -456,6 +456,8 @@ The seeder creates an administrator account:
 | PostgreSQL 15 | `wtech-db` | `5433` (localhost only) |
 | Laravel scheduler (runs the demo reset) | `wtech-scheduler` | – |
 
+The container names start with `CONTAINER_PREFIX` (default `wtech`) and the database is published on `DB_HOST_PORT` (default `5433`), so a second copy of the project, for example a staging checkout, can run next to this one with its own values.
+
 PostgreSQL is published only on `127.0.0.1`, so a database client can connect from the host itself (or through an SSH tunnel), but not from other machines.
 
 ### Production Checklist
