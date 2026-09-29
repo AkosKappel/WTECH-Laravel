@@ -1,2 +1,22 @@
+# Product and information pages may be crawled. Filtered or sorted catalog URLs are left out,
+# because their combinations are practically endless and each one runs a database search.
 User-agent: *
-Disallow:
+Allow: /smartphones?page=
+Allow: /payment-methods
+Disallow: /smartphones?
+Disallow: /search/
+Disallow: /cart
+Disallow: /address
+Disallow: /delivery
+Disallow: /payment
+Disallow: /order/
+Disallow: /finishRegister
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /verify-email
+Disallow: /confirm-password
+Disallow: /profile
+Disallow: /passwordChange
+Disallow: /admin
