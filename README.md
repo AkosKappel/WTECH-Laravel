@@ -463,6 +463,7 @@ PostgreSQL is published only on `127.0.0.1`, so a database client can connect fr
 Before exposing the shop publicly, set these in `.env`:
 
 - `APP_ENV=production` and `APP_DEBUG=false`.
+- `SESSION_SECURE_COOKIE=true`, so the session and CSRF cookies are only ever sent over HTTPS.
 - `LOG_LEVEL=info`, so the log keeps logins, logouts and errors but not debug output. Logs rotate daily and the last 14 days are kept.
 - `APP_URL` set to the address people will use. If it starts with `https://`, the app generates HTTPS links, which is what you want behind a TLS-terminating proxy such as Tailscale Funnel or Cloudflare Tunnel.
 - `APP_BIND` to choose the network interface the web server listens on. Behind a reverse proxy running on the same machine (e.g. `tailscale funnel http://127.0.0.1:8082`), use `127.0.0.1`, so the proxy is the only way in. Don't point Tailscale Serve or Funnel at the host's own Tailscale IP: Tailscale doesn't pass that traffic on to the host's regular network, so the proxy gets a 502.
