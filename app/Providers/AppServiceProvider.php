@@ -26,6 +26,8 @@ class AppServiceProvider extends ServiceProvider
         // behind a TLS-terminating proxy the app itself only sees plain HTTP
         if (str_starts_with(config('app.url'), 'https://')) {
             \URL::forceScheme('https');
+            // absolute links (password resets) always use APP_URL's host, never a forwarded one
+            \URL::forceRootUrl(config('app.url'));
         }
     }
 }

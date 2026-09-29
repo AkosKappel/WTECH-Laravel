@@ -29,6 +29,7 @@ return [
     */
 
     'bcrypt' => [
+        'verify' => true,
         'rounds' => env('BCRYPT_ROUNDS', 10),
     ],
 
