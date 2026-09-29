@@ -158,4 +158,19 @@ class AdminProductsTest extends TestCase
         $this->assertDatabaseMissing('smartphones', ['id' => $phone->id]);
         $this->assertFileDoesNotExist($path);
     }
+
+    public function test_admin_can_upload_a_png_image()
+    {
+        $this->actingAs($this->admin())
+            ->post('/smartphones/add', $this->product([
+                'images' => [UploadedFile::fake()->image('phone.png', 300, 300)],
+            ]))
+            ->assertRedirect(route('admin'));
+
+        $image = Smartphone::firstWhere('name', 'Admin Test Phone')->images()->first();
+        $this->assertStringEndsWith('.png', $image->source);
+        $path = public_path(ltrim($image->source, '/'));
+        $this->assertFileExists($path);
+        $this->assertSame('image/png', mime_content_type($path));
+    }
 }

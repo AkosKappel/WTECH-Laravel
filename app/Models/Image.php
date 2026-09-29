@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Intervention\Image\ImageManagerStatic as InterventionImage;
+use Intervention\Image\ImageManager;
 
 class Image extends Model
 {
@@ -39,7 +39,8 @@ class Image extends Model
         File::ensureDirectoryExists($directory);
 
         $name = 'smartphone-' . $smartphone->id . '-' . Str::lower(Str::random(12)) . '.' . $file->extension();
-        InterventionImage::make($file->getRealPath())->save($directory . '/' . $name);
+        // re-encoding drops anything that isn't image data; quality 90 as with Intervention Image 2
+        ImageManager::gd()->read($file->getRealPath())->save($directory . '/' . $name, quality: 90);
 
         return static::create([
             'name' => $smartphone->name,
