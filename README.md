@@ -131,7 +131,7 @@ The sections below cover the same topics.
 
 ### Cart & Checkout
 - **Session-based cart**: add, update quantity (limited to available stock) and remove items
-- **Cart kept across sessions**: the cart is saved to the database on logout and restored on login
+- **Cart kept across sessions**: the cart is saved to the database on logout and merged with the guest cart on login
 - **Three-step checkout**: delivery address, then delivery method, then payment method
   - Delivery: courier, personal pickup, post office, parcel locker
   - Payment: cash on delivery, bank transfer, credit card, Apple Pay, Google Pay (simulated; no real payment is taken)
@@ -328,7 +328,7 @@ Search uses PostgreSQL's **`pg_trgm`** and **`unaccent`** extensions, with a tri
 Results are ranked with exact name matches first, then by similarity. The same logic powers the header's live suggestions (`GET /search/suggest?q=…`, JSON, rate-limited).
 
 ### Adding to Cart & Changing Quantity
-On the product detail page, a small script (`public/js/details.js`) drives a +/− quantity selector, updates the total price live and switches between product images. When the form is submitted, the item is added to the session cart through `Cart::add()`. In the cart, changing a quantity submits the form automatically (`public/js/cart.js`). The quantity cannot go above the stock available, and the server applies it with `Cart::update($rowId, $qty)`.
+On the product detail page, a small script (`public/js/details.js`) drives a +/− quantity selector, updates the total price live and switches between product images. When the form is submitted, the item is added to the session cart through `Cart::add()`. In the cart, changing a quantity submits the form automatically (`public/js/cart.js`). The quantity is limited to the stock, which is checked again at checkout, and the server applies it with `Cart::update($rowId, $qty)`.
 
 ### Keeping the Cart Across Sessions
 The login and logout actions in Breeze were extended:
@@ -546,6 +546,7 @@ Authentication routes (`/login`, `/register`, `/forgot-password`, `/reset-passwo
 - moved the Docker image to **PHP 8.1** on Debian 12 after Debian 11 reached end of life
 - gave the shop its own hostname through a Tailscale sidecar, and dropped the `/wtech` URL prefix (old `/wtech/…` links redirect to the new paths)
 - upgraded from Laravel 8 / PHP 8.1 to Laravel 12 / PHP 8.3, one major version at a time, behind a feature-test suite written first
+- replaced the cart package with a small cart of my own, because saved carts could never be restored on PostgreSQL
 
 ## What I Learned
 
