@@ -5,7 +5,7 @@ namespace Tests\Feature\Shop;
 use App\Models\Smartphone;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Facades\Cart;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -86,8 +86,6 @@ class CartTest extends TestCase
 
     public function test_cart_is_kept_across_logout_and_login()
     {
-        $this->markTestIncomplete('Known bug: hardevine/shoppingcart stores serialize() output, whose NUL bytes Postgres truncates, so Cart::restore() fails on login and the cart is lost. Fixed by the own cart class in upgrade Phase 3; remove this line then.');
-
         $user = User::factory()->create();
         $phone = Smartphone::factory()->create();
 

@@ -5,7 +5,7 @@ namespace Tests\Feature\Shop;
 use App\Models\Order;
 use App\Models\Smartphone;
 use App\Models\User;
-use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Facades\Cart;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

@@ -1,3 +1,4 @@
+@use('App\Facades\Cart')
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -47,8 +48,8 @@
                             {{-- Product Info --}}
                             <div class="col-span-12 md:col-span-5 flex flex-col sm:flex-row items-center gap-4">
                                 <div class="w-24 h-24 shrink-0">
-                                    <img src="{{ asset(ltrim($product->options->image_source, '/')) }}" 
-                                         alt="{{ $product->options->image_name }}"
+                                    <img src="{{ asset(ltrim($product->imageSource, '/')) }}" 
+                                         alt="{{ $product->imageName }}"
                                          class="w-full h-full object-contain"/>
                                 </div>
                                 <div class="flex-1 text-center sm:text-left">
@@ -82,7 +83,7 @@
                                         <input type="number"
                                                id="product-{{ $loop->index }}-quantity"
                                                name="product_quantity"
-                                               max="{{ $product->options->max_quantity }}"
+                                               max="{{ $product->maxQuantity }}"
                                                value="{{ $product->qty }}"
                                                min="1"
                                                class="h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none" />
@@ -99,7 +100,7 @@
                             <div class="col-span-12 md:col-span-3 flex flex-col gap-2">
                                 <div class="text-center">
                                     <span class="md:hidden font-medium text-gray-500">{{ __('Total') }}: </span>
-                                    <span class="font-medium text-gray-900">{{ formattedPrice($product->total) }}</span>
+                                    <span class="font-medium text-gray-900">{{ formattedPrice($product->total()) }}</span>
                                 </div>
                                 <div class="text-center">
                                     <form action="{{ route('cart.destroy', $product->rowId) }}" method="POST">
@@ -122,7 +123,7 @@
                 <div class="rounded-lg bg-gray-50 p-6">
                     <div class="flex items-center justify-end">
                         <span class="text-xl font-medium text-gray-900 mr-6">{{ __('Total') }}</span>
-                        <span class="text-2xl font-bold text-gray-900">{{ Cart::total() . ' €'}}</span>
+                        <span class="text-2xl font-bold text-gray-900">{{ formattedPrice(Cart::total()) }}</span>
                     </div>
 
                     <div class="mt-6 flex flex-col sm:flex-row gap-4 justify-end items-center">

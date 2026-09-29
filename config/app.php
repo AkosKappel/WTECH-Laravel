@@ -181,7 +181,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
+        'Cart' => App\Facades\Cart::class,
     ])->toArray(),
 
 ];

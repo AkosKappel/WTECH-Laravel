@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Smartphone;
 use App\Models\Brand;
-use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

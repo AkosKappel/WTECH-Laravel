@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Smartphone;
-use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Facades\Cart;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -49,22 +49,13 @@ class CartController extends Controller
 
         // name, price and stock are taken from the database, never from the form
         $smartphone = Smartphone::findOrFail($request->id);
-        $image = $smartphone->images()->first();
-        $inCart = Cart::search(function ($item) use ($smartphone) {
-            return $item->id == $smartphone->id;
-        })->sum('qty');
-        $quantity = min($request->quantity, $smartphone->quantity - $inCart);
+        $quantity = min($request->quantity, $smartphone->quantity - Cart::quantityOf($smartphone->id));
 
         if ($quantity < 1) {
             return redirect()->route('cart')->withErrors(['quantity' => __('No more :name in stock.', ['name' => $smartphone->name])]);
         }
 
-        Cart::add($smartphone->id, $smartphone->name, $quantity, $smartphone->price, [
-                'image_source' => $image ? $image->source : 'images/no_img_available.jpg',
-                'image_name' => $image ? $image->name : 'No image available',
-                'max_quantity' => $smartphone->quantity
-            ]
-        )->associate(Smartphone::class);
+        Cart::add($smartphone, $quantity);
 
         return redirect()->route('cart')->with('success_message', __('Product was added to cart!'));
     }
@@ -100,8 +91,9 @@ class CartController extends Controller
         $request->validate(['product_quantity' => 'required|integer|min:0']);
 
         $item = Cart::get($rowId);
-        $quantity = min($request->product_quantity, $item->options->max_quantity);
-        Cart::update($rowId, $quantity);
+        if ($item !== null) {
+            Cart::update($rowId, min($request->product_quantity, $item->maxQuantity));
+        }
         return redirect()->route('cart');
     }
 

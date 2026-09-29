@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
-use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,19 +29,18 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
+        // the cart outlives the fresh session, also when the login fails
+        $guestCart = Cart::content();
         $request->session()->flush();
+        Cart::fill($guestCart);
+
         $request->authenticate();
 
         $request->session()->regenerate();
 
-        if (Auth::check()) {
-            try {
-                Cart::restore(Auth::user()->email);
-            } catch (\Exception $e) {
-                \Log::error('Failed to restore cart: ' . $e->getMessage());
-                Cart::destroy();
-            }
-        }
+        // add the cart saved at the last logout
+        Cart::restore(Auth::user()->email);
+
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
