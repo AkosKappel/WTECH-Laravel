@@ -163,4 +163,15 @@ class CartServiceTest extends TestCase
         $this->assertSame(1, $lines[$b->id]['qty']);
         $this->assertSame(1, Cart::count(), 'store() must not change the session cart');
     }
+
+    public function test_storing_twice_without_a_saved_row_does_not_fail()
+    {
+        $phone = Smartphone::factory()->create();
+        Cart::add($phone, 1);
+
+        Cart::store('user@example.com');
+        Cart::store('user@example.com');
+
+        $this->assertSame(1, DB::table('shoppingcarts')->where('identifier', 'user@example.com')->count());
+    }
 }

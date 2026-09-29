@@ -137,18 +137,18 @@ class Cart
                 return $item->toArray();
             })->values()->all();
 
-            $this->storedCart($identifier)->delete();
             if ($lines === []) {
+                $this->storedCart($identifier)->delete();
                 return;
             }
 
-            DB::table(self::TABLE)->insert([
+            DB::table(self::TABLE)->upsert([[
                 'identifier' => $identifier,
                 'instance' => self::INSTANCE,
                 'content' => json_encode($lines),
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]);
+            ]], ['identifier', 'instance'], ['content', 'updated_at']);
         });
     }
 

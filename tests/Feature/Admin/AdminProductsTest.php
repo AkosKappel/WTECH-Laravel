@@ -173,4 +173,19 @@ class AdminProductsTest extends TestCase
         $this->assertFileExists($path);
         $this->assertSame('image/png', mime_content_type($path));
     }
+
+    public function test_admin_can_upload_a_webp_image()
+    {
+        $this->actingAs($this->admin())
+            ->post('/smartphones/add', $this->product([
+                'images' => [UploadedFile::fake()->image('phone.webp', 300, 300)],
+            ]))
+            ->assertRedirect(route('admin'));
+
+        $image = Smartphone::firstWhere('name', 'Admin Test Phone')->images()->first();
+        $this->assertStringEndsWith('.webp', $image->source);
+        $path = public_path(ltrim($image->source, '/'));
+        $this->assertFileExists($path);
+        $this->assertSame('image/webp', mime_content_type($path));
+    }
 }
