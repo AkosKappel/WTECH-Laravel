@@ -484,6 +484,15 @@ docker compose run --rm assets npm ci             # first time only
 docker compose run --rm assets npm run build:css  # or watch:css while editing
 ```
 
+### Running the Tests
+
+The tests reset their database on every run, so they use a separate `wtech_testing` database (set in `phpunit.xml`) and refuse to start against any database whose name doesn't end in `_testing`. Create it once, then run the suite:
+
+```bash
+docker compose exec db createdb -U wtech wtech_testing   # first time only; use your DB_USERNAME
+docker compose exec app php artisan test
+```
+
 ## Routes Overview
 
 | Method | URI | Description |
