@@ -127,4 +127,40 @@ class CartServiceTest extends TestCase
         $this->assertSame(1, Cart::count());
         $this->assertDatabaseMissing('shoppingcarts', ['identifier' => 'user@example.com']);
     }
+
+    public function test_store_with_an_empty_cart_keeps_the_saved_cart()
+    {
+        $phone = Smartphone::factory()->create(['quantity' => 5]);
+        Cart::add($phone, 2);
+        Cart::store('user@example.com');
+        $before = DB::table('shoppingcarts')->where('identifier', 'user@example.com')->value('content');
+        Cart::destroy();
+
+        Cart::store('user@example.com');
+
+        $this->assertSame(1, DB::table('shoppingcarts')->where('identifier', 'user@example.com')->count());
+        $after = json_decode(DB::table('shoppingcarts')->where('identifier', 'user@example.com')->value('content'), true);
+        $this->assertSame($phone->id, $after[0]['id']);
+        $this->assertSame(2, $after[0]['qty']);
+        $this->assertSame(1, count($after));
+        $this->assertNotNull($before);
+        $this->assertSame(0, Cart::count(), 'store() must not change the session cart');
+    }
+
+    public function test_stores_from_two_devices_are_merged()
+    {
+        $a = Smartphone::factory()->create(['quantity' => 5]);
+        $b = Smartphone::factory()->create(['quantity' => 5]);
+        Cart::add($a, 2);
+        Cart::store('user@example.com');
+        Cart::destroy();
+
+        Cart::add($b, 1);
+        Cart::store('user@example.com');
+
+        $lines = collect(json_decode(DB::table('shoppingcarts')->where('identifier', 'user@example.com')->value('content'), true))->keyBy('id');
+        $this->assertSame(2, $lines[$a->id]['qty']);
+        $this->assertSame(1, $lines[$b->id]['qty']);
+        $this->assertSame(1, Cart::count(), 'store() must not change the session cart');
+    }
 }

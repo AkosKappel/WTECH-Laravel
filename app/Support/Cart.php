@@ -125,26 +125,31 @@ class Cart
     }
 
     /**
-     * Save the cart for later (on logout). An empty cart leaves nothing behind.
+     * Save the cart for later (on logout), merged into what is already saved, so logging
+     * out on a device with an empty or partial cart does not wipe a cart saved elsewhere.
+     * The session cart is left as it is.
      */
     public function store(string $identifier): void
     {
-        $this->storedCart($identifier)->delete();
+        DB::transaction(function () use ($identifier) {
+            $stored = $this->storedCart($identifier)->lockForUpdate()->value('content');
+            $lines = $this->mergeStored($this->content(), $stored)->map(function (CartItem $item) {
+                return $item->toArray();
+            })->values()->all();
 
-        $lines = $this->content()->map(function (CartItem $item) {
-            return $item->toArray();
-        })->values()->all();
-        if ($lines === []) {
-            return;
-        }
+            $this->storedCart($identifier)->delete();
+            if ($lines === []) {
+                return;
+            }
 
-        DB::table(self::TABLE)->insert([
-            'identifier' => $identifier,
-            'instance' => self::INSTANCE,
-            'content' => json_encode($lines),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+            DB::table(self::TABLE)->insert([
+                'identifier' => $identifier,
+                'instance' => self::INSTANCE,
+                'content' => json_encode($lines),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        });
     }
 
     /**
@@ -160,10 +165,24 @@ class Cart
             return;
         }
 
+        $this->fill($this->mergeStored($this->content(), $stored));
+    }
+
+    /**
+     * @param Collection<string, CartItem> $content the current lines
+     * @param string|null $stored the saved cart as JSON
+     * @return Collection<string, CartItem>
+     */
+    private function mergeStored(Collection $content, ?string $stored): Collection
+    {
+        if ($stored === null) {
+            return $content;
+        }
+
         $lines = json_decode($stored, true);
         if (!is_array($lines)) {
             Log::warning('Ignored a stored cart that could not be read.');
-            return;
+            return $content;
         }
 
         $storedItems = collect($lines)->map(function ($data) {
@@ -175,7 +194,6 @@ class Cart
         })->filter();
         $phones = Smartphone::whereIn('id', $storedItems->pluck('id'))->get()->keyBy('id');
 
-        $content = $this->content();
         foreach ($storedItems as $storedItem) {
             $phone = $phones->get($storedItem->id);
             if ($phone === null || $phone->quantity < 1) {
@@ -193,7 +211,8 @@ class Cart
                 $current ? $current->imageName : $storedItem->imageName,
             ));
         }
-        $this->fill($content);
+
+        return $content;
     }
 
     private function storedCart(string $identifier)

@@ -5,6 +5,7 @@ namespace Tests\Feature\Shop;
 use App\Facades\Cart;
 use App\Models\Smartphone;
 use App\Models\User;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -49,5 +50,35 @@ class CartLoginTest extends TestCase
         $this->post('/cart', ['id' => $phone->id, 'quantity' => 1])->assertRedirect(route('cart'));
 
         $this->assertSame(1, Cart::count());
+    }
+
+    public function test_a_remembered_login_restores_the_saved_cart()
+    {
+        $user = User::factory()->create();
+        $phone = Smartphone::factory()->create(['quantity' => 5]);
+        Cart::add($phone, 2);
+        Cart::store($user->email);
+        Cart::destroy();
+
+        event(new Login('web', $user, true));
+
+        $this->assertSame(2, Cart::quantityOf($phone->id));
+        $this->assertDatabaseMissing('shoppingcarts', ['identifier' => $user->email]);
+    }
+
+    public function test_logging_out_with_an_empty_cart_keeps_the_cart_saved_elsewhere()
+    {
+        $user = User::factory()->create();
+        $phone = Smartphone::factory()->create(['quantity' => 5]);
+        $this->actingAs($user)->post('/cart', ['id' => $phone->id, 'quantity' => 2]);
+        $this->post('/logout');
+
+        // another device with an empty cart
+        $this->actingAs($user)->post('/logout');
+        $this->assertDatabaseHas('shoppingcarts', ['identifier' => $user->email]);
+
+        $this->post('/login', ['email' => $user->email, 'password' => 'password']);
+
+        $this->assertSame(2, Cart::quantityOf($phone->id));
     }
 }

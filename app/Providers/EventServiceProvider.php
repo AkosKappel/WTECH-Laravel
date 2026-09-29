@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners\RestoreSavedCart;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Auth\Events\Registered;
@@ -22,7 +23,8 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         Login::class => [
-            LogSuccessfulLogin::class
+            LogSuccessfulLogin::class,
+            RestoreSavedCart::class,
         ],
 
         Logout::class => [

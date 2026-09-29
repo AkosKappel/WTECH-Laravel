@@ -34,12 +34,10 @@ class AuthenticatedSessionController extends Controller
         $request->session()->flush();
         Cart::fill($guestCart);
 
+        // the Login event merges in the cart saved at the last logout (RestoreSavedCart)
         $request->authenticate();
 
         $request->session()->regenerate();
-
-        // add the cart saved at the last logout
-        Cart::restore(Auth::user()->email);
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }
