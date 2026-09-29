@@ -76,3 +76,5 @@ yarn-error.log
 # private planning and operations notes
 BACKLOG.md
 OPERATIONS.md
+
+/docker/tailscale/ts.env
