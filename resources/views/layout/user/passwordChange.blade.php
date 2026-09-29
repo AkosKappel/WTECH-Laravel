@@ -10,7 +10,7 @@
         <div class="w-full max-w-md">
             <div class="text-center mb-8">
                 <a href="{{ route('home') }}" class="inline-block">
-                    <img src="{{ url('wtech/images/logo.png') }}" alt="{{ __('Logo') }}" class="h-12 mx-auto"/>
+                    <img src="{{ asset('images/logo.png') }}" alt="{{ __('Logo') }}" class="h-12 mx-auto"/>
                 </a>
             </div>
 

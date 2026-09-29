@@ -22,68 +22,63 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/auth.php';
 
-Route::redirect('/', '/wtech');
+// Homepage
+Route::get('/', [ShopController::class, 'index'])->name('home');
 
+Route::post('/demo-notice/dismiss', [ShopController::class, 'dismissDemoNotice'])->name('demo-notice.dismiss');
+Route::post('/locale/{locale}', [ShopController::class, 'switchLocale'])->name('locale.switch');
 
-Route::prefix('wtech')->group(function () {
-    // Homepage
-    Route::get('/', [ShopController::class, 'index'])->name('home');
+// Information pages
+Route::view('/about', 'layout.pages.about')->name('about');
+Route::view('/contact', 'layout.pages.contact')->name('contact');
+Route::view('/shipping', 'layout.pages.shipping')->name('shipping');
+Route::view('/payment-methods', 'layout.pages.payment-methods')->name('payment-methods');
+Route::view('/returns', 'layout.pages.returns')->name('returns');
+Route::view('/terms', 'layout.pages.terms')->name('terms');
+Route::view('/privacy', 'layout.pages.privacy')->name('privacy');
 
-    Route::post('/demo-notice/dismiss', [ShopController::class, 'dismissDemoNotice'])->name('demo-notice.dismiss');
-    Route::post('/locale/{locale}', [ShopController::class, 'switchLocale'])->name('locale.switch');
+// User
+Route::get('/profile', [UserController::class, 'index'])->middleware(['auth'])->name('profile');
+Route::put('/profile', [UserController::class, 'update'])->middleware(['auth']);
+Route::get('/finishRegister', [RegisteredUserController::class, 'redirectAfterOrder'])->name('finishRegister');
+Route::post('/finishRegister', [RegisteredUserController::class, 'storeAfterOrder'])->name('storeAfterOrder');
 
-    // Information pages
-    Route::view('/about', 'layout.pages.about')->name('about');
-    Route::view('/contact', 'layout.pages.contact')->name('contact');
-    Route::view('/shipping', 'layout.pages.shipping')->name('shipping');
-    Route::view('/payment-methods', 'layout.pages.payment-methods')->name('payment-methods');
-    Route::view('/returns', 'layout.pages.returns')->name('returns');
-    Route::view('/terms', 'layout.pages.terms')->name('terms');
-    Route::view('/privacy', 'layout.pages.privacy')->name('privacy');
+Route::get('/passwordChange', [PasswordChangeController::class, 'create'])->middleware(['auth'])->name('passwordChange');
+Route::put('/passwordChange', [PasswordChangeController::class, 'update'])->middleware(['auth']);
+//Route::get('/passwordReset', function () {
+//    return view('layout/user/passwordReset');
+//});
 
-    // User
-    Route::get('/profile', [UserController::class, 'index'])->middleware(['auth'])->name('profile');
-    Route::put('/profile', [UserController::class, 'update'])->middleware(['auth']);
-    Route::get('/finishRegister', [RegisteredUserController::class, 'redirectAfterOrder'])->name('finishRegister');
-    Route::post('/finishRegister', [RegisteredUserController::class, 'storeAfterOrder'])->name('storeAfterOrder');
+// Cart
+Route::get('/cart', [CartController::class, 'index'])->name('cart');
+Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+Route::delete('/cart/{product}', [CartController::class, 'destroy'])->name('cart.destroy');
+Route::put('/cart/{product}', [CartController::class, 'update'])->name('cart.update');
 
-    Route::get('/passwordChange', [PasswordChangeController::class, 'create'])->middleware(['auth'])->name('passwordChange');
-    Route::put('/passwordChange', [PasswordChangeController::class, 'update'])->middleware(['auth']);
-    //Route::get('/passwordReset', function () {
-    //    return view('layout/user/passwordReset');
-    //});
-
-    // Cart
-    Route::get('/cart', [CartController::class, 'index'])->name('cart');
-    Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
-    Route::delete('/cart/{product}', [CartController::class, 'destroy'])->name('cart.destroy');
-    Route::put('/cart/{product}', [CartController::class, 'update'])->name('cart.update');
-
-    // Admin
-    Route::middleware(['auth', 'can:isAdmin'])->group(function () {
-        Route::get('/admin', [SmartphoneController::class, 'adminIndex'])->name('admin');
-        Route::get('/smartphones/create', [SmartphoneController::class, 'create'])->name('smartphones.add');
-        Route::post('/smartphones/add', [SmartphoneController::class, 'store'])->name('smartphones.create');
-        Route::get('/smartphones/{smartphone}/edit/', [SmartphoneController::class, 'edit'])->name('smartphones.edit')->whereNumber('smartphone');
-        Route::put('/smartphones/{smartphone}', [SmartphoneController::class, 'update'])->name('smartphones.update')->whereNumber('smartphone');
-        Route::delete('/smartphones/{smartphone}/', [SmartphoneController::class, 'destroy'])->name('smartphones.delete')->whereNumber('smartphone');
-        Route::get('/admin/error-test', [ShopController::class, 'errorTest'])->name('admin.error-test');
-    });
-
-    // Products
-    Route::get('/smartphones', [SmartphoneController::class, 'index'])->name('smartphones');
-    Route::get('/search/suggest', [SmartphoneController::class, 'suggest'])->middleware('throttle:60,1')->name('search.suggest');
-    Route::get('/smartphones/{smartphone}/', [SmartphoneController::class, 'show'])->name('details')->whereNumber('smartphone');
-
-    // Order
-    Route::get('/address', [OrderController::class, 'addressIndex'])->name('address');
-    Route::put('/address', [OrderController::class, 'addressStore'])->name('address.store');
-    Route::get('/delivery', [OrderController::class, 'deliveryIndex'])->name('delivery');
-    Route::post('/delivery', [OrderController::class, 'deliveryStore'])->name('delivery.store');
-    Route::get('/payment', [OrderController::class, 'paymentIndex'])->name('payment');
-    Route::post('/payment', [OrderController::class, 'paymentStore'])->name('payment.store');
-    Route::get('/order/complete', [OrderController::class, 'complete'])->name('order.complete');
+// Admin
+Route::middleware(['auth', 'can:isAdmin'])->group(function () {
+    Route::get('/admin', [SmartphoneController::class, 'adminIndex'])->name('admin');
+    Route::get('/smartphones/create', [SmartphoneController::class, 'create'])->name('smartphones.add');
+    Route::post('/smartphones/add', [SmartphoneController::class, 'store'])->name('smartphones.create');
+    Route::get('/smartphones/{smartphone}/edit/', [SmartphoneController::class, 'edit'])->name('smartphones.edit')->whereNumber('smartphone');
+    Route::put('/smartphones/{smartphone}', [SmartphoneController::class, 'update'])->name('smartphones.update')->whereNumber('smartphone');
+    Route::delete('/smartphones/{smartphone}/', [SmartphoneController::class, 'destroy'])->name('smartphones.delete')->whereNumber('smartphone');
+    Route::get('/admin/error-test', [ShopController::class, 'errorTest'])->name('admin.error-test');
 });
+
+// Products
+Route::get('/smartphones', [SmartphoneController::class, 'index'])->name('smartphones');
+Route::get('/search/suggest', [SmartphoneController::class, 'suggest'])->middleware('throttle:60,1')->name('search.suggest');
+Route::get('/smartphones/{smartphone}/', [SmartphoneController::class, 'show'])->name('details')->whereNumber('smartphone');
+
+// Order
+Route::get('/address', [OrderController::class, 'addressIndex'])->name('address');
+Route::put('/address', [OrderController::class, 'addressStore'])->name('address.store');
+Route::get('/delivery', [OrderController::class, 'deliveryIndex'])->name('delivery');
+Route::post('/delivery', [OrderController::class, 'deliveryStore'])->name('delivery.store');
+Route::get('/payment', [OrderController::class, 'paymentIndex'])->name('payment');
+Route::post('/payment', [OrderController::class, 'paymentStore'])->name('payment.store');
+Route::get('/order/complete', [OrderController::class, 'complete'])->name('order.complete');
 
 // Unknown URLs: the shop's 404 page, with the session, so it's translated and knows the visitor
 Route::fallback([ShopController::class, 'notFound']);

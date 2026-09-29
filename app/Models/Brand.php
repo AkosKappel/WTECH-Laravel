@@ -26,6 +26,6 @@ class Brand extends Model
     {
         $file = 'images/brands/' . \Illuminate\Support\Str::slug($this->name) . '.svg';
 
-        return file_exists(public_path($file)) ? url('wtech/' . $file) : null;
+        return file_exists(public_path($file)) ? asset($file) : null;
     }
 }

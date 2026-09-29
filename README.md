@@ -14,7 +14,7 @@ built with **Laravel 8**, **PostgreSQL** and **Tailwind CSS**.
 ![Alpine.js](https://img.shields.io/badge/Alpine.js-3-8BC0D0?logo=alpinedotjs&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
 
-**Live demo:** [akap-ntbk.tailb52c43.ts.net/wtech](https://akap-ntbk.tailb52c43.ts.net/wtech)<br>
+**Live demo:** [wtech.tailb52c43.ts.net](https://wtech.tailb52c43.ts.net)<br>
 <sub>Self-hosted on a home server, so it may occasionally be offline.</sub>
 
 </div>
@@ -327,7 +327,7 @@ Search uses PostgreSQL's **`pg_trgm`** and **`unaccent`** extensions, with a tri
 - the `word_similarity` between the query and "Brand Model" is at least 0.4 (so "pixl" finds "Pixel", while unrelated phones score about 0.2), **or**
 - the text appears in its name, operating system or description in any language. Accents are ignored, so "bateria" finds "batéria".
 
-Results are ranked with exact name matches first, then by similarity. The same logic powers the header's live suggestions (`GET /wtech/search/suggest?q=…`, JSON, rate-limited).
+Results are ranked with exact name matches first, then by similarity. The same logic powers the header's live suggestions (`GET /search/suggest?q=…`, JSON, rate-limited).
 
 ### Adding to Cart & Changing Quantity
 On the product detail page, a small script (`public/js/details.js`) drives a +/− quantity selector, updates the total price live and switches between product images. When the form is submitted, the item is added to the session cart through `Cart::add()`. In the cart, changing a quantity submits the form automatically (`public/js/cart.js`). The quantity cannot go above the stock available, and the server applies it with `Cart::update($rowId, $qty)`.
@@ -435,7 +435,7 @@ sql/database.sql                    # raw SQL seed
    docker compose exec app php artisan migrate --seed
    ```
 
-5. **Open the shop** at **http://localhost:8082/wtech**
+5. **Open the shop** at **http://localhost:8082**
 
 ### Default Admin Account
 
@@ -465,6 +465,7 @@ Before exposing the shop publicly, set these in `.env`:
 - `APP_ENV=production` and `APP_DEBUG=false`.
 - `APP_URL` set to the address people will use. If it starts with `https://`, the app generates HTTPS links, which is what you want behind a TLS-terminating proxy such as Tailscale Funnel or Cloudflare Tunnel.
 - `APP_BIND` to choose the network interface the web server listens on. Behind a reverse proxy running on the same machine (e.g. `tailscale funnel http://127.0.0.1:8082`), use `127.0.0.1`, so the proxy is the only way in. Don't point Tailscale Serve or Funnel at the host's own Tailscale IP: Tailscale doesn't pass that traffic on to the host's regular network, so the proxy gets a 502.
+- Optionally `COMPOSE_FILE=docker-compose.yml:docker-compose.tailscale.yml`, to publish the shop through its own Tailscale Funnel sidecar at `https://<name>.<tailnet>.ts.net`. It needs a reusable, tagged auth key in `docker/tailscale/ts.env` (`TS_AUTHKEY=tskey-auth-…`) and a tailnet policy that grants `funnel` to that tag.
 - A strong `DB_PASSWORD`, set before the database container is first created.
 - Your own `ADMIN_EMAIL` and `ADMIN_PASSWORD` before seeding.
 - A real `MAIL_MAILER` configuration if password-reset e-mails should actually be delivered.
@@ -485,30 +486,28 @@ docker compose run --rm assets npm run build:css  # or watch:css while editing
 
 ## Routes Overview
 
-All routes are served under the `/wtech` prefix.
-
 | Method | URI | Description |
 |---|---|---|
-| `GET` | `/wtech` | Homepage |
-| `GET` | `/wtech/smartphones` | Catalog: `q`, `brand`, `color`, `price`, `ram`, `display`, `os`, `stock`, `sort`, `page` (see [Filtering](#filtering-sorting--pagination)); returns JSON partials for the `X-Catalog-Partial` header |
-| `GET` | `/wtech/search/suggest` | Live search suggestions (JSON, throttled) |
-| `GET` | `/wtech/smartphones/{id}` | Product detail |
-| `GET` `POST` | `/wtech/cart` | View cart, add item |
-| `PUT` `DELETE` | `/wtech/cart/{rowId}` | Update quantity, remove item |
-| `GET` `PUT` | `/wtech/address` | Checkout step 1: delivery address |
-| `GET` `POST` | `/wtech/delivery` | Checkout step 2: delivery method |
-| `GET` `POST` | `/wtech/payment` | Checkout step 3: payment and placing the order |
-| `GET` `POST` | `/wtech/finishRegister` | Optional registration after a guest order |
-| `GET` `PUT` | `/wtech/profile` | User profile |
-| `GET` `PUT` | `/wtech/passwordChange` | Change password |
-| `GET` | `/wtech/admin` | Admin product list |
-| `GET` `POST` | `/wtech/smartphones/create`, `/wtech/smartphones/add` | Create product |
-| `GET` `PUT` | `/wtech/smartphones/{id}/edit`, `/wtech/smartphones/{id}` | Edit product |
-| `DELETE` | `/wtech/smartphones/{id}` | Delete product |
-| `GET` | `/wtech/admin/error-test` | Throws on purpose, to preview the 500 page with diagnostics (admins only) |
+| `GET` | `/` | Homepage |
+| `GET` | `/smartphones` | Catalog: `q`, `brand`, `color`, `price`, `ram`, `display`, `os`, `stock`, `sort`, `page` (see [Filtering](#filtering-sorting--pagination)); returns JSON partials for the `X-Catalog-Partial` header |
+| `GET` | `/search/suggest` | Live search suggestions (JSON, throttled) |
+| `GET` | `/smartphones/{id}` | Product detail |
+| `GET` `POST` | `/cart` | View cart, add item |
+| `PUT` `DELETE` | `/cart/{rowId}` | Update quantity, remove item |
+| `GET` `PUT` | `/address` | Checkout step 1: delivery address |
+| `GET` `POST` | `/delivery` | Checkout step 2: delivery method |
+| `GET` `POST` | `/payment` | Checkout step 3: payment and placing the order |
+| `GET` `POST` | `/finishRegister` | Optional registration after a guest order |
+| `GET` `PUT` | `/profile` | User profile |
+| `GET` `PUT` | `/passwordChange` | Change password |
+| `GET` | `/admin` | Admin product list |
+| `GET` `POST` | `/smartphones/create`, `/smartphones/add` | Create product |
+| `GET` `PUT` | `/smartphones/{id}/edit`, `/smartphones/{id}` | Edit product |
+| `DELETE` | `/smartphones/{id}` | Delete product |
+| `GET` | `/admin/error-test` | Throws on purpose, to preview the 500 page with diagnostics (admins only) |
 | any | anything else | Shop 404 page with suggestions |
 
-Authentication routes (`/wtech/login`, `/wtech/register`, `/wtech/forgot-password`, `/wtech/reset-password`, …) come from Laravel Breeze.
+Authentication routes (`/login`, `/register`, `/forgot-password`, `/reset-password`, …) come from Laravel Breeze.
 
 ## Project History
 
@@ -534,6 +533,7 @@ Authentication routes (`/wtech/login`, `/wtech/register`, `/wtech/forgot-passwor
 - made the cart take prices and stock limits from the database instead of the submitted form
 - fixed the search so it combines correctly with the filters, and fixed several broken redirects and forms
 - moved the Docker image to **PHP 8.1** on Debian 12 after Debian 11 reached end of life
+- gave the shop its own hostname through a Tailscale sidecar, and dropped the `/wtech` URL prefix (old `/wtech/…` links redirect to the new paths)
 
 ## What I Learned
 

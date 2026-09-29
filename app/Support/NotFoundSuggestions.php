@@ -9,7 +9,7 @@ use Throwable;
 
 /**
  * Phones to suggest on the 404 page: a fuzzy search for the words in the missing URL
- * (/wtech/smartphones/galaxy-s24 → "galaxy s24"), or the newest phones in stock.
+ * (/smartphones/galaxy-s24 → "galaxy s24"), or the newest phones in stock.
  */
 class NotFoundSuggestions
 {
@@ -21,7 +21,7 @@ class NotFoundSuggestions
     {
         try {
             $segments = array_values(array_filter(explode('/', $request->path()), function ($segment) {
-                return !in_array(strtolower($segment), ['wtech', 'smartphones', 'smartphone', 'products', 'product'], true);
+                return !in_array(strtolower($segment), ['smartphones', 'smartphone', 'products', 'product'], true);
             }));
             $query = trim(preg_replace('/\s+/', ' ', preg_replace('/[^\pL\pN]+/u', ' ', urldecode(implode(' ', $segments)))));
             $query = trim(preg_replace('/^\d+\s+/', '', $query)); // "42-google-pixel-8a" → "google pixel 8a"
@@ -42,7 +42,7 @@ class NotFoundSuggestions
                 'query' => $query,
                 'matched' => $matched,
                 'phones' => $phones,
-                'product' => (bool) preg_match('#^wtech/smartphones/[^/]+/?$#', $request->path()),
+                'product' => (bool) preg_match('#^smartphones/[^/]+/?$#', $request->path()),
             ];
         } catch (Throwable $e) {
             return null;

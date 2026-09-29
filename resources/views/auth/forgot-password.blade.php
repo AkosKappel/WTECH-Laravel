@@ -10,7 +10,7 @@
         <div class="w-full max-w-md">
             <div class="text-center mb-8">
                 <a href="{{ route('home') }}" class="inline-block">
-                    <img src="{{ url('wtech/images/logo.png') }}" alt="{{ __('Logo') }}" class="h-12 mx-auto"/>
+                    <img src="{{ asset('images/logo.png') }}" alt="{{ __('Logo') }}" class="h-12 mx-auto"/>
                 </a>
             </div>
 
@@ -38,7 +38,7 @@
                             autocomplete="email"
                         />
                         <div class="absolute right-3 top-1/2 -translate-y-1/2">
-                            <img src="{{ url('wtech/images/email.png') }}" alt="Email" class="w-6 h-6" />
+                            <img src="{{ asset('images/email.png') }}" alt="Email" class="w-6 h-6" />
                         </div>
                     </div>
                     @error('email')

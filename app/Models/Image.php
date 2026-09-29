@@ -49,13 +49,13 @@ class Image extends Model
     }
 
     /**
-     * Public URL of the image, e.g. https://…/wtech/images/samsung-galaxy-a52.jpg
+     * Public URL of the image, e.g. https://…/images/samsung-galaxy-a52.jpg
      *
      * @return string
      */
     public function getUrlAttribute()
     {
-        return url('wtech/' . ltrim($this->source, '/'));
+        return asset(ltrim($this->source, '/'));
     }
 
     public function isUpload()

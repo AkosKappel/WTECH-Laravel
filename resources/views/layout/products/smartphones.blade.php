@@ -51,6 +51,6 @@
 
     @include('layout.partials.footer')
 
-    <script src="{{ url('wtech/js/catalog-filters.js') }}?v={{ filemtime(public_path('js/catalog-filters.js')) }}" defer></script>
+    <script src="{{ asset('js/catalog-filters.js') }}?v={{ filemtime(public_path('js/catalog-filters.js')) }}" defer></script>
 </body>
 </html>

@@ -13,8 +13,8 @@
     @if ($minimal)
         <header class="bg-linear-to-r from-indigo-600 to-purple-600">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center">
-                <a href="{{ url('wtech') }}" class="flex items-center" aria-label="{{ __('Home') }}">
-                    <img src="{{ url('wtech/images/logo.png') }}" alt="{{ __('Logo') }}" class="h-8 w-auto"/>
+                <a href="{{ route('home') }}" class="flex items-center" aria-label="{{ __('Home') }}">
+                    <img src="{{ asset('images/logo.png') }}" alt="{{ __('Logo') }}" class="h-8 w-auto"/>
                     <span class="ml-3 text-3xl font-bold italic text-white tracking-tight">SmartTech</span>
                 </a>
             </div>
@@ -38,13 +38,13 @@
 
             <div class="mt-8 flex flex-wrap justify-center gap-3">
                 @section('actions')
-                    <a href="{{ url('wtech') }}" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-indigo-600 text-sm font-medium text-white shadow-xs hover:bg-indigo-700 transition-colors">{{ __('Go to homepage') }}</a>
-                    <a href="{{ url('wtech/smartphones') }}" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-white text-sm font-medium text-gray-700 ring-1 ring-gray-300 hover:bg-gray-50 transition-colors">{{ __('Browse phones') }}</a>
+                    <a href="{{ route('home') }}" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-indigo-600 text-sm font-medium text-white shadow-xs hover:bg-indigo-700 transition-colors">{{ __('Go to homepage') }}</a>
+                    <a href="{{ route('smartphones') }}" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-white text-sm font-medium text-gray-700 ring-1 ring-gray-300 hover:bg-gray-50 transition-colors">{{ __('Browse phones') }}</a>
                 @show
             </div>
 
             @unless ($hideSearch ?? false)
-                <form method="GET" action="{{ url('wtech/smartphones') }}" class="mt-8 mx-auto max-w-md flex gap-2" role="search">
+                <form method="GET" action="{{ route('smartphones') }}" class="mt-8 mx-auto max-w-md flex gap-2" role="search">
                     <label for="error-search" class="sr-only">{{ __('Search smartphones') }}</label>
                     <input id="error-search" type="search" name="q" placeholder="{{ __('Search smartphone...') }}" value="{{ $searchValue ?? '' }}"
                            class="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500"/>

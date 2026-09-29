@@ -56,7 +56,7 @@ class CartController extends Controller
         $quantity = min($request->quantity, $smartphone->quantity - $inCart);
 
         if ($quantity < 1) {
-            return redirect('/wtech/cart')->withErrors(['quantity' => __('No more :name in stock.', ['name' => $smartphone->name])]);
+            return redirect()->route('cart')->withErrors(['quantity' => __('No more :name in stock.', ['name' => $smartphone->name])]);
         }
 
         Cart::add($smartphone->id, $smartphone->name, $quantity, $smartphone->price, [
@@ -66,7 +66,7 @@ class CartController extends Controller
             ]
         )->associate(Smartphone::class);
 
-        return redirect('/wtech/cart')->with('success_message', __('Product was added to cart!'));
+        return redirect()->route('cart')->with('success_message', __('Product was added to cart!'));
     }
 
     /**
@@ -102,7 +102,7 @@ class CartController extends Controller
         $item = Cart::get($rowId);
         $quantity = min($request->product_quantity, $item->options->max_quantity);
         Cart::update($rowId, $quantity);
-        return redirect('wtech/cart');
+        return redirect()->route('cart');
     }
 
     /**

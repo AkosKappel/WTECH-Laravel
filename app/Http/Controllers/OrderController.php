@@ -118,7 +118,7 @@ class OrderController extends Controller
             ]);
         }
 
-        return redirect('wtech/delivery');
+        return redirect()->route('delivery');
     }
 
     /**
@@ -131,7 +131,7 @@ class OrderController extends Controller
     {
         $request->validate(['transport' => ['required', Rule::in(self::DELIVERY_METHODS)]]);
         $request->session()->put('delivery', $request->transport);
-        return redirect('wtech/payment');
+        return redirect()->route('payment');
     }
 
     /**

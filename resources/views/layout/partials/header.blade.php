@@ -6,7 +6,7 @@
             <div class="flex items-center">
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('home') }}" class="flex items-center" aria-label="{{ __('Home') }}">
-                        <img src="{{ url('wtech/images/logo.png') }}" alt="{{ __('Logo') }}" class="h-8 w-auto hover:opacity-90 transition-opacity"/>
+                        <img src="{{ asset('images/logo.png') }}" alt="{{ __('Logo') }}" class="h-8 w-auto hover:opacity-90 transition-opacity"/>
                         <span class="ml-3 text-3xl font-bold italic text-white tracking-tight hidden sm:block">
                             SmartTech
                         </span>
@@ -115,7 +115,7 @@
     </div>
 </header>
 
-<script src="{{ url('wtech/js/search-suggest.js') }}?v={{ filemtime(public_path('js/search-suggest.js')) }}" defer></script>
+<script src="{{ asset('js/search-suggest.js') }}?v={{ filemtime(public_path('js/search-suggest.js')) }}" defer></script>
 <script>
 // close the language dropdown when clicking outside it or pressing Escape
 document.addEventListener('click', function (event) {

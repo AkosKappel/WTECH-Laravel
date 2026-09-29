@@ -344,7 +344,7 @@ class CatalogFilters
     {
         $file = 'images/brands/' . $slug . '.svg';
 
-        return file_exists(public_path($file)) ? url('wtech/' . $file) : null;
+        return file_exists(public_path($file)) ? asset($file) : null;
     }
 
     /**

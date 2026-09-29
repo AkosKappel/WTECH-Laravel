@@ -99,7 +99,7 @@ class UserController extends Controller
 
         $request->session()->flash('message', 'Changes saved.');
 
-        return redirect('wtech/profile');
+        return redirect()->route('profile');
     }
 
     /**

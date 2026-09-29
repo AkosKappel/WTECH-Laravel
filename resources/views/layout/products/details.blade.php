@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     @include('layout.partials.head', ['title' => __('Product Details')])
-    <link href="{{ url('wtech/css/quantity-selector.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/quantity-selector.css') }}" rel="stylesheet" type="text/css">
 </head>
 
 <body class="bg-gray-50">
@@ -24,7 +24,7 @@
                             />
                         @else
                             <img 
-                                src="{{ url('wtech/images/no_img_available.jpg') }}"
+                                src="{{ asset('images/no_img_available.jpg') }}"
                                 alt="{{ __('No image available') }}"
                                 class="w-full h-full object-cover"
                             />
@@ -210,6 +210,6 @@
     </main>
 
     @include('layout.partials.footer')
-    <script src="{{ url('wtech/js/details.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/details.js') }}" type="text/javascript"></script>
 </body>
 </html>
