@@ -5,10 +5,10 @@
 # SmartTech – Smartphone E-shop
 
 A full-stack, server-side rendered e-commerce web application for selling smartphones,
-built with **Laravel 8**, **PostgreSQL** and **Tailwind CSS**.
+built with **Laravel 12**, **PostgreSQL** and **Tailwind CSS**.
 
-![Laravel](https://img.shields.io/badge/Laravel-8-FF2D20?logo=laravel&logoColor=white)
-![PHP](https://img.shields.io/badge/PHP-8.1-777BB4?logo=php&logoColor=white)
+![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-8.3-777BB4?logo=php&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-4169E1?logo=postgresql&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
@@ -191,7 +191,7 @@ The sections below cover the same topics.
 
 | Layer | Technology |
 |---|---|
-| **Backend** | PHP 8.1, Laravel 8 (MVC, Eloquent ORM, Blade) |
+| **Backend** | PHP 8.3, Laravel 12 (MVC, Eloquent ORM, Blade) |
 | **Database** | PostgreSQL 15 |
 | **Frontend** | Blade templates, Tailwind CSS 4, vanilla JavaScript |
 | **Auth** | Laravel Breeze (customised), Gates & Policies |
@@ -451,7 +451,7 @@ The seeder creates an administrator account:
 | Service | Container | Port |
 |---|---|---|
 | Nginx (web server) | `wtech-nginx` | `8082` (`APP_BIND`/`APP_PORT`) |
-| PHP-FPM 8.1 (application) | `wtech-app` | – |
+| PHP-FPM 8.3 (application) | `wtech-app` | – |
 | PostgreSQL 15 | `wtech-db` | `5433` (localhost only) |
 | Laravel scheduler (runs the demo reset) | `wtech-scheduler` | – |
 
@@ -546,6 +546,7 @@ Authentication routes (`/login`, `/register`, `/forgot-password`, `/reset-passwo
 - fixed the search so it combines correctly with the filters, and fixed several broken redirects and forms
 - moved the Docker image to **PHP 8.1** on Debian 12 after Debian 11 reached end of life
 - gave the shop its own hostname through a Tailscale sidecar, and dropped the `/wtech` URL prefix (old `/wtech/…` links redirect to the new paths)
+- upgraded from Laravel 8 / PHP 8.1 to Laravel 12 / PHP 8.3, one major version at a time, behind a feature-test suite written first
 
 ## What I Learned
 
