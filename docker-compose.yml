@@ -66,7 +66,7 @@ services:
       - app
 
   db:
-    image: postgres:15
+    image: postgres:18
     container_name: ${CONTAINER_PREFIX:-wtech}-db
     restart: unless-stopped
     logging: *logging
@@ -79,7 +79,7 @@ services:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
-      - dbdata:/var/lib/postgresql/data
+      - dbdata18:/var/lib/postgresql
     ports:
       - "127.0.0.1:${DB_HOST_PORT:-5433}:5432"
     networks:
@@ -102,4 +102,7 @@ networks:
 
 volumes:
   dbdata:
+    driver: local
+  # PostgreSQL 18 data (postgres:18 mounts /var/lib/postgresql); dbdata is the old PostgreSQL 15 volume, kept for rollback
+  dbdata18:
     driver: local
