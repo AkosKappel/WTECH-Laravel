@@ -81,4 +81,46 @@ class CartLoginTest extends TestCase
 
         $this->assertSame(2, Cart::quantityOf($phone->id));
     }
+
+    public function test_the_saved_cart_is_removed_after_login()
+    {
+        $user = User::factory()->create();
+        $phone = Smartphone::factory()->create(['quantity' => 5]);
+        $this->actingAs($user)->post('/cart', ['id' => $phone->id, 'quantity' => 2]);
+        $this->post('/logout');
+        $this->assertDatabaseHas('shoppingcarts', ['identifier' => $user->email]);
+
+        $this->post('/login', ['email' => $user->email, 'password' => 'password']);
+
+        $this->assertDatabaseMissing('shoppingcarts', ['identifier' => $user->email]);
+    }
+
+    public function test_logging_in_changes_the_session_id()
+    {
+        $user = User::factory()->create();
+        $this->get('/login');
+        $before = session()->getId();
+
+        $this->post('/login', ['email' => $user->email, 'password' => 'password']);
+
+        $this->assertAuthenticatedAs($user);
+        $this->assertNotSame($before, session()->getId());
+    }
+
+    public function test_a_real_old_package_session_payload_is_tolerated()
+    {
+        // what hardevine/shoppingcart left in the session: a collection holding an object of a
+        // class that no longer exists (it unserializes to __PHP_Incomplete_Class)
+        $payload = 'O:29:"Illuminate\\Support\\Collection":2:{s:8:"' . "\0*\0" . 'items";a:1:{s:3:"abc";'
+            . 'O:32:"Gloudemans\\Shoppingcart\\CartItem":1:{s:5:"rowId";s:3:"abc";}}'
+            . 's:28:"' . "\0*\0" . 'escapeWhenCastingToString";b:0;}';
+        $old = unserialize($payload);
+        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $old);
+        $phone = Smartphone::factory()->create();
+
+        $this->withSession(['cart' => ['default' => $old]])->get('/cart')->assertOk();
+        $this->post('/cart', ['id' => $phone->id, 'quantity' => 1])->assertRedirect(route('cart'));
+
+        $this->assertSame(1, Cart::count());
+    }
 }

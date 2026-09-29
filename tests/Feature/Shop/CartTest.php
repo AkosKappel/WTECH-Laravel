@@ -98,4 +98,24 @@ class CartTest extends TestCase
         $this->assertAuthenticatedAs($user);
         $this->assertEquals(2, Cart::count());
     }
+
+    public function test_updating_or_removing_an_unknown_line_redirects_and_changes_nothing()
+    {
+        $phone = Smartphone::factory()->create(['quantity' => 5]);
+        $this->post('/cart', ['id' => $phone->id, 'quantity' => 2]);
+
+        $this->put('/cart/99999', ['product_quantity' => 1])->assertRedirect();
+        $this->delete('/cart/99999')->assertRedirect();
+
+        $this->assertSame(2, Cart::count());
+        $this->assertSame(2, Cart::quantityOf($phone->id));
+    }
+
+    public function test_a_line_total_with_cents_is_shown_correctly()
+    {
+        $phone = Smartphone::factory()->create(['price' => 19.99, 'quantity' => 5]);
+        $this->post('/cart', ['id' => $phone->id, 'quantity' => 3]);
+
+        $this->get('/cart')->assertOk()->assertSee('59,97 €');
+    }
 }
