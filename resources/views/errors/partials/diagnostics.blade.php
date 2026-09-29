@@ -94,7 +94,7 @@
                 @include('errors.partials.table', ['rows' => $diagnostics['environment'] + [__('Time') => $diagnostics['time'], __('Reference') => $diagnostics['reference']]])
             </details>
             <p class="text-xs text-gray-500">
-                {{ __('Passwords, tokens and cookies are hidden. The full error, with this reference, is in storage/logs/laravel.log.') }}
+                {{ __('Passwords, tokens and cookies are hidden. The full error, with this reference, is in the dated log file in storage/logs.') }}
             </p>
         </div>
     </div>

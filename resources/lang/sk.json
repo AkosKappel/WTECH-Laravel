@@ -230,7 +230,7 @@
     "Parcel Locker": "Výdajný box",
     "Password": "Heslo",
     "Password Recovery": "Obnovenie hesla",
-    "Passwords, tokens and cookies are hidden. The full error, with this reference, is in storage/logs/laravel.log.": "Heslá, tokeny a cookies sú skryté. Celá chyba s touto referenciou je v storage/logs/laravel.log.",
+    "Passwords, tokens and cookies are hidden. The full error, with this reference, is in the dated log file in storage/logs.": "Heslá, tokeny a cookies sú skryté. Celá chyba s touto referenciou je v dátumovanom logu v storage/logs.",
     "Pay directly from your bank account": "Zaplaťte priamo zo svojho bankového účtu",
     "Pay in cash or by card when the courier hands you the parcel, or when you collect it.": "Zaplaťte v hotovosti alebo kartou, keď vám kuriér odovzdá balík, alebo keď si ho vyzdvihnete.",
     "Pay quickly with the card saved in your Google account.": "Zaplaťte rýchlo kartou uloženou vo vašom účte Google.",

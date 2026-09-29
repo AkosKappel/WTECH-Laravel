@@ -230,7 +230,7 @@
     "Parcel Locker": "Paketstation",
     "Password": "Passwort",
     "Password Recovery": "Passwort wiederherstellen",
-    "Passwords, tokens and cookies are hidden. The full error, with this reference, is in storage/logs/laravel.log.": "Passwörter, Tokens und Cookies sind ausgeblendet. Der vollständige Fehler mit dieser Referenz steht in storage/logs/laravel.log.",
+    "Passwords, tokens and cookies are hidden. The full error, with this reference, is in the dated log file in storage/logs.": "Passwörter, Tokens und Cookies sind ausgeblendet. Der vollständige Fehler mit dieser Referenz steht in der datierten Logdatei in storage/logs.",
     "Pay directly from your bank account": "Direkt von Ihrem Bankkonto bezahlen",
     "Pay in cash or by card when the courier hands you the parcel, or when you collect it.": "Bezahlen Sie bar oder mit Karte, wenn der Kurier Ihnen das Paket übergibt oder wenn Sie es abholen.",
     "Pay quickly with the card saved in your Google account.": "Bezahlen Sie schnell mit der in Ihrem Google-Konto gespeicherten Karte.",

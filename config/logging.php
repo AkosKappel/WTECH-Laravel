@@ -50,7 +50,8 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            // one file per day, the last 14 kept, so the log can't grow without limit
+            'channels' => ['daily'],
             'ignore_exceptions' => false,
         ],
 
