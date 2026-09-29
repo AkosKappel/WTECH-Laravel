@@ -198,4 +198,20 @@ return [
 
     'same_site' => 'lax',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Session Serialization
+    |--------------------------------------------------------------------------
+    |
+    | "php" (the framework's fallback) keeps the sessions that exist at an
+    | upgrade valid; "json" would log everyone out. Setting this to "php"
+    | can make the application vulnerable to "gadget chain" serialization
+    | attacks if the APP_KEY is leaked.
+    |
+    | Supported: "json", "php"
+    |
+    */
+
+    'serialization' => 'php',
+
 ];
