@@ -1,3 +1,4 @@
+# Memory caps keep one container from starving the others (and other apps on the same host).
 services:
   app:
     build:
@@ -5,6 +6,10 @@ services:
       dockerfile: Dockerfile
     container_name: wtech-app
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1G
     working_dir: /var/www
     volumes:
       - ./:/var/www
@@ -18,6 +23,10 @@ services:
       dockerfile: Dockerfile
     container_name: wtech-scheduler
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
     working_dir: /var/www
     command: php artisan schedule:work
     volumes:
@@ -32,6 +41,10 @@ services:
     image: nginx:alpine
     container_name: wtech-nginx
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 128M
     ports:
       - "${APP_BIND:-0.0.0.0}:${APP_PORT:-8082}:80"
     volumes:
@@ -46,6 +59,10 @@ services:
     image: postgres:15
     container_name: wtech-db
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1G
     environment:
       POSTGRES_DB: ${DB_DATABASE}
       POSTGRES_USER: ${DB_USERNAME}

@@ -6,6 +6,10 @@ services:
     image: tailscale/tailscale:v1.102.5
     container_name: wtech-tailscale
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 256M
     env_file:
       - docker/tailscale/ts.env
     environment:
