@@ -157,7 +157,6 @@ return [
         /*
          * Package Service Providers...
          */
-        Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
 
         /*
          * Application Service Providers...

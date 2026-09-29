@@ -202,7 +202,6 @@ The sections below cover the same topics.
 
 | Package | Purpose |
 |---|---|
-| [`hardevine/shoppingcart`](https://github.com/hardevine/LaravelShoppingcart) | Cart logic kept in the session, and saved to / restored from the database |
 | [`intervention/image`](https://image.intervention.io/) | Processing and saving uploaded product images |
 | [Laravel-Lang](https://github.com/Laravel-Lang/lang) 8.1.3 (MIT) | German and Slovak validation, auth, password and framework messages (copied into `resources/lang`) |
 | [flag-icons](https://github.com/lipis/flag-icons) 7.5.0 (MIT) | Flags in the language switcher (`public/images/flags`) |
@@ -284,7 +283,7 @@ erDiagram
     SHOPPINGCARTS {
         string identifier PK "user e-mail"
         string instance PK
-        text content "serialised cart"
+        text content "cart lines as JSON"
     }
 ```
 
@@ -295,7 +294,7 @@ The database is filled by seeders with **13 brands** (Samsung, Apple, Xiaomi, Hu
 - **Server-side rendering with Blade.** The assignment required it. Each page is built from shared partials (`head`, `header`, `footer`, `pagination`), so the layout stays the same everywhere.
 - **Roles as a column, not a permissions system.** Each user has a `role` field (`customer` or `admin`). Access is checked by a single `isAdmin` gate and a `SmartphonePolicy`. With only two roles, a full roles-and-permissions package would have added complexity for no benefit.
 - **Guest customers are regular users.** `users.password` is nullable. A guest who places an order is saved as a user without a password, so every order links to a user record with the delivery details. The guest can then register afterwards without typing their details again.
-- **Using a cart package.** `hardevine/shoppingcart` provides a tested session cart with row IDs, quantities and totals. It can also save a cart to the database under an identifier, which was exactly what the "keep the cart across sessions" requirement needed.
+- **A small cart class of my own.** The cart was first built on `hardevine/shoppingcart`, which provides a session cart and can save it to the database, exactly what the "keep the cart across sessions" requirement needed. It stored the cart with `serialize()`, and PostgreSQL cut that text off at the first NUL byte, so a saved cart could never be restored. It was replaced by `App\Support\Cart` (`app/Support/Cart.php`), which keeps the lines in the session and saves them as JSON.
 - **Lookup tables for brands and colours.** They support the filters and the admin `<select>` lists. Colours are stored in English and Slovak to support both UI languages.
 - **Images on disk, paths in the database.** Seed images live in `public/images/` (tracked in git); images uploaded in the admin zone go to a separate, gitignored `public/uploads/products/` with unique names (`smartphone-{id}-{random}.{ext}`). The `images` table stores only their paths, and the `Image` model builds their URLs, so uploads never mix with the repository's files.
 - **PostgreSQL.** This was the recommended database for the course. The search uses PostgreSQL's case-insensitive `ILIKE`.
@@ -335,14 +334,14 @@ On the product detail page, a small script (`public/js/details.js`) drives a +/�
 The login and logout actions in Breeze were extended:
 
 ```php
-// on logout – save the session cart under the user's e-mail
+// on logout – save the session cart as JSON under the user's e-mail
 Cart::store(Auth::user()->email);
 
-// on login – restore it
+// on login – merge the saved cart into the current one
 Cart::restore(Auth::user()->email);
 ```
 
-So a customer can add items, log out, log in again later or on another device, and find the same cart.
+The cart is a small class of my own (`app/Support/Cart.php`, used through the `Cart` facade). On login the saved cart is merged with the cart the visitor already has as a guest, and quantities are added up to the stock. So a customer can add items, log out, log in again later or on another device, and find the same cart.
 
 ### Login & Roles
 Authentication is built on Laravel Breeze, with the views redesigned to match the shop. Successful logins and logouts trigger event listeners (`LogSuccessfulLogin`, `LogSuccessfulLogout`) that write to the application log. The admin area uses the `auth` and `can:isAdmin` middleware, and admin-only controls in the views are wrapped in `@can` directives.

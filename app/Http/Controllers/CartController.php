@@ -10,7 +10,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -22,16 +21,6 @@ class CartController extends Controller
     public function index(Request $request)
     {
         return view('layout/cart/cart');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -58,26 +47,6 @@ class CartController extends Controller
         Cart::add($smartphone, $quantity);
 
         return redirect()->route('cart')->with('success_message', __('Product was added to cart!'));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @return Response
-     */
-    public function show(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @return Response
-     */
-    public function edit(Cart $cart)
-    {
-        //
     }
 
     /**

@@ -8,7 +8,6 @@
         "php": "^8.2",
         "ext-json": "*",
         "guzzlehttp/guzzle": "^7.8",
-        "hardevine/shoppingcart": "^3.4",
         "intervention/image": "^3.11",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1"
