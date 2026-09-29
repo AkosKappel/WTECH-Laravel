@@ -16,6 +16,8 @@
     <server name="DB_CONNECTION" value="pgsql"/>
     <server name="DB_DATABASE" value="wtech_testing"/>
     <server name="LOG_CHANNEL" value="null"/>
+    <server name="LOG_DEPRECATIONS_WHILE_TESTING" value="true"/>
+    <server name="LOG_DEPRECATIONS_CHANNEL" value="stderr"/>
     <server name="MAIL_MAILER" value="array"/>
     <server name="QUEUE_CONNECTION" value="sync"/>
     <server name="SESSION_DRIVER" value="array"/>
