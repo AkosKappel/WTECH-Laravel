@@ -113,7 +113,7 @@
                     <div class="flex flex-col text-left px-16">
                         @foreach($colors as $color)
                             <label class="text-lg inline-flex items-center" for="{{ $color }}">
-                                {{ Form::radio('color', $color , false, ['id' => $color, 'class' => 'form-checkbox h-4 w-4']) }}
+                                <input type="radio" name="color" value="{{ $color }}" id="{{ $color }}" class="form-checkbox h-4 w-4" {{ old('color') === $color ? 'checked' : '' }}>
                                 <span class="mx-2">{{ __($color) }}</span>
                             </label>
                         @endforeach
@@ -126,7 +126,7 @@
                     <div class="flex flex-col text-left px-16">
                         @foreach($brands as $brand)
                             <label class="text-lg inline-flex items-center" for="{{ $brand }}">
-                                {{ Form::radio('brand', $brand, false, ['id' => $brand, 'class' => 'form-checkbox h-4 w-4']) }}
+                                <input type="radio" name="brand" value="{{ $brand }}" id="{{ $brand }}" class="form-checkbox h-4 w-4" {{ old('brand') === $brand ? 'checked' : '' }}>
                                 <span class="mx-2">{{ $brand }}</span>
                             </label>
                         @endforeach

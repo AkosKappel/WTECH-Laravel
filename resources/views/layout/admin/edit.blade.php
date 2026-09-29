@@ -114,7 +114,7 @@
                     <div class="flex flex-col text-left px-16">
                         @foreach($colors as $color)
                             <label class="text-lg inline-flex items-center" for="{{ $color }}">
-                                {{ Form::radio('color', $color ,  $smartphone->color && $smartphone->color->name_en == $color, ['id' => $color, 'class' => 'form-checkbox h-4 w-4']) }}
+                                <input type="radio" name="color" value="{{ $color }}" id="{{ $color }}" class="form-checkbox h-4 w-4" {{ old('color', optional($smartphone->color)->name_en) === $color ? 'checked' : '' }}>
                                 <span class="mx-2">{{ __($color) }}</span>
                             </label>
                         @endforeach
@@ -127,7 +127,7 @@
                     <div class="flex flex-col text-left px-16">
                         @foreach($brands as $brand)
                             <label class="text-lg inline-flex items-center" for="{{ $brand }}">
-                                {{ Form::radio('brand', $brand, $smartphone->brand && $smartphone->brand->name == $brand, ['id' => $brand, 'class' => 'form-checkbox h-4 w-4']) }}
+                                <input type="radio" name="brand" value="{{ $brand }}" id="{{ $brand }}" class="form-checkbox h-4 w-4" {{ old('brand', optional($smartphone->brand)->name) === $brand ? 'checked' : '' }}>
                                 <span class="mx-2">{{ $brand }}</span>
                             </label>
                         @endforeach
@@ -146,7 +146,7 @@
                         <img src="{{ $image->url }}" alt="{{ $image->name }}" class="w-36 inline-block" />
                     </div>
                     <div class="col-span-12 md:col-span-6 self-center">
-                        {{ Form::checkbox($image->source, $image->source, false) }}
+                        <input type="checkbox" name="{{ $image->source }}" value="{{ $image->source }}">
                         <span class="mx-2">{{ __('Remove') }}</span>
                     </div>
                 </div>

@@ -8,7 +8,6 @@
 @source "../views";
 @source "../../app";
 @source "../../public/js";
-@source not "../../public/js/app.js";
 
 /*
  * Tailwind 2 defaults the templates were written for (changed in Tailwind 4)
