@@ -3,6 +3,7 @@
 namespace Tests\Feature\Shop;
 
 use App\Models\Smartphone;
+use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -66,6 +67,21 @@ class CartTest extends TestCase
         $this->from('/cart')->delete("/cart/{$rowId}")->assertRedirect('/cart');
 
         $this->assertEquals(0, Cart::count());
+    }
+
+    public function test_cart_is_stored_on_logout_and_login_still_works()
+    {
+        $user = User::factory()->create();
+        $phone = Smartphone::factory()->create();
+
+        $this->actingAs($user)->post('/cart', ['id' => $phone->id, 'quantity' => 2]);
+        $this->post('/logout');
+        $this->assertDatabaseHas('shoppingcarts', ['identifier' => $user->email]);
+
+        $this->post('/login', ['email' => $user->email, 'password' => 'password'])
+            ->assertRedirect(RouteServiceProvider::HOME);
+
+        $this->assertAuthenticatedAs($user);
     }
 
     public function test_cart_is_kept_across_logout_and_login()
