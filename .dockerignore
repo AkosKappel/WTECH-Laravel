@@ -1,0 +1,14 @@
+# Secrets and bulky folders must not end up in image layers; the checkout is bind-mounted at runtime.
+.env
+.env.*
+!.env.example
+docker/tailscale/ts.env
+vendor
+node_modules
+.git
+storage
+docs/superpowers
+.superpowers
+*.dump
+.phpunit.cache
+public/uploads
