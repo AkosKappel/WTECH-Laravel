@@ -7,7 +7,18 @@ function clamp(input, value) {
     return Math.min(Math.max(value || 1, 1), max);
 }
 
+// Disables − at 1 and + at the stock, and shows the "Only N in stock" note at the limit.
+function refresh(form) {
+    const input = form.querySelector('input[name="product_quantity"]');
+    const value = parseInt(input.value);
+    const max = parseInt(input.getAttribute('max'));
+    form.querySelector('[data-decrement]').disabled = value <= 1;
+    form.querySelector('[data-increment]').disabled = value >= max;
+    form.querySelector('[data-stock-note]').classList.toggle('hidden', value < max);
+}
+
 function send(form) {
+    refresh(form);
     clearTimeout(pending.get(form));
     pending.set(form, setTimeout(function () {
         const input = form.querySelector('input[name="product_quantity"]');
@@ -21,6 +32,7 @@ function send(form) {
             return response.json();
         }).then(function (data) {
             input.value = data.qty;
+            refresh(form);
             row.querySelector('[data-item-total]').textContent = data.itemTotal;
             document.querySelector('[data-cart-total]').textContent = data.total;
             document.querySelectorAll('[data-cart-count]').forEach(function (badge) { badge.textContent = data.count; });

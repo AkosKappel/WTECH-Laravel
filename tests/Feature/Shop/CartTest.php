@@ -58,6 +58,19 @@ class CartTest extends TestCase
         $this->assertEquals(4, Cart::count());
     }
 
+    public function test_the_cart_says_when_the_quantity_reaches_the_stock()
+    {
+        $phone = Smartphone::factory()->create(['quantity' => 2]);
+        $this->post('/cart', ['id' => $phone->id, 'quantity' => 1]);
+
+        $this->get('/cart')->assertOk()->assertSee('max="2"', false)
+            ->assertSee('text-amber-600 hidden', false)->assertSee('Only 2 in stock');
+
+        $this->post('/cart', ['id' => $phone->id, 'quantity' => 1]);
+
+        $this->get('/cart')->assertDontSee('text-amber-600 hidden', false)->assertSee('Only 2 in stock');
+    }
+
     public function test_quantity_change_answers_with_json_for_the_cart_script()
     {
         $phone = Smartphone::factory()->create(['quantity' => 4, 'price' => 100]);

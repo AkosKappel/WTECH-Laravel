@@ -96,14 +96,19 @@
                     </p>
                 </div>
             </li>
-            <li class="pl-8 relative">
-                <span class="absolute -left-[9px] top-1.5 h-4 w-4 rounded-full bg-purple-600 ring-4 ring-purple-100" aria-hidden="true"></span>
-                <p class="text-sm font-semibold text-purple-600">2025–2026</p>
-                <h3 class="mt-1 text-lg font-semibold text-gray-900">{{ __('Portfolio revamp') }}</h3>
-                <p class="mt-2 text-gray-700 leading-relaxed">
-                    {{ __('In 2025 and 2026 I returned to it to prepare it for my portfolio: I containerised it with Docker, redesigned every page, fixed bugs and security issues, and deployed it on my own home server.') }}
-                </p>
-            </li>
+            @foreach ([
+                ['year' => '2025', 'title' => __('Portfolio revamp'), 'dot' => 'bg-violet-600 ring-violet-100', 'label' => 'text-violet-600',
+                 'text' => __('I returned to the project to prepare it for my portfolio: I redesigned the whole UI, fixed bugs, containerised it with Docker and deployed it on a free-tier Oracle Cloud server.')],
+                ['year' => '2026', 'title' => __('Upgrades and self-hosting'), 'dot' => 'bg-purple-600 ring-purple-100', 'label' => 'text-purple-600',
+                 'text' => __('I upgraded it to the latest Laravel, PHP and PostgreSQL, rewrote the shopping cart, hardened its security, covered it with automated tests and moved it to my own home server.')],
+            ] as $milestone)
+                <li class="pl-8 relative">
+                    <span class="absolute -left-[9px] top-1.5 h-4 w-4 rounded-full ring-4 {{ $milestone['dot'] }}" aria-hidden="true"></span>
+                    <p class="text-sm font-semibold {{ $milestone['label'] }}">{{ $milestone['year'] }}</p>
+                    <h3 class="mt-1 text-lg font-semibold text-gray-900">{{ $milestone['title'] }}</h3>
+                    <p class="mt-2 text-gray-700 leading-relaxed">{{ $milestone['text'] }}</p>
+                </li>
+            @endforeach
         </ol>
     </section>
 

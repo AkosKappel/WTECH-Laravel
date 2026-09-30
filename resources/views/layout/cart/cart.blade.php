@@ -72,13 +72,16 @@
                                       id="quantity-{{ $loop->index }}-form" 
                                       method="POST"
                                       data-quantity-form
-                                      class="flex justify-center">
+                                      class="flex flex-col items-center">
                                     @method('PUT')
                                     @csrf
                                     <div class="flex items-center border border-gray-200 rounded-lg">
-                                        <button type="button" 
+                                        <button type="button"
                                                 onclick="decrement({{$loop->index}})"
-                                                class="w-10 h-10 leading-10 text-gray-600 transition hover:opacity-75">
+                                                data-decrement
+                                                aria-label="{{ __('Decrease quantity') }}"
+                                                @disabled($product->qty <= 1)
+                                                class="w-10 h-10 leading-10 text-gray-600 transition hover:opacity-75 disabled:opacity-30 disabled:cursor-not-allowed">
                                             −
                                         </button>
                                         <input type="number"
@@ -90,10 +93,18 @@
                                                class="h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none" />
                                         <button type="button"
                                                 onclick="increment({{$loop->index}})"
-                                                class="w-10 h-10 leading-10 text-gray-600 transition hover:opacity-75">
+                                                data-increment
+                                                aria-label="{{ __('Increase quantity') }}"
+                                                @disabled($product->qty >= $product->maxQuantity)
+                                                class="w-10 h-10 leading-10 text-gray-600 transition hover:opacity-75 disabled:opacity-30 disabled:cursor-not-allowed">
                                             +
                                         </button>
                                     </div>
+                                    {{-- shown by cart.js whenever the quantity reaches the stock --}}
+                                    <p data-stock-note id="product-{{ $loop->index }}-stock" aria-live="polite"
+                                       class="mt-1 text-xs font-medium text-amber-600 {{ $product->qty >= $product->maxQuantity ? '' : 'hidden' }}">
+                                        {{ __('Only :count in stock', ['count' => $product->maxQuantity]) }}
+                                    </p>
                                 </form>
                             </div>
 
