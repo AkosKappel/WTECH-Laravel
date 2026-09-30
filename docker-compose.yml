@@ -101,8 +101,6 @@ networks:
     driver: bridge
 
 volumes:
-  dbdata:
-    driver: local
-  # PostgreSQL 18 data (postgres:18 mounts /var/lib/postgresql); dbdata is the old PostgreSQL 15 volume, kept for rollback
+  # PostgreSQL 18 data (postgres:18 mounts /var/lib/postgresql)
   dbdata18:
     driver: local
