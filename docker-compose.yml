@@ -47,7 +47,7 @@ services:
       - db
 
   nginx:
-    image: nginx:alpine
+    image: nginx:1.30-alpine
     container_name: ${CONTAINER_PREFIX:-wtech}-nginx
     restart: unless-stopped
     logging: *logging
@@ -89,7 +89,7 @@ services:
   #   docker compose run --rm assets npm ci
   #   docker compose run --rm assets npm run build:css
   assets:
-    image: node:22-alpine
+    image: node:24-alpine
     profiles: ["tools"]
     working_dir: /app
     user: "${UID:-1000}:${UID:-1000}"
