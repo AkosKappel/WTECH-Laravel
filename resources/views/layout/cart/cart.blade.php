@@ -43,7 +43,7 @@
             {{-- Cart Items --}}
             <div class="space-y-4">
                 @foreach(Cart::content() as $product)
-                    <div class="bg-white rounded-lg shadow-xs overflow-hidden">
+                    <div class="bg-white rounded-lg shadow-xs overflow-hidden" data-cart-row>
                         <div class="grid grid-cols-12 gap-4 p-4 items-center">
                             {{-- Product Info --}}
                             <div class="col-span-12 md:col-span-5 flex flex-col sm:flex-row items-center gap-4">
@@ -71,6 +71,7 @@
                                 <form action="{{ route('cart.update', [$product->rowId]) }}" 
                                       id="quantity-{{ $loop->index }}-form" 
                                       method="POST"
+                                      data-quantity-form
                                       class="flex justify-center">
                                     @method('PUT')
                                     @csrf
@@ -100,7 +101,7 @@
                             <div class="col-span-12 md:col-span-3 flex flex-col gap-2">
                                 <div class="text-center">
                                     <span class="md:hidden font-medium text-gray-500">{{ __('Total') }}: </span>
-                                    <span class="font-medium text-gray-900">{{ formattedPrice($product->total()) }}</span>
+                                    <span class="font-medium text-gray-900" data-item-total>{{ formattedPrice($product->total()) }}</span>
                                 </div>
                                 <div class="text-center">
                                     <form action="{{ route('cart.destroy', $product->rowId) }}" method="POST">
@@ -123,7 +124,7 @@
                 <div class="rounded-lg bg-gray-50 p-6">
                     <div class="flex items-center justify-end">
                         <span class="text-xl font-medium text-gray-900 mr-6">{{ __('Total') }}</span>
-                        <span class="text-2xl font-bold text-gray-900">{{ formattedPrice(Cart::total()) }}</span>
+                        <span class="text-2xl font-bold text-gray-900" data-cart-total>{{ formattedPrice(Cart::total()) }}</span>
                     </div>
 
                     <div class="mt-6 flex flex-col sm:flex-row gap-4 justify-end items-center">

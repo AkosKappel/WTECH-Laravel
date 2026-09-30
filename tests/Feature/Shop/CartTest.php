@@ -58,6 +58,27 @@ class CartTest extends TestCase
         $this->assertEquals(4, Cart::count());
     }
 
+    public function test_quantity_change_answers_with_json_for_the_cart_script()
+    {
+        $phone = Smartphone::factory()->create(['quantity' => 4, 'price' => 100]);
+        $other = Smartphone::factory()->create(['quantity' => 5, 'price' => 50]);
+        $this->post('/cart', ['id' => $phone->id, 'quantity' => 1]);
+        $this->post('/cart', ['id' => $other->id, 'quantity' => 1]);
+        $rowId = Cart::content()->firstWhere('id', $phone->id)->rowId;
+
+        $this->putJson("/cart/{$rowId}", ['product_quantity' => 99])
+            ->assertOk()
+            ->assertExactJson([
+                'qty' => 4,
+                'itemTotal' => formattedPrice(400),
+                'total' => formattedPrice(450),
+                'count' => 5,
+            ]);
+
+        $this->putJson('/cart/missing', ['product_quantity' => 1])->assertNotFound();
+        $this->putJson("/cart/{$rowId}", ['product_quantity' => 'x'])->assertUnprocessable();
+    }
+
     public function test_a_phone_can_be_removed()
     {
         $phone = Smartphone::factory()->create();

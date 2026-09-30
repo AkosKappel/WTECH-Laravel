@@ -63,6 +63,19 @@ class CartController extends Controller
         if ($item !== null) {
             Cart::update($rowId, min($request->product_quantity, $item->maxQuantity));
         }
+
+        // cart.js updates the page in place from this instead of reloading it
+        if ($request->expectsJson()) {
+            $item = Cart::get($rowId);
+            abort_if($item === null, 404);
+
+            return response()->json([
+                'qty' => $item->qty,
+                'itemTotal' => formattedPrice($item->total()),
+                'total' => formattedPrice(Cart::total()),
+                'count' => Cart::count(),
+            ]);
+        }
         return redirect()->route('cart');
     }
 
