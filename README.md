@@ -434,7 +434,7 @@ sql/database.sql                    # raw SQL seed
    docker compose exec app php artisan migrate --seed
    ```
 
-5. **Open the shop** at **http://localhost:8082**
+5. **Open the shop** at **http://localhost:8080**
 
 ### Default Admin Account
 
@@ -450,12 +450,12 @@ The seeder creates an administrator account:
 
 | Service | Container | Port |
 |---|---|---|
-| Nginx (web server) | `wtech-nginx` | `8082` (`APP_BIND`/`APP_PORT`) |
+| Nginx (web server) | `wtech-nginx` | `8080` (`APP_BIND`/`APP_PORT`) |
 | PHP-FPM 8.5 (application) | `wtech-app` | – |
-| PostgreSQL 18 | `wtech-db` | `5433` (localhost only) |
+| PostgreSQL 18 | `wtech-db` | `5432` (`DB_HOST_PORT`, localhost only) |
 | Laravel scheduler (runs the demo reset) | `wtech-scheduler` | – |
 
-The container names start with `CONTAINER_PREFIX` (default `wtech`) and the database is published on `DB_HOST_PORT` (default `5433`), so a second copy of the project, for example a staging checkout, can run next to this one with its own values.
+The container names start with `CONTAINER_PREFIX` (default `wtech`) and the database is published on `DB_HOST_PORT` (default `5432`), so a second copy of the project, for example a staging checkout, can run next to this one with its own values.
 
 PostgreSQL is published only on `127.0.0.1`, so a database client can connect from the host itself (or through an SSH tunnel), but not from other machines.
 
@@ -467,7 +467,7 @@ Before exposing the shop publicly, set these in `.env`:
 - `SESSION_SECURE_COOKIE=true`, so the session and CSRF cookies are only ever sent over HTTPS.
 - `LOG_LEVEL=info`, so the log keeps logins, logouts and errors but not debug output. Logs rotate daily and the last 14 days are kept.
 - `APP_URL` set to the address people will use. If it starts with `https://`, the app generates HTTPS links, which is what you want behind a TLS-terminating proxy such as Tailscale Funnel or Cloudflare Tunnel.
-- `APP_BIND` to choose the network interface the web server listens on. Behind a reverse proxy running on the same machine (e.g. `tailscale funnel http://127.0.0.1:8082`), use `127.0.0.1`, so the proxy is the only way in. Don't point Tailscale Serve or Funnel at the host's own Tailscale IP: Tailscale doesn't pass that traffic on to the host's regular network, so the proxy gets a 502.
+- `APP_BIND` to choose the network interface the web server listens on. Behind a reverse proxy running on the same machine (e.g. `tailscale funnel http://127.0.0.1:8080`), use `127.0.0.1`, so the proxy is the only way in. Don't point Tailscale Serve or Funnel at the host's own Tailscale IP: Tailscale doesn't pass that traffic on to the host's regular network, so the proxy gets a 502.
 - Optionally `COMPOSE_FILE=docker-compose.yml:docker-compose.tailscale.yml`, to publish the shop through its own Tailscale Funnel sidecar at `https://<name>.<tailnet>.ts.net`. It needs a reusable, tagged auth key in `docker/tailscale/ts.env` (`TS_AUTHKEY=tskey-auth-…`) and a tailnet policy that grants `funnel` to that tag.
 - A strong `DB_PASSWORD`, set before the database container is first created.
 - Your own `ADMIN_EMAIL` and `ADMIN_PASSWORD` before seeding.
