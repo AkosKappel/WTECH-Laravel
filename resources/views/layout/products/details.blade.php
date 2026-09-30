@@ -210,6 +210,6 @@
     </main>
 
     @include('layout.partials.footer')
-    <script src="{{ asset('js/details.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/details.js') }}?v={{ filemtime(public_path('js/details.js')) }}"></script>
 </body>
 </html>

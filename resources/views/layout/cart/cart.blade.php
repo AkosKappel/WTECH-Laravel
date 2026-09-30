@@ -161,6 +161,6 @@
 
     @include('layout.partials.footer')
 
-    <script src="{{ asset('js/cart.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/cart.js') }}?v={{ filemtime(public_path('js/cart.js')) }}"></script>
 </body>
 </html>
