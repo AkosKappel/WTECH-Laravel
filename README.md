@@ -5,11 +5,11 @@
 # SmartTech – Smartphone E-shop
 
 A full-stack, server-side rendered e-commerce web application for selling smartphones,
-built with **Laravel 12**, **PostgreSQL** and **Tailwind CSS**.
+built with **Laravel 13**, **PostgreSQL** and **Tailwind CSS**.
 
-![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel&logoColor=white)
-![PHP](https://img.shields.io/badge/PHP-8.3-777BB4?logo=php&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-4169E1?logo=postgresql&logoColor=white)
+![Laravel](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-8.5-777BB4?logo=php&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18-4169E1?logo=postgresql&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
 
@@ -191,11 +191,11 @@ The sections below cover the same topics.
 
 | Layer | Technology |
 |---|---|
-| **Backend** | PHP 8.3, Laravel 12 (MVC, Eloquent ORM, Blade) |
-| **Database** | PostgreSQL 15 |
+| **Backend** | PHP 8.5, Laravel 13 (MVC, Eloquent ORM, Blade) |
+| **Database** | PostgreSQL 18 |
 | **Frontend** | Blade templates, Tailwind CSS 4, vanilla JavaScript |
 | **Auth** | Laravel Breeze (customised), Gates & Policies |
-| **Build** | Tailwind CLI (only the classes the templates use end up in the ~50 KB stylesheet), run in a Node container |
+| **Build** | Tailwind CLI (only the classes the templates use end up in the ~50 KB stylesheet), run in a Node 24 container |
 | **Infrastructure** | Docker Compose (PHP-FPM, Nginx, PostgreSQL) |
 
 **Additional packages**
@@ -331,17 +331,18 @@ Results are ranked with exact name matches first, then by similarity. The same l
 On the product detail page, a small script (`public/js/details.js`) drives a +/− quantity selector, updates the total price live and switches between product images. When the form is submitted, the item is added to the session cart through `Cart::add()`. In the cart, changing a quantity submits the form automatically (`public/js/cart.js`). The quantity is limited to the stock, which is checked again at checkout, and the server applies it with `Cart::update($rowId, $qty)`.
 
 ### Keeping the Cart Across Sessions
-The login and logout actions in Breeze were extended:
+Logging out and in were extended:
 
 ```php
-// on logout – save the session cart as JSON under the user's e-mail
+// on logout (Breeze's destroy action) – save the session cart as JSON under the user's e-mail
 Cart::store(Auth::user()->email);
 
-// on login – merge the saved cart into the current one
-Cart::restore(Auth::user()->email);
+// on login (App\Listeners\RestoreSavedCart, listening to Laravel's Login event)
+// – merge the saved cart into the current one
+Cart::restore($event->user->email);
 ```
 
-The cart is a small class of my own (`app/Support/Cart.php`, used through the `Cart` facade). On login the saved cart is merged with the cart the visitor already has as a guest, and quantities are added up to the stock. So a customer can add items, log out, log in again later or on another device, and find the same cart.
+The cart is a small class of my own (`app/Support/Cart.php`, used through the `Cart` facade). Because restoring happens in a listener on Laravel's `Login` event, remembered logins get their cart too. On login the saved cart is merged with the cart the visitor already has as a guest, and quantities are added up to the stock. So a customer can add items, log out, log in again later or on another device, and find the same cart.
 
 ### Login & Roles
 Authentication is built on Laravel Breeze, with the views redesigned to match the shop. Successful logins and logouts trigger event listeners (`LogSuccessfulLogin`, `LogSuccessfulLogout`) that write to the application log. The admin area uses the `auth` and `can:isAdmin` middleware, and admin-only controls in the views are wrapped in `@can` directives.
@@ -450,8 +451,8 @@ The seeder creates an administrator account:
 | Service | Container | Port |
 |---|---|---|
 | Nginx (web server) | `wtech-nginx` | `8082` (`APP_BIND`/`APP_PORT`) |
-| PHP-FPM 8.3 (application) | `wtech-app` | – |
-| PostgreSQL 15 | `wtech-db` | `5433` (localhost only) |
+| PHP-FPM 8.5 (application) | `wtech-app` | – |
+| PostgreSQL 18 | `wtech-db` | `5433` (localhost only) |
 | Laravel scheduler (runs the demo reset) | `wtech-scheduler` | – |
 
 The container names start with `CONTAINER_PREFIX` (default `wtech`) and the database is published on `DB_HOST_PORT` (default `5433`), so a second copy of the project, for example a staging checkout, can run next to this one with its own values.
@@ -547,6 +548,12 @@ Authentication routes (`/login`, `/register`, `/forgot-password`, `/reset-passwo
 - gave the shop its own hostname through a Tailscale sidecar, and dropped the `/wtech` URL prefix (old `/wtech/…` links redirect to the new paths)
 - upgraded from Laravel 8 / PHP 8.1 to Laravel 12 / PHP 8.3, one major version at a time, behind a feature-test suite written first
 - replaced the cart package with a small cart of my own, because saved carts could never be restored on PostgreSQL
+
+**September 2026: Laravel 13.** A second upgrade round brought the project to the current stack:
+
+- Laravel 12 → 13 with **PHP 8.5** on Debian 13, **PostgreSQL 18**, nginx 1.30, Node 24 for the CSS build, PHPUnit 13 and Symfony 8.1 components
+- removed the unused API and CORS setup, and rebuilt the stylesheet without the classes left over from Breeze
+- carts are now saved with a single atomic upsert, and the password-reset e-mail subject is translated again
 
 ## What I Learned
 
