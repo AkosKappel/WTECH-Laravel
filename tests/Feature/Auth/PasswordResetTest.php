@@ -68,4 +68,21 @@ class PasswordResetTest extends TestCase
             return true;
         });
     }
+
+    public function test_reset_password_email_is_translated()
+    {
+        $user = User::factory()->create();
+
+        foreach ([
+            'de' => ['Setzen Sie Ihr Passwort zurück', 'Passwort zurücksetzen'],
+            'sk' => ['Obnovte si heslo', 'Obnoviť heslo'],
+        ] as $locale => [$subject, $action]) {
+            app()->setLocale($locale);
+
+            $mail = (new ResetPassword('token'))->toMail($user);
+
+            $this->assertSame($subject, $mail->subject, $locale);
+            $this->assertSame($action, $mail->actionText, $locale);
+        }
+    }
 }
