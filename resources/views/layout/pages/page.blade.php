@@ -8,13 +8,17 @@
     @include('layout.partials.header')
 
     <main class="grow py-12 px-4 sm:px-6 lg:px-8">
-        <article class="max-w-3xl mx-auto">
-            <header class="mb-8">
-                <h1 class="text-3xl lg:text-4xl font-bold text-gray-900">{{ $title }}</h1>
-                @isset($lead)
-                    <p class="mt-3 text-lg text-gray-600">{{ $lead }}</p>
-                @endisset
-            </header>
+        <article class="{{ ($wide ?? false) ? 'max-w-5xl' : 'max-w-3xl' }} mx-auto">
+            @hasSection('hero')
+                @yield('hero')
+            @else
+                <header class="mb-8">
+                    <h1 class="text-3xl lg:text-4xl font-bold text-gray-900">{{ $title }}</h1>
+                    @isset($lead)
+                        <p class="mt-3 text-lg text-gray-600">{{ $lead }}</p>
+                    @endisset
+                </header>
+            @endif
 
             @if ($fictional ?? false)
                 <div class="mb-8 rounded-lg bg-yellow-50 border border-yellow-200 p-4 text-sm text-yellow-900" role="note">
@@ -23,7 +27,7 @@
                 </div>
             @endif
 
-            <div class="space-y-8">
+            <div class="{{ ($wide ?? false) ? 'space-y-14' : 'space-y-8' }}">
                 @yield('content')
             </div>
         </article>
