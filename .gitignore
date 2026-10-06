@@ -79,3 +79,6 @@ OPERATIONS.md
 
 /docker/tailscale/ts.env
 .phpunit.cache
+
+# git worktrees for work in progress, so the bind-mounted checkout stays on main
+/.worktrees/

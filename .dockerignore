@@ -12,3 +12,4 @@ docs/superpowers
 *.dump
 .phpunit.cache
 public/uploads
+.worktrees
