@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    @include('layout.partials.head', ['title' => __('Product Details')])
+    @php
+        // link previews can't show SVG illustrations, so those phones get the default image
+        $photo = $smartphone->images->first(fn ($image) => !\Illuminate\Support\Str::endsWith($image->source, '.svg'));
+    @endphp
+    @include('layout.partials.head', [
+        'title' => $smartphone->name . ' | SmartTech',
+        'description' => \Illuminate\Support\Str::limit(formattedPrice($smartphone->price) . ' · ' . $smartphone->localized_description, 160),
+        'image' => $photo?->url,
+    ])
     <link href="{{ asset('css/quantity-selector.css') }}" rel="stylesheet" type="text/css">
 </head>
 

@@ -11,6 +11,7 @@
     ":brand logo": ":brand-Logo",
     ":count framework frame|:count framework frames": ":count Framework-Frame|:count Framework-Frames",
     ":count phone|:count phones": ":count Handy|:count Handys",
+    "A demo smartphone e-shop built with Laravel, PostgreSQL and Tailwind CSS.": "Ein Demo-Onlineshop für Smartphones, gebaut mit Laravel, PostgreSQL und Tailwind CSS.",
     "A new verification link has been sent to the email address you provided during registration.": "Ein neuer Bestätigungslink wurde an die bei der Registrierung angegebene E-Mail-Adresse gesendet.",
     "A portfolio project – no real orders, payments or deliveries. Please don't enter real personal data.": "Ein Portfolio-Projekt – keine echten Bestellungen, Zahlungen oder Lieferungen. Bitte geben Sie keine echten persönlichen Daten ein.",
     "A product in your cart is no longer available. Please remove it.": "Ein Produkt in Ihrem Warenkorb ist nicht mehr verfügbar. Bitte entfernen Sie es.",

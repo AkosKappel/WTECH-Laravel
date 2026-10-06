@@ -109,6 +109,18 @@ class CatalogTest extends TestCase
         $this->get(route('details', $phone))->assertOk()->assertSee($phone->name);
     }
 
+    public function test_product_page_has_link_preview_tags()
+    {
+        $phone = Smartphone::factory()->create(['name' => 'Nebula Phone X']);
+        Image::factory()->for($phone)->create(['source' => '/images/products/nebula.svg']);
+        Image::factory()->for($phone)->create(['source' => '/images/nebula.jpg']);
+
+        $this->get(route('details', $phone))
+            ->assertSee('<meta property="og:title" content="Nebula Phone X | SmartTech" />', false)
+            // social sites can't render SVG, so the first photo is used
+            ->assertSee('<meta property="og:image" content="' . asset('images/nebula.jpg') . '" />', false);
+    }
+
     public function test_unknown_product_url_suggests_similar_phones()
     {
         Smartphone::factory()->create(['name' => 'Nebula Phone X']);

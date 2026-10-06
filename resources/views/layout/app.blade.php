@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    @include('layout.partials.head', ['title' => __('Smartphone Eshop')])
+    @include('layout.partials.head', ['title' => 'SmartTech | ' . __('Smartphone Eshop')])
 </head>
 <body class="font-sans text-gray-800 bg-gray-50">
     @include('layout.partials.header')

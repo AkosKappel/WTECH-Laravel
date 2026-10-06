@@ -11,6 +11,7 @@
     ":brand logo": "Logo :brand",
     ":count framework frame|:count framework frames": "{1} :count rámec frameworku|[2,4] :count rámce frameworku|[5,*] :count rámcov frameworku",
     ":count phone|:count phones": "{0} :count telefónov|{1} :count telefón|[2,4] :count telefóny|[5,*] :count telefónov",
+    "A demo smartphone e-shop built with Laravel, PostgreSQL and Tailwind CSS.": "Ukážkový internetový obchod so smartfónmi postavený na Laraveli, PostgreSQL a Tailwind CSS.",
     "A new verification link has been sent to the email address you provided during registration.": "Na e-mail, ktorý ste zadali pri registrácii, sme poslali nový overovací odkaz.",
     "A portfolio project – no real orders, payments or deliveries. Please don't enter real personal data.": "Projekt do portfólia – žiadne skutočné objednávky, platby ani doručenia. Nezadávajte, prosím, skutočné osobné údaje.",
     "A product in your cart is no longer available. Please remove it.": "Produkt vo vašom košíku už nie je dostupný. Odstráňte ho, prosím.",
