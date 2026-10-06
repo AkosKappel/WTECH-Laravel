@@ -12,6 +12,7 @@ built with **Laravel 13**, **PostgreSQL** and **Tailwind CSS**.
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18-4169E1?logo=postgresql&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
+[![Tests](https://github.com/AkosKappel/WTECH-Laravel/actions/workflows/tests.yml/badge.svg)](https://github.com/AkosKappel/WTECH-Laravel/actions/workflows/tests.yml)
 
 **Live demo:** [wtech.tailb52c43.ts.net](https://wtech.tailb52c43.ts.net)<br>
 <sub>Self-hosted on a home server, so it may occasionally be offline.</sub>
