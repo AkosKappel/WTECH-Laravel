@@ -136,11 +136,11 @@ document.addEventListener('DOMContentLoaded', function() {
         menu.classList.toggle('hidden');
     });
 
-    // User menu dropdown
+    // User menu dropdown (only rendered for signed-in users)
     const userMenuButton = document.getElementById('user-menu-button');
     const userMenu = document.getElementById('user-menu');
 
-    userMenuButton.addEventListener('click', () => {
+    userMenuButton?.addEventListener('click', () => {
         userMenu.classList.toggle('hidden');
     });
 });
