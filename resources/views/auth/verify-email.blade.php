@@ -23,6 +23,8 @@
                     {{ __('Thanks for signing up! Before getting started, please verify your email address by clicking on the link we just emailed to you. If you didn\'t receive the email, we will gladly send you another.') }}
                 </p>
 
+                @include('layout.partials.mail-disabled-notice')
+
                 @if (session('status') == 'verification-link-sent')
                     <p class="text-center text-sm font-medium text-green-600">
                         {{ __('A new verification link has been sent to the email address you provided during registration.') }}

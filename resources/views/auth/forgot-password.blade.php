@@ -56,6 +56,8 @@
                     {{ __('Enter your registered email address. A password reset link will be sent to your email.') }}
                 </p>
 
+                @include('layout.partials.mail-disabled-notice')
+
                 {{-- Submit Button --}}
                 <div>
                     <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-xs text-sm font-medium text-white bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">

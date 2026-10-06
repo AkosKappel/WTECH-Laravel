@@ -19,6 +19,16 @@ class PasswordResetTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_reset_page_says_emails_are_off_only_when_they_are()
+    {
+        $notice = 'E-mails are turned off in this demo';
+
+        $this->get('/forgot-password')->assertSee($notice);
+
+        config(['mail.default' => 'smtp']);
+        $this->get('/forgot-password')->assertDontSee($notice);
+    }
+
     public function test_reset_password_link_can_be_requested()
     {
         Notification::fake();
