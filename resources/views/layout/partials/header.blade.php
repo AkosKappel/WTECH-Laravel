@@ -8,14 +8,14 @@
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('home') }}" class="flex items-center" aria-label="{{ __('Home') }}">
                         <img src="{{ asset('images/logo.png') }}" alt="{{ __('Logo') }}" class="h-8 w-auto hover:opacity-90 transition-opacity"/>
-                        <span class="ml-3 text-3xl font-bold italic text-white tracking-tight hidden sm:block">
+                        <span class="ml-3 text-3xl font-bold italic text-white tracking-tight hidden md:block">
                             SmartTech
                         </span>
                     </a>
                 </div>
                 
                 {{-- Desktop Navigation --}}
-                <nav class="hidden md:ml-8 md:flex md:space-x-8 items-center">
+                <nav class="hidden lg:ml-6 lg:flex lg:space-x-1 xl:ml-8 xl:space-x-8 items-center">
                     <a href="{{ route('smartphones') }}" class="text-white hover:text-indigo-100 px-3 py-2 text-sm font-medium transition-colors">
                         {{ __('Products') }}
                     </a>
@@ -38,7 +38,7 @@
                 </div>
 
                 {{-- Language --}}
-                <div class="hidden md:block">
+                <div class="hidden lg:block">
                     @include('layout.partials.locale-switcher', ['variant' => 'dropdown'])
                 </div>
 
@@ -46,7 +46,7 @@
                 @if (Auth::check())
                     <div class="relative group">
                         <button id="user-menu-button" class="flex items-center space-x-3 bg-indigo-500/50 hover:bg-indigo-500/70 rounded-full py-2 px-4 transition-colors">
-                            <span class="hidden lg:block text-sm text-white">{{ Auth::user()->email }}</span>
+                            <span class="hidden xl:block text-sm text-white">{{ Auth::user()->email }}</span>
                             <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
@@ -81,7 +81,7 @@
                 </a>
 
                 {{-- Mobile menu button --}}
-                <div class="flex md:hidden">
+                <div class="flex lg:hidden">
                     <button type="button" class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-white hover:text-indigo-100 hover:bg-indigo-500/70 transition-colors" aria-label="{{ __('Toggle menu') }}">
                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -93,7 +93,7 @@
     </div>
 
     {{-- Mobile menu --}}
-    <div class="hidden mobile-menu md:hidden">
+    <div class="hidden mobile-menu lg:hidden">
         <div class="px-2 pt-2 pb-3 space-y-1">
             <div class="sm:hidden px-1 pb-2">
                 @include('layout.partials.search-box', ['id' => 'mobile-search'])

@@ -8,7 +8,7 @@
            placeholder="{{ __('Search smartphone...') }}"
            aria-label="{{ __('Search') }}"
            role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="{{ $id }}-results"
-           class="w-full sm:w-64 pl-4 pr-10 py-2 rounded-full text-sm bg-white text-gray-900 placeholder:text-gray-400 focus:outline-hidden focus:ring-2 focus:ring-indigo-300 transition"
+           class="w-full sm:w-48 xl:w-64 pl-4 pr-10 py-2 rounded-full text-sm bg-white text-gray-900 placeholder:text-gray-400 focus:outline-hidden focus:ring-2 focus:ring-indigo-300 transition"
            autocomplete="off" maxlength="100"/>
     <button type="submit" class="absolute right-0 top-0 mt-2 mr-3" aria-label="{{ __('Search') }}">
         <svg class="h-5 w-5 text-indigo-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
