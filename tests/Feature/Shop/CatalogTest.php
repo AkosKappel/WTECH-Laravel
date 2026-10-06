@@ -2,7 +2,10 @@
 
 namespace Tests\Feature\Shop;
 
+use App\Models\Image;
+use App\Models\Order;
 use App\Models\Smartphone;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -11,10 +14,9 @@ class CatalogTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_homepage_shows_recommended_phones()
+    public function test_homepage_shows_best_selling_phones()
     {
-        // the homepage shows inRandomOrder()->take(3): exactly 3 phones make this deterministic
-        $phones = Smartphone::factory()->count(3)->create();
+        $phones = Smartphone::factory()->count(3)->has(Image::factory())->create();
 
         $response = $this->get('/');
 
@@ -22,6 +24,40 @@ class CatalogTest extends TestCase
         foreach ($phones as $phone) {
             $response->assertSee($phone->name);
         }
+    }
+
+    public function test_best_selling_ranks_by_recent_sales_and_skips_unshowable_phones()
+    {
+        [$top, $second, $cheapUnsold, $oldSeller, $flagship] = Smartphone::factory()->count(5)->has(Image::factory())
+            ->sequence(['price' => 100], ['price' => 100], ['price' => 200], ['price' => 300], ['price' => 1500])
+            ->create();
+        Smartphone::factory()->has(Image::factory())->create(['quantity' => 0]);
+        Smartphone::factory()->create(); // no image
+
+        $this->order([$second->id => 1, $top->id => 2]);
+        $this->order([$second->id => 1, $top->id => 1]);
+        $this->order([$oldSeller->id => 50])->forceFill(['created_at' => now()->subDays(91)])->save();
+
+        // phones not sold recently keep the list full, flagships first
+        $this->assertEquals(
+            [$top->id, $second->id, $flagship->id, $oldSeller->id, $cheapUnsold->id],
+            Smartphone::bestSelling()->pluck('id')->all()
+        );
+    }
+
+    private function order(array $counts): Order
+    {
+        $order = Order::create([
+            'total_price' => 100,
+            'user_id' => User::factory()->create()->id,
+            'delivery_method' => 'courier',
+            'payment_method' => 'card',
+        ]);
+        foreach ($counts as $id => $count) {
+            $order->smartphones()->attach($id, ['count' => $count, 'price' => 100]);
+        }
+
+        return $order;
     }
 
     public function test_catalog_lists_phones()

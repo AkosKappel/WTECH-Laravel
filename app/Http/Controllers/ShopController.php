@@ -18,11 +18,11 @@ class ShopController extends Controller
      */
     public function index(Request $request)
     {
-        $recommendedSmartphones = Smartphone::inRandomOrder()->take(3)->get();
+        $bestSelling = Smartphone::bestSelling()->take(3)->get();
         $topBrands = Brand::inRandomOrder()->take(6)->get();
 
         return view('layout/app', [
-            'smartphones' => $recommendedSmartphones,
+            'smartphones' => $bestSelling,
             'brands' => $topBrands,
         ]);
     }

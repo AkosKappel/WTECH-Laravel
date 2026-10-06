@@ -118,7 +118,7 @@ The sections below cover the same topics.
 ## Features
 
 ### Storefront
-- **Homepage** with randomly picked recommended phones and a brand showcase
+- **Homepage** with best-selling phones (units sold in the last 90 days, only in stock and with images) and a brand showcase
 - **Product catalog** with 12 products per page and equal-size product cards
 - **Typo-tolerant search** ("samsng", "iphon 15", "gogle pixel") using PostgreSQL trigram similarity, across names, brands and descriptions in every language, ranked by relevance
 - **Live search suggestions** in the header while typing: image, price and stock, with keyboard navigation
