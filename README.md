@@ -7,15 +7,22 @@
 A full-stack, server-side rendered e-commerce web application for selling smartphones,
 built with **Laravel 13**, **PostgreSQL** and **Tailwind CSS**.
 
+[![Tests](https://github.com/AkosKappel/WTECH-Laravel/actions/workflows/tests.yml/badge.svg)](https://github.com/AkosKappel/WTECH-Laravel/actions/workflows/tests.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Live demo](https://img.shields.io/badge/demo-live-4F46E5?logo=googlechrome&logoColor=white)](https://wtech.tailb52c43.ts.net)
+
 ![Laravel](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white)
 ![PHP](https://img.shields.io/badge/PHP-8.5-777BB4?logo=php&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18-4169E1?logo=postgresql&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
-[![Tests](https://github.com/AkosKappel/WTECH-Laravel/actions/workflows/tests.yml/badge.svg)](https://github.com/AkosKappel/WTECH-Laravel/actions/workflows/tests.yml)
 
-**Live demo:** [wtech.tailb52c43.ts.net](https://wtech.tailb52c43.ts.net)<br>
-<sub>Self-hosted on a home server, so it may occasionally be offline.</sub>
+[**Live demo**](https://wtech.tailb52c43.ts.net) · [Screenshots](#screenshots) · [Getting started](#getting-started)<br>
+<sub>The demo is self-hosted on a home server, so it may occasionally be offline.</sub>
+
+<br>
+
+<img src="docs/screenshots/catalog.png" alt="Product catalog with brand filters applied" width="900">
 
 </div>
 
@@ -174,19 +181,17 @@ The sections below cover the same topics.
 
 ## Screenshots
 
-> Screenshots will be added soon.
-
-| Homepage | Product Catalog |
+| Homepage | Typo-tolerant live search |
 |---|---|
-| ![Homepage](docs/screenshots/homepage.png) | ![Catalog](docs/screenshots/catalog.png) |
+| ![Homepage](docs/screenshots/homepage.png) | ![Search suggestions for "pixl"](docs/screenshots/search.png) |
 
-| Product Detail | Shopping Cart |
+| Product detail | Shopping cart |
 |---|---|
-| ![Product detail](docs/screenshots/product-detail.png) | ![Cart](docs/screenshots/cart.png) |
+| ![Product detail](docs/screenshots/product-detail.png) | ![Shopping cart](docs/screenshots/cart.png) |
 
-| Login | Admin Panel |
-|---|---|
-| ![Login](docs/screenshots/login.png) | ![Admin panel](docs/screenshots/admin.png) |
+**On phones:** homepage, catalog filters and product detail.
+
+![Mobile layout](docs/screenshots/mobile.png)
 
 ## Tech Stack
 
@@ -497,6 +502,8 @@ docker compose exec db createdb -U wtech wtech_testing   # first time only; use 
 docker compose exec app php artisan test
 ```
 
+[GitHub Actions](.github/workflows/tests.yml) runs the same suite against PostgreSQL 18 on every push and pull request.
+
 ## Routes Overview
 
 | Method | URI | Description |
@@ -571,7 +578,8 @@ Authentication routes (`/login`, `/register`, `/forgot-password`, `/reset-passwo
 **Ákos Kappel**
 
 - GitHub: [@AkosKappel](https://github.com/AkosKappel)
+- LinkedIn: [Ákos Kappel](https://www.linkedin.com/in/%C3%A1kos-kappel-b53344220/)
 
 ## License
 
-This project is open source and available under the [MIT License](https://opensource.org/licenses/MIT).
+Released under the [MIT License](LICENSE).
