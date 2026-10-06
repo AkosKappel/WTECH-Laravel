@@ -8,7 +8,7 @@
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('home') }}" class="flex items-center" aria-label="{{ __('Home') }}">
                         <img src="{{ asset('images/logo.png') }}" alt="{{ __('Logo') }}" class="h-8 w-auto hover:opacity-90 transition-opacity"/>
-                        <span class="ml-3 text-3xl font-bold italic text-white tracking-tight hidden md:block">
+                        <span class="ml-3 text-3xl font-bold italic text-white tracking-tight hidden md:block lg:hidden xl:block">
                             SmartTech
                         </span>
                     </a>
@@ -16,14 +16,14 @@
                 
                 {{-- Desktop Navigation --}}
                 <nav class="hidden lg:ml-6 lg:flex lg:space-x-1 xl:ml-8 xl:space-x-8 items-center">
-                    <a href="{{ route('smartphones') }}" class="text-white hover:text-indigo-100 px-3 py-2 text-sm font-medium transition-colors">
+                    <a href="{{ route('smartphones') }}" class="text-white hover:text-indigo-100 px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors">
                         {{ __('Products') }}
                     </a>
-                    <a href="{{ route('about') }}" class="text-white hover:text-indigo-100 px-3 py-2 text-sm font-medium transition-colors">
+                    <a href="{{ route('about') }}" class="text-white hover:text-indigo-100 px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors">
                         {{ __('About') }}
                     </a>
                     @if(Auth::check() && Auth::user()->role == 'admin')
-                        <a href="{{ route('admin') }}" class="text-white hover:text-indigo-100 px-3 py-2 text-sm font-medium transition-colors">
+                        <a href="{{ route('admin') }}" class="text-white hover:text-indigo-100 px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors">
                             {{ __('Admin') }}
                         </a>
                     @endif
@@ -45,14 +45,14 @@
                 {{-- User Menu --}}
                 @if (Auth::check())
                     <div class="relative group">
-                        <button id="user-menu-button" class="flex items-center space-x-3 bg-indigo-500/50 hover:bg-indigo-500/70 rounded-full py-2 px-4 transition-colors">
-                            <span class="hidden xl:block text-sm text-white">{{ Auth::user()->email }}</span>
+                        <button id="user-menu-button" aria-label="{{ __('Profile') }}" class="flex items-center bg-indigo-500/50 hover:bg-indigo-500/70 rounded-full py-2 px-4 transition-colors">
                             <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
                         </button>
                         
-                        <div id="user-menu" class="absolute right-0 w-48 mt-2 py-2 bg-white rounded-lg shadow-xl hidden group-hover:block">
+                        <div id="user-menu" class="absolute right-0 w-56 mt-2 py-2 bg-white rounded-lg shadow-xl hidden group-hover:block">
+                            <p class="px-4 pb-2 mb-1 border-b border-gray-100 text-xs text-gray-500 truncate" title="{{ Auth::user()->email }}">{{ Auth::user()->email }}</p>
                             <a href="{{ route('profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50">{{ __('Profile') }}</a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
