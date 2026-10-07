@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +39,18 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
+            // Uptime checks: outside the web group, so no session or cookie per check.
+            // 200 when the database answers, 503 otherwise; reveals nothing else.
+            Route::get('/up', function () {
+                try {
+                    DB::select('select 1');
+                } catch (\Throwable) {
+                    return response()->json(['status' => 'error'], 503);
+                }
+
+                return response()->json(['status' => 'ok']);
+            });
+
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
