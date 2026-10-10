@@ -578,7 +578,7 @@ Authentication routes (`/login`, `/register`, `/forgot-password`, `/reset-passwo
 **Ákos Kappel**
 
 - GitHub: [@AkosKappel](https://github.com/AkosKappel)
-- LinkedIn: [Ákos Kappel](https://www.linkedin.com/in/%C3%A1kos-kappel-b53344220/)
+- LinkedIn: [Ákos Kappel](https://www.linkedin.com/in/akos-kappel/)
 
 ## License
 
