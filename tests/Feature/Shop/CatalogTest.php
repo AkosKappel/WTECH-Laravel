@@ -121,6 +121,37 @@ class CatalogTest extends TestCase
             ->assertSee('<meta property="og:image" content="' . asset('images/nebula.jpg') . '" />', false);
     }
 
+    public function test_product_page_has_structured_data()
+    {
+        $phone = Smartphone::factory()->create(['name' => 'Nebula Phone X', 'price' => 1234.5, 'quantity' => 0]);
+
+        $this->get(route('details', $phone))
+            ->assertSee('<link rel="canonical" href="' . route('details', $phone) . '" />', false)
+            ->assertSee('"@type":"Product"', false)
+            ->assertSee('"price":"1234.50"', false)
+            ->assertSee('OutOfStock');
+    }
+
+    public function test_filtered_catalog_is_not_indexed()
+    {
+        $this->get('/smartphones')->assertDontSee('name="robots"', false);
+
+        $this->get('/smartphones?q=nebula')
+            ->assertSee('<meta name="robots" content="noindex,follow" />', false)
+            ->assertSee('<link rel="canonical" href="' . route('smartphones') . '?q=nebula" />', false);
+    }
+
+    public function test_sitemap_lists_pages_and_products()
+    {
+        $phone = Smartphone::factory()->create();
+
+        $this->get('/sitemap.xml')
+            ->assertOk()
+            ->assertHeader('Content-Type', 'application/xml')
+            ->assertSee('<loc>' . route('about') . '</loc>', false)
+            ->assertSee('<loc>' . route('details', $phone) . '</loc>', false);
+    }
+
     public function test_unknown_product_url_suggests_similar_phones()
     {
         Smartphone::factory()->create(['name' => 'Nebula Phone X']);
