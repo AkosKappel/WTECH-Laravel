@@ -11,6 +11,37 @@
         'image' => $photo?->url,
     ])
     <link href="{{ asset('css/quantity-selector.css') }}" rel="stylesheet" type="text/css">
+    {{-- structured data for search results: price, availability and the breadcrumb trail --}}
+    @php
+        $structuredData = [
+            array_filter([
+                '@context' => 'https://schema.org',
+                '@type' => 'Product',
+                'name' => $smartphone->name,
+                'sku' => (string) $smartphone->id,
+                'description' => $smartphone->localized_description,
+                'image' => $smartphone->images->map->url->all(),
+                'brand' => $smartphone->brand ? ['@type' => 'Brand', 'name' => $smartphone->brand->name] : null,
+                'offers' => [
+                    '@type' => 'Offer',
+                    'url' => route('details', $smartphone),
+                    'price' => number_format((float) $smartphone->price, 2, '.', ''),
+                    'priceCurrency' => 'EUR',
+                    'availability' => 'https://schema.org/' . ($smartphone->quantity > 0 ? 'InStock' : 'OutOfStock'),
+                ],
+            ]),
+            [
+                '@context' => 'https://schema.org',
+                '@type' => 'BreadcrumbList',
+                'itemListElement' => [
+                    ['@type' => 'ListItem', 'position' => 1, 'name' => 'SmartTech', 'item' => route('home')],
+                    ['@type' => 'ListItem', 'position' => 2, 'name' => __('Smartphones'), 'item' => route('smartphones')],
+                    ['@type' => 'ListItem', 'position' => 3, 'name' => $smartphone->name],
+                ],
+            ],
+        ];
+    @endphp
+    <script type="application/ld+json">@json($structuredData)</script>
 </head>
 
 <body class="bg-gray-50">
