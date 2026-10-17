@@ -25,7 +25,7 @@ class TranslationManagerTest extends TestCase
 
         app()->setLocale('de');
         $this->assertSame('Schreiben Sie uns', __('Contact'));
-        $this->withCookie('locale', 'de')->get('/contact')->assertSee('Schreiben Sie uns');
+        $this->get('/de/contact')->assertSee('Schreiben Sie uns');
 
         $this->actingAs($admin)->get('/admin/translations/de.json')
             ->assertOk()->assertHeader('Content-Disposition', 'attachment; filename="de.json"')

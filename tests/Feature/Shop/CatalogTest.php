@@ -186,7 +186,8 @@ class CatalogTest extends TestCase
             ->assertOk()
             ->assertHeader('Content-Type', 'application/xml')
             ->assertSee('<loc>' . route('about') . '</loc>', false)
-            ->assertSee('<loc>' . route('details', $phone) . '</loc>', false);
+            ->assertSee('<loc>' . route('details', $phone) . '</loc>', false)
+            ->assertSee('<loc>' . url('/de/smartphones/' . $phone->getRouteKey()) . '</loc>', false);
     }
 
     public function test_unknown_product_url_suggests_similar_phones()

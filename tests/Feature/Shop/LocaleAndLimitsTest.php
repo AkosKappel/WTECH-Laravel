@@ -11,7 +11,8 @@ class LocaleAndLimitsTest extends TestCase
 
     public function test_switching_language_sets_a_cookie()
     {
-        $this->from('/about')->post('/locale/de')->assertRedirect('/about')->assertCookie('locale', 'de');
+        $this->from('/about')->post('/locale/de')->assertRedirect(url('/de/about'))->assertCookie('locale', 'de');
+        $this->from(url('/de/about'))->post('/de/locale/en')->assertRedirect(url('/about'));
     }
 
     public function test_unknown_language_is_not_found()
@@ -21,7 +22,32 @@ class LocaleAndLimitsTest extends TestCase
 
     public function test_pages_are_translated_for_the_chosen_language()
     {
-        $this->withCookie('locale', 'de')->get('/about')->assertOk()->assertSee('SmartTech entstand als Semesterprojekt');
+        $this->get('/de/about')->assertOk()->assertSee('SmartTech entstand als Semesterprojekt');
+        $this->get('/about')->assertOk()->assertDontSee('SmartTech entstand als Semesterprojekt');
+    }
+
+    public function test_a_chosen_or_preferred_language_redirects_to_its_urls()
+    {
+        $this->withCookie('locale', 'de')->get('/about')->assertRedirect(url('/de/about'));
+    }
+
+    public function test_the_browser_language_redirects_first_time_visitors()
+    {
+        $this->withHeader('Accept-Language', 'sk-SK,sk;q=0.9')->get('/smartphones?q=pixel')->assertRedirect(url('/sk/smartphones?q=pixel'));
+    }
+
+    public function test_an_explicit_choice_of_english_wins_over_the_browser()
+    {
+        $this->withCookie('locale', 'en')->withHeader('Accept-Language', 'de')->get('/about')->assertOk();
+    }
+
+    public function test_pages_link_within_their_language_and_name_the_alternatives()
+    {
+        $this->get('/de/about')
+            ->assertSee('href="' . url('/de/smartphones') . '"', false)
+            ->assertSee('<link rel="alternate" hreflang="sk" href="' . url('/sk/about') . '" />', false)
+            ->assertSee('<link rel="alternate" hreflang="x-default" href="' . url('/about') . '" />', false)
+            ->assertSee('<link rel="canonical" href="' . url('/de/about') . '" />', false);
     }
 
     public function test_prices_follow_the_language()

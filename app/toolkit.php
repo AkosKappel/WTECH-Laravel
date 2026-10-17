@@ -22,3 +22,19 @@ function localizedNumber($number): string
 
     return app()->getLocale() === 'en' ? $formatted : str_replace('.', ',', $formatted);
 }
+
+/**
+ * A URL of this site in another language: /de/… or /sk/…, or without a prefix for English.
+ * Defaults to the current page with its query string.
+ */
+function localizedUrl(string $locale, ?string $url = null): string
+{
+    // the same root the URL generator uses (APP_URL in production)
+    $root = rtrim(app('url')->formatRoot(app('url')->formatScheme()), '/');
+    $path = $url === null ? request()->getRequestUri() : (substr($url, strlen($root)) ?: '/');
+    // drop a language prefix the URL may already have
+    $path = preg_replace('#^/(' . implode('|', array_keys(config('app.locales'))) . ')(?=/|\?|$)#', '', $path) ?: '/';
+    $prefix = $locale === config('app.fallback_locale') ? '' : '/' . $locale;
+
+    return $root . ($prefix !== '' && $path === '/' ? $prefix : $prefix . $path);
+}

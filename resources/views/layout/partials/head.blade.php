@@ -22,6 +22,11 @@
 
 <title>{{ $title }}</title>
 <link rel="canonical" href="{{ $canonical ?? url()->current() }}" />
+{{-- the same page in the other languages --}}
+@foreach (array_keys(config('app.locales')) as $code)
+<link rel="alternate" hreflang="{{ $code }}" href="{{ localizedUrl($code, $canonical ?? null) }}" />
+@endforeach
+<link rel="alternate" hreflang="x-default" href="{{ localizedUrl(config('app.fallback_locale'), $canonical ?? null) }}" />
 @isset($robots)
     <meta name="robots" content="{{ $robots }}" />
 @endisset

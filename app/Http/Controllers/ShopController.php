@@ -41,7 +41,7 @@ class ShopController extends Controller
     }
 
     /**
-     * Remember the visitor's language for a year and go back to the same page.
+     * Remember the visitor's language for a year and go to the same page in that language.
      *
      * @param Request $request
      * @param string $locale
@@ -51,7 +51,9 @@ class ShopController extends Controller
     {
         abort_unless(array_key_exists($locale, config('app.locales')), 404);
 
-        return back()->withCookie(cookie(\App\Http\Middleware\SetLocale::COOKIE, $locale, 60 * 24 * 365));
+        // url()->previous() is this site's page the switch was used on (or the homepage)
+        return redirect(localizedUrl($locale, url()->previous(route('home'))))
+            ->withCookie(cookie(\App\Http\Middleware\SetLocale::COOKIE, $locale, 60 * 24 * 365));
     }
 
     /**
