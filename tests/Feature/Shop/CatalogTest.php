@@ -141,6 +141,15 @@ class CatalogTest extends TestCase
             ->assertSee('<link rel="canonical" href="' . route('smartphones') . '?q=nebula" />', false);
     }
 
+    public function test_search_without_results_suggests_a_spelling()
+    {
+        Smartphone::factory()->create(['name' => 'Samsung Galaxy S24']);
+
+        $this->get('/smartphones?q=' . rawurlencode('samsnug galxy'))
+            ->assertSee('No results found')
+            ->assertSee('?q=samsung%20galaxy', false);
+    }
+
     public function test_sitemap_lists_pages_and_products()
     {
         $phone = Smartphone::factory()->create();

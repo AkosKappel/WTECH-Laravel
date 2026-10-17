@@ -332,6 +332,35 @@ class CatalogFilters
         ][$filter]($value);
     }
 
+    /**
+     * A corrected search for a search without results, e.g. "samsnug galxy" → "samsung galaxy":
+     * each unknown word is replaced by the closest word from the phone names, if it is close enough.
+     * The names are read in full, which is fine for a catalog of this size.
+     */
+    public function didYouMean()
+    {
+        if (mb_strlen($this->q) < 3) {
+            return null;
+        }
+
+        $vocabulary = Smartphone::query()->pluck('name')
+            ->flatMap(fn ($name) => preg_split('/[^\pL\pN]+/u', mb_strtolower($name), -1, PREG_SPLIT_NO_EMPTY))
+            ->filter(fn ($word) => mb_strlen($word) >= 3)
+            ->unique();
+
+        $words = preg_split('/\s+/u', mb_strtolower($this->q), -1, PREG_SPLIT_NO_EMPTY);
+        $corrected = array_map(function ($word) use ($vocabulary) {
+            if (mb_strlen($word) < 3 || $vocabulary->contains($word)) {
+                return $word;
+            }
+            $closest = $vocabulary->sortBy(fn ($candidate) => levenshtein($word, $candidate))->first();
+
+            return levenshtein($word, $closest) <= max(1, intdiv(mb_strlen($word), 3)) ? $closest : $word;
+        }, $words);
+
+        return $corrected !== $words ? implode(' ', $corrected) : null;
+    }
+
     public function pageTitle()
     {
         return ($this->q !== '' ? __('Search: :query', ['query' => $this->q]) : __('Smartphones')) . ' | SmartTech';
