@@ -7,6 +7,8 @@
 <body class="font-body text-gray-600 bg-gray-100 flex flex-col h-screen justify-between">
     @include('layout.partials.header')
     <main class="lg:mx-16 my-12 ">
+        @include('layout.admin.partials.nav')
+
         @if (session()->has('success_message'))
             <div class="flex justify-center bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
                 <p class="font-bold">{{ session()->get('success_message') }}</p>

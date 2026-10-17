@@ -251,47 +251,50 @@ class OrderController extends Controller
         ]);
     }
 
-    /** Display the specified resource.
-     *
-     * @param int $id
-     * @return Response
+    /**
+     * The signed-in customer's orders, newest first.
      */
-    public function show($id)
+    public function history(Request $request)
     {
-        //
+        $orders = $request->user()->orders()->with('smartphones.images')->latest()->paginate(10);
+
+        return view('layout.user.orders', ['orders' => $orders]);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * One order, for its customer or an admin. Anyone else gets a 404, so order numbers can't be probed.
      */
-    public function edit($id)
+    public function show(Request $request, Order $order)
     {
-        //
+        $user = $request->user();
+        abort_unless($order->user_id === $user->id || $user->can('isAdmin'), 404);
+
+        return view('layout.user.order', ['order' => $order->load(['smartphones.images', 'user'])]);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param int $id
-     * @return Response
+     * All orders for admins, with a few shop figures on top.
      */
-    public function update(Request $request, $id)
+    public function adminIndex()
     {
-        //
-    }
+        $stats = [
+            'orders' => Order::count(),
+            'revenue' => (float) Order::sum('total_price'),
+            'customers' => Order::distinct('user_id')->count('user_id'),
+        ];
+        $topProducts = Smartphone::query()
+            ->withSum('orders as units_sold', 'order_smartphone.count')
+            ->whereHas('orders')
+            ->orderByDesc('units_sold')
+            ->take(5)
+            ->get();
+        $lowStock = Smartphone::query()->where('quantity', '<=', 3)->orderBy('quantity')->orderBy('name')->take(5)->get();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
+        return view('layout.admin.orders', [
+            'orders' => Order::with('user')->withCount('smartphones')->latest()->paginate(15),
+            'stats' => $stats,
+            'topProducts' => $topProducts,
+            'lowStock' => $lowStock,
+        ]);
     }
 }

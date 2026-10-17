@@ -44,6 +44,9 @@ Route::put('/profile', [UserController::class, 'update'])->middleware(['auth', '
 Route::get('/finishRegister', [RegisteredUserController::class, 'redirectAfterOrder'])->name('finishRegister');
 Route::post('/finishRegister', [RegisteredUserController::class, 'storeAfterOrder'])->middleware('throttle:signup')->name('storeAfterOrder');
 
+Route::get('/orders', [OrderController::class, 'history'])->middleware(['auth'])->name('orders');
+Route::get('/orders/{order}', [OrderController::class, 'show'])->middleware(['auth'])->name('orders.show')->whereNumber('order');
+
 Route::get('/passwordChange', [PasswordChangeController::class, 'create'])->middleware(['auth'])->name('passwordChange');
 Route::put('/passwordChange', [PasswordChangeController::class, 'update'])->middleware(['auth', 'throttle:login']);
 //Route::get('/passwordReset', function () {
@@ -64,6 +67,7 @@ Route::middleware(['auth', 'can:isAdmin'])->group(function () {
     Route::get('/smartphones/{smartphone}/edit/', [SmartphoneController::class, 'edit'])->name('smartphones.edit')->whereNumber('smartphone');
     Route::put('/smartphones/{smartphone}', [SmartphoneController::class, 'update'])->name('smartphones.update')->whereNumber('smartphone');
     Route::delete('/smartphones/{smartphone}/', [SmartphoneController::class, 'destroy'])->name('smartphones.delete')->whereNumber('smartphone');
+    Route::get('/admin/orders', [OrderController::class, 'adminIndex'])->name('admin.orders');
     Route::get('/admin/error-test', [ShopController::class, 'errorTest'])->name('admin.error-test');
 });
 
