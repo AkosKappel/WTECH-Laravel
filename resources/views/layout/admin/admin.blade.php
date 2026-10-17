@@ -28,22 +28,27 @@
             </div>
 
             {{-- Search and sort --}}
-            <form method="GET" action="{{ route('admin') }}" class="flex flex-col sm:flex-row gap-3">
-                <label class="relative grow">
-                    <span class="sr-only">{{ __('Search products') }}</span>
-                    <x-icon name="search" class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"/>
-                    <input type="search" name="q" value="{{ $q }}" placeholder="{{ __('Search products') }}"
-                           class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"/>
-                </label>
+            {{-- typing searches after a short pause; Enter or the button search at once --}}
+            <form method="GET" action="{{ route('admin') }}" class="flex flex-col sm:flex-row gap-3" data-admin-search>
+                <div class="flex grow gap-2">
+                    <label class="relative grow">
+                        <span class="sr-only">{{ __('Search products') }}</span>
+                        <x-icon name="search" class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"/>
+                        <input type="search" name="q" value="{{ $q }}" placeholder="{{ __('Search products') }}" autocomplete="off" @if ($q !== '') autofocus @endif
+                               class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"/>
+                    </label>
+                    <button type="submit" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-sm font-medium text-white hover:bg-indigo-700">
+                        <x-icon name="search" class="w-4 h-4"/>{{ __('Search') }}
+                    </button>
+                </div>
                 <label class="flex items-center gap-2 text-sm text-gray-600">
                     {{ __('Sort by') }}
                     <select name="sort" class="py-2 pl-3 pr-8 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500" onchange="this.form.submit()">
-                        @foreach (['name' => __('Name A–Z'), 'price-asc' => __('Price: low to high'), 'price-desc' => __('Price: high to low'), 'stock' => __('Stock: lowest first'), 'newest' => __('Newest')] as $value => $label)
+                        @foreach (['newest' => __('Newest'), 'name' => __('Name A–Z'), 'price-asc' => __('Price: low to high'), 'price-desc' => __('Price: high to low'), 'stock' => __('Stock: lowest first')] as $value => $label)
                             <option value="{{ $value }}" @selected($sort === $value)>{{ $label }}</option>
                         @endforeach
                     </select>
                 </label>
-                <noscript><button type="submit" class="px-4 py-2 rounded-lg bg-white border border-gray-300 text-sm">{{ __('Apply') }}</button></noscript>
             </form>
 
             {{-- Product table --}}
@@ -123,6 +128,18 @@
 
     @include('layout.partials.footer')
     <script>
+        // live search: submit after a short pause in typing, with the cursor back at the end afterwards
+        (function () {
+            const form = document.querySelector('[data-admin-search]');
+            const input = form.querySelector('input[name="q"]');
+            let timer;
+            input.addEventListener('input', function () {
+                clearTimeout(timer);
+                timer = setTimeout(() => form.requestSubmit(), 400);
+            });
+            if (document.activeElement === input) input.setSelectionRange(input.value.length, input.value.length);
+        })();
+
         // ask before deleting; forms without JavaScript submit directly
         document.querySelectorAll('form[data-confirm]').forEach(function (form) {
             form.addEventListener('submit', function (event) {

@@ -97,11 +97,11 @@ class SmartphoneController extends Controller
     }
 
     const ADMIN_SORTS = [
+        'newest' => ['id', 'desc'],
         'name' => ['name', 'asc'],
         'price-asc' => ['price', 'asc'],
         'price-desc' => ['price', 'desc'],
         'stock' => ['quantity', 'asc'],
-        'newest' => ['id', 'desc'],
     ];
 
     /**
@@ -110,7 +110,7 @@ class SmartphoneController extends Controller
     public function adminIndex(Request $request)
     {
         $q = trim((string) $request->query('q', ''));
-        $sort = array_key_exists($request->query('sort'), self::ADMIN_SORTS) ? $request->query('sort') : 'name';
+        $sort = array_key_exists($request->query('sort'), self::ADMIN_SORTS) ? $request->query('sort') : 'newest';
         [$column, $direction] = self::ADMIN_SORTS[$sort];
 
         $smartphones = Smartphone::query()
