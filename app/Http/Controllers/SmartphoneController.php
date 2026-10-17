@@ -169,8 +169,13 @@ class SmartphoneController extends Controller
      * @param Smartphone $smartphone
      * @return Application|Factory|View
      */
-    public function show(Smartphone $smartphone)
+    public function show(Request $request, Smartphone $smartphone)
     {
+        // old links (/smartphones/24) and renamed phones go to the current URL
+        if ($request->route()->originalParameter('smartphone') !== $smartphone->getRouteKey()) {
+            return redirect()->route('details', $smartphone, 301);
+        }
+
         return view('layout.products.details', ['smartphone' => $smartphone]);
     }
 

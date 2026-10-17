@@ -64,9 +64,9 @@ Route::middleware(['auth', 'can:isAdmin'])->group(function () {
     Route::get('/admin', [SmartphoneController::class, 'adminIndex'])->name('admin');
     Route::get('/smartphones/create', [SmartphoneController::class, 'create'])->name('smartphones.add');
     Route::post('/smartphones/add', [SmartphoneController::class, 'store'])->name('smartphones.create');
-    Route::get('/smartphones/{smartphone}/edit/', [SmartphoneController::class, 'edit'])->name('smartphones.edit')->whereNumber('smartphone');
-    Route::put('/smartphones/{smartphone}', [SmartphoneController::class, 'update'])->name('smartphones.update')->whereNumber('smartphone');
-    Route::delete('/smartphones/{smartphone}/', [SmartphoneController::class, 'destroy'])->name('smartphones.delete')->whereNumber('smartphone');
+    Route::get('/smartphones/{smartphone}/edit/', [SmartphoneController::class, 'edit'])->name('smartphones.edit');
+    Route::put('/smartphones/{smartphone}', [SmartphoneController::class, 'update'])->name('smartphones.update');
+    Route::delete('/smartphones/{smartphone}/', [SmartphoneController::class, 'destroy'])->name('smartphones.delete');
     Route::get('/admin/orders', [OrderController::class, 'adminIndex'])->name('admin.orders');
     Route::get('/admin/error-test', [ShopController::class, 'errorTest'])->name('admin.error-test');
 });
@@ -74,7 +74,7 @@ Route::middleware(['auth', 'can:isAdmin'])->group(function () {
 // Products
 Route::get('/smartphones', [SmartphoneController::class, 'index'])->name('smartphones');
 Route::get('/search/suggest', [SmartphoneController::class, 'suggest'])->middleware('throttle:60,1')->name('search.suggest');
-Route::get('/smartphones/{smartphone}/', [SmartphoneController::class, 'show'])->name('details')->whereNumber('smartphone');
+Route::get('/smartphones/{smartphone}/', [SmartphoneController::class, 'show'])->name('details');
 
 // Order
 Route::get('/address', [OrderController::class, 'addressIndex'])->name('address');

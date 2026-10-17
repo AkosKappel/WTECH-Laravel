@@ -38,6 +38,10 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
 
+        // product URLs are "<id>-<slug>", e.g. /smartphones/24-apple-iphone-15-pro-256gb; anything
+        // else (e.g. /smartphones/abc) falls through to the smart 404
+        Route::pattern('smartphone', '[0-9]+(-[a-z0-9-]*)?');
+
         $this->routes(function () {
             // Uptime checks: outside the web group, so no session or cookie per check.
             // 200 when the database answers, 503 otherwise; reveals nothing else.

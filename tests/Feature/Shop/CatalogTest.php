@@ -109,6 +109,17 @@ class CatalogTest extends TestCase
         $this->get(route('details', $phone))->assertOk()->assertSee($phone->name);
     }
 
+    public function test_product_urls_carry_the_name_and_old_links_redirect()
+    {
+        $phone = Smartphone::factory()->create(['name' => 'Nebula Phone X']);
+        $url = '/smartphones/' . $phone->id . '-nebula-phone-x';
+
+        $this->assertSame(url($url), route('details', $phone));
+        $this->get($url)->assertOk();
+        $this->get('/smartphones/' . $phone->id)->assertRedirect($url)->assertStatus(301);
+        $this->get('/smartphones/' . $phone->id . '-old-name')->assertRedirect($url);
+    }
+
     public function test_product_page_has_link_preview_tags()
     {
         $phone = Smartphone::factory()->create(['name' => 'Nebula Phone X']);
@@ -143,7 +154,8 @@ class CatalogTest extends TestCase
 
     public function test_search_without_results_suggests_a_spelling()
     {
-        Smartphone::factory()->create(['name' => 'Samsung Galaxy S24']);
+        // no brand: a random factory brand name could lift the fuzzy score over the threshold
+        Smartphone::factory()->create(['name' => 'Samsung Galaxy S24', 'brand_id' => null]);
 
         $this->get('/smartphones?q=' . rawurlencode('samsnug galxy'))
             ->assertSee('No results found')

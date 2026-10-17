@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Smartphone extends Model
 {
@@ -15,6 +16,19 @@ class Smartphone extends Model
     protected $casts = [
         'description_translations' => 'array',
     ];
+
+    /**
+     * Readable URL key, "<id>-<slug of the name>"; the ID alone decides which phone it is.
+     */
+    public function getRouteKey()
+    {
+        return $this->id . '-' . Str::slug($this->name);
+    }
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return $this->whereKey((int) $value)->first();
+    }
 
     /**
      * Description in the current language, falling back to the English original.

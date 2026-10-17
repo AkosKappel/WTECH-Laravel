@@ -60,7 +60,7 @@ class ShopController extends Controller
     {
         $pages = collect(['home', 'smartphones', 'about', 'contact', 'shipping', 'payment-methods', 'returns', 'terms', 'privacy'])
             ->map(fn ($name) => ['loc' => route($name), 'lastmod' => null]);
-        $products = Smartphone::query()->orderBy('id')->get(['id', 'updated_at'])
+        $products = Smartphone::query()->orderBy('id')->get(['id', 'name', 'updated_at'])
             ->map(fn ($smartphone) => ['loc' => route('details', $smartphone), 'lastmod' => $smartphone->updated_at]);
 
         return response()->view('sitemap', ['urls' => $pages->concat($products)])
