@@ -113,7 +113,7 @@ class Cart
             $smartphone->current_price,
             $this->quantityOf($smartphone->id) + $quantity,
             (int) $smartphone->quantity,
-            $image ? $image->source : 'images/no_img_available.jpg',
+            $image ? $image->thumbnailOrSource() : 'images/no_img_available.jpg',
             $image ? $image->name : 'No image available',
         );
         $this->fill($content->put($item->rowId, $item));

@@ -158,6 +158,25 @@ class AdminProductsTest extends TestCase
         $this->assertFileDoesNotExist($path);
     }
 
+    public function test_uploads_are_scaled_down_and_get_a_webp_thumbnail()
+    {
+        $this->actingAs($this->admin())
+            ->post('/smartphones/add', $this->product([
+                'images' => [UploadedFile::fake()->image('huge.jpg', 3000, 2000)],
+            ]))->assertRedirect(route('admin'));
+
+        $image = Image::latest('id')->first();
+        [$width] = getimagesize(public_path(ltrim($image->source, '/')));
+        $this->assertSame(1600, $width);
+        $thumbnail = public_path($image->thumbnailPath());
+        $this->assertFileExists($thumbnail);
+        $this->assertSame([480, 'image/webp'], [getimagesize($thumbnail)[0], getimagesize($thumbnail)['mime']]);
+        $this->assertStringEndsWith('.webp', $image->thumb_url);
+
+        $image->deleteFile();
+        $this->assertFileDoesNotExist($thumbnail);
+    }
+
     public function test_admin_can_upload_a_png_image()
     {
         $this->actingAs($this->admin())

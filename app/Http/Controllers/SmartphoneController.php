@@ -84,7 +84,7 @@ class SmartphoneController extends Controller
                     'name' => $smartphone->name,
                     'price' => formattedPrice($smartphone->current_price),
                     'in_stock' => $smartphone->quantity > 0,
-                    'image' => $image ? $image->url : null,
+                    'image' => $image ? $image->thumb_url : null,
                     'url' => route('details', $smartphone),
                 ];
             });

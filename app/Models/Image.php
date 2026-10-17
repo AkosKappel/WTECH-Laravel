@@ -19,6 +19,10 @@ class Image extends Model
      */
     const UPLOAD_DIR = 'uploads/products';
 
+    /** Uploads are scaled down to this size (longest side); thumbnails for cards and lists to THUMB_WIDTH. */
+    const MAX_SIZE = 1600;
+    const THUMB_WIDTH = 480;
+
     protected $fillable = ['name', 'source', 'smartphone_id'];
 
     public function smartphone()
@@ -40,13 +44,57 @@ class Image extends Model
 
         $name = 'smartphone-' . $smartphone->id . '-' . Str::lower(Str::random(12)) . '.' . $file->extension();
         // re-encoding drops anything that isn't image data; quality 90 as with Intervention Image 2
-        ImageManager::gd()->read($file->getRealPath())->save($directory . '/' . $name, quality: 90);
+        ImageManager::gd()->read($file->getRealPath())->scaleDown(self::MAX_SIZE, self::MAX_SIZE)
+            ->save($directory . '/' . $name, quality: 90);
 
-        return static::create([
+        $image = static::create([
             'name' => $smartphone->name,
             'source' => '/' . self::UPLOAD_DIR . '/' . $name,
             'smartphone_id' => $smartphone->id,
         ]);
+        $image->createThumbnail();
+
+        return $image;
+    }
+
+    /**
+     * public/… path of the WebP thumbnail: images/foo.jpg → images/thumbs/foo.webp.
+     */
+    public function thumbnailPath()
+    {
+        $source = ltrim($this->source, '/');
+
+        return dirname($source) . '/thumbs/' . pathinfo($source, PATHINFO_FILENAME) . '.webp';
+    }
+
+    /**
+     * Write the thumbnail; illustrations (SVG) scale by themselves and get none.
+     */
+    public function createThumbnail()
+    {
+        $original = public_path(ltrim($this->source, '/'));
+        if ($this->isIllustration() || !File::exists($original)) {
+            return false;
+        }
+
+        $thumbnail = public_path($this->thumbnailPath());
+        File::ensureDirectoryExists(dirname($thumbnail));
+        ImageManager::gd()->read($original)->scaleDown(width: self::THUMB_WIDTH)->toWebp(80)->save($thumbnail);
+
+        return true;
+    }
+
+    /**
+     * public/… path of the small WebP version for cards and lists, or of the original when there is none.
+     */
+    public function thumbnailOrSource()
+    {
+        return File::exists(public_path($this->thumbnailPath())) ? $this->thumbnailPath() : ltrim($this->source, '/');
+    }
+
+    public function getThumbUrlAttribute()
+    {
+        return asset($this->thumbnailOrSource());
     }
 
     /**
@@ -80,7 +128,7 @@ class Image extends Model
     public function deleteFile()
     {
         if ($this->isUpload()) {
-            File::delete(public_path(ltrim($this->source, '/')));
+            File::delete([public_path(ltrim($this->source, '/')), public_path($this->thumbnailPath())]);
         }
     }
 }

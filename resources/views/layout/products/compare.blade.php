@@ -48,7 +48,7 @@
                             @foreach ($smartphones as $smartphone)
                                 <th scope="col" class="p-4 align-top text-left min-w-48">
                                     @if ($image = $smartphone->images->first())
-                                        <img src="{{ $image->url }}" alt="" class="h-32 w-full object-contain mb-3"/>
+                                        <img src="{{ $image->thumb_url }}" alt="" class="h-32 w-full object-contain mb-3"/>
                                     @endif
                                     <a href="{{ route('details', $smartphone) }}" class="font-semibold text-gray-900 hover:text-indigo-600">{{ $smartphone->name }}</a>
                                     <form method="POST" action="{{ route('compare.toggle', $smartphone) }}" class="mt-1">

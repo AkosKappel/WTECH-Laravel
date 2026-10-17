@@ -35,7 +35,7 @@
                     <div class="hidden sm:block sm:col-span-5">
                         <div class="relative">
                             <div class="absolute inset-0 bg-linear-to-r from-indigo-600 to-purple-600 rounded-2xl rotate-6 opacity-10"></div>
-                            <img src="{{ asset('images/iphone.png') }}" 
+                            <img src="{{ asset('images/iphone.webp') }}" 
                                  alt="{{ __('Featured Image') }}" 
                                  class="relative z-10 w-full max-w-md mx-auto"/>
                         </div>

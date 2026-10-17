@@ -66,7 +66,7 @@
                                     <div class="flex items-center gap-3 min-w-48">
                                         <div class="h-12 w-12 shrink-0 rounded-md bg-gray-100 flex items-center justify-center overflow-hidden">
                                             @if ($image)
-                                                <img src="{{ $image->url }}" alt="" loading="lazy" class="h-full w-full object-contain p-1"/>
+                                                <img src="{{ $image->thumb_url }}" alt="" loading="lazy" class="h-full w-full object-contain p-1"/>
                                             @else
                                                 <x-icon name="photo" class="w-6 h-6 text-gray-300"/>
                                             @endif

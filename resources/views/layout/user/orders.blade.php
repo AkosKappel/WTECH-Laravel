@@ -25,7 +25,7 @@
                         <div class="flex -space-x-2 overflow-hidden">
                             @foreach ($order->smartphones->take(4) as $smartphone)
                                 @if ($image = $smartphone->images->first())
-                                    <img src="{{ $image->url }}" alt="" loading="lazy" class="h-12 w-12 rounded-full bg-gray-100 ring-2 ring-white object-contain p-1"/>
+                                    <img src="{{ $image->thumb_url }}" alt="" loading="lazy" class="h-12 w-12 rounded-full bg-gray-100 ring-2 ring-white object-contain p-1"/>
                                 @endif
                             @endforeach
                         </div>

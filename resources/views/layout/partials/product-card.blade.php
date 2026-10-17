@@ -11,7 +11,7 @@
             <span class="absolute top-2 left-2 z-10 px-2 py-0.5 rounded-full bg-red-600 text-xs font-bold text-white">−{{ $smartphone->discount_percent }} %</span>
         @endif
         @if ($image)
-            <img src="{{ $image->url }}"
+            <img src="{{ $image->thumb_url }}"
                  alt="{{ $smartphone->name }}"
                  loading="lazy"
                  class="w-full h-full {{ $isPhoto ? 'object-cover' : 'object-contain' }} object-center group-hover:scale-105 transition-transform duration-500"/>
