@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\DemoAdminController;
+use App\Models\Smartphone;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SmartphoneController;
@@ -59,18 +61,25 @@ Route::post('/cart', [CartController::class, 'store'])->middleware('throttle:sho
 Route::delete('/cart/{product}', [CartController::class, 'destroy'])->middleware('throttle:shop')->name('cart.destroy');
 Route::put('/cart/{product}', [CartController::class, 'update'])->middleware('throttle:shop')->name('cart.update');
 
-// Admin
-Route::middleware(['auth', 'can:isAdmin'])->group(function () {
+// Admin: products, for the admin and for demo admins (each action checked by SmartphonePolicy)
+Route::middleware(['auth', 'can:adminZone'])->group(function () {
     Route::get('/admin', [SmartphoneController::class, 'adminIndex'])->name('admin');
-    Route::get('/smartphones/create', [SmartphoneController::class, 'create'])->name('smartphones.add');
-    Route::post('/smartphones/add', [SmartphoneController::class, 'store'])->name('smartphones.create');
-    Route::get('/smartphones/{smartphone}/edit/', [SmartphoneController::class, 'edit'])->name('smartphones.edit');
-    Route::put('/smartphones/{smartphone}', [SmartphoneController::class, 'update'])->name('smartphones.update');
-    Route::delete('/smartphones/{smartphone}/', [SmartphoneController::class, 'destroy'])->name('smartphones.delete');
+    Route::get('/smartphones/create', [SmartphoneController::class, 'create'])->name('smartphones.add')->can('create', Smartphone::class);
+    Route::post('/smartphones/add', [SmartphoneController::class, 'store'])->name('smartphones.create')->can('create', Smartphone::class)->middleware('throttle:demo-admin-writes');
+    Route::get('/smartphones/{smartphone}/edit/', [SmartphoneController::class, 'edit'])->name('smartphones.edit')->can('update', 'smartphone');
+    Route::put('/smartphones/{smartphone}', [SmartphoneController::class, 'update'])->name('smartphones.update')->can('update', 'smartphone')->middleware('throttle:demo-admin-writes');
+    Route::delete('/smartphones/{smartphone}/', [SmartphoneController::class, 'destroy'])->name('smartphones.delete')->can('delete', 'smartphone');
+});
+
+// Admin: orders and diagnostics, for the real admin only (demo admins never see customer data)
+Route::middleware(['auth', 'can:isAdmin'])->group(function () {
     Route::get('/admin/orders', [OrderController::class, 'adminIndex'])->name('admin.orders');
     Route::patch('/admin/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.status')->whereNumber('order');
     Route::get('/admin/error-test', [ShopController::class, 'errorTest'])->name('admin.error-test');
 });
+
+// Demo admin account, one click from the login page
+Route::post('/demo-admin', [DemoAdminController::class, 'store'])->middleware(['guest', 'throttle:demo-admin'])->name('demo-admin');
 
 // Products
 Route::get('/smartphones', [SmartphoneController::class, 'index'])->name('smartphones');

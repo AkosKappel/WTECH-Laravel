@@ -33,12 +33,12 @@
                        class="text-white hover:text-indigo-100 px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors {{ $navActive['about'] ? 'underline decoration-2 underline-offset-8' : '' }}">
                         {{ __('About') }}
                     </a>
-                    @if(Auth::check() && Auth::user()->role == 'admin')
+                    @can('adminZone')
                         <a href="{{ route('admin') }}" @if ($navActive['admin']) aria-current="page" @endif
                            class="text-white hover:text-indigo-100 px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors {{ $navActive['admin'] ? 'underline decoration-2 underline-offset-8' : '' }}">
                             {{ __('Admin') }}
                         </a>
-                    @endif
+                    @endcan
                 </nav>
             </div>
 
@@ -119,12 +119,12 @@
                class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-indigo-100 hover:bg-indigo-500/70 transition-colors {{ $navActive['about'] ? 'bg-indigo-500/70' : '' }}">
                 {{ __('About') }}
             </a>
-            @if(Auth::check() && Auth::user()->role == 'admin')
+            @can('adminZone')
                 <a href="{{ route('admin') }}" @if ($navActive['admin']) aria-current="page" @endif
                    class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-indigo-100 hover:bg-indigo-500/70 transition-colors {{ $navActive['admin'] ? 'bg-indigo-500/70' : '' }}">
                     {{ __('Admin') }}
                 </a>
-            @endif
+            @endcan
             <div class="pt-2 mt-2 border-t border-white/20">
                 @include('layout.partials.locale-switcher', ['variant' => 'list'])
             </div>

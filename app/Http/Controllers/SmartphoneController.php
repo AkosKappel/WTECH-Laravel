@@ -143,7 +143,7 @@ class SmartphoneController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->rules());
+        $request->validate($this->rules($request));
 
         if ($request->color != null) {
             $color_id = Color::firstWhere('name_en', $request->color)->id;
@@ -174,6 +174,9 @@ class SmartphoneController extends Controller
             'color_id' => $color_id,
             'brand_id' => $brand_id
         ]);
+        if ($request->user()->isDemoAdmin()) {
+            $smartphone->forceFill(['demo_owner_id' => $request->user()->id])->save();
+        }
 
         foreach ($request->file('images', []) as $image) {
             Image::storeUpload($image, $smartphone);
@@ -222,7 +225,7 @@ class SmartphoneController extends Controller
      */
     public function update(Request $request, Smartphone $smartphone)
     {
-        $request->validate($this->rules());
+        $request->validate($this->rules($request));
 
         // images ticked for removal; only this phone's own images can be removed
         foreach ($smartphone->images()->whereIn('id', (array) $request->input('remove_images', []))->get() as $image) {
@@ -302,10 +305,14 @@ class SmartphoneController extends Controller
     /**
      * Validation rules shared by the create and edit forms.
      *
+     * @param Request $request
      * @return array
      */
-    private function rules()
+    private function rules(Request $request)
     {
+        // demo admins: fewer and smaller images per save
+        $demo = $request->user()->isDemoAdmin();
+
         return [
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
@@ -324,8 +331,8 @@ class SmartphoneController extends Controller
             'color' => 'nullable|exists:colors,name_en',
             'brand' => 'nullable|exists:brands,name',
             // only real images, so nothing executable ends up in public/uploads
-            'images' => 'nullable|array',
-            'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:10240',
+            'images' => $demo ? 'nullable|array|max:3' : 'nullable|array',
+            'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:' . ($demo ? 2048 : 10240),
             'remove_images' => 'nullable|array',
             'remove_images.*' => 'integer',
         ];

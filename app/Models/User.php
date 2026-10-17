@@ -47,6 +47,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    const ROLE_ADMIN = 'admin';
+    /** Visitors who tried the admin zone from the login page; see DemoAdminController. */
+    const ROLE_DEMO_ADMIN = 'demo_admin';
+
+    public function isAdmin()
+    {
+        return $this->role === self::ROLE_ADMIN;
+    }
+
+    public function isDemoAdmin()
+    {
+        return $this->role === self::ROLE_DEMO_ADMIN;
+    }
+
     public function orders()
     {
         return $this->hasMany(Order::class);

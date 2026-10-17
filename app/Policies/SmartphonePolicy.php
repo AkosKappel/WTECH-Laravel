@@ -41,7 +41,7 @@ class SmartphonePolicy
      */
     public function create(User $user)
     {
-        return $user->role == 'admin';
+        return $user->isAdmin() || $user->isDemoAdmin();
     }
 
     /**
@@ -53,7 +53,8 @@ class SmartphonePolicy
      */
     public function update(User $user, Smartphone $smartphone)
     {
-        return $user->role == 'admin';
+        // demo admins only touch their own demo products, never the shop's
+        return $user->isAdmin() || ($user->isDemoAdmin() && $smartphone->demo_owner_id === $user->id);
     }
 
     /**
@@ -65,7 +66,8 @@ class SmartphonePolicy
      */
     public function delete(User $user, Smartphone $smartphone)
     {
-        return $user->role == 'admin';
+        // demo admins only touch their own demo products, never the shop's
+        return $user->isAdmin() || ($user->isDemoAdmin() && $smartphone->demo_owner_id === $user->id);
     }
 
     /**

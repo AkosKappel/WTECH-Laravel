@@ -13,6 +13,24 @@ class Smartphone extends Model
     protected $fillable = ['name', 'price', 'quantity', 'brand_id', 'color_id', 'description', 'description_translations', 'ram',
         'operating_system', 'os_version', 'display_size', 'resolution', 'height', 'width', 'thickness'];
 
+    /**
+     * Products made by demo admins stay out of the shop: only admins and demo admins see them.
+     */
+    protected static function booted()
+    {
+        static::addGlobalScope('hideDemoProducts', function ($query) {
+            $user = auth()->user();
+            if (!$user || !($user->isAdmin() || $user->isDemoAdmin())) {
+                $query->whereNull('smartphones.demo_owner_id');
+            }
+        });
+    }
+
+    public function isDemoProduct()
+    {
+        return $this->demo_owner_id !== null;
+    }
+
     protected $casts = [
         'description_translations' => 'array',
     ];

@@ -121,6 +121,15 @@
                     </a>
                 </div>
             </form>
+
+            {{-- Admin demo: its own form, since forms can't be nested --}}
+            <form method="POST" action="{{ route('demo-admin') }}" class="mt-6 bg-white/70 border border-indigo-100 rounded-2xl p-5 text-center space-y-3">
+                @csrf
+                <p class="text-sm text-gray-700">{{ __('Curious about the admin zone? Try it with a throwaway demo account, no sign-up needed.') }}</p>
+                <button type="submit" class="inline-flex items-center gap-2 py-2 px-4 rounded-lg text-sm font-medium text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 transition-colors">
+                    <x-icon name="sparkles"/>{{ __('Try the admin demo') }}
+                </button>
+            </form>
             @include('layout.partials.locale-switcher', ['variant' => 'compact'])
         </div>
     </main>

@@ -31,6 +31,8 @@ class PasswordChangeController extends Controller
      */
     public function update(Request $request)
     {
+        abort_if($request->user()->isDemoAdmin(), 403, __('The demo admin account cannot be changed.'));
+
         $request->validate([
             'oldPassword' => ['required', new MatchOldPassword],
             'newPassword' => ['required', Rules\Password::defaults()],

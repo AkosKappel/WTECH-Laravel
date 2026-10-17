@@ -75,6 +75,9 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
+        // demo admin accounts are shared-looking throwaway accounts: keep their e-mail and details fixed
+        abort_if($request->user()->isDemoAdmin(), 403, __('The demo admin account cannot be changed.'));
+
         $request->validate([
             'first_name' => 'string|max:255|nullable',
             'last_name' => 'string|max:255|nullable',

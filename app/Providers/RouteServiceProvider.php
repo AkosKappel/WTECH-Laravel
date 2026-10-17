@@ -88,6 +88,18 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(30)->by($request->ip());
         });
 
+        // new demo admin accounts per visitor
+        RateLimiter::for('demo-admin', function (Request $request) {
+            return Limit::perHour(5)->by($request->ip());
+        });
+
+        // product saves by demo admins (uploads included); the real admin is not limited
+        RateLimiter::for('demo-admin-writes', function (Request $request) {
+            return $request->user()?->isDemoAdmin()
+                ? Limit::perHour(20)->by('demo-admin:' . $request->user()->id)
+                : Limit::none();
+        });
+
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->ip());
         });

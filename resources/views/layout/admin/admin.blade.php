@@ -72,6 +72,9 @@
                                             @endif
                                         </div>
                                         <a href="{{ route('details', $product) }}" class="font-medium text-gray-900 hover:text-indigo-600">{{ $product->name }}</a>
+                                        @if ($product->isDemoProduct())
+                                            <span class="px-2 py-0.5 rounded-full bg-yellow-100 text-xs font-medium text-yellow-800" title="{{ __('Added by a demo admin; hidden from the shop') }}">{{ __('Demo') }}</span>
+                                        @endif
                                     </div>
                                 </td>
                                 <td class="px-4 py-3 text-gray-600 hidden md:table-cell">{{ $product->brand?->name }}</td>
