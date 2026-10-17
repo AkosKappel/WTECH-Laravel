@@ -66,6 +66,7 @@
                     <a href="{{ route('login') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">{{ __('Back to Login') }}</a>
                 </div>
             </form>
+            @include('layout.partials.locale-switcher', ['variant' => 'compact'])
         </div>
     </main>
 </body>

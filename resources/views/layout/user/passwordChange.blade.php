@@ -93,6 +93,7 @@
                     </a>
                 </div>
             </form>
+            @include('layout.partials.locale-switcher', ['variant' => 'compact'])
         </div>
     </main>
 </body>

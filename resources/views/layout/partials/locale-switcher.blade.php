@@ -1,4 +1,4 @@
-{{-- Language switcher. $variant: 'dropdown' (desktop header) or 'list' (mobile menu). Each option posts to locale.switch. --}}
+{{-- Language switcher. $variant: 'dropdown' (desktop header), 'list' (mobile menu) or 'compact' (pages without the header, e.g. sign-in). Each option posts to locale.switch. --}}
 @php
     $locales = config('app.locales');
     $current = app()->getLocale();
@@ -33,6 +33,20 @@
             @endforeach
         </div>
     </details>
+@elseif ($variant === 'compact')
+    <div class="flex justify-center gap-1 mt-6" role="group" aria-label="{{ __('Language') }}">
+        @foreach ($locales as $code => $locale)
+            <form method="POST" action="{{ route('locale.switch', $code) }}">
+                @csrf
+                <button type="submit" lang="{{ $code }}" title="{{ $locale['name'] }}" aria-label="{{ $locale['name'] }}"
+                        class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium uppercase transition-colors {{ $code === $current ? 'bg-white text-indigo-700 shadow-xs' : 'text-gray-600 hover:bg-white/60' }}"
+                        @if ($code === $current) aria-current="true" @endif>
+                    <img src="{{ asset('images/flags/' . $locale['flag'] . '.svg') }}" alt="" class="h-3 w-4 rounded-xs object-cover"/>
+                    {{ $code }}
+                </button>
+            </form>
+        @endforeach
+    </div>
 @else
     <div class="flex flex-wrap gap-2 px-3 py-2" role="group" aria-label="{{ __('Language') }}">
         @foreach ($locales as $code => $locale)

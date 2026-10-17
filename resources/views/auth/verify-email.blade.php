@@ -47,6 +47,7 @@
                     </button>
                 </form>
             </div>
+            @include('layout.partials.locale-switcher', ['variant' => 'compact'])
         </div>
     </main>
 </body>
