@@ -129,9 +129,9 @@ class AdminProductsTest extends TestCase
         $this->actingAs($this->admin())
             ->get(route('smartphones.edit', $phone))
             ->assertOk()
-            ->assertSee('name="brand" value="' . e($phone->brand->name) . '" id="' . e($phone->brand->name) . '" class="form-checkbox h-4 w-4" checked', false)
-            ->assertSee('name="color" value="' . e($phone->color->name_en) . '" id="' . e($phone->color->name_en) . '" class="form-checkbox h-4 w-4" checked', false)
-            ->assertSee('<input type="checkbox" name="images/no_img_available.jpg"', false);
+            ->assertSee('name="brand" value="' . e($phone->brand->name) . '" class="sr-only" checked', false)
+            ->assertSee('name="color" value="' . e($phone->color->name_en) . '" class="sr-only" checked', false)
+            ->assertSee('name="remove_images[]" value="' . $phone->images->first()->id . '"', false);
     }
 
     public function test_admin_can_remove_an_uploaded_image_on_update()
@@ -139,9 +139,8 @@ class AdminProductsTest extends TestCase
         [$phone, $image] = $this->createPhoneWithUpload();
         $path = public_path(ltrim($image->source, '/'));
 
-        // PHP turns "." into "_" in real form field names; the test client does not
         $this->put(route('smartphones.update', $phone), $this->product([
-            str_replace('.', '_', $image->source) => $image->source,
+            'remove_images' => [$image->id],
         ]))->assertRedirect(route('admin'));
 
         $this->assertDatabaseMissing('images', ['id' => $image->id]);

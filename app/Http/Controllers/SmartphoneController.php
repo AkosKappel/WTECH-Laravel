@@ -94,13 +94,32 @@ class SmartphoneController extends Controller
         ]);
     }
 
+    const ADMIN_SORTS = [
+        'name' => ['name', 'asc'],
+        'price-asc' => ['price', 'asc'],
+        'price-desc' => ['price', 'desc'],
+        'stock' => ['quantity', 'asc'],
+        'newest' => ['id', 'desc'],
+    ];
+
+    /**
+     * Admin product list with a name search and sorting.
+     */
     public function adminIndex(Request $request)
     {
-        $smartphones = Smartphone::query()->orderBy('name');
-        $smartphones = $smartphones->paginate(12);
-        return view('layout.admin.admin',
-            ['smartphones' => $smartphones]
-        );
+        $q = trim((string) $request->query('q', ''));
+        $sort = array_key_exists($request->query('sort'), self::ADMIN_SORTS) ? $request->query('sort') : 'name';
+        [$column, $direction] = self::ADMIN_SORTS[$sort];
+
+        $smartphones = Smartphone::query()
+            ->with(['images', 'brand'])
+            ->when($q !== '', fn ($query) => $query->whereRaw('smartphones.name ilike ?', ['%' . addcslashes($q, '%_\\') . '%']))
+            ->orderBy($column, $direction)
+            ->orderBy('id')
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('layout.admin.admin', ['smartphones' => $smartphones, 'q' => $q, 'sort' => $sort]);
     }
 
     /**
@@ -110,9 +129,10 @@ class SmartphoneController extends Controller
      */
     public function create()
     {
-        $brands = Brand::all()->pluck('name')->toArray();
-        $colors = Color::all()->pluck('name_en')->toArray();
-        return view('layout.admin.create', ['colors' => $colors, 'brands' => $brands]);
+        return view('layout.admin.create', [
+            'brands' => Brand::orderBy('name')->get(),
+            'colors' => Color::orderBy('id')->get(),
+        ]);
     }
 
     /**
@@ -186,12 +206,10 @@ class SmartphoneController extends Controller
      */
     public function edit(Smartphone $smartphone)
     {
-        $brands = Brand::all()->pluck('name')->toArray();
-        $colors = Color::all()->pluck('name_en')->toArray();
         return view('layout.admin.edit', [
-            'smartphone' => $smartphone,
-            'brands' => $brands,
-            'colors' => $colors,
+            'smartphone' => $smartphone->load(['images', 'brand', 'color']),
+            'brands' => Brand::orderBy('name')->get(),
+            'colors' => Color::orderBy('id')->get(),
         ]);
     }
 
@@ -206,12 +224,10 @@ class SmartphoneController extends Controller
     {
         $request->validate($this->rules());
 
-        // images ticked for removal (checkbox named after the image path)
-        foreach ($smartphone->images()->get() as $image) {
-            if ($request->has(str_replace('.', '_', $image->source))) {
-                $image->deleteFile();
-                $image->delete();
-            }
+        // images ticked for removal; only this phone's own images can be removed
+        foreach ($smartphone->images()->whereIn('id', (array) $request->input('remove_images', []))->get() as $image) {
+            $image->deleteFile();
+            $image->delete();
         }
 
         foreach ($request->file('images', []) as $image) {
@@ -310,6 +326,8 @@ class SmartphoneController extends Controller
             // only real images, so nothing executable ends up in public/uploads
             'images' => 'nullable|array',
             'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:10240',
+            'remove_images' => 'nullable|array',
+            'remove_images.*' => 'integer',
         ];
     }
 }
