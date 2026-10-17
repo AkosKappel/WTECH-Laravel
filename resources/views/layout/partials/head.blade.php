@@ -23,7 +23,6 @@
 <link rel="icon" type="image/png" href="{{ asset('favicon-32x32.png') }}?v={{ filemtime(public_path('favicon-32x32.png')) }}" sizes="32x32" />
 <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}?v={{ filemtime(public_path('apple-touch-icon.png')) }}" />
 <meta name="theme-color" content="#4f46e5" />
-<meta name="color-scheme" content="light dark" />
 
 {{-- Tailwind CSS 4, built from resources/css/app.css (npm run build:css) --}}
 <link href="{{ asset('css/app.css') }}?v={{ filemtime(public_path('css/app.css')) }}" rel="stylesheet" />

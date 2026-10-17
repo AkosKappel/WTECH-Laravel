@@ -13,6 +13,16 @@
  * Tailwind 2 defaults the templates were written for (changed in Tailwind 4)
  */
 @layer base {
+    /* the site's theme, not the system's, decides form fields, scrollbars and default text:
+       a dark system must not give a light page white text in its fields (html.dark sets dark) */
+    html {
+        color-scheme: light;
+    }
+
+    body {
+        color: var(--color-gray-900);
+    }
+
     *, ::after, ::before, ::backdrop, ::file-selector-button {
         border-color: var(--color-gray-200, currentColor);
     }
