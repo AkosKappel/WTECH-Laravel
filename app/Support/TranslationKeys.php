@@ -25,6 +25,14 @@ class TranslationKeys
     ];
 
     /**
+     * All dynamic strings, including the countries of App\Support\Address.
+     */
+    public static function dynamic()
+    {
+        return array_merge(self::DYNAMIC, Address::COUNTRIES);
+    }
+
+    /**
      * Keys and where they are used, e.g. ['Cart' => ['resources/views/…/header.blade.php:42']].
      * Keys of PHP translation files (e.g. auth.failed) are skipped.
      *
@@ -32,7 +40,7 @@ class TranslationKeys
      */
     public static function used()
     {
-        $keys = array_fill_keys(self::DYNAMIC, []);
+        $keys = array_fill_keys(self::dynamic(), []);
         foreach ([resource_path('views'), app_path(), base_path('routes')] as $directory) {
             foreach (File::allFiles($directory) as $file) {
                 if ($file->getExtension() !== 'php') {

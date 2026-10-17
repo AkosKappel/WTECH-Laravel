@@ -86,6 +86,10 @@
                                         type="tel" 
                                         id="phone" 
                                         name="phone_number"
+                                        inputmode="tel"
+                                        autocomplete="tel"
+                                        pattern="\+?[0-9][0-9 \(\)\/.\-]{5,23}"
+                                        title="{{ __('Enter a phone number with 7 to 15 digits, e.g. +421 900 123 456.') }}"
                                         value="{{ old('phone_number', Auth::check() ? Auth::user()->phone_number : Session::get('phone_number')) }}"
                                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 @error('phone_number') border-red-500 @enderror"
                                     >
@@ -163,13 +167,10 @@
                                 {{-- Country --}}
                                 <div>
                                     <label for="country" class="block text-sm font-medium text-gray-700">{{ __('Country') }}</label>
-                                    <input 
-                                        type="text" 
-                                        id="country" 
-                                        name="country"
-                                        value="{{ old('country', Auth::check() ? Auth::user()->country : Session::get('country')) }}"
-                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 @error('country') border-red-500 @enderror"
-                                    >
+                                    <div class="mt-1">
+                                        <x-country-select id="country" name="country" autocomplete="country-name" required
+                                                          :value="old('country', Auth::check() ? Auth::user()->country : Session::get('country'))" :invalid="$errors->has('country')"/>
+                                    </div>
                                     @error('country')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror

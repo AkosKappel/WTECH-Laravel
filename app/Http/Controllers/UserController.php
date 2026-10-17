@@ -8,6 +8,8 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Support\Address;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Response;
 
 
@@ -78,15 +80,10 @@ class UserController extends Controller
         // demo admin accounts are shared-looking throwaway accounts: keep their e-mail and details fixed
         abort_if($request->user()->isDemoAdmin(), 403, __('The demo admin account cannot be changed.'));
 
-        $request->validate([
-            'first_name' => 'string|max:255|nullable',
-            'last_name' => 'string|max:255|nullable',
-            'phone_number' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:10|nullable',
-            'email' => 'required|email|max:255',
-            'street' => 'string|max:255|nullable',
-            'descriptive_number' => 'string|max:255|nullable',
-            'city' => 'string|max:255|nullable',
-            'country' => 'string|max:255|nullable',
+        $request->validate(Address::rules(false) + [
+            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($request->user()->id)],
+        ], Address::messages() + [
+            'email.unique' => __('This e-mail is already used by another account.'),
         ]);
 
         User::find(Auth()->user()->id)->update([

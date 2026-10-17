@@ -72,9 +72,14 @@
                             @foreach ($section['fields'] as [$name, $label, $type, $autocomplete, $placeholder])
                                 <div class="relative">
                                     <label for="{{ $name }}" class="block text-sm font-medium text-gray-700 mb-1">{{ $label }}</label>
-                                    <input id="{{ $name }}" name="{{ $name }}" type="{{ $type }}" autocomplete="{{ $autocomplete }}"
-                                           value="{{ old($name, $user->$name) }}" placeholder="{{ $placeholder }}" @if ($name === 'email') required @endif
-                                           class="{{ $field }} @error($name) border-red-500 @else border-gray-300 @enderror"/>
+                                    @if ($name === 'country')
+                                        <x-country-select id="country" name="country" autocomplete="country-name" :value="old('country', $user->country)" :invalid="$errors->has('country')"/>
+                                    @else
+                                        <input id="{{ $name }}" name="{{ $name }}" type="{{ $type }}" autocomplete="{{ $autocomplete }}"
+                                               value="{{ old($name, $user->$name) }}" placeholder="{{ $placeholder }}" @if ($name === 'email') required @endif
+                                               @if ($name === 'phone_number') inputmode="tel" pattern="\+?[0-9][0-9 \(\)\/.\-]{5,23}" title="{{ __('Enter a phone number with 7 to 15 digits, e.g. +421 900 123 456.') }}" @endif
+                                               class="{{ $field }} @error($name) border-red-500 @else border-gray-300 @enderror"/>
+                                    @endif
                                     @error($name)<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
                                 </div>
                             @endforeach

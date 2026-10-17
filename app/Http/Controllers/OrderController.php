@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DiscountCode;
+use App\Support\Address;
 use App\Models\Smartphone;
 use App\Models\User;
 use App\Models\Order;
@@ -79,16 +80,7 @@ class OrderController extends Controller
         }
         $request->session()->put('showCreateAccount', !Auth::check());
 
-        $request->validate([
-            'first_name' => 'required|string|max:255|',
-            'last_name' => 'required|string|max:255|',
-            'phone_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
-            'email' => $emailValidation,
-            'street' => 'required|string|max:255|nullable',
-            'descriptive_number' => 'required|string|max:255',
-            'city' => 'required|string|max:255',
-            'country' => 'required|string|max:255',
-        ], [
+        $request->validate(Address::rules(true) + ['email' => $emailValidation], Address::messages() + [
             'email.unique' => Auth::check()
                 ? __('This e-mail is already used by another account.')
                 : __('An account with this e-mail already exists. Please log in to order with it.'),
