@@ -14,5 +14,7 @@ class EncryptCookies extends Middleware
     protected $except = [
         // only ever "1"; set from JavaScript when the demo notice is closed
         'demo_notice_dismissed',
+        // maintenance bypass for the admin who turned maintenance on; read before this middleware runs
+        'laravel_maintenance',
     ];
 }

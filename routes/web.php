@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DiscountCodeController;
+use App\Http\Controllers\Admin\MaintenanceController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CompareController;
 use App\Http\Controllers\ReviewController;
@@ -83,6 +84,9 @@ Route::middleware(['auth', 'can:isAdmin'])->group(function () {
     Route::get('/admin/orders', [OrderController::class, 'adminIndex'])->name('admin.orders');
     Route::patch('/admin/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.status')->whereNumber('order');
     Route::get('/admin/error-test', [ShopController::class, 'errorTest'])->name('admin.error-test');
+    Route::get('/admin/maintenance', [MaintenanceController::class, 'index'])->name('admin.maintenance');
+    Route::put('/admin/maintenance', [MaintenanceController::class, 'update'])->name('admin.maintenance.update');
+    Route::delete('/admin/maintenance', [MaintenanceController::class, 'destroy'])->name('admin.maintenance.destroy');
     Route::get('/admin/codes', [DiscountCodeController::class, 'index'])->name('admin.codes');
     Route::post('/admin/codes', [DiscountCodeController::class, 'store'])->name('admin.codes.store');
     Route::get('/admin/codes/{code}/edit', [DiscountCodeController::class, 'edit'])->name('admin.codes.edit')->whereNumber('code');

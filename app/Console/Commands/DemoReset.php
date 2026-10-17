@@ -34,7 +34,11 @@ class DemoReset extends Command
             return 1;
         }
 
-        $this->callSilent('down', ['--retry' => 15]);
+        // planned maintenance that is already on stays on: the reset must not lift it
+        $wasDown = app()->maintenanceMode()->active();
+        if (!$wasDown) {
+            $this->callSilent('down', ['--retry' => 15]);
+        }
 
         try {
             $this->call('migrate:fresh', ['--seed' => true, '--force' => true]);
@@ -48,7 +52,9 @@ class DemoReset extends Command
             File::delete(File::files(storage_path('framework/sessions')));
             $this->call('cache:clear');
         } finally {
-            $this->callSilent('up');
+            if (!$wasDown) {
+                $this->callSilent('up');
+            }
         }
 
         Log::info('Demo shop was reset');

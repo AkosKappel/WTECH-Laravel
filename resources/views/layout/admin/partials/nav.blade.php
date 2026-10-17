@@ -11,6 +11,7 @@
             'admin' => [__('Products'), 'adminZone', ['admin', 'smartphones.add', 'smartphones.edit']],
             'admin.orders' => [__('Orders'), 'isAdmin', ['admin.orders']],
             'admin.codes' => [__('Discount codes'), 'isAdmin', ['admin.codes', 'admin.codes.*']],
+            'admin.maintenance' => [__('Maintenance'), 'isAdmin', ['admin.maintenance']],
         ] as $route => [$label, $ability, $patterns])
             @can($ability)
                 <a href="{{ route($route) }}"

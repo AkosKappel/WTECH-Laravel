@@ -9,6 +9,7 @@
 @endphp
 <a href="#content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[70] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-white focus:text-indigo-700 focus:shadow-lg">{{ __('Skip to content') }}</a>
 @include('layout.partials.demo-banner')
+@include('layout.partials.maintenance-notice')
 <header class="bg-linear-to-r from-indigo-600 to-purple-600 sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
