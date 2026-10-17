@@ -150,6 +150,6 @@ class CartTest extends TestCase
         $phone = Smartphone::factory()->create(['price' => 19.99, 'quantity' => 5]);
         $this->post('/cart', ['id' => $phone->id, 'quantity' => 3]);
 
-        $this->get('/cart')->assertOk()->assertSee('59,97 €');
+        $this->get('/cart')->assertOk()->assertSee('€59.97');
     }
 }

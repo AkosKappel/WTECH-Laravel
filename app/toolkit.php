@@ -1,8 +1,16 @@
 <?php
 
+/**
+ * Price in the current language's style, as Intl.NumberFormat writes it in details.js:
+ * €1,234.56 in English, 1.234,56 € in German, 1 234,56 € in Slovak.
+ */
 function formattedPrice($price): string
 {
-    return number_format((float) $price, 2, ',', ' ') . ' €';
+    return match (app()->getLocale()) {
+        'en' => '€' . number_format((float) $price, 2, '.', ','),
+        'de' => number_format((float) $price, 2, ',', '.') . ' €',
+        default => number_format((float) $price, 2, ',', ' ') . ' €',
+    };
 }
 
 /**

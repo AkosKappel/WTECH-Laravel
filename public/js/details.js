@@ -1,24 +1,20 @@
 // changing quantity field
-function decrement(e) {
-    let priceStr = productPrice.innerText;
-    priceStr = priceStr.replace(' ', '').substring(0, priceStr.length - 1);
-    let quantity = Number(quantityField.value);
-    if (quantity > quantityField.min) {
-        quantity--;
-    }
-    totalPrice.innerText = `${(quantity * parseFloat(priceStr.replace(',', '.'))).toFixed(2)} €`.replace('.', ',');
+// same format as formattedPrice() in app/toolkit.php
+const priceFormat = new Intl.NumberFormat(document.documentElement.lang, { style: 'currency', currency: 'EUR' });
+
+function showTotal(quantity) {
+    totalPrice.innerText = priceFormat.format(quantity * Number(productPrice.dataset.price));
     quantityField.value = quantity;
 }
 
+function decrement(e) {
+    const quantity = Number(quantityField.value);
+    showTotal(quantity > quantityField.min ? quantity - 1 : quantity);
+}
+
 function increment(e) {
-    let priceStr = productPrice.innerText;
-    priceStr = priceStr.replace(' ', '').substring(0, priceStr.length - 1);
-    let quantity = Number(quantityField.value);
-    if (quantity < quantityField.max) {
-        quantity++;
-    }
-    totalPrice.innerText = `${(quantity * parseFloat(priceStr.replace(',', '.'))).toFixed(2)} €`.replace('.', ',');
-    quantityField.value = quantity;
+    const quantity = Number(quantityField.value);
+    showTotal(quantity < quantityField.max ? quantity + 1 : quantity);
 }
 
 

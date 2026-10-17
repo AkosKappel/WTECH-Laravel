@@ -105,7 +105,7 @@
                 <section class="space-y-8">
                     <div>
                         <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ $smartphone->name }}</h1>
-                        <p id="product-price" class="text-2xl font-semibold text-indigo-600">{{ formattedPrice($smartphone->price) }}</p>
+                        <p id="product-price" data-price="{{ (float) $smartphone->price }}" class="text-2xl font-semibold text-indigo-600">{{ formattedPrice($smartphone->price) }}</p>
                     </div>
 
                     <form action="{{ route('cart.store') }}" method="POST" class="space-y-8">

@@ -52,7 +52,7 @@
                         <div class="ml-4 grow">
                             <div class="flex items-center justify-between">
                                 <p class="text-sm font-medium text-gray-900">{{ __('Courier Delivery') }}</p>
-                                <span class="text-sm font-semibold text-gray-900">0.00 €</span>
+                                <span class="text-sm font-semibold text-gray-900">{{ formattedPrice(0) }}</span>
                             </div>
                             <p class="text-sm text-gray-500 mt-1">{{ __('Delivery within 1-2 business days') }}</p>
                         </div>
@@ -68,7 +68,7 @@
                         <div class="ml-4 grow">
                             <div class="flex items-center justify-between">
                                 <p class="text-sm font-medium text-gray-900">{{ __('Personal Pickup') }}</p>
-                                <span class="text-sm font-semibold text-gray-900">0.00 €</span>
+                                <span class="text-sm font-semibold text-gray-900">{{ formattedPrice(0) }}</span>
                             </div>
                             <p class="text-sm text-gray-500 mt-1">{{ __('Available immediately at our store') }}</p>
                         </div>
@@ -84,7 +84,7 @@
                         <div class="ml-4 grow">
                             <div class="flex items-center justify-between">
                                 <p class="text-sm font-medium text-gray-900">{{ __('Post Office Delivery') }}</p>
-                                <span class="text-sm font-semibold text-gray-900">0.00 €</span>
+                                <span class="text-sm font-semibold text-gray-900">{{ formattedPrice(0) }}</span>
                             </div>
                             <p class="text-sm text-gray-500 mt-1">{{ __('Delivery to your local post office') }}</p>
                         </div>
@@ -100,7 +100,7 @@
                         <div class="ml-4 grow">
                             <div class="flex items-center justify-between">
                                 <p class="text-sm font-medium text-gray-900">{{ __('Parcel Locker') }}</p>
-                                <span class="text-sm font-semibold text-gray-900">0.00 €</span>
+                                <span class="text-sm font-semibold text-gray-900">{{ formattedPrice(0) }}</span>
                             </div>
                             <p class="text-sm text-gray-500 mt-1">{{ __('Pick up at your convenient location') }}</p>
                         </div>

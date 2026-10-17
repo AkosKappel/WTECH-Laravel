@@ -24,6 +24,17 @@ class LocaleAndLimitsTest extends TestCase
         $this->withCookie('locale', 'de')->get('/about')->assertOk()->assertSee('SmartTech entstand als Semesterprojekt');
     }
 
+    public function test_prices_follow_the_language()
+    {
+        $prices = [];
+        foreach (['en', 'de', 'sk'] as $locale) {
+            app()->setLocale($locale);
+            $prices[$locale] = formattedPrice(1234.5);
+        }
+
+        $this->assertSame(['en' => '€1,234.50', 'de' => '1.234,50 €', 'sk' => '1 234,50 €'], $prices);
+    }
+
     public function test_sign_up_forms_are_rate_limited()
     {
         for ($i = 1; $i <= 5; $i++) {
