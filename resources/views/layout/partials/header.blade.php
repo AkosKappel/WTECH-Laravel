@@ -65,7 +65,8 @@
                             </svg>
                         </button>
                         
-                        <div id="user-menu" class="absolute right-0 w-56 mt-2 py-2 bg-white rounded-lg shadow-xl hidden group-hover:block group-focus-within:block">
+                        {{-- the ::before strip bridges the gap below the button, so the menu stays open on the way down --}}
+                        <div id="user-menu" class="absolute right-0 w-56 mt-2 py-2 bg-white rounded-lg shadow-xl hidden group-hover:block group-focus-within:block before:absolute before:inset-x-0 before:-top-2 before:h-2 before:content-['']">
                             <p class="px-4 pb-2 mb-1 border-b border-gray-100 text-xs text-gray-500 truncate" title="{{ Auth::user()->email }}">{{ Auth::user()->email }}</p>
                             <a href="{{ route('profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50">{{ __('Profile') }}</a>
                             <a href="{{ route('orders') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50">{{ __('My orders') }}</a>
