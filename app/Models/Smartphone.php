@@ -10,7 +10,7 @@ class Smartphone extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'price', 'quantity', 'brand_id', 'color_id', 'description', 'description_translations', 'ram',
+    protected $fillable = ['name', 'price', 'sale_price', 'sale_starts_at', 'sale_ends_at', 'quantity', 'brand_id', 'color_id', 'description', 'description_translations', 'ram',
         'operating_system', 'os_version', 'display_size', 'resolution', 'height', 'width', 'thickness'];
 
     /**
@@ -33,7 +33,48 @@ class Smartphone extends Model
 
     protected $casts = [
         'description_translations' => 'array',
+        'sale_starts_at' => 'datetime',
+        'sale_ends_at' => 'datetime',
     ];
+
+    /**
+     * Whether the sale price applies right now.
+     */
+    public function isOnSale()
+    {
+        return $this->sale_price !== null && $this->sale_price < $this->price
+            && ($this->sale_starts_at === null || $this->sale_starts_at->isPast())
+            && ($this->sale_ends_at === null || $this->sale_ends_at->isFuture());
+    }
+
+    /**
+     * The price a customer pays now: the sale price during a sale, the regular price otherwise.
+     */
+    public function getCurrentPriceAttribute()
+    {
+        return $this->isOnSale() ? (float) $this->sale_price : (float) $this->price;
+    }
+
+    /** Whole-number discount in percent, e.g. 20 for "−20 %". */
+    public function getDiscountPercentAttribute()
+    {
+        return $this->isOnSale() ? (int) round((1 - $this->sale_price / $this->price) * 100) : 0;
+    }
+
+    /**
+     * SQL for the current price, the same rule as isOnSale(), for filtering and sorting.
+     */
+    public static function currentPriceSql()
+    {
+        return '(case when ' . self::onSaleSql() . ' then smartphones.sale_price else smartphones.price end)';
+    }
+
+    public static function onSaleSql()
+    {
+        return '(smartphones.sale_price is not null and smartphones.sale_price < smartphones.price'
+            . ' and (smartphones.sale_starts_at is null or smartphones.sale_starts_at <= now())'
+            . ' and (smartphones.sale_ends_at is null or smartphones.sale_ends_at > now()))';
+    }
 
     /**
      * Readable URL key, "<id>-<slug of the name>"; the ID alone decides which phone it is.

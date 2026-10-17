@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DiscountCode;
 use App\Models\Smartphone;
 use App\Facades\Cart;
 use Illuminate\Contracts\Foundation\Application;
@@ -72,7 +73,9 @@ class CartController extends Controller
             return response()->json([
                 'qty' => $item->qty,
                 'itemTotal' => formattedPrice($item->total()),
-                'total' => formattedPrice(Cart::total()),
+                'subtotal' => formattedPrice(Cart::total()),
+                'discount' => '−' . formattedPrice(Cart::discount()),
+                'total' => formattedPrice(Cart::grandTotal()),
                 'count' => Cart::count(),
             ]);
         }
@@ -88,5 +91,30 @@ class CartController extends Controller
     {
         Cart::remove($id);
         return back()->with('success_message', __('Product was removed from cart!'));
+    }
+
+    /**
+     * Apply a discount code entered in the cart.
+     */
+    public function applyCode(Request $request)
+    {
+        $request->validate(['code' => 'required|string|max:40']);
+
+        $code = DiscountCode::findByCode($request->code);
+        $problem = $code ? $code->problem(Cart::total(), $request->user()) : __('This code does not exist.');
+        if ($problem !== null) {
+            return back()->withErrors(['code' => $problem])->withInput();
+        }
+
+        Cart::applyDiscountCode($code);
+
+        return back()->with('success_message', __('Code :code applied.', ['code' => $code->code]));
+    }
+
+    public function removeCode()
+    {
+        Cart::removeDiscountCode();
+
+        return back();
     }
 }

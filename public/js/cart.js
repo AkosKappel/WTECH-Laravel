@@ -35,6 +35,8 @@ function send(form) {
             refresh(form);
             row.querySelector('[data-item-total]').textContent = data.itemTotal;
             document.querySelector('[data-cart-total]').textContent = data.total;
+            document.querySelector('[data-cart-subtotal]')?.replaceChildren(data.subtotal);
+            document.querySelector('[data-cart-discount]')?.replaceChildren(data.discount);
             document.querySelectorAll('[data-cart-count]').forEach(function (badge) { badge.textContent = data.count; });
         }).catch(function () {
             window.location.reload();

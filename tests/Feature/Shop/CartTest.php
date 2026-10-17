@@ -84,6 +84,8 @@ class CartTest extends TestCase
             ->assertExactJson([
                 'qty' => 4,
                 'itemTotal' => formattedPrice(400),
+                'subtotal' => formattedPrice(450),
+                'discount' => '−' . formattedPrice(0),
                 'total' => formattedPrice(450),
                 'count' => 5,
             ]);

@@ -23,6 +23,7 @@ use Illuminate\Support\Str;
  *   display  compact (< 6.2"), standard, large (> 6.6")
  *   os       android, ios, other
  *   stock    "in" = in stock only
+ *   sale     "on" = on sale only
  *   sort     relevance (default when searching), newest (default), price-asc, price-desc, name
  *   page     > 1
  */
@@ -31,7 +32,7 @@ class CatalogFilters
     const RAM = ['4', '6', '8', '12'];
     const DISPLAY = ['compact', 'standard', 'large'];
     const OS = ['android', 'ios', 'other'];
-    const SORTS = ['relevance', 'newest', 'price-asc', 'price-desc', 'name'];
+    const SORTS = ['relevance', 'newest', 'price-asc', 'price-desc', 'discount', 'name'];
 
     /** Minimum trigram word similarity for a fuzzy match; "pixl" → "Pixel" scores ~0.5, unrelated phones ~0.2. */
     const FUZZY_THRESHOLD = 0.4;
@@ -45,6 +46,7 @@ class CatalogFilters
     public $display = [];
     public $os = [];
     public $inStock = false;
+    public $onSale = false;
     public $sort = null;
     public $page = 1;
 
@@ -86,6 +88,7 @@ class CatalogFilters
         $filters->display = $filters->pick($filters->values($input['display'] ?? []), self::DISPLAY);
         $filters->os = $filters->pick($filters->values($input['os'] ?? []), self::OS);
         $filters->inStock = ($input['stock'] ?? '') === 'in';
+        $filters->onSale = ($input['sale'] ?? '') === 'on';
         $filters->sort = in_array($input['sort'] ?? null, self::SORTS, true) ? $input['sort'] : null;
         $filters->page = max(1, (int) ($input['page'] ?? 1));
 
@@ -191,6 +194,7 @@ class CatalogFilters
             'display' => $this->display ?: null,
             'os' => $this->os ?: null,
             'stock' => $this->inStock ? 'in' : null,
+            'sale' => $this->onSale ? 'on' : null,
             'sort' => $this->sort,
             'page' => $withPage && $this->page > 1 ? $this->page : null,
         ];
@@ -271,6 +275,9 @@ class CatalogFilters
         }
         if ($this->inStock) {
             $chips[] = $this->chip('stock', 'in', __('In stock'), $this->clearUrl('stock'));
+        }
+        if ($this->onSale) {
+            $chips[] = $this->chip('sale', 'on', __('On sale'), $this->clearUrl('sale'));
         }
 
         return $chips;
@@ -400,10 +407,10 @@ class CatalogFilters
         }
         if ($except !== 'price') {
             if ($this->priceMin !== null) {
-                $query->where('smartphones.price', '>=', $this->priceMin);
+                $query->whereRaw(Smartphone::currentPriceSql() . ' >= ?', [$this->priceMin]);
             }
             if ($this->priceMax !== null) {
-                $query->where('smartphones.price', '<=', $this->priceMax);
+                $query->whereRaw(Smartphone::currentPriceSql() . ' <= ?', [$this->priceMax]);
             }
         }
         foreach (['ram' => 'ramBucketSql', 'display' => 'displayBucketSql', 'os' => 'osBucketSql'] as $filter => $bucketSql) {
@@ -411,6 +418,9 @@ class CatalogFilters
                 $placeholders = implode(',', array_fill(0, count($this->$filter), '?'));
                 $query->whereRaw('(' . self::$bucketSql() . ") in ($placeholders)", $this->$filter);
             }
+        }
+        if ($this->onSale && $except !== 'sale') {
+            $query->whereRaw(Smartphone::onSaleSql());
         }
         if ($this->inStock && $except !== 'stock') {
             $query->where('smartphones.quantity', '>', 0);
@@ -452,10 +462,14 @@ class CatalogFilters
                     ->orderByRaw(self::similaritySql() . ' desc', [$this->q]);
                 break;
             case 'price-asc':
-                $query->orderBy('smartphones.price');
+                $query->orderByRaw(Smartphone::currentPriceSql());
                 break;
             case 'price-desc':
-                $query->orderByDesc('smartphones.price');
+                $query->orderByRaw(Smartphone::currentPriceSql() . ' desc');
+                break;
+            case 'discount':
+                // biggest saving in percent first; phones without a sale last
+                $query->orderByRaw('case when ' . Smartphone::onSaleSql() . ' then smartphones.sale_price / smartphones.price else 1 end');
                 break;
             case 'name':
                 $query->orderBy('smartphones.name');
@@ -494,6 +508,7 @@ class CatalogFilters
             'display' => $count('display', self::displayBucketSql()),
             'os' => $count('os', self::osBucketSql()),
             'stock' => $this->apply(Smartphone::query(), 'stock')->where('smartphones.quantity', '>', 0)->count(),
+            'sale' => $this->apply(Smartphone::query(), 'sale')->whereRaw(Smartphone::onSaleSql())->count(),
         ];
     }
 
@@ -503,7 +518,8 @@ class CatalogFilters
     public static function priceBounds()
     {
         // rounded to tens, so the slider's 10 € steps land on round prices
-        $row = Smartphone::selectRaw('floor(min(price) / 10) * 10 as min, ceil(max(price) / 10) * 10 as max')->first();
+        $price = Smartphone::currentPriceSql();
+        $row = Smartphone::selectRaw("floor(min($price) / 10) * 10 as min, ceil(max($price) / 10) * 10 as max")->first();
 
         return [(int) ($row->min ?? 0), (int) ($row->max ?? 0)];
     }
@@ -561,6 +577,7 @@ class CatalogFilters
             'newest' => __('Newest'),
             'price-asc' => __('Price: low to high'),
             'price-desc' => __('Price: high to low'),
+            'discount' => __('Biggest discount'),
             'name' => __('Name: A–Z'),
         ][$sort] ?? $sort;
     }

@@ -16,6 +16,14 @@
             <span class="toggle" aria-hidden="true"></span>
         </span>
     </label>
+    <label class="mt-3 flex items-center justify-between cursor-pointer">
+        <span class="text-sm font-medium text-gray-900">{{ __('On sale') }}</span>
+        <span class="flex items-center gap-2">
+            <span class="text-xs text-gray-400">{{ $facets['sale'] }}</span>
+            <input type="checkbox" name="sale" value="on" class="toggle-input sr-only" {{ $filters->onSale ? 'checked' : '' }}>
+            <span class="toggle" aria-hidden="true"></span>
+        </span>
+    </label>
 </div>
 
 {{-- Price --}}

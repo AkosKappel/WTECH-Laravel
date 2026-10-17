@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ColorSeeder::class);
         $this->call(SmartphoneSeeder::class);
         $this->call(ImageSeeder::class);
+        $this->call(DiscountSeeder::class);
         $this->call(UserSeeder::class);
     }
 }

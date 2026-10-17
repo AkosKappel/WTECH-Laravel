@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DiscountCodeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\DemoAdminController;
 use App\Models\Smartphone;
@@ -58,6 +59,9 @@ Route::put('/passwordChange', [PasswordChangeController::class, 'update'])->midd
 // Cart
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::post('/cart', [CartController::class, 'store'])->middleware('throttle:shop')->name('cart.store');
+// before /cart/{product}, which would catch "code"
+Route::post('/cart/code', [CartController::class, 'applyCode'])->middleware('throttle:shop')->name('cart.code');
+Route::delete('/cart/code', [CartController::class, 'removeCode'])->middleware('throttle:shop')->name('cart.code.remove');
 Route::delete('/cart/{product}', [CartController::class, 'destroy'])->middleware('throttle:shop')->name('cart.destroy');
 Route::put('/cart/{product}', [CartController::class, 'update'])->middleware('throttle:shop')->name('cart.update');
 
@@ -76,6 +80,11 @@ Route::middleware(['auth', 'can:isAdmin'])->group(function () {
     Route::get('/admin/orders', [OrderController::class, 'adminIndex'])->name('admin.orders');
     Route::patch('/admin/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.status')->whereNumber('order');
     Route::get('/admin/error-test', [ShopController::class, 'errorTest'])->name('admin.error-test');
+    Route::get('/admin/codes', [DiscountCodeController::class, 'index'])->name('admin.codes');
+    Route::post('/admin/codes', [DiscountCodeController::class, 'store'])->name('admin.codes.store');
+    Route::get('/admin/codes/{code}/edit', [DiscountCodeController::class, 'edit'])->name('admin.codes.edit')->whereNumber('code');
+    Route::put('/admin/codes/{code}', [DiscountCodeController::class, 'update'])->name('admin.codes.update')->whereNumber('code');
+    Route::delete('/admin/codes/{code}', [DiscountCodeController::class, 'destroy'])->name('admin.codes.destroy')->whereNumber('code');
 });
 
 // Demo admin account, one click from the login page

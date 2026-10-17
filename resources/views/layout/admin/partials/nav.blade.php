@@ -7,11 +7,15 @@
         </div>
     @endif
     <nav class="flex gap-2" aria-label="{{ __('Admin') }}">
-        @foreach (['admin' => [__('Products'), 'adminZone'], 'admin.orders' => [__('Orders'), 'isAdmin']] as $route => [$label, $ability])
+        @foreach ([
+            'admin' => [__('Products'), 'adminZone', ['admin', 'smartphones.add', 'smartphones.edit']],
+            'admin.orders' => [__('Orders'), 'isAdmin', ['admin.orders']],
+            'admin.codes' => [__('Discount codes'), 'isAdmin', ['admin.codes', 'admin.codes.*']],
+        ] as $route => [$label, $ability, $patterns])
             @can($ability)
                 <a href="{{ route($route) }}"
-                   @if (request()->routeIs($route)) aria-current="page" @endif
-                   class="px-4 py-2 rounded-full text-sm font-medium transition-colors {{ request()->routeIs($route) ? 'bg-indigo-600 text-white' : 'bg-white text-gray-700 hover:bg-indigo-50' }}">
+                   @if (request()->routeIs(...$patterns)) aria-current="page" @endif
+                   class="px-4 py-2 rounded-full text-sm font-medium transition-colors {{ request()->routeIs(...$patterns) ? 'bg-indigo-600 text-white' : 'bg-white text-gray-700 hover:bg-indigo-50' }}">
                     {{ $label }}
                 </a>
             @endcan

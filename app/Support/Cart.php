@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use App\Models\DiscountCode;
 use App\Models\Smartphone;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +17,7 @@ use Throwable;
 class Cart
 {
     const SESSION_KEY = 'shop_cart';
+    const DISCOUNT_KEY = 'discount_code';
     const TABLE = 'shoppingcarts';
     const INSTANCE = 'default';
 
@@ -52,6 +54,40 @@ class Cart
         }), 2);
     }
 
+    /**
+     * The discount code entered in the cart, if it still exists.
+     */
+    public function discountCode(): ?DiscountCode
+    {
+        return DiscountCode::findByCode(session(self::DISCOUNT_KEY));
+    }
+
+    public function applyDiscountCode(DiscountCode $code): void
+    {
+        session()->put(self::DISCOUNT_KEY, $code->code);
+    }
+
+    public function removeDiscountCode(): void
+    {
+        session()->forget(self::DISCOUNT_KEY);
+    }
+
+    /**
+     * Amount the entered code takes off right now; 0 while it can't be used (e.g. below its minimum order).
+     */
+    public function discount(): float
+    {
+        $code = $this->discountCode();
+
+        return $code && $code->problem($this->total(), auth()->user()) === null ? $code->discountFor($this->total()) : 0.0;
+    }
+
+    /** What the customer pays: lines minus the discount. */
+    public function grandTotal(): float
+    {
+        return round($this->total() - $this->discount(), 2);
+    }
+
     public function get(string $rowId): ?CartItem
     {
         return $this->content()->get($rowId);
@@ -74,7 +110,7 @@ class Cart
         $item = new CartItem(
             $smartphone->id,
             $smartphone->name,
-            (float) $smartphone->price,
+            $smartphone->current_price,
             $this->quantityOf($smartphone->id) + $quantity,
             (int) $smartphone->quantity,
             $image ? $image->source : 'images/no_img_available.jpg',
@@ -108,7 +144,7 @@ class Cart
 
     public function destroy(): void
     {
-        session()->forget(self::SESSION_KEY);
+        session()->forget([self::SESSION_KEY, self::DISCOUNT_KEY]);
     }
 
     /**
@@ -204,7 +240,7 @@ class Cart
             $content->put($storedItem->rowId, new CartItem(
                 $phone->id,
                 $phone->name,
-                (float) $phone->price,
+                $phone->current_price,
                 min(($current ? $current->qty : 0) + $storedItem->qty, (int) $phone->quantity),
                 (int) $phone->quantity,
                 $current ? $current->imageSource : $storedItem->imageSource,

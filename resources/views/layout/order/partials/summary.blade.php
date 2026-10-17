@@ -21,6 +21,16 @@
         @endforeach
     </ul>
     <div class="px-6 py-4 bg-gray-50 space-y-1">
+        @if ($order->discount > 0)
+            <div class="flex justify-between text-sm text-gray-600">
+                <span>{{ __('Subtotal') }}</span>
+                <span>{{ formattedPrice($order->subtotal) }}</span>
+            </div>
+            <div class="flex justify-between text-sm text-green-700">
+                <span>{{ __('Discount') }} ({{ $order->discount_code }})</span>
+                <span>−{{ formattedPrice($order->discount) }}</span>
+            </div>
+        @endif
         <div class="flex justify-between text-sm text-gray-600">
             <span>{{ __('Shipping') }}</span>
             <span>{{ __('Free') }}</span>

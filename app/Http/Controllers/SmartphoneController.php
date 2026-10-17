@@ -80,7 +80,7 @@ class SmartphoneController extends Controller
 
                 return [
                     'name' => $smartphone->name,
-                    'price' => formattedPrice($smartphone->price),
+                    'price' => formattedPrice($smartphone->current_price),
                     'in_stock' => $smartphone->quantity > 0,
                     'image' => $image ? $image->url : null,
                     'url' => route('details', $smartphone),
@@ -160,6 +160,7 @@ class SmartphoneController extends Controller
         $smartphone = Smartphone::create([
             'name' => $request->name,
             'price' => $request->price,
+            ...$this->saleFields($request),
             'quantity' => $request->quantity,
             'description' => $request->description,
             'description_translations' => $this->descriptionTranslations($request),
@@ -252,6 +253,7 @@ class SmartphoneController extends Controller
         $smartphone->update([
             'name' => $request->name,
             'price' => $request->price,
+            ...$this->saleFields($request),
             'quantity' => $request->quantity,
             'description' => $request->description,
             'description_translations' => $this->descriptionTranslations($request),
@@ -303,6 +305,20 @@ class SmartphoneController extends Controller
     }
 
     /**
+     * Sale price and dates from the form; the dates are entered in the shop's time zone.
+     */
+    private function saleFields(Request $request)
+    {
+        $date = fn ($value) => filled($value) ? \Illuminate\Support\Carbon::parse($value, config('demo.reset.timezone')) : null;
+
+        return [
+            'sale_price' => filled($request->sale_price) ? $request->sale_price : null,
+            'sale_starts_at' => $date($request->sale_starts_at),
+            'sale_ends_at' => $date($request->sale_ends_at),
+        ];
+    }
+
+    /**
      * Validation rules shared by the create and edit forms.
      *
      * @param Request $request
@@ -317,6 +333,9 @@ class SmartphoneController extends Controller
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'quantity' => 'required|integer|min:0',
+            'sale_price' => 'nullable|numeric|min:0|lt:price',
+            'sale_starts_at' => 'nullable|date',
+            'sale_ends_at' => $request->filled('sale_starts_at') ? 'nullable|date|after:sale_starts_at' : 'nullable|date',
             'description' => 'nullable|string',
             'description_de' => 'nullable|string',
             'description_sk' => 'nullable|string',

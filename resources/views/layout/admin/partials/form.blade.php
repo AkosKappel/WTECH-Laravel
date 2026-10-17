@@ -33,6 +33,31 @@
             </div>
         </section>
 
+        {{-- Sale --}}
+        <section class="bg-white rounded-lg shadow-xs p-6 space-y-4">
+            <div>
+                <h2 class="text-lg font-semibold text-gray-900">{{ __('Sale') }}</h2>
+                <p class="text-sm text-gray-500">{{ __('Optional. Leave the dates empty for a sale without start or end.') }}</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                    <label for="sale_price" class="block text-sm font-medium text-gray-700 mb-1">{{ __('Sale price (€)') }}</label>
+                    <input type="number" id="sale_price" name="sale_price" value="{{ $value('sale_price') }}" step=".01" min="0"
+                           class="{{ $field }} @error('sale_price') border-red-500 @else border-gray-300 @enderror"/>
+                    @error('sale_price')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
+                </div>
+                @foreach (['sale_starts_at' => __('Sale starts'), 'sale_ends_at' => __('Sale ends')] as $name => $label)
+                    <div>
+                        <label for="{{ $name }}" class="block text-sm font-medium text-gray-700 mb-1">{{ $label }}</label>
+                        <input type="datetime-local" id="{{ $name }}" name="{{ $name }}"
+                               value="{{ old($name, $smartphone?->$name?->timezone(config('demo.reset.timezone'))->format('Y-m-d\TH:i')) }}"
+                               class="{{ $field }} @error($name) border-red-500 @else border-gray-300 @enderror"/>
+                        @error($name)<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
+                    </div>
+                @endforeach
+            </div>
+        </section>
+
         {{-- Descriptions --}}
         <section class="bg-white rounded-lg shadow-xs p-6 space-y-4">
             <h2 class="text-lg font-semibold text-gray-900">{{ __('Descriptions') }}</h2>

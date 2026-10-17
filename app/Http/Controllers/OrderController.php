@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DiscountCode;
 use App\Models\Smartphone;
 use App\Models\User;
 use App\Models\Order;
@@ -178,7 +179,20 @@ class OrderController extends Controller
                     $stockError = __('Only :count × :name left in stock. Please update your cart.', ['count' => (int) $smartphone->quantity, 'name' => $smartphone->name]);
                     return null;
                 }
-                $total += $smartphone->price * $count;
+                $total += $smartphone->current_price * $count;
+            }
+
+            // the discount code is checked again here, against the prices just locked
+            $code = Cart::discountCode();
+            if ($code) {
+                $code = DiscountCode::whereKey($code->id)->lockForUpdate()->first();
+            }
+            $discount = 0;
+            if ($code && $code->problem($total, Auth::user()) === null) {
+                $discount = $code->discountFor($total);
+                $code->increment('used_count');
+            } else {
+                $code = null;
             }
 
             if (Auth::check()) {
@@ -199,7 +213,10 @@ class OrderController extends Controller
             }
 
             $order = Order::create([
-                'total_price' => round($total, 2),
+                'subtotal' => round($total, 2),
+                'discount' => $discount,
+                'discount_code' => $code?->code,
+                'total_price' => round($total - $discount, 2),
                 'delivery_method' => $request->session()->get('delivery'),
                 'payment_method' => $request->payment,
                 'user_id' => $user->id,
@@ -207,7 +224,7 @@ class OrderController extends Controller
 
             foreach ($counts as $id => $count) {
                 $smartphone = $smartphones->get($id);
-                $order->smartphones()->attach($smartphone->id, ['count' => $count, 'price' => $smartphone->price]);
+                $order->smartphones()->attach($smartphone->id, ['count' => $count, 'price' => $smartphone->current_price]);
                 $smartphone->decrement('quantity', $count);
             }
 

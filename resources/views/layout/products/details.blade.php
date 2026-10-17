@@ -7,7 +7,7 @@
     @endphp
     @include('layout.partials.head', [
         'title' => $smartphone->name . ' | SmartTech',
-        'description' => \Illuminate\Support\Str::limit(formattedPrice($smartphone->price) . ' · ' . $smartphone->localized_description, 160),
+        'description' => \Illuminate\Support\Str::limit(formattedPrice($smartphone->current_price) . ' · ' . $smartphone->localized_description, 160),
         'image' => $photo?->url,
     ])
     <link href="{{ asset('css/quantity-selector.css') }}" rel="stylesheet" type="text/css">
@@ -25,7 +25,7 @@
                 'offers' => [
                     '@type' => 'Offer',
                     'url' => route('details', $smartphone),
-                    'price' => number_format((float) $smartphone->price, 2, '.', ''),
+                    'price' => number_format($smartphone->current_price, 2, '.', ''),
                     'priceCurrency' => 'EUR',
                     'availability' => 'https://schema.org/' . ($smartphone->quantity > 0 ? 'InStock' : 'OutOfStock'),
                 ],
@@ -105,7 +105,15 @@
                 <section class="space-y-8">
                     <div>
                         <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ $smartphone->name }}</h1>
-                        <p id="product-price" data-price="{{ (float) $smartphone->price }}" class="text-2xl font-semibold text-indigo-600">{{ formattedPrice($smartphone->price) }}</p>
+                        <p id="product-price" data-price="{{ $smartphone->current_price }}" class="flex flex-wrap items-center gap-3">
+                            @include('layout.partials.price', ['class' => 'text-2xl'])
+                            @if ($smartphone->isOnSale())
+                                <span class="px-2 py-0.5 rounded-full bg-red-600 text-sm font-bold text-white">−{{ $smartphone->discount_percent }} %</span>
+                                @if ($smartphone->sale_ends_at)
+                                    <span class="text-sm text-gray-500">{{ __('until :date', ['date' => $smartphone->sale_ends_at->timezone(config('demo.reset.timezone'))->format('j. n. Y')]) }}</span>
+                                @endif
+                            @endif
+                        </p>
                     </div>
 
                     <form action="{{ route('cart.store') }}" method="POST" class="space-y-8">
@@ -153,7 +161,7 @@
                                     </p>
                                     <div class="rounded-lg bg-gray-100 p-3">
                                         <span id="total-price" aria-live="polite" class="text-lg font-semibold text-gray-900">
-                                            {{ formattedPrice($smartphone->price) }}
+                                            {{ formattedPrice($smartphone->current_price) }}
                                         </span>
                                     </div>
                                 </div>

@@ -7,6 +7,9 @@
 <a href="{{ route('details', $smartphone->id) }}"
    class="group flex flex-col h-full bg-white rounded-xl border border-gray-200 overflow-hidden shadow-xs hover:shadow-lg hover:border-indigo-200 transition">
     <div class="product-card-media relative overflow-hidden {{ $isPhoto ? 'bg-gray-100' : 'bg-linear-to-b from-gray-50 to-gray-200 p-5' }}">
+        @if ($smartphone->isOnSale())
+            <span class="absolute top-2 left-2 z-10 px-2 py-0.5 rounded-full bg-red-600 text-xs font-bold text-white">−{{ $smartphone->discount_percent }} %</span>
+        @endif
         @if ($image)
             <img src="{{ $image->url }}"
                  alt="{{ $smartphone->name }}"
@@ -26,7 +29,7 @@
             {{ $smartphone->name }}
         </h{{ $level ?? 2 }}>
         <div class="mt-auto pt-3 flex items-center justify-between gap-2">
-            <p class="text-lg font-semibold text-indigo-600 whitespace-nowrap">{{ formattedPrice($smartphone->price) }}</p>
+            <p class="min-w-0">@include('layout.partials.price', ['class' => 'text-lg'])</p>
             @if ($smartphone->quantity <= 0)
                 <span class="px-2 py-0.5 rounded-full bg-gray-100 text-xs font-medium text-gray-600 whitespace-nowrap">{{ __('Out of stock') }}</span>
             @elseif ($smartphone->quantity <= 3)

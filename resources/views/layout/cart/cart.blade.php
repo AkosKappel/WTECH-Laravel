@@ -126,9 +126,57 @@
             {{-- Cart Summary --}}
             <div class="mt-8">
                 <div class="rounded-lg bg-gray-50 p-6">
-                    <div class="flex items-center justify-end">
-                        <span class="text-xl font-medium text-gray-900 mr-6">{{ __('Total') }}</span>
-                        <span class="text-2xl font-bold text-gray-900" data-cart-total>{{ formattedPrice(Cart::total()) }}</span>
+                    @php $code = Cart::discountCode(); @endphp
+                    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                        {{-- Discount code --}}
+                        <div class="lg:max-w-sm w-full">
+                            @if ($code)
+                                <div class="flex items-center justify-between gap-3 rounded-lg bg-white border border-gray-200 px-4 py-3">
+                                    <span class="flex items-center gap-2 text-sm text-gray-700">
+                                        <x-icon name="tag" class="w-5 h-5 text-indigo-600"/>
+                                        <span><span class="font-semibold">{{ $code->code }}</span> · {{ $code->label }}</span>
+                                    </span>
+                                    <form method="POST" action="{{ route('cart.code.remove') }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-sm font-medium text-gray-500 hover:text-red-600">{{ __('Remove') }}</button>
+                                    </form>
+                                </div>
+                                @if ($problem = $code->problem(Cart::total(), auth()->user()))
+                                    <p class="mt-2 text-sm text-yellow-800">{{ $problem }}</p>
+                                @endif
+                            @else
+                                <form method="POST" action="{{ route('cart.code') }}" class="space-y-1">
+                                    @csrf
+                                    <label for="code" class="block text-sm font-medium text-gray-700">{{ __('Discount code') }}</label>
+                                    <div class="flex gap-2">
+                                        <input id="code" name="code" value="{{ old('code') }}" autocomplete="off" placeholder="DEMO10"
+                                               class="grow min-w-0 px-3 py-2 rounded-lg border uppercase focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 @error('code') border-red-500 @else border-gray-300 @enderror"/>
+                                        <button type="submit" class="px-4 py-2 rounded-lg bg-white border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-100">{{ __('Apply') }}</button>
+                                    </div>
+                                    @error('code')<p class="text-sm text-red-600">{{ $message }}</p>@enderror
+                                    <p class="text-xs text-gray-500">{{ __('Demo: try the code DEMO10 for 10 % off.') }}</p>
+                                </form>
+                            @endif
+                        </div>
+
+                        {{-- Totals --}}
+                        <dl class="space-y-1 lg:min-w-64">
+                            @if ($code)
+                                <div class="flex justify-between gap-6 text-gray-600">
+                                    <dt>{{ __('Subtotal') }}</dt>
+                                    <dd data-cart-subtotal>{{ formattedPrice(Cart::total()) }}</dd>
+                                </div>
+                                <div class="flex justify-between gap-6 text-green-700">
+                                    <dt>{{ __('Discount') }}</dt>
+                                    <dd data-cart-discount>−{{ formattedPrice(Cart::discount()) }}</dd>
+                                </div>
+                            @endif
+                            <div class="flex items-baseline justify-between gap-6">
+                                <dt class="text-xl font-medium text-gray-900">{{ __('Total') }}</dt>
+                                <dd class="text-2xl font-bold text-gray-900" data-cart-total>{{ formattedPrice(Cart::grandTotal()) }}</dd>
+                            </div>
+                        </dl>
                     </div>
 
                     <div class="mt-6 flex flex-col sm:flex-row gap-4 justify-end items-center">

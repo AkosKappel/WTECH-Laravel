@@ -43,6 +43,7 @@
         add('display', list(checkedValues('display')));
         add('os', list(checkedValues('os')));
         add('stock', form.querySelector('input[name="stock"]').checked ? 'in' : '');
+        add('sale', form.querySelector('input[name="sale"]').checked ? 'on' : '');
         const sort = form.querySelector('input[name="sort"]');
         if (sort) add('sort', encodeURIComponent(sort.value));
         return form.action + (params.length ? '?' + params.join('&') : '');
