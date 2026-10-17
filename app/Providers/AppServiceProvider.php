@@ -15,6 +15,9 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(Cart::class);
+
+        // translations edited in the admin zone override resources/lang/*.json
+        $this->app->extend('translation.loader', fn ($loader) => new \App\Support\TranslationOverrideLoader($loader));
     }
 
     /**

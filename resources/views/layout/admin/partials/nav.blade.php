@@ -6,12 +6,13 @@
             {{ __('You can add products and edit or delete the ones you added. They are only visible to demo admins, never in the shop, and are deleted every night.') }}
         </div>
     @endif
-    <nav class="flex gap-2" aria-label="{{ __('Admin') }}">
+    <nav class="flex flex-wrap gap-2" aria-label="{{ __('Admin') }}">
         @foreach ([
             'admin' => [__('Products'), 'adminZone', ['admin', 'smartphones.add', 'smartphones.edit']],
             'admin.orders' => [__('Orders'), 'isAdmin', ['admin.orders']],
             'admin.codes' => [__('Discount codes'), 'isAdmin', ['admin.codes', 'admin.codes.*']],
             'admin.stats' => [__('Visitors'), 'isAdmin', ['admin.stats']],
+            'admin.translations' => [__('Translations'), 'isAdmin', ['admin.translations']],
             'admin.maintenance' => [__('Maintenance'), 'isAdmin', ['admin.maintenance']],
         ] as $route => [$label, $ability, $patterns])
             @can($ability)

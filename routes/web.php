@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\DiscountCodeController;
 use App\Http\Controllers\Admin\MaintenanceController;
 use App\Http\Controllers\Admin\StatsController;
+use App\Http\Controllers\Admin\TranslationController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CompareController;
 use App\Http\Controllers\ReviewController;
@@ -86,6 +87,10 @@ Route::middleware(['auth', 'can:isAdmin'])->group(function () {
     Route::patch('/admin/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.status')->whereNumber('order');
     Route::get('/admin/error-test', [ShopController::class, 'errorTest'])->name('admin.error-test');
     Route::get('/admin/stats', [StatsController::class, 'index'])->name('admin.stats');
+    Route::get('/admin/translations', [TranslationController::class, 'index'])->name('admin.translations');
+    Route::put('/admin/translations', [TranslationController::class, 'update'])->name('admin.translations.update');
+    Route::post('/admin/translations/import', [TranslationController::class, 'import'])->name('admin.translations.import');
+    Route::get('/admin/translations/{locale}.json', [TranslationController::class, 'export'])->name('admin.translations.export')->where('locale', '[a-z]{2}');
     Route::get('/admin/maintenance', [MaintenanceController::class, 'index'])->name('admin.maintenance');
     Route::put('/admin/maintenance', [MaintenanceController::class, 'update'])->name('admin.maintenance.update');
     Route::delete('/admin/maintenance', [MaintenanceController::class, 'destroy'])->name('admin.maintenance.destroy');
