@@ -42,6 +42,7 @@ built with **Laravel 13**, **PostgreSQL** and **Tailwind CSS**.
 - [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
 - [Routes Overview](#routes-overview)
+- [Roadmap](#roadmap)
 - [Project History](#project-history)
 - [What I Learned](#what-i-learned)
 - [Author](#author)
@@ -126,16 +127,18 @@ The sections below cover the same topics.
 ## Features
 
 ### Storefront
-- **Homepage** with best-selling phones (units sold in the last 90 days, only in stock and with images) and a brand showcase
+- **Homepage** with a carousel of best-selling phones (units sold in the last 90 days, only in stock and with images, one card per model) and a brand showcase
 - **Product catalog** with 12 products per page and equal-size product cards
-- **Typo-tolerant search** ("samsng", "iphon 15", "gogle pixel") using PostgreSQL trigram similarity, across names, brands and descriptions in every language, ranked by relevance
+- **Typo-tolerant search** ("samsng", "iphon 15", "gogle pixel") using PostgreSQL trigram similarity, across names, brands and descriptions in every language, ranked by relevance; a search without results suggests a corrected spelling ("samsnug galxy" → "samsung galaxy")
 - **Live search suggestions** in the header while typing: image, price and stock, with keyboard navigation
 - **Filters:** price range (a dual slider plus number fields), brands with logos and a quick brand search, colour swatches, RAM, display size, operating system and in-stock only, each with a live count of matching phones
 - **Collapsible filter sections** that remember their state and still show the selected values when collapsed, each with its own "Clear"
 - **Sorting** by relevance, newest, price or name; active filters shown as removable chips (with colour dots, brand logos and icons) and "Clear all"
 - **No page reloads:** filter changes, chips, sorting and pagination update the results in place, with the address bar, title and back/forward buttons kept in sync; screen readers hear the new result count
 - **Clean, shareable URLs** such as `/smartphones?brand=apple,google&price=-800&sort=price-asc`. The form and links still work without JavaScript, and old-style links redirect permanently
-- **Product detail** page with technical specs (RAM, OS and version, display size, resolution, dimensions), an image gallery, and a quantity selector that updates the total price live
+- **Product detail** page with technical specs (RAM, OS and version, display size, resolution, dimensions), an image gallery, and a quantity selector that updates the total price live, under readable URLs such as `/smartphones/24-apple-iphone-15-pro-256gb`
+- **Search-engine ready:** canonical links, structured data (products with price and availability, breadcrumbs, the site search box), a sitemap, and `noindex` on search and filter pages
+- **Accessible:** a skip link, the current page marked in the navigation, labelled icon buttons, menus that report their state, and success messages as toasts that screen readers announce
 
 ### Cart & Checkout
 - **Session-based cart**: add, update quantity (limited to available stock) and remove items
@@ -150,27 +153,34 @@ The sections below cover the same topics.
 ### User Accounts
 - Registration, login, logout and password reset, built on Laravel Breeze
 - **Profile page** for editing personal and address details, which are used to pre-fill checkout
+- **Order history** with the details of every past order
 - **Password change**, checked against the current password with a custom validation rule
 - Login and logout events are written to the application log
 
 ### Admin Zone
 - Protected by an `isAdmin` gate and a `SmartphonePolicy`
 - Product list sorted alphabetically, with pagination
+- **Orders page** with every order, the shop's revenue and customer count, best sellers and phones running low on stock
 - **Create and edit** products, with brand and colour chosen from lookup lists
 - **Upload several images** at once, processed with Intervention Image
 - Remove individual images when editing a product
 - Deleting a product also **deletes its image files** from disk
 - **Error diagnostics:** when something breaks, admins see the exception, the stack trace (app code with the surrounding lines, framework frames collapsed) and the request, with passwords, tokens and cookies hidden, right on the error page, while debug mode stays off. A "Preview error page" link shows it on demand
 
+### Catalog API
+- A **read-only JSON API** at `/api/smartphones` with the catalog's filters, sorting and pagination, and `/api/smartphones/{id}` for one phone
+- Public, rate-limited per visitor, without sessions or cookies; errors are always JSON
+
 ### Error Pages
-- Styled, translated pages for **404, 403, 419 (expired form), 429 (too many requests), 500 and 503**, plus generic 4xx/5xx pages
+- Styled, translated pages for **404, 403, 419 (expired form), 429 (too many requests), 500 and 503**, plus generic 4xx/5xx pages; the maintenance page shows the expected wait
 - A **smart 404**: for a missing product URL such as `/smartphones/pixel-8` it searches for matching phones, otherwise it shows the newest ones
 - Unexpected errors get a **reference** (e.g. `ERR-7F3A9C`) that is shown to the visitor and written to the log, so a reported error can be found
 - The 500 page doesn't touch the database or session, and if an error page itself fails, a plain fallback page is shown
 
 ### Languages
 - The whole shop is available in **English, German and Slovak**: interface, info pages, validation messages, e-mails and product descriptions
-- A **language switcher with flags** in the header; the choice is remembered in a cookie, and first-time visitors get their browser's language if it's supported
+- Prices in each language's format (`€1,234.56`, `1.234,56 €`, `1 234,56 €`)
+- A **language switcher with flags** in the header and on the sign-in pages; the choice is remembered in a cookie, and first-time visitors get their browser's language if it's supported
 - Product descriptions are stored per language (the admin form has a field for each), falling back to English
 - `php artisan lang:missing` lists any texts that still need a translation
 
@@ -511,7 +521,7 @@ docker compose exec app php artisan test
 | `GET` | `/` | Homepage |
 | `GET` | `/smartphones` | Catalog: `q`, `brand`, `color`, `price`, `ram`, `display`, `os`, `stock`, `sort`, `page` (see [Filtering](#filtering-sorting--pagination)); returns JSON partials for the `X-Catalog-Partial` header |
 | `GET` | `/search/suggest` | Live search suggestions (JSON, throttled) |
-| `GET` | `/smartphones/{id}` | Product detail |
+| `GET` | `/smartphones/{id}-{slug}` | Product detail (`/smartphones/{id}` and outdated slugs redirect permanently) |
 | `GET` `POST` | `/cart` | View cart, add item |
 | `PUT` `DELETE` | `/cart/{rowId}` | Update quantity, remove item |
 | `GET` `PUT` | `/address` | Checkout step 1: delivery address |
@@ -519,15 +529,37 @@ docker compose exec app php artisan test
 | `GET` `POST` | `/payment` | Checkout step 3: payment and placing the order |
 | `GET` `POST` | `/finishRegister` | Optional registration after a guest order |
 | `GET` `PUT` | `/profile` | User profile |
+| `GET` | `/orders`, `/orders/{id}` | Order history and order detail (own orders; admins see all) |
 | `GET` `PUT` | `/passwordChange` | Change password |
 | `GET` | `/admin` | Admin product list |
+| `GET` | `/admin/orders` | All orders with shop figures |
 | `GET` `POST` | `/smartphones/create`, `/smartphones/add` | Create product |
 | `GET` `PUT` | `/smartphones/{id}/edit`, `/smartphones/{id}` | Edit product |
 | `DELETE` | `/smartphones/{id}` | Delete product |
 | `GET` | `/admin/error-test` | Throws on purpose, to preview the 500 page with diagnostics (admins only) |
+| `GET` | `/sitemap.xml` | Sitemap of the shop's pages and products |
+| `GET` | `/api/smartphones`, `/api/smartphones/{id}` | Read-only catalog API (JSON, 60 requests per minute) |
 | any | anything else | Shop 404 page with suggestions |
 
 Authentication routes (`/login`, `/register`, `/forgot-password`, `/reset-password`, …) come from Laravel Breeze.
+
+## Roadmap
+
+Planned, roughly in order of priority:
+
+- **Discounts:** sale prices with a "−20 %" badge and an "On sale" filter, and discount codes at checkout
+- **Admin zone in the shop's design:** the product list and form still use the original 2021 layout
+- **Try the admin zone:** a one-click demo admin account whose products only other demo admins can see
+- **Order status** for admins (new, paid, shipped), shown in the customer's order history
+- **Icons** on the main buttons and links, from one shared icon component
+- **Dark mode** with a system / light / dark toggle
+- **Images:** thumbnails and WebP for the catalog, resized on upload
+- **Production build** of the container: code baked into the image, cached configuration, no development dependencies
+- **Maintenance mode** with a custom message, a way in for admins, and an advance notice banner
+- **Translation manager** for admins to edit the English, German and Slovak texts in the browser
+- **Per-language URLs** (`/de/…`, `/sk/…`) so search engines can index every language
+- **More shop features:** product reviews, a wishlist, and a side-by-side product comparison
+- **Visitor statistics** built into the admin zone
 
 ## Project History
 
