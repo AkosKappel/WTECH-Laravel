@@ -24,6 +24,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // visitor statistics are kept for 90 days
+        $schedule->call(fn () => \Illuminate\Support\Facades\DB::table('page_views')->where('created_at', '<', now()->subDays(90))->delete())
+            ->daily()->name('prune-page-views');
+
         $schedule->command('demo:reset', ['--force'])
             ->dailyAt(config('demo.reset.time'))
             ->timezone(config('demo.reset.timezone'))

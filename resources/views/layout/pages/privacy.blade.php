@@ -35,6 +35,14 @@
                 {{ __('when you log out, your cart is saved to your account so it can be restored the next time you log in.') }}
             </li>
             <li>
+                <span class="font-medium text-gray-900">{{ __('Reviews and wishlist:') }}</span>
+                {{ __('reviews you write are public and show your first name; your wishlist is visible only to you.') }}
+            </li>
+            <li>
+                <span class="font-medium text-gray-900">{{ __('Visitor statistics:') }}</span>
+                {{ __('each page view is counted with the page, the referring website, the device type and the browser. Instead of your IP address, a code that changes every day is stored, so visits cannot be linked across days. No cookie is used. Kept for 90 days.') }}
+            </li>
+            <li>
                 <span class="font-medium text-gray-900">{{ __('Logs:') }}</span>
                 {{ __('the server keeps technical logs for troubleshooting, for example page requests, errors and login events. These may include connection data such as your IP address.') }}
             </li>
@@ -44,17 +52,16 @@
     <section class="bg-white rounded-xl shadow-xs p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('Cookies') }}</h2>
         <p class="text-gray-700 leading-relaxed">
-            {{ __('The site uses only the cookies it needs to work: a session cookie that keeps you logged in and remembers your cart, and a security cookie that protects forms against forgery. If you tick "Remember me" when logging in, a cookie keeps you logged in for longer, closing the demo notice sets a cookie that keeps it hidden for a year, and your chosen language is remembered in a cookie as well. There are no analytics, advertising or tracking cookies.') }}
+            {{ __('The site uses only the cookies it needs to work: a session cookie that keeps you logged in and remembers your cart, and a security cookie that protects forms against forgery. If you tick "Remember me" when logging in, a cookie keeps you logged in for longer, closing the demo notice sets a cookie that keeps it hidden for a year, and your chosen language is remembered in a cookie as well. There are no analytics, advertising or tracking cookies; the visitor statistics work without cookies. While you compare phones, the list is kept in your session.') }}
         </p>
     </section>
 
     <section class="bg-white rounded-xl shadow-xs p-6">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">{{ __('Third parties') }}</h2>
         <div class="space-y-3 text-gray-700 leading-relaxed">
-            <p>{{ __('Your data is never sold or shared. Two outside services are involved in delivering the site:') }}</p>
+            <p>{{ __('Your data is never sold or shared. One outside service is involved in delivering the site:') }}</p>
             <ul class="list-disc pl-5 space-y-1">
                 <li>{{ __('Tailscale routes the encrypted connection to the home server. It can see connection details such as your IP address, but not the content of the pages or forms.') }}</li>
-                <li>{{ __('The page styles are loaded from the unpkg.com content delivery network, so your browser also connects to it.') }}</li>
             </ul>
         </div>
     </section>

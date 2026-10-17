@@ -4,8 +4,10 @@ namespace App\Console\Commands;
 
 use App\Models\Image;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 
 class DemoReset extends Command
 {
@@ -41,7 +43,10 @@ class DemoReset extends Command
         }
 
         try {
+            // visitor statistics survive the reset (the last 90 days)
+            $backup = $this->exportPageViews();
             $this->call('migrate:fresh', ['--seed' => true, '--force' => true]);
+            $this->importPageViews($backup);
 
             $removed = $this->removeUploadedImages();
             $this->info("Removed {$removed} uploaded image(s).");
@@ -70,6 +75,49 @@ class DemoReset extends Command
      *
      * @return int
      */
+    /**
+     * Write the page views of the last 90 days to a JSON-lines file; null when there are none.
+     */
+    private function exportPageViews()
+    {
+        if (!Schema::hasTable('page_views')) {
+            return null;
+        }
+
+        $file = storage_path('app/page-views-backup.jsonl');
+        $handle = fopen($file, 'w');
+        DB::table('page_views')->where('created_at', '>=', now()->subDays(90))->orderBy('id')
+            ->lazyById(1000)->each(fn ($row) => fwrite($handle, json_encode((array) $row) . "\n"));
+        fclose($handle);
+
+        return $file;
+    }
+
+    private function importPageViews(?string $file)
+    {
+        if ($file === null) {
+            return;
+        }
+
+        $chunk = [];
+        foreach (new \SplFileObject($file) as $line) {
+            if (trim($line) === '') {
+                continue;
+            }
+            $chunk[] = json_decode($line, true);
+            if (count($chunk) === 1000) {
+                DB::table('page_views')->insert($chunk);
+                $chunk = [];
+            }
+        }
+        if ($chunk) {
+            DB::table('page_views')->insert($chunk);
+        }
+        // the ids carried over; the sequence has to continue after them
+        DB::statement("select setval(pg_get_serial_sequence('page_views', 'id'), coalesce((select max(id) from page_views), 1))");
+        File::delete($file);
+    }
+
     private function removeUploadedImages()
     {
         $removed = 0;
