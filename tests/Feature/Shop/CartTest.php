@@ -154,4 +154,15 @@ class CartTest extends TestCase
 
         $this->get('/cart')->assertOk()->assertSee('€59.97');
     }
+
+    public function test_an_empty_cart_suggests_popular_phones_and_deals()
+    {
+        Smartphone::factory()->has(\App\Models\Image::factory())->create(['name' => 'Nebula Phone X', 'price' => 500, 'sale_price' => 400]);
+
+        $this->get('/cart')->assertOk()
+            ->assertSee('Your cart is empty.')
+            ->assertSee('Popular right now')
+            ->assertSee('Nebula Phone X')
+            ->assertSee('1 phone on sale');
+    }
 }

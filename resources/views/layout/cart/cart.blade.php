@@ -195,19 +195,42 @@
                 </div>
             </div>
         @else
-            {{-- Empty Cart --}}
-            <div class="text-center py-12">
-                <div class="rounded-lg bg-yellow-50 p-4 text-sm text-yellow-700" role="alert">
-                    <p class="font-medium">{{ __('Your cart is empty.') }}</p>
+            {{-- Empty cart: what to do next, and a few phones to start with --}}
+            <section class="max-w-xl mx-auto text-center py-10">
+                <div class="mx-auto h-24 w-24 rounded-full bg-indigo-50 flex items-center justify-center">
+                    <x-icon name="cart" class="w-12 h-12 text-indigo-600"/>
                 </div>
-                
-                <div class="mt-6">
-                    <a href="{{ route('smartphones') }}" 
-                       class="text-indigo-600 hover:text-indigo-500 font-medium transition-colors">
-                        {{ __('Start Shopping') }}
+                <h2 class="mt-6 text-2xl font-bold text-gray-900">{{ __('Your cart is empty.') }}</h2>
+                <p class="mt-2 text-gray-600">{{ __('Nothing here yet. Browse the catalog, or have a look at the phones on sale.') }}</p>
+                <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+                    <a href="{{ route('smartphones') }}" class="inline-flex justify-center items-center gap-2 px-6 py-3 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition-colors">
+                        {{ __('Browse phones') }}<x-icon name="arrow-right"/>
                     </a>
+                    @if ($onSale > 0)
+                        <a href="{{ route('smartphones') }}?sale=on" class="inline-flex justify-center items-center gap-2 px-6 py-3 rounded-lg border border-gray-300 bg-white text-gray-700 font-medium hover:bg-gray-50 transition-colors">
+                            <x-icon name="tag" class="w-5 h-5 text-red-600"/>{{ trans_choice(':count phone on sale|:count phones on sale', $onSale, ['count' => $onSale]) }}
+                        </a>
+                    @endif
                 </div>
-            </div>
+                @if ($wishlistCount > 0)
+                    <p class="mt-4 text-sm text-gray-600">
+                        <a href="{{ route('wishlist') }}" class="inline-flex items-center gap-1 font-medium text-indigo-600 hover:text-indigo-800">
+                            <x-icon name="heart" class="w-4 h-4"/>{{ trans_choice('Your wishlist has :count phone|Your wishlist has :count phones', $wishlistCount, ['count' => $wishlistCount]) }}
+                        </a>
+                    </p>
+                @endif
+            </section>
+
+            @if ($suggestions->isNotEmpty())
+                <section class="mt-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">{{ __('Popular right now') }}</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        @foreach ($suggestions as $smartphone)
+                            @include('layout.partials.product-card', ['smartphone' => $smartphone, 'level' => 3])
+                        @endforeach
+                    </div>
+                </section>
+            @endif
         @endif
     </main>
 

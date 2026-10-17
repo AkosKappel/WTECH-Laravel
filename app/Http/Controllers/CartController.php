@@ -21,7 +21,15 @@ class CartController extends Controller
      */
     public function index(Request $request)
     {
-        return view('layout/cart/cart');
+        // an empty cart suggests a few popular phones instead of leaving the page bare
+        $suggestions = Cart::count() > 0 ? collect() : Smartphone::bestSelling()->withAvg('reviews', 'rating')->withCount('reviews')
+            ->take(20)->get()->unique('model_name')->take(4);
+
+        return view('layout/cart/cart', [
+            'suggestions' => $suggestions,
+            'onSale' => $suggestions->isEmpty() ? 0 : Smartphone::whereRaw(Smartphone::onSaleSql())->where('quantity', '>', 0)->count(),
+            'wishlistCount' => $request->user()?->wishlist()->count() ?? 0,
+        ]);
     }
 
     /**
