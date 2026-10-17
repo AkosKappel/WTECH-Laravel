@@ -26,6 +26,14 @@ class CatalogTest extends TestCase
         }
     }
 
+    public function test_homepage_shows_one_storage_variant_per_model()
+    {
+        Smartphone::factory()->has(Image::factory())->create(['name' => 'Nebula Phone X 8GB/128GB', 'price' => 500]);
+        Smartphone::factory()->has(Image::factory())->create(['name' => 'Nebula Phone X 8GB/256GB', 'price' => 600]);
+
+        $this->get('/')->assertSee('Nebula Phone X 8GB/256GB')->assertDontSee('Nebula Phone X 8GB/128GB');
+    }
+
     public function test_best_selling_ranks_by_recent_sales_and_skips_unshowable_phones()
     {
         [$top, $second, $cheapUnsold, $oldSeller, $flagship] = Smartphone::factory()->count(5)->has(Image::factory())

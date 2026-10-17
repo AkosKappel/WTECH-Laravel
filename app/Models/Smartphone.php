@@ -31,6 +31,15 @@ class Smartphone extends Model
     }
 
     /**
+     * Name without memory and storage, so variants of one model can be told apart from
+     * different models: "Samsung Galaxy S24 8GB/256GB" and "… 8GB/512GB" are both "Samsung Galaxy S24".
+     */
+    public function getModelNameAttribute()
+    {
+        return trim(preg_replace('#\s+(\d+\s*(GB|TB)?/\d+\s*(GB|TB)?|\d+\s*(GB|TB))\b.*$#i', '', $this->name));
+    }
+
+    /**
      * Description in the current language, falling back to the English original.
      *
      * @return string|null
