@@ -36,6 +36,7 @@ Route::view('/payment-methods', 'layout.pages.payment-methods')->name('payment-m
 Route::view('/returns', 'layout.pages.returns')->name('returns');
 Route::view('/terms', 'layout.pages.terms')->name('terms');
 Route::view('/privacy', 'layout.pages.privacy')->name('privacy');
+Route::get('/sitemap.xml', [ShopController::class, 'sitemap'])->name('sitemap');
 
 // User
 Route::get('/profile', [UserController::class, 'index'])->middleware(['auth'])->name('profile');

@@ -54,6 +54,20 @@ class ShopController extends Controller
     }
 
     /**
+     * Pages for search engines: the shop's fixed pages and every product.
+     */
+    public function sitemap()
+    {
+        $pages = collect(['home', 'smartphones', 'about', 'contact', 'shipping', 'payment-methods', 'returns', 'terms', 'privacy'])
+            ->map(fn ($name) => ['loc' => route($name), 'lastmod' => null]);
+        $products = Smartphone::query()->orderBy('id')->get(['id', 'updated_at'])
+            ->map(fn ($smartphone) => ['loc' => route('details', $smartphone), 'lastmod' => $smartphone->updated_at]);
+
+        return response()->view('sitemap', ['urls' => $pages->concat($products)])
+            ->header('Content-Type', 'application/xml');
+    }
+
+    /**
      * Unknown URLs. Missing files (images, scripts) get a plain 404 instead of the full page.
      */
     public function notFound(Request $request)

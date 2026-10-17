@@ -20,3 +20,5 @@ Disallow: /confirm-password
 Disallow: /profile
 Disallow: /passwordChange
 Disallow: /admin
+
+Sitemap: https://wtech.tailb52c43.ts.net/sitemap.xml
