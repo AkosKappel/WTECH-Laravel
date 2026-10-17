@@ -125,6 +125,7 @@
                                         <button 
                                             type="button" 
                                             data-action="decrement"
+                                            aria-label="{{ __('Decrease quantity') }}"
                                             class="px-4 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-l-lg transition-colors"
                                         >−</button>
                                         <input 
@@ -139,6 +140,7 @@
                                         <button 
                                             type="button"
                                             data-action="increment"
+                                            aria-label="{{ __('Increase quantity') }}"
                                             class="px-4 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-r-lg transition-colors"
                                         >+</button>
                                     </div>
@@ -146,11 +148,11 @@
 
                                 {{-- Total Price --}}
                                 <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">
+                                    <p class="block text-sm font-medium text-gray-700">
                                         {{ __('Total') }}
-                                    </label>
+                                    </p>
                                     <div class="rounded-lg bg-gray-100 p-3">
-                                        <span id="total-price" class="text-lg font-semibold text-gray-900">
+                                        <span id="total-price" aria-live="polite" class="text-lg font-semibold text-gray-900">
                                             {{ formattedPrice($smartphone->price) }}
                                         </span>
                                     </div>
