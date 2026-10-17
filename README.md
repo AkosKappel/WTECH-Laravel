@@ -133,15 +133,20 @@ The sections below cover the same topics.
 - **Live search suggestions** in the header while typing: image, price and stock, with keyboard navigation
 - **Filters:** price range (a dual slider plus number fields), brands with logos and a quick brand search, colour swatches, RAM, display size, operating system and in-stock only, each with a live count of matching phones
 - **Collapsible filter sections** that remember their state and still show the selected values when collapsed, each with its own "Clear"
-- **Sorting** by relevance, newest, price or name; active filters shown as removable chips (with colour dots, brand logos and icons) and "Clear all"
+- **Sale prices** with a "−20 %" badge and the old price struck through, an "On sale" filter, and sorting by the biggest discount
+- **Sorting** by relevance, newest, price, discount or name; active filters shown as removable chips (with colour dots, brand logos and icons) and "Clear all"
 - **No page reloads:** filter changes, chips, sorting and pagination update the results in place, with the address bar, title and back/forward buttons kept in sync; screen readers hear the new result count
 - **Clean, shareable URLs** such as `/smartphones?brand=apple,google&price=-800&sort=price-asc`. The form and links still work without JavaScript, and old-style links redirect permanently
+- **Reviews** with star ratings (one per customer, "Verified purchase" for buyers), a **wishlist**, and a **side-by-side comparison** of up to four phones
 - **Product detail** page with technical specs (RAM, OS and version, display size, resolution, dimensions), an image gallery, and a quantity selector that updates the total price live, under readable URLs such as `/smartphones/24-apple-iphone-15-pro-256gb`
 - **Search-engine ready:** canonical links, structured data (products with price and availability, breadcrumbs, the site search box), a sitemap, and `noindex` on search and filter pages
+- **Dark mode** that follows the system or a light/dark choice from the header, with no flash on page load
+- **Fast:** WebP thumbnails for product cards and lists, compressed text responses and cached static files
 - **Accessible:** a skip link, the current page marked in the navigation, labelled icon buttons, menus that report their state, and success messages as toasts that screen readers announce
 
 ### Cart & Checkout
 - **Session-based cart**: add, update quantity (limited to available stock) and remove items
+- **Discount codes** (a percentage or a fixed amount, with an optional minimum order, expiry date and usage limits), checked again at checkout and shown on the order
 - **Cart kept across sessions**: the cart is saved to the database on logout and merged with the guest cart on login
 - **Three-step checkout**: delivery address, then delivery method, then payment method
   - Delivery: courier, personal pickup, post office, parcel locker
@@ -153,18 +158,20 @@ The sections below cover the same topics.
 ### User Accounts
 - Registration, login, logout and password reset, built on Laravel Breeze
 - **Profile page** for editing personal and address details, which are used to pre-fill checkout
-- **Order history** with the details of every past order
+- **Order history** with the details and status of every past order
 - **Password change**, checked against the current password with a custom validation rule
 - Login and logout events are written to the application log
 
 ### Admin Zone
-- Protected by an `isAdmin` gate and a `SmartphonePolicy`
-- Product list sorted alphabetically, with pagination
-- **Orders page** with every order, the shop's revenue and customer count, best sellers and phones running low on stock
-- **Create and edit** products, with brand and colour chosen from lookup lists
-- **Upload several images** at once, processed with Intervention Image
-- Remove individual images when editing a product
-- Deleting a product also **deletes its image files** from disk
+- Protected by gates and a `SmartphonePolicy`; designed like the rest of the shop, with icons from one shared icon component
+- **Products:** a searchable, sortable list with thumbnails and stock badges; a form in cards with brand logos, colour swatches, descriptions per language, sale prices with optional dates, drag-and-drop image upload with previews, and inline validation
+- **Images** are re-encoded, scaled down to 1600 px and given a WebP thumbnail on upload; deleting a product also deletes its files
+- **Orders:** every order with revenue, customer count, best sellers and low stock, and a status per order (new, paid, shipped, delivered, cancelled) that the customer sees
+- **Discount codes:** create, edit and delete
+- **Visitors:** page views and visitors per day, top pages and products, referrers, devices and browsers, counted without cookies or IP addresses
+- **Translations:** every UI text in German and Slovak, with search, filters for missing texts, checks for placeholders and plural forms, and JSON export and import
+- **Maintenance:** plan a window (announced in a banner beforehand), take the shop down with a message and an expected end, and keep using it as the admin who turned it on
+- **Try it:** "Try the admin demo" on the login page creates a throwaway demo admin. Demo admins add products that only they see, never touch the shop's products, orders or the account, and everything they make is deleted every night
 - **Error diagnostics:** when something breaks, admins see the exception, the stack trace (app code with the surrounding lines, framework frames collapsed) and the request, with passwords, tokens and cookies hidden, right on the error page, while debug mode stays off. A "Preview error page" link shows it on demand
 
 ### Catalog API
@@ -180,14 +187,15 @@ The sections below cover the same topics.
 ### Languages
 - The whole shop is available in **English, German and Slovak**: interface, info pages, validation messages, e-mails and product descriptions
 - Prices in each language's format (`€1,234.56`, `1.234,56 €`, `1 234,56 €`)
-- A **language switcher with flags** in the header and on the sign-in pages; the choice is remembered in a cookie, and first-time visitors get their browser's language if it's supported
+- **Own URLs per language:** `/de/…` and `/sk/…` (English has no prefix), linked with `hreflang` and listed in the sitemap
+- A **language switcher with flags** in the header and on the sign-in pages; the choice is remembered in a cookie, and first-time visitors are sent to their browser's language if it's supported
 - Product descriptions are stored per language (the admin form has a field for each), falling back to English
 - `php artisan lang:missing` lists any texts that still need a translation
 
 ### Demo Mode
 - A **demo notice** on every page, plus About, Contact, Terms, Privacy and fictional shop-policy pages
 - Author and profile links configured through `DEMO_*` variables in `.env`
-- **Nightly reset** (`php artisan demo:reset`): rebuilds the database from the seeders, removes uploaded images, and clears sessions and caches, run by Laravel's scheduler in its own container
+- **Nightly reset** (`php artisan demo:reset`): rebuilds the database from the seeders (with a few phones on sale and the code `DEMO10`), removes uploaded images, and clears sessions and caches, run by Laravel's scheduler in its own container. Visitor statistics and planned maintenance survive it
 
 ## Screenshots
 
@@ -494,6 +502,18 @@ Before exposing the shop publicly, set these in `.env`:
   docker compose exec app php artisan demo:reset
   ```
 
+### Maintenance
+
+Plan, start and end maintenance from the admin zone, or from the command line:
+
+```bash
+docker compose exec app php artisan shop:maintenance plan --from="2026-10-20 22:00" --until="2026-10-20 22:30" --message="New payment options"
+docker compose exec app php artisan shop:maintenance on
+docker compose exec app php artisan shop:maintenance off
+```
+
+`on` prints a bypass link for yourself. New product photos added to the seeders need thumbnails: `php artisan images:thumbnails`.
+
 ### Rebuilding the CSS
 
 The stylesheet `public/css/app.css` is built by Tailwind CSS 4 from `resources/css/app.css` and the class names in the Blade views and scripts, and it is committed, so the app runs without Node.js. After adding or changing Tailwind classes, rebuild it (no local Node.js needed):
@@ -530,9 +550,18 @@ docker compose exec app php artisan test
 | `GET` `POST` | `/finishRegister` | Optional registration after a guest order |
 | `GET` `PUT` | `/profile` | User profile |
 | `GET` | `/orders`, `/orders/{id}` | Order history and order detail (own orders; admins see all) |
+| `POST` `DELETE` | `/cart/code` | Apply or remove a discount code |
+| `POST` | `/smartphones/{id}/reviews`; `DELETE` `/reviews/{id}` | Write or delete a review |
+| `GET` `POST` | `/wishlist`, `/wishlist/{id}` | Wishlist, add or remove a phone |
+| `GET` `POST` `DELETE` | `/compare`, `/compare/{id}` | Comparison, add or remove a phone, clear |
 | `GET` `PUT` | `/passwordChange` | Change password |
 | `GET` | `/admin` | Admin product list |
-| `GET` | `/admin/orders` | All orders with shop figures |
+| `GET` `PATCH` | `/admin/orders`, `/admin/orders/{id}/status` | All orders with shop figures; change an order's status |
+| `GET` `POST` `PUT` `DELETE` | `/admin/codes…` | Discount codes |
+| `GET` | `/admin/stats` | Visitor statistics |
+| `GET` `PUT` `POST` | `/admin/translations…` | Translation manager, JSON export and import |
+| `GET` `PUT` `DELETE` | `/admin/maintenance` | Plan, start and end maintenance |
+| `POST` | `/demo-admin` | Sign in as a new throwaway demo admin |
 | `GET` `POST` | `/smartphones/create`, `/smartphones/add` | Create product |
 | `GET` `PUT` | `/smartphones/{id}/edit`, `/smartphones/{id}` | Edit product |
 | `DELETE` | `/smartphones/{id}` | Delete product |
@@ -541,25 +570,17 @@ docker compose exec app php artisan test
 | `GET` | `/api/smartphones`, `/api/smartphones/{id}` | Read-only catalog API (JSON, 60 requests per minute) |
 | any | anything else | Shop 404 page with suggestions |
 
+Every page also exists under `/de/…` and `/sk/…`.
+
 Authentication routes (`/login`, `/register`, `/forgot-password`, `/reset-password`, …) come from Laravel Breeze.
 
 ## Roadmap
 
-Planned, roughly in order of priority:
+The planned features are in. What could come next:
 
-- **Discounts:** sale prices with a "−20 %" badge and an "On sale" filter, and discount codes at checkout
-- **Admin zone in the shop's design:** the product list and form still use the original 2021 layout
-- **Try the admin zone:** a one-click demo admin account whose products only other demo admins can see
-- **Order status** for admins (new, paid, shipped), shown in the customer's order history
-- **Icons** on the main buttons and links, from one shared icon component
-- **Dark mode** with a system / light / dark toggle
-- **Images:** thumbnails and WebP for the catalog, resized on upload
-- **Production build** of the container: code baked into the image, cached configuration, no development dependencies
-- **Maintenance mode** with a custom message, a way in for admins, and an advance notice banner
-- **Translation manager** for admins to edit the English, German and Slovak texts in the browser
-- **Per-language URLs** (`/de/…`, `/sk/…`) so search engines can index every language
-- **More shop features:** product reviews, a wishlist, and a side-by-side product comparison
-- **Visitor statistics** built into the admin zone
+- **Images built in CI:** the `Dockerfile` has a `production` stage (code baked in, no development dependencies, cached configuration and routes); the live demo still runs the bind-mounted development image
+- **A custom domain** instead of the `ts.net` address, which would help search engines
+- **Real product photos** for the newer phones, which use generated illustrations because manufacturer photos are copyrighted
 
 ## Project History
 
