@@ -59,6 +59,15 @@ class Image extends Model
         return asset(ltrim($this->source, '/'));
     }
 
+    /**
+     * Generated SVG illustrations (as opposed to photos): shown whole on a backdrop, and
+     * skipped for link previews, which can't render SVG.
+     */
+    public function isIllustration()
+    {
+        return Str::endsWith($this->source, '.svg');
+    }
+
     public function isUpload()
     {
         return Str::startsWith(ltrim($this->source, '/'), self::UPLOAD_DIR . '/');

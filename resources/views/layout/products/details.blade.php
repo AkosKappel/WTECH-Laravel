@@ -3,7 +3,7 @@
 <head>
     @php
         // link previews can't show SVG illustrations, so those phones get the default image
-        $photo = $smartphone->images->first(fn ($image) => !\Illuminate\Support\Str::endsWith($image->source, '.svg'));
+        $photo = $smartphone->images->first(fn ($image) => !$image->isIllustration());
     @endphp
     @include('layout.partials.head', [
         'title' => $smartphone->name . ' | SmartTech',
@@ -22,13 +22,14 @@
             <div class="grid lg:grid-cols-2 gap-12 mb-16">
                 {{-- Image Gallery --}}
                 <section class="space-y-4">
-                    <div class="relative aspect-square bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-200">
+                    {{-- object-contain, so tall illustrations aren't cropped; those also get the backdrop the product cards use --}}
+                    <div class="relative aspect-square rounded-2xl overflow-hidden shadow-lg border border-gray-200 {{ $smartphone->images->first()?->isIllustration() ? 'bg-linear-to-b from-gray-50 to-gray-200 p-8' : 'bg-white' }}">
                         @if($smartphone->images->first())
                             <img 
                                 id="mainImage" 
                                 src="{{ $smartphone->images->first()->url }}"
                                 alt="{{ $smartphone->images->first()->name }}"
-                                class="w-full h-full object-cover"
+                                class="w-full h-full object-contain"
                             />
                         @else
                             <img 

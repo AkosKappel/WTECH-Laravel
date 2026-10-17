@@ -2,7 +2,7 @@
 @php
     $image = $smartphone->images->first();
     // photos fill the frame; illustrations (SVG) and the placeholder are shown whole on a backdrop
-    $isPhoto = $image && !\Illuminate\Support\Str::endsWith($image->source, '.svg');
+    $isPhoto = $image && !$image->isIllustration();
 @endphp
 <a href="{{ route('details', $smartphone->id) }}"
    class="group flex flex-col h-full bg-white rounded-xl border border-gray-200 overflow-hidden shadow-xs hover:shadow-lg hover:border-indigo-200 transition">
