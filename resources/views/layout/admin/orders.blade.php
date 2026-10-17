@@ -66,6 +66,7 @@
                             <th scope="col" class="px-5 py-3 font-medium">{{ __('Order number') }}</th>
                             <th scope="col" class="px-5 py-3 font-medium">{{ __('Date') }}</th>
                             <th scope="col" class="px-5 py-3 font-medium">{{ __('Customer') }}</th>
+                            <th scope="col" class="px-5 py-3 font-medium">{{ __('Status') }}</th>
                             <th scope="col" class="px-5 py-3 font-medium text-right">{{ __('Products') }}</th>
                             <th scope="col" class="px-5 py-3 font-medium text-right">{{ __('Total') }}</th>
                         </tr>
@@ -76,11 +77,12 @@
                                 <td class="px-5 py-3"><a href="{{ route('orders.show', $order) }}" class="font-medium text-indigo-600 hover:text-indigo-800">{{ $order->number }}</a></td>
                                 <td class="px-5 py-3 whitespace-nowrap text-gray-600">{{ $order->created_at->timezone(config('demo.reset.timezone'))->format('j. n. Y, H:i') }}</td>
                                 <td class="px-5 py-3 text-gray-700">{{ trim($order->user->first_name . ' ' . $order->user->last_name) ?: $order->user->email }}</td>
+                                <td class="px-5 py-3">@include('layout.order.partials.status')</td>
                                 <td class="px-5 py-3 text-right text-gray-600">{{ $order->smartphones_count }}</td>
                                 <td class="px-5 py-3 text-right font-medium text-gray-900 whitespace-nowrap">{{ formattedPrice($order->total_price) }}</td>
                             </tr>
                         @empty
-                            <tr><td colspan="5" class="px-5 py-8 text-center text-gray-500">{{ __('No orders yet.') }}</td></tr>
+                            <tr><td colspan="6" class="px-5 py-8 text-center text-gray-500">{{ __('No orders yet.') }}</td></tr>
                         @endforelse
                     </tbody>
                 </table>

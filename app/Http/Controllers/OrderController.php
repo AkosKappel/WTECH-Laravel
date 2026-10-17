@@ -273,6 +273,17 @@ class OrderController extends Controller
     }
 
     /**
+     * Change an order's status (admins only).
+     */
+    public function updateStatus(Request $request, Order $order)
+    {
+        $request->validate(['status' => ['required', Rule::in(Order::STATUSES)]]);
+        $order->update(['status' => $request->status]);
+
+        return back()->with('success_message', __('Order :number is now ":status".', ['number' => $order->number, 'status' => Order::statusLabel($order->status)]));
+    }
+
+    /**
      * All orders for admins, with a few shop figures on top.
      */
     public function adminIndex()

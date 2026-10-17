@@ -18,7 +18,7 @@
                 <a href="{{ route('orders.show', $order) }}"
                    class="block bg-white shadow-xs rounded-lg p-5 border border-transparent hover:border-indigo-200 hover:shadow-md transition">
                     <div class="flex flex-wrap items-baseline justify-between gap-2">
-                        <span class="font-semibold text-gray-900">{{ $order->number }}</span>
+                        <span class="flex items-center gap-2"><span class="font-semibold text-gray-900">{{ $order->number }}</span>@include('layout.order.partials.status')</span>
                         <span class="text-sm text-gray-500">{{ $order->created_at->timezone(config('demo.reset.timezone'))->format('j. n. Y, H:i') }}</span>
                     </div>
                     <div class="mt-3 flex items-center justify-between gap-4">

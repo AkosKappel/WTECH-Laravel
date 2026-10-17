@@ -45,6 +45,22 @@ class OrderHistoryTest extends TestCase
         $this->get('/orders')->assertRedirect(route('login'));
     }
 
+    public function test_admins_change_the_status_and_customers_see_it()
+    {
+        $customer = User::factory()->create();
+        $order = $this->orderFor($customer, Smartphone::factory()->create());
+        $this->assertSame('new', $order->fresh()->status);
+
+        $this->actingAs($customer)->patch(route('admin.orders.status', $order), ['status' => 'shipped'])->assertForbidden();
+        $this->actingAs(User::factory()->create(['role' => 'admin']))
+            ->patch(route('admin.orders.status', $order), ['status' => 'shipped'])->assertRedirect();
+        $this->actingAs(User::factory()->create(['role' => 'admin']))
+            ->patch(route('admin.orders.status', $order), ['status' => 'lost'])->assertSessionHasErrors('status');
+
+        $this->assertSame('shipped', $order->fresh()->status);
+        $this->actingAs($customer)->get('/orders')->assertSee('Shipped');
+    }
+
     public function test_admins_see_all_orders_with_figures()
     {
         $smartphone = Smartphone::factory()->create(['name' => 'Nebula Phone X', 'quantity' => 2]);

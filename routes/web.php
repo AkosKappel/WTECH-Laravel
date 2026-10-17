@@ -68,6 +68,7 @@ Route::middleware(['auth', 'can:isAdmin'])->group(function () {
     Route::put('/smartphones/{smartphone}', [SmartphoneController::class, 'update'])->name('smartphones.update');
     Route::delete('/smartphones/{smartphone}/', [SmartphoneController::class, 'destroy'])->name('smartphones.delete');
     Route::get('/admin/orders', [OrderController::class, 'adminIndex'])->name('admin.orders');
+    Route::patch('/admin/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.status')->whereNumber('order');
     Route::get('/admin/error-test', [ShopController::class, 'errorTest'])->name('admin.error-test');
 });
 
