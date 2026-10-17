@@ -34,7 +34,7 @@
                     <label class="relative grow">
                         <span class="sr-only">{{ __('Search products') }}</span>
                         <x-icon name="search" class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"/>
-                        <input type="search" name="q" value="{{ $q }}" placeholder="{{ __('Search products') }}" autocomplete="off" @if ($q !== '') autofocus @endif
+                        <input type="search" name="q" value="{{ $q }}" placeholder="{{ __('Search products') }}" autocomplete="off"
                                class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"/>
                     </label>
                     <button type="submit" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-sm font-medium text-white hover:bg-indigo-700">
@@ -43,7 +43,7 @@
                 </div>
                 <label class="flex items-center gap-2 text-sm text-gray-600">
                     {{ __('Sort by') }}
-                    <select name="sort" class="py-2 pl-3 pr-8 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500" onchange="this.form.submit()">
+                    <select name="sort" class="py-2 pl-3 pr-8 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500" onchange="this.form.requestSubmit()">
                         @foreach (['newest' => __('Newest'), 'name' => __('Name A–Z'), 'price-asc' => __('Price: low to high'), 'price-desc' => __('Price: high to low'), 'stock' => __('Stock: lowest first')] as $value => $label)
                             <option value="{{ $value }}" @selected($sort === $value)>{{ $label }}</option>
                         @endforeach
@@ -51,7 +51,8 @@
                 </label>
             </form>
 
-            {{-- Product table --}}
+            {{-- Product table and pages; replaced in place by the live search below --}}
+            <div class="space-y-6 transition-opacity" data-admin-results aria-live="polite">
             <section class="bg-white rounded-lg shadow-xs overflow-x-auto">
                 <table class="w-full text-sm text-left">
                     <thead class="bg-gray-50 text-gray-500">
@@ -123,28 +124,70 @@
             </section>
 
             {{ $smartphones->onEachSide(1)->links('layout.partials.pagination') }}
+            </div>
         </div>
     </main>
 
     @include('layout.partials.footer')
     <script>
-        // live search: submit after a short pause in typing, with the cursor back at the end afterwards
+        // live search: typing (after a short pause), the sort menu and the page links load only the
+        // results and swap them in, keeping the address bar in step; without JavaScript the form works as usual
         (function () {
             const form = document.querySelector('[data-admin-search]');
             const input = form.querySelector('input[name="q"]');
+            const results = document.querySelector('[data-admin-results]');
             let timer;
+            let request;
+
+            function load(url, push) {
+                request?.abort();
+                request = new AbortController();
+                results.classList.add('opacity-50');
+                fetch(url, { signal: request.signal, headers: { 'Accept': 'text/html' } })
+                    .then((response) => response.ok ? response.text() : Promise.reject(response.status))
+                    .then(function (html) {
+                        const fresh = new DOMParser().parseFromString(html, 'text/html').querySelector('[data-admin-results]');
+                        results.replaceChildren(...fresh.childNodes);
+                        results.classList.remove('opacity-50');
+                        if (push) history.pushState(null, '', url);
+                    })
+                    .catch(function (error) {
+                        if (error?.name !== 'AbortError') window.location.assign(url);
+                    });
+            }
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                clearTimeout(timer);
+                const params = new URLSearchParams(new FormData(form));
+                if (!params.get('q')) params.delete('q');
+                const query = params.toString();
+                load(form.action + (query ? '?' + query : ''), true);
+            });
             input.addEventListener('input', function () {
                 clearTimeout(timer);
-                timer = setTimeout(() => form.requestSubmit(), 400);
+                timer = setTimeout(() => form.requestSubmit(), 300);
             });
-            if (document.activeElement === input) input.setSelectionRange(input.value.length, input.value.length);
+            results.addEventListener('click', function (event) {
+                const link = event.target.closest('nav a[href]');
+                if (link) {
+                    event.preventDefault();
+                    load(link.href, true);
+                    results.scrollIntoView({ block: 'start', behavior: 'smooth' });
+                }
+            });
+            window.addEventListener('popstate', function () {
+                const params = new URL(window.location.href).searchParams;
+                input.value = params.get('q') || '';
+                form.querySelector('select[name="sort"]').value = params.get('sort') || 'newest';
+                load(window.location.href, false);
+            });
         })();
 
-        // ask before deleting; forms without JavaScript submit directly
-        document.querySelectorAll('form[data-confirm]').forEach(function (form) {
-            form.addEventListener('submit', function (event) {
-                if (!window.confirm(form.dataset.confirm)) event.preventDefault();
-            });
+        // ask before deleting (also for rows swapped in later); without JavaScript the form submits directly
+        document.addEventListener('submit', function (event) {
+            const form = event.target.closest('form[data-confirm]');
+            if (form && !window.confirm(form.dataset.confirm)) event.preventDefault();
         });
     </script>
 </body>
