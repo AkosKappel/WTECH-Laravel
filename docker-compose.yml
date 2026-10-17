@@ -11,6 +11,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      target: base
     # one image for the app and the scheduler (both run the same code)
     image: ${CONTAINER_PREFIX:-wtech}-laravel-app
     container_name: ${CONTAINER_PREFIX:-wtech}-app
@@ -31,6 +32,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      target: base
     image: ${CONTAINER_PREFIX:-wtech}-laravel-app
     container_name: ${CONTAINER_PREFIX:-wtech}-scheduler
     restart: unless-stopped
