@@ -79,7 +79,7 @@
                         @method('PUT')
                         <input type="hidden" name="key" value="{{ $row['key'] }}">
                         <div class="min-w-0">
-                            <p class="text-xs font-medium uppercase tracking-wide text-gray-400">English</p>
+                            <p class="text-xs font-medium uppercase tracking-wide text-gray-500">English</p>
                             <p class="mt-1 text-sm text-gray-900 break-words">{{ $row['key'] }}</p>
                             @if ($row['locations'])
                                 <details class="mt-1 text-xs text-gray-500">
@@ -91,7 +91,7 @@
                         @foreach ($locales as $locale)
                             @php $entry = $row['values'][$locale]; @endphp
                             <div class="min-w-0">
-                                <label for="t-{{ $loop->parent->index }}-{{ $locale }}" class="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-gray-400">
+                                <label for="t-{{ $loop->parent->index }}-{{ $locale }}" class="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-gray-500">
                                     {{ $localeNames[$locale]['name'] }}
                                     @if ($entry['override'] !== null)<span class="normal-case tracking-normal px-1.5 rounded bg-indigo-50 text-indigo-700">{{ __('edited') }}</span>@endif
                                     @if (blank($entry['value']))<span class="normal-case tracking-normal px-1.5 rounded bg-red-50 text-red-700">{{ __('missing') }}</span>@endif

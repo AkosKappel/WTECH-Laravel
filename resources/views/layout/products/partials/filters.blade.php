@@ -11,7 +11,7 @@
     <label class="flex items-center justify-between cursor-pointer">
         <span class="text-sm font-medium text-gray-900">{{ __('In stock only') }}</span>
         <span class="flex items-center gap-2">
-            <span class="text-xs text-gray-400">{{ $facets['stock'] }}</span>
+            <span class="text-xs text-gray-500">{{ $facets['stock'] }}</span>
             <input type="checkbox" name="stock" value="in" class="toggle-input sr-only" {{ $filters->inStock ? 'checked' : '' }}>
             <span class="toggle" aria-hidden="true"></span>
         </span>
@@ -19,7 +19,7 @@
     <label class="mt-3 flex items-center justify-between cursor-pointer">
         <span class="text-sm font-medium text-gray-900">{{ __('On sale') }}</span>
         <span class="flex items-center gap-2">
-            <span class="text-xs text-gray-400">{{ $facets['sale'] }}</span>
+            <span class="text-xs text-gray-500">{{ $facets['sale'] }}</span>
             <input type="checkbox" name="sale" value="on" class="toggle-input sr-only" {{ $filters->onSale ? 'checked' : '' }}>
             <span class="toggle" aria-hidden="true"></span>
         </span>
@@ -64,7 +64,7 @@
                            class="rounded-sm border-gray-300 text-indigo-600 focus:ring-indigo-500">
                     @include('layout.partials.brand-logo', ['brand' => (object) ['name' => $name, 'logo_url' => \App\Support\CatalogFilters::brandLogoUrl($slug)], 'size' => 'w-6 h-6'])
                     <span class="grow text-sm text-gray-700">{{ $name }}</span>
-                    <span class="text-xs text-gray-400">{{ $count }}</span>
+                    <span class="text-xs text-gray-500">{{ $count }}</span>
                 </label>
             </li>
         @endforeach
