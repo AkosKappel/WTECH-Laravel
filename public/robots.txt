@@ -5,6 +5,7 @@ Allow: /smartphones?page=
 Allow: /payment-methods
 Disallow: /smartphones?
 Disallow: /search/
+Disallow: /api/
 Disallow: /cart
 Disallow: /address
 Disallow: /delivery

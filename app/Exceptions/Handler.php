@@ -65,6 +65,14 @@ class Handler extends ExceptionHandler
     }
 
     /**
+     * The API answers in JSON even when the client doesn't ask for it.
+     */
+    protected function shouldReturnJson($request, Throwable $e)
+    {
+        return $request->is('api/*') || parent::shouldReturnJson($request, $e);
+    }
+
+    /**
      * Unexpected errors: the shop's 500 page with a reference, plus the exception details
      * for admins. Everyone else never sees technical details, and APP_DEBUG stays off.
      */
