@@ -122,3 +122,9 @@
 @media (prefers-reduced-motion: reduce) {
     .toast { animation: none; transition: none; }
 }
+
+/* Star rating input: hovering or choosing a star lights it and the ones before it (the row is reversed in the markup) */
+.rating-input input:checked ~ label,
+.rating-input label:hover,
+.rating-input label:hover ~ label { color: #facc15; }
+.rating-input input:focus-visible + label { outline: 2px solid #6366f1; outline-offset: 2px; border-radius: 4px; }

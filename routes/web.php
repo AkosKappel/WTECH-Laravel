@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\Admin\DiscountCodeController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CompareController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\DemoAdminController;
 use App\Models\Smartphone;
 use App\Http\Controllers\OrderController;
@@ -94,6 +97,15 @@ Route::post('/demo-admin', [DemoAdminController::class, 'store'])->middleware(['
 Route::get('/smartphones', [SmartphoneController::class, 'index'])->name('smartphones');
 Route::get('/search/suggest', [SmartphoneController::class, 'suggest'])->middleware('throttle:60,1')->name('search.suggest');
 Route::get('/smartphones/{smartphone}/', [SmartphoneController::class, 'show'])->name('details');
+
+// Reviews, wishlist and comparison
+Route::post('/smartphones/{smartphone}/reviews', [ReviewController::class, 'store'])->middleware(['auth', 'throttle:shop'])->name('reviews.store');
+Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->middleware(['auth', 'throttle:shop'])->name('reviews.destroy')->whereNumber('review');
+Route::get('/wishlist', [WishlistController::class, 'index'])->middleware('auth')->name('wishlist');
+Route::post('/wishlist/{smartphone}', [WishlistController::class, 'toggle'])->middleware(['auth', 'throttle:shop'])->name('wishlist.toggle');
+Route::get('/compare', [CompareController::class, 'index'])->name('compare');
+Route::post('/compare/{smartphone}', [CompareController::class, 'toggle'])->middleware('throttle:shop')->name('compare.toggle');
+Route::delete('/compare', [CompareController::class, 'clear'])->middleware('throttle:shop')->name('compare.clear');
 
 // Order
 Route::get('/address', [OrderController::class, 'addressIndex'])->name('address');

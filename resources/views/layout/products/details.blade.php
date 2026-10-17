@@ -22,6 +22,11 @@
                 'description' => $smartphone->localized_description,
                 'image' => $smartphone->images->map->url->all(),
                 'brand' => $smartphone->brand ? ['@type' => 'Brand', 'name' => $smartphone->brand->name] : null,
+            'aggregateRating' => $smartphone->reviews->isEmpty() ? null : [
+                '@type' => 'AggregateRating',
+                'ratingValue' => round($smartphone->reviews->avg('rating'), 1),
+                'reviewCount' => $smartphone->reviews->count(),
+            ],
                 'offers' => [
                     '@type' => 'Offer',
                     'url' => route('details', $smartphone),
@@ -105,6 +110,12 @@
                 <section class="space-y-8">
                     <div>
                         <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ $smartphone->name }}</h1>
+                        @if ($smartphone->reviews->isNotEmpty())
+                            <a href="#reviews" class="inline-flex items-center gap-2 mb-2 text-sm text-gray-600 hover:text-indigo-600">
+                                @include('layout.partials.stars', ['rating' => $smartphone->reviews->avg('rating')])
+                                {{ trans_choice(':count review|:count reviews', $smartphone->reviews->count(), ['count' => $smartphone->reviews->count()]) }}
+                            </a>
+                        @endif
                         <p id="product-price" data-price="{{ $smartphone->current_price }}" class="flex flex-wrap items-center gap-3">
                             @include('layout.partials.price', ['class' => 'text-2xl'])
                             @if ($smartphone->isOnSale())
@@ -192,6 +203,33 @@
                             </div>
                         @endif
                     </form>
+
+                    {{-- Wishlist and comparison --}}
+                    @php $comparing = in_array($smartphone->id, session(\App\Http\Controllers\CompareController::SESSION_KEY, []), true); @endphp
+                    <div class="flex flex-wrap gap-3">
+                        @auth
+                            @php $wished = auth()->user()->wishlist()->whereKey($smartphone->id)->exists(); @endphp
+                            <form method="POST" action="{{ route('wishlist.toggle', $smartphone) }}">
+                                @csrf
+                                <button type="submit" aria-pressed="{{ $wished ? 'true' : 'false' }}"
+                                        class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium transition-colors {{ $wished ? 'border-pink-200 bg-pink-50 text-pink-700' : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50' }}">
+                                    <x-icon name="heart" class="w-5 h-5 {{ $wished ? 'fill-current' : '' }}"/>{{ $wished ? __('On your wishlist') : __('Add to wishlist') }}
+                                </button>
+                            </form>
+                        @else
+                            <a href="{{ route('login') }}" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                                <x-icon name="heart"/>{{ __('Add to wishlist') }}
+                            </a>
+                        @endauth
+                        <form method="POST" action="{{ route('compare.toggle', $smartphone) }}">
+                            @csrf
+                            <button type="submit" aria-pressed="{{ $comparing ? 'true' : 'false' }}"
+                                    class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium transition-colors {{ $comparing ? 'border-indigo-200 bg-indigo-50 text-indigo-700' : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50' }}">
+                                <x-icon name="scale"/>{{ $comparing ? __('In comparison') : __('Compare') }}
+                            </button>
+                        </form>
+                    </div>
+                    @error('compare')<p class="text-sm text-red-600">{{ $message }}</p>@enderror
                 </section>
             </div>
 
@@ -256,6 +294,8 @@
                     </div>
                 </section>
             </div>
+
+            @include('layout.products.partials.reviews')
         </div>
     </main>
 

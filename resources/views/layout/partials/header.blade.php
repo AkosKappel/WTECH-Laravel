@@ -67,6 +67,7 @@
                             <p class="px-4 pb-2 mb-1 border-b border-gray-100 text-xs text-gray-500 truncate" title="{{ Auth::user()->email }}">{{ Auth::user()->email }}</p>
                             <a href="{{ route('profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50">{{ __('Profile') }}</a>
                             <a href="{{ route('orders') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50">{{ __('My orders') }}</a>
+                            <a href="{{ route('wishlist') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50">{{ __('Wishlist') }}</a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50">
@@ -134,6 +135,13 @@
 {{-- target of the skip link: the page content starts here --}}
 <div id="content" tabindex="-1" class="outline-hidden"></div>
 @include('layout.partials.toast')
+@php $compareCount = count(session(\App\Http\Controllers\CompareController::SESSION_KEY, [])); @endphp
+@if ($compareCount > 0 && !request()->routeIs('compare'))
+    {{-- phones picked for comparison, on every page until the comparison is cleared --}}
+    <a href="{{ route('compare') }}" class="fixed bottom-4 left-4 z-40 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-600 text-sm font-medium text-white shadow-lg hover:bg-indigo-700">
+        <x-icon name="scale"/>{{ __('Compare (:count)', ['count' => $compareCount]) }}
+    </a>
+@endif
 
 <script src="{{ asset('js/search-suggest.js') }}?v={{ filemtime(public_path('js/search-suggest.js')) }}" defer></script>
 <script>

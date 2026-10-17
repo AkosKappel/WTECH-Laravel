@@ -19,7 +19,7 @@ class ShopController extends Controller
     public function index(Request $request)
     {
         // one card per model, not one per storage variant
-        $bestSelling = Smartphone::bestSelling()->take(30)->get()->unique('model_name')->take(8);
+        $bestSelling = Smartphone::bestSelling()->withAvg('reviews', 'rating')->withCount('reviews')->take(30)->get()->unique('model_name')->take(8);
         $topBrands = Brand::inRandomOrder()->take(6)->get();
 
         return view('layout/app', [

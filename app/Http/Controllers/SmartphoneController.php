@@ -36,6 +36,8 @@ class SmartphoneController extends Controller
 
         $smartphones = $filters->applySort($filters->apply(Smartphone::query()))
             ->with(['images', 'brand', 'color'])
+            ->withAvg('reviews', 'rating')
+            ->withCount('reviews')
             ->paginate(12)
             ->withPath($filters->url());
 
@@ -199,7 +201,7 @@ class SmartphoneController extends Controller
             return redirect()->route('details', $smartphone, 301);
         }
 
-        return view('layout.products.details', ['smartphone' => $smartphone]);
+        return view('layout.products.details', ['smartphone' => $smartphone->load(['images', 'brand', 'reviews.user'])]);
     }
 
     /**

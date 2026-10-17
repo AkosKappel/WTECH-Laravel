@@ -28,6 +28,12 @@
         <h{{ $level ?? 2 }} class="product-card-title text-base font-medium text-gray-900 group-hover:text-indigo-600 transition-colors" title="{{ $smartphone->name }}">
             {{ $smartphone->name }}
         </h{{ $level ?? 2 }}>
+        @if (($smartphone->reviews_count ?? 0) > 0)
+            <p class="mt-1 flex items-center gap-1 text-xs text-gray-500">
+                @include('layout.partials.stars', ['rating' => $smartphone->reviews_avg_rating])
+                ({{ $smartphone->reviews_count }})
+            </p>
+        @endif
         <div class="mt-auto pt-3 flex items-center justify-between gap-2">
             <p class="min-w-0">@include('layout.partials.price', ['class' => 'text-lg'])</p>
             @if ($smartphone->quantity <= 0)
