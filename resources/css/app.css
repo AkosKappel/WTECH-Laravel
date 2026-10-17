@@ -32,6 +32,16 @@
         background-color: var(--color-white);
     }
 
+    /* one calm focus style for every text field: an indigo ring instead of the browser's dark
+       outline (fields with their own focus:ring-* classes override the colour) */
+    input:where(:not([type="checkbox"], [type="radio"], [type="range"], [type="file"], [type="submit"], [type="button"])):focus,
+    textarea:focus, select:focus {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+        border-color: var(--color-indigo-500);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-indigo-500) 25%, transparent);
+    }
+
     input::placeholder, textarea::placeholder {
         color: var(--color-gray-400);
     }
