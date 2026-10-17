@@ -1,4 +1,13 @@
 @use('App\Facades\Cart')
+@php
+    // current section for the navigation; product pages count as Products
+    $navActive = [
+        'products' => request()->routeIs('smartphones', 'details'),
+        'about' => request()->routeIs('about'),
+        'admin' => request()->routeIs('admin', 'admin.*', 'smartphones.add', 'smartphones.edit'),
+    ];
+@endphp
+<a href="#content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[70] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-white focus:text-indigo-700 focus:shadow-lg">{{ __('Skip to content') }}</a>
 @include('layout.partials.demo-banner')
 <header class="bg-linear-to-r from-indigo-600 to-purple-600 sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -16,14 +25,17 @@
                 
                 {{-- Desktop Navigation --}}
                 <nav class="hidden lg:ml-6 lg:flex lg:space-x-1 xl:ml-8 xl:space-x-8 items-center">
-                    <a href="{{ route('smartphones') }}" class="text-white hover:text-indigo-100 px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors">
+                    <a href="{{ route('smartphones') }}" @if ($navActive['products']) aria-current="page" @endif
+                       class="text-white hover:text-indigo-100 px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors {{ $navActive['products'] ? 'underline decoration-2 underline-offset-8' : '' }}">
                         {{ __('Products') }}
                     </a>
-                    <a href="{{ route('about') }}" class="text-white hover:text-indigo-100 px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors">
+                    <a href="{{ route('about') }}" @if ($navActive['about']) aria-current="page" @endif
+                       class="text-white hover:text-indigo-100 px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors {{ $navActive['about'] ? 'underline decoration-2 underline-offset-8' : '' }}">
                         {{ __('About') }}
                     </a>
                     @if(Auth::check() && Auth::user()->role == 'admin')
-                        <a href="{{ route('admin') }}" class="text-white hover:text-indigo-100 px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors">
+                        <a href="{{ route('admin') }}" @if ($navActive['admin']) aria-current="page" @endif
+                           class="text-white hover:text-indigo-100 px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors {{ $navActive['admin'] ? 'underline decoration-2 underline-offset-8' : '' }}">
                             {{ __('Admin') }}
                         </a>
                     @endif
@@ -45,13 +57,13 @@
                 {{-- User Menu --}}
                 @if (Auth::check())
                     <div class="relative group">
-                        <button id="user-menu-button" aria-label="{{ __('Profile') }}" class="flex items-center bg-indigo-500/50 hover:bg-indigo-500/70 rounded-full py-2 px-4 transition-colors">
+                        <button id="user-menu-button" aria-label="{{ __('Profile') }}" aria-haspopup="true" aria-expanded="false" aria-controls="user-menu" class="flex items-center bg-indigo-500/50 hover:bg-indigo-500/70 rounded-full py-2 px-4 transition-colors">
                             <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
                         </button>
                         
-                        <div id="user-menu" class="absolute right-0 w-56 mt-2 py-2 bg-white rounded-lg shadow-xl hidden group-hover:block">
+                        <div id="user-menu" class="absolute right-0 w-56 mt-2 py-2 bg-white rounded-lg shadow-xl hidden group-hover:block group-focus-within:block">
                             <p class="px-4 pb-2 mb-1 border-b border-gray-100 text-xs text-gray-500 truncate" title="{{ Auth::user()->email }}">{{ Auth::user()->email }}</p>
                             <a href="{{ route('profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50">{{ __('Profile') }}</a>
                             <a href="{{ route('orders') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50">{{ __('My orders') }}</a>
@@ -83,7 +95,7 @@
 
                 {{-- Mobile menu button --}}
                 <div class="flex lg:hidden">
-                    <button type="button" class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-white hover:text-indigo-100 hover:bg-indigo-500/70 transition-colors" aria-label="{{ __('Toggle menu') }}">
+                    <button type="button" aria-expanded="false" aria-controls="mobile-menu" class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-white hover:text-indigo-100 hover:bg-indigo-500/70 transition-colors" aria-label="{{ __('Toggle menu') }}">
                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
@@ -94,19 +106,22 @@
     </div>
 
     {{-- Mobile menu --}}
-    <div class="hidden mobile-menu lg:hidden">
+    <div id="mobile-menu" class="hidden mobile-menu lg:hidden">
         <div class="px-2 pt-2 pb-3 space-y-1">
             <div class="sm:hidden px-1 pb-2">
                 @include('layout.partials.search-box', ['id' => 'mobile-search'])
             </div>
-            <a href="{{ route('smartphones') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-indigo-100 hover:bg-indigo-500/70 transition-colors">
+            <a href="{{ route('smartphones') }}" @if ($navActive['products']) aria-current="page" @endif
+               class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-indigo-100 hover:bg-indigo-500/70 transition-colors {{ $navActive['products'] ? 'bg-indigo-500/70' : '' }}">
                 {{ __('Products') }}
             </a>
-            <a href="{{ route('about') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-indigo-100 hover:bg-indigo-500/70 transition-colors">
+            <a href="{{ route('about') }}" @if ($navActive['about']) aria-current="page" @endif
+               class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-indigo-100 hover:bg-indigo-500/70 transition-colors {{ $navActive['about'] ? 'bg-indigo-500/70' : '' }}">
                 {{ __('About') }}
             </a>
             @if(Auth::check() && Auth::user()->role == 'admin')
-                <a href="{{ route('admin') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-indigo-100 hover:bg-indigo-500/70 transition-colors">
+                <a href="{{ route('admin') }}" @if ($navActive['admin']) aria-current="page" @endif
+                   class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-indigo-100 hover:bg-indigo-500/70 transition-colors {{ $navActive['admin'] ? 'bg-indigo-500/70' : '' }}">
                     {{ __('Admin') }}
                 </a>
             @endif
@@ -116,6 +131,9 @@
         </div>
     </div>
 </header>
+{{-- target of the skip link: the page content starts here --}}
+<div id="content" tabindex="-1" class="outline-hidden"></div>
+@include('layout.partials.toast')
 
 <script src="{{ asset('js/search-suggest.js') }}?v={{ filemtime(public_path('js/search-suggest.js')) }}" defer></script>
 <script>
@@ -134,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const menu = document.querySelector('.mobile-menu');
 
     btn.addEventListener('click', () => {
-        menu.classList.toggle('hidden');
+        btn.setAttribute('aria-expanded', String(!menu.classList.toggle('hidden')));
     });
 
     // User menu dropdown (only rendered for signed-in users)
@@ -142,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const userMenu = document.getElementById('user-menu');
 
     userMenuButton?.addEventListener('click', () => {
-        userMenu.classList.toggle('hidden');
+        userMenuButton.setAttribute('aria-expanded', String(!userMenu.classList.toggle('hidden')));
     });
 });
 </script>

@@ -110,6 +110,14 @@ class CatalogTest extends TestCase
             ->assertJsonPath('results.0.name', 'Nebula Phone X');
     }
 
+    public function test_navigation_marks_the_current_section()
+    {
+        $this->get('/smartphones')
+            ->assertSee('Skip to content')
+            ->assertSee('<a href="' . route('smartphones') . '"  aria-current="page"', false)
+            ->assertDontSee('<a href="' . route('about') . '"  aria-current="page"', false);
+    }
+
     public function test_product_page_shows_the_phone()
     {
         $phone = Smartphone::factory()->create();
