@@ -47,8 +47,8 @@ const prevImageBtn = document.getElementById('prev-img-btn');
 let imgIndex = 0;
 
 
-nextImageBtn.addEventListener('click', showNextImage);
-prevImageBtn.addEventListener('click', showPrevImage);
+nextImageBtn?.addEventListener('click', showNextImage);
+prevImageBtn?.addEventListener('click', showPrevImage);
 
 
 function showNextImage() {
