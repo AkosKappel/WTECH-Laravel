@@ -37,6 +37,32 @@ class ErrorPagesTest extends TestCase
         $this->assertMatchesRegularExpression('/^ERR-[0-9A-F]{6}$/', $response->json('reference'));
     }
 
+    /**
+     * Real maintenance mode, kept in the array cache: the default file driver would take
+     * down the live site when the tests run inside the app container.
+     */
+    private function down(array $options)
+    {
+        config(['app.maintenance.driver' => 'cache', 'app.maintenance.store' => 'array']);
+        $this->app->forgetInstance(\Illuminate\Contracts\Foundation\MaintenanceMode::class);
+        $this->app->maintenanceMode()->activate($options);
+    }
+
+    public function test_maintenance_page_shows_the_expected_wait()
+    {
+        $this->down(['retry' => 600]);
+
+        $this->get('/about')->assertStatus(503)->assertSee('try again in about 10 minutes');
+    }
+
+    public function test_maintenance_gives_live_updates_a_json_answer()
+    {
+        $this->down([]);
+
+        // catalog-filters.js and cart.js ask for JSON and load the full page when they get an error
+        $this->getJson('/smartphones')->assertStatus(503)->assertExactJson(['message' => 'Service Unavailable']);
+    }
+
     public function test_missing_pages_show_the_404_page()
     {
         $this->get('/no-such-page-xyz')
