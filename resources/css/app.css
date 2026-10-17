@@ -19,7 +19,7 @@
 
     /* form fields keep the browser's white background (Tailwind 4 makes them transparent) */
     input:where(:not([type="checkbox"], [type="radio"], [type="range"], [type="file"], [type="submit"], [type="button"])), textarea, select {
-        background-color: #fff;
+        background-color: var(--color-white);
     }
 
     input::placeholder, textarea::placeholder {
@@ -30,3 +30,65 @@
         cursor: pointer;
     }
 }
+
+/*
+ * Dark mode: html.dark, set before the first paint by the script in layout/partials/head.
+ * Instead of a dark: variant on every class, the neutral scale is turned around and the pale
+ * tints of the accent colours become deep ones, so the existing classes keep working.
+ * White stays white for text on the indigo header and buttons; only white surfaces change.
+ */
+html.dark {
+    color-scheme: dark;
+
+    --color-gray-50: oklch(16% .02 264);
+    --color-gray-100: oklch(23% .025 264);
+    --color-gray-200: oklch(31% .028 264);
+    --color-gray-300: oklch(40% .028 262);
+    --color-gray-400: oklch(56% .025 262);
+    --color-gray-500: oklch(67% .02 262);
+    --color-gray-600: oklch(76% .015 260);
+    --color-gray-700: oklch(84% .01 260);
+    --color-gray-800: oklch(90% .006 264);
+    --color-gray-900: oklch(96% .003 264);
+
+    --color-indigo-50: oklch(27% .07 277);
+    --color-red-50: oklch(27% .06 25);
+    --color-red-100: oklch(32% .08 25);
+    --color-red-200: oklch(40% .1 25);
+    --color-red-700: oklch(78% .12 25);
+    --color-red-800: oklch(84% .09 25);
+    --color-green-50: oklch(27% .05 150);
+    --color-green-100: oklch(32% .07 150);
+    --color-green-700: oklch(80% .13 150);
+    --color-green-800: oklch(86% .1 150);
+    --color-yellow-50: oklch(28% .05 90);
+    --color-yellow-100: oklch(32% .06 90);
+    --color-yellow-200: oklch(40% .07 90);
+    --color-yellow-700: oklch(84% .12 90);
+    --color-yellow-800: oklch(88% .1 90);
+    --color-yellow-900: oklch(92% .07 90);
+    --color-blue-50: oklch(27% .06 255);
+    --color-blue-700: oklch(80% .1 255);
+    --color-pink-50: oklch(28% .06 350);
+    --color-pink-200: oklch(42% .1 350);
+    --color-pink-700: oklch(82% .1 350);
+}
+
+/* white surfaces (cards, menus, fields): one step above the page */
+html.dark .bg-white { background-color: oklch(20% .022 264); }
+html.dark input:where(:not([type="checkbox"], [type="radio"], [type="range"], [type="file"], [type="submit"], [type="button"])),
+html.dark textarea, html.dark select { background-color: var(--color-gray-100); }
+
+/* pale indigo surfaces and borders (the variables also colour text on the header, so not those) */
+html.dark :is(.bg-indigo-100, .hover\:bg-indigo-100:hover) { background-color: oklch(33% .09 277); }
+html.dark :is(.border-indigo-100, .border-indigo-200, .hover\:border-indigo-200:hover) { border-color: oklch(42% .12 277); }
+
+/* indigo text and links: the 600-800 steps are made for white backgrounds */
+html.dark :is(.text-indigo-600, .text-indigo-700, .text-indigo-800, .hover\:text-indigo-600:hover, .hover\:text-indigo-700:hover, .hover\:text-indigo-800:hover, .group:hover .group-hover\:text-indigo-600) {
+    color: var(--color-indigo-300);
+}
+html.dark :is(.text-indigo-900, .text-indigo-950) { color: var(--color-indigo-200); }
+
+/* monochrome brand logos */
+html.dark .brand-logo { filter: invert(1) brightness(.9); }
+

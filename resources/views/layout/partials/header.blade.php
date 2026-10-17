@@ -50,9 +50,10 @@
                     @include('layout.partials.search-box', ['id' => 'header-search'])
                 </div>
 
-                {{-- Language --}}
-                <div class="hidden lg:block">
+                {{-- Language and theme --}}
+                <div class="hidden lg:flex items-center gap-1">
                     @include('layout.partials.locale-switcher', ['variant' => 'dropdown'])
+                    @include('layout.partials.theme-toggle')
                 </div>
 
                 {{-- User Menu --}}
@@ -127,8 +128,9 @@
                     {{ __('Admin') }}
                 </a>
             @endcan
-            <div class="pt-2 mt-2 border-t border-white/20">
+            <div class="pt-2 mt-2 border-t border-white/20 flex items-center justify-between gap-2">
                 @include('layout.partials.locale-switcher', ['variant' => 'list'])
+                @include('layout.partials.theme-toggle', ['class' => 'mr-2'])
             </div>
         </div>
     </div>
@@ -145,6 +147,7 @@
 @endif
 
 <script src="{{ asset('js/search-suggest.js') }}?v={{ filemtime(public_path('js/search-suggest.js')) }}" defer></script>
+<script src="{{ asset('js/theme.js') }}?v={{ filemtime(public_path('js/theme.js')) }}" defer></script>
 <script>
 // close the language dropdown when clicking outside it or pressing Escape
 document.addEventListener('click', function (event) {

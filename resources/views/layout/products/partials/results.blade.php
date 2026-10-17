@@ -65,7 +65,7 @@
                         @break
                     @case('brand')
                         @if ($logo = \App\Support\CatalogFilters::brandLogoUrl($chip['value']))
-                            <span class="chip-logo" aria-hidden="true"><img src="{{ $logo }}" alt=""></span>
+                            <span class="chip-logo" aria-hidden="true"><img src="{{ $logo }}" alt="" class="brand-logo"></span>
                         @endif
                         @break
                     @default
