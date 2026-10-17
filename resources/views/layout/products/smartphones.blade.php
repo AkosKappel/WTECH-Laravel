@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    @include('layout.partials.head', ['title' => $filters->pageTitle()])
+    @include('layout.partials.head', [
+        'title' => $filters->pageTitle(),
+        'canonical' => $filters->url([], true),
+        // search results and filter combinations are endless near-duplicates; plain pages stay indexed
+        'robots' => $filters->hasActiveFilters() || $filters->sort ? 'noindex,follow' : null,
+    ])
 </head>
 
 <body class="bg-gray-50">

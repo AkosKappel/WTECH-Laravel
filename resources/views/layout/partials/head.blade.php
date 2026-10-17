@@ -21,12 +21,16 @@
 <link href="{{ asset('css/components.css') }}?v={{ filemtime(public_path('css/components.css')) }}" rel="stylesheet" />
 
 <title>{{ $title }}</title>
+<link rel="canonical" href="{{ $canonical ?? url()->current() }}" />
+@isset($robots)
+    <meta name="robots" content="{{ $robots }}" />
+@endisset
 
 {{-- Link previews on LinkedIn, Slack, X etc. --}}
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="SmartTech" />
 <meta property="og:title" content="{{ $title }}" />
 <meta property="og:description" content="{{ $description }}" />
-<meta property="og:url" content="{{ url()->current() }}" />
+<meta property="og:url" content="{{ $canonical ?? url()->current() }}" />
 <meta property="og:image" content="{{ $image }}" />
 <meta name="twitter:card" content="summary_large_image" />
