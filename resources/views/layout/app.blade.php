@@ -2,6 +2,21 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     @include('layout.partials.head', ['title' => 'SmartTech | ' . __('Smartphone Eshop')])
+    @php
+        // the site name and its search box for search results
+        $structuredData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'WebSite',
+            'name' => 'SmartTech',
+            'url' => route('home'),
+            'potentialAction' => [
+                '@type' => 'SearchAction',
+                'target' => route('smartphones') . '?q={search_term_string}',
+                'query-input' => 'required name=search_term_string',
+            ],
+        ];
+    @endphp
+    <script type="application/ld+json">@json($structuredData)</script>
 </head>
 <body class="font-sans text-gray-800 bg-gray-50">
     @include('layout.partials.header')
