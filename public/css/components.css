@@ -114,3 +114,11 @@
 /* Homepage carousel: scrollable, but without a visible scrollbar */
 .carousel-track { scrollbar-width: none; }
 .carousel-track::-webkit-scrollbar { display: none; }
+
+/* Toast: slides in, fades out; no motion for prefers-reduced-motion */
+.toast { animation: toast-in .25s ease-out; transition: opacity .3s, transform .3s; }
+.toast.is-hidden { opacity: 0; transform: translateY(.5rem); }
+@keyframes toast-in { from { opacity: 0; transform: translateY(.5rem); } }
+@media (prefers-reduced-motion: reduce) {
+    .toast { animation: none; transition: none; }
+}

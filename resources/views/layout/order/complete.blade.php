@@ -9,11 +9,6 @@
 
     <main class="grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="max-w-3xl mx-auto space-y-8">
-            @if (session()->has('success_message'))
-                <div class="rounded-lg bg-green-50 border border-green-200 p-4 text-sm font-medium text-green-800" role="status">
-                    {{ session()->get('success_message') }}
-                </div>
-            @endif
 
             {{-- Confirmation Header --}}
             <div class="text-center">

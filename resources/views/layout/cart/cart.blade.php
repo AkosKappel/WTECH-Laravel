@@ -9,13 +9,6 @@
     @include('layout.partials.header')
 
     <main class="flex-1 container mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        {{-- Notifications --}}
-        @if (session()->has('success_message'))
-            <div class="mb-6 rounded-lg bg-green-50 p-4 text-sm text-green-700" role="alert">
-                <p class="font-medium">{{ session()->get('success_message') }}</p>
-            </div>
-        @endif
-
         @if(count($errors) > 0)
             <div class="mb-6 rounded-lg bg-red-50 p-4 text-sm text-red-700" role="alert">
                 <ul class="list-disc list-inside space-y-1">

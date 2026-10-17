@@ -22,11 +22,6 @@
     @include('layout.partials.header')
     
     <main class="min-h-screen container mx-auto">
-        @if (session()->has('success_message'))
-            <div class="flex justify-center bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3 m-6" role="alert">
-                <p class="font-bold">{{ session()->get('success_message') }}</p>
-            </div>
-        @endif
 
         {{-- Hero Section --}}
         <section class="py-16 px-4 sm:px-6 lg:px-8">

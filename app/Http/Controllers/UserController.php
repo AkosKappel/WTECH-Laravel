@@ -97,9 +97,7 @@ class UserController extends Controller
             'country' => $request->country,
         ]);
 
-        $request->session()->flash('message', 'Changes saved.');
-
-        return redirect()->route('profile');
+        return redirect()->route('profile')->with('success_message', __('Changes saved.'));
     }
 
     /**

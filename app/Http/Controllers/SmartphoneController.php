@@ -159,7 +159,6 @@ class SmartphoneController extends Controller
             Image::storeUpload($image, $smartphone);
         }
 
-        $request->session()->flash('message', __('Product :name was successfully added!', ['name' => $request->name]));
         return redirect()->route('admin')->with('success_message', __('Product :name was successfully added!', ['name' => $request->name]));
     }
 

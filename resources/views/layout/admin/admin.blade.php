@@ -9,11 +9,6 @@
     <main class="lg:mx-16 my-12 ">
         @include('layout.admin.partials.nav')
 
-        @if (session()->has('success_message'))
-            <div class="flex justify-center bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
-                <p class="font-bold">{{ session()->get('success_message') }}</p>
-            </div>
-        @endif
 
         <div class="hidden md:grid grid-cols-12 mx-auto w-11/12 2xl:w-4/5 rounded-md mt-5 -mb-2 items-center">
             <div class="col-span-5 text-center text-xl">{{ __('Product name') }}</div>
