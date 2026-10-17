@@ -98,10 +98,28 @@
                     </p>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    @foreach($smartphones as $smartphone)
-                        @include('layout.partials.product-card', ['smartphone' => $smartphone, 'level' => 3])
-                    @endforeach
+                {{-- Carousel: scroll-snap track, swipeable on touch; carousel.js adds the buttons' scrolling and auto-play --}}
+                <div class="carousel relative" data-carousel aria-roledescription="carousel" aria-label="{{ __('Best Selling Products') }}">
+                    <div class="carousel-track flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth motion-reduce:scroll-auto pb-2" data-carousel-track tabindex="0">
+                        @foreach($smartphones as $smartphone)
+                            <div class="snap-start shrink-0 w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]"
+                                 aria-roledescription="slide" aria-label="{{ $loop->iteration }} / {{ $loop->count }}">
+                                @include('layout.partials.product-card', ['smartphone' => $smartphone, 'level' => 3])
+                            </div>
+                        @endforeach
+                    </div>
+                    @if ($smartphones->count() > 1)
+                        <div class="mt-6 flex justify-center gap-3">
+                            <button type="button" data-carousel-prev aria-label="{{ __('Previous') }}"
+                                    class="p-3 rounded-full bg-white border border-gray-200 shadow-xs text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                            </button>
+                            <button type="button" data-carousel-next aria-label="{{ __('Next') }}"
+                                    class="p-3 rounded-full bg-white border border-gray-200 shadow-xs text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                            </button>
+                        </div>
+                    @endif
                 </div>
             </div>
         </section>
@@ -154,5 +172,6 @@
     </main>
 
     @include('layout.partials.footer')
+    <script src="{{ asset('js/carousel.js') }}?v={{ filemtime(public_path('js/carousel.js')) }}" defer></script>
 </body>
 </html>
