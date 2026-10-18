@@ -8,13 +8,7 @@
     @endif
     @can('isAdmin')
         <nav class="flex flex-wrap gap-2" aria-label="{{ __('Admin') }}">
-            @foreach ([
-                'admin.orders' => [__('Orders'), ['admin.orders']],
-                'admin.codes' => [__('Discount codes'), ['admin.codes', 'admin.codes.*']],
-                'admin.stats' => [__('Visitors'), ['admin.stats']],
-                'admin.translations' => [__('Translations'), ['admin.translations']],
-                'admin.maintenance' => [__('Maintenance'), ['admin.maintenance']],
-            ] as $route => [$label, $patterns])
+            @foreach (\App\Support\AdminPages::all() as $route => [$label, $patterns])
                 <a href="{{ route($route) }}"
                    @if (request()->routeIs(...$patterns)) aria-current="page" @endif
                    class="px-4 py-2 rounded-full text-sm font-medium transition-colors {{ request()->routeIs(...$patterns) ? 'bg-indigo-600 text-white' : 'bg-white text-gray-700 hover:bg-indigo-50' }}">

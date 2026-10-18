@@ -52,6 +52,12 @@
 
                 {{-- Language and theme --}}
                 <div class="hidden lg:flex items-center gap-1">
+                    {{-- opens the command palette; shown once command-palette.js runs --}}
+                    <button type="button" data-command-palette-open hidden aria-haspopup="dialog" aria-controls="command-palette"
+                            aria-keyshortcuts="Control+K" aria-label="{{ __('Quick find') }}" title="{{ __('Quick find') }}"
+                            class="inline-flex items-center rounded-full px-2 py-1 text-white hover:bg-white/10 transition-colors">
+                        <kbd class="rounded-md border border-white/40 px-1.5 font-sans text-xs">Ctrl K</kbd>
+                    </button>
                     @include('layout.partials.locale-switcher', ['variant' => 'dropdown'])
                     @include('layout.partials.theme-toggle')
                 </div>
@@ -139,6 +145,7 @@
 {{-- target of the skip link: the page content starts here --}}
 <div id="content" tabindex="-1" class="outline-hidden"></div>
 @include('layout.partials.toast')
+@include('layout.partials.command-palette')
 @php $compareCount = count(session(\App\Http\Controllers\CompareController::SESSION_KEY, [])); @endphp
 @if ($compareCount > 0 && !request()->routeIs('compare'))
     {{-- phones picked for comparison, on every page until the comparison is cleared --}}
@@ -149,6 +156,7 @@
 
 <script src="{{ asset('js/search-suggest.js') }}?v={{ filemtime(public_path('js/search-suggest.js')) }}" defer></script>
 <script src="{{ asset('js/theme.js') }}?v={{ filemtime(public_path('js/theme.js')) }}" defer></script>
+<script src="{{ asset('js/command-palette.js') }}?v={{ filemtime(public_path('js/command-palette.js')) }}" defer></script>
 <script>
 // close the language dropdown when clicking outside it or pressing Escape
 document.addEventListener('click', function (event) {

@@ -131,6 +131,7 @@ The sections below cover the same topics.
 - **Product catalog** with 12 products per page and equal-size product cards
 - **Typo-tolerant search** ("samsng", "iphon 15", "gogle pixel") using PostgreSQL trigram similarity, across names, brands and descriptions in every language, ranked by relevance; a search without results suggests a corrected spelling ("samsnug galxy" → "samsung galaxy")
 - **Live search suggestions** in the header while typing: image, price and stock, with keyboard navigation
+- **Quick find** with Ctrl+K / Cmd+K: a command palette that jumps to any page the visitor may open and lists matching phones while typing
 - **Filters:** price range (a dual slider plus number fields), brands with logos and a quick brand search, colour swatches, RAM, display size, operating system and in-stock only, each with a live count of matching phones
 - **Collapsible filter sections** that remember their state and still show the selected values when collapsed, each with its own "Clear"
 - **Sale prices** with a "−20 %" badge and the old price struck through, an "On sale" filter, and sorting by the biggest discount
