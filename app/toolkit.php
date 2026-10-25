@@ -24,6 +24,14 @@ function localizedNumber($number): string
 }
 
 /**
+ * RAM is stored in MB: 512 MB stays in MB, 8192 MB becomes 8 GB.
+ */
+function formattedRam($megabytes): string
+{
+    return $megabytes >= 1024 ? localizedNumber(round($megabytes / 1024, 1)) . ' GB' : $megabytes . ' MB';
+}
+
+/**
  * A URL of this site in another language: /de/… or /sk/…, or without a prefix for English.
  * Defaults to the current page with its query string.
  */

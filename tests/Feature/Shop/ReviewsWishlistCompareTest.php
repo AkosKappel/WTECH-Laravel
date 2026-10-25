@@ -62,4 +62,13 @@ class ReviewsWishlistCompareTest extends TestCase
         $this->get('/compare')->assertOk()->assertSee($phones[0]->name)->assertDontSee($phones[4]->name);
         $this->get('/')->assertSee('Compare (4)');
     }
+
+    public function test_compare_shows_ram_in_gigabytes()
+    {
+        $phone = Smartphone::factory()->create(['ram' => 8192]);
+
+        $this->post(route('compare.toggle', $phone));
+
+        $this->get('/compare')->assertSee('8 GB')->assertDontSee('8192');
+    }
 }

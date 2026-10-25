@@ -31,7 +31,7 @@
                     __('Price') => fn ($p) => formattedPrice($p->current_price),
                     __('Brand') => fn ($p) => $p->brand?->name,
                     __('Rating') => fn ($p) => $p->reviews_count ? localizedNumber(round($p->reviews_avg_rating, 1)) . ' / 5 (' . $p->reviews_count . ')' : null,
-                    __('RAM') => fn ($p) => $p->ram ? $p->ram . ' GB' : null,
+                    __('RAM') => fn ($p) => $p->ram ? formattedRam($p->ram) : null,
                     __('Operating system') => fn ($p) => trim($p->operating_system . ' ' . $p->os_version),
                     __('Display size') => fn ($p) => $p->display_size ? localizedNumber($p->display_size) . '″' : null,
                     __('Display resolution') => fn ($p) => $p->resolution,
