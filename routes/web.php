@@ -8,6 +8,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CompareController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\DemoAdminController;
 use App\Models\Smartphone;
 use App\Http\Controllers\OrderController;
@@ -114,6 +115,9 @@ Route::post('/smartphones/{smartphone}/reviews', [ReviewController::class, 'stor
 Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->middleware(['auth', 'throttle:shop'])->name('reviews.destroy')->whereNumber('review');
 Route::get('/wishlist', [WishlistController::class, 'index'])->middleware('auth')->name('wishlist');
 Route::post('/wishlist/{smartphone}', [WishlistController::class, 'toggle'])->middleware(['auth', 'throttle:shop'])->name('wishlist.toggle');
+Route::get('/notifications', [NotificationController::class, 'index'])->middleware('auth')->name('notifications');
+Route::patch('/notifications', [NotificationController::class, 'markAllAsRead'])->middleware(['auth', 'throttle:shop'])->name('notifications.read-all');
+Route::patch('/notifications/{notification}', [NotificationController::class, 'markAsRead'])->middleware(['auth', 'throttle:shop'])->name('notifications.read')->whereUuid('notification');
 Route::get('/compare', [CompareController::class, 'index'])->name('compare');
 Route::post('/compare/{smartphone}', [CompareController::class, 'toggle'])->middleware('throttle:shop')->name('compare.toggle');
 Route::delete('/compare', [CompareController::class, 'clear'])->middleware('throttle:shop')->name('compare.clear');

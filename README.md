@@ -160,6 +160,7 @@ The sections below cover the same topics.
 - Registration, login, logout and password reset, built on Laravel Breeze
 - **Profile page** for editing personal and address details, which are used to pre-fill checkout
 - **Order history** with the details and status of every past order
+- **Wishlist alerts:** when a phone on the wishlist is back in stock or its price falls, the customer gets a notification (a bell with the unread count in the header and a notifications page) and an e-mail, sent through the database queue
 - **Password change**, checked against the current password with a custom validation rule
 - Login and logout events are written to the application log
 
@@ -478,7 +479,7 @@ The seeder creates an administrator account:
 | Nginx (web server) | `wtech-nginx` | `8080` (`APP_BIND`/`APP_PORT`) |
 | PHP-FPM 8.5 (application) | `wtech-app` | – |
 | PostgreSQL 18 | `wtech-db` | `5432` (`DB_HOST_PORT`, localhost only) |
-| Laravel scheduler (runs the demo reset) | `wtech-scheduler` | – |
+| Laravel scheduler (runs the demo reset and works off the queue every minute) | `wtech-scheduler` | – |
 
 The container names start with `CONTAINER_PREFIX` (default `wtech`) and the database is published on `DB_HOST_PORT` (default `5432`), so a second copy of the project, for example a staging checkout, can run next to this one with its own values.
 
@@ -497,7 +498,8 @@ Before exposing the shop publicly, set these in `.env`:
 - Or `COMPOSE_FILE=docker-compose.yml:docker-compose.cloudflare.yml`, to publish it through a Cloudflare Tunnel on your own domain. It needs the tunnel's token in `docker/cloudflared/tunnel.env` (`TUNNEL_TOKEN=…`, from `cloudflared tunnel token <name>`) and a DNS route to the tunnel (`cloudflared tunnel route dns <name> <hostname>`). The live demo uses both: the tunnel serves https://wtech.akoskappel.dev, and nginx redirects the old `ts.net` address there.
 - A strong `DB_PASSWORD`, set before the database container is first created.
 - Your own `ADMIN_EMAIL` and `ADMIN_PASSWORD` before seeding.
-- A real `MAIL_MAILER` configuration if password-reset e-mails should actually be delivered.
+- A real `MAIL_MAILER` configuration and a `MAIL_FROM_ADDRESS` if password-reset and wishlist e-mails should actually be delivered.
+- `QUEUE_CONNECTION=database`, so wishlist alerts are sent by the scheduler container instead of while the admin saves a product.
 - `DEMO_RESET_ENABLED=true` to wipe visitor data every night (`DEMO_RESET_TIME`, `DEMO_RESET_TIMEZONE`). The reset deletes **all** data, so it is off by default. To run it by hand:
 
   ```bash
@@ -555,6 +557,7 @@ docker compose exec app php artisan test
 | `POST` `DELETE` | `/cart/code` | Apply or remove a discount code |
 | `POST` | `/smartphones/{id}/reviews`; `DELETE` `/reviews/{id}` | Write or delete a review |
 | `GET` `POST` | `/wishlist`, `/wishlist/{id}` | Wishlist, add or remove a phone |
+| `GET` `PATCH` | `/notifications`, `/notifications/{id}` | Wishlist alerts, mark one or all as read |
 | `GET` `POST` `DELETE` | `/compare`, `/compare/{id}` | Comparison, add or remove a phone, clear |
 | `GET` `PUT` | `/passwordChange` | Change password |
 | `GET` | `/admin` | Admin product list |

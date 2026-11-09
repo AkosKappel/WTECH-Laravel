@@ -8,7 +8,11 @@
     @include('layout.partials.header')
 
     <main class="grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 class="text-3xl font-bold text-gray-900 mb-6">{{ __('Wishlist') }}</h1>
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ __('Wishlist') }}</h1>
+        <p class="mb-6 text-gray-600">
+            {{ __('We tell you when a phone here is back in stock or gets cheaper.') }}
+            <a href="{{ route('notifications') }}" class="font-medium text-indigo-600 hover:text-indigo-800 underline">{{ __('Notifications') }}</a>
+        </p>
 
         @if ($smartphones->isEmpty())
             <div class="bg-white shadow-xs rounded-lg p-10 text-center">

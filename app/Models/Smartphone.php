@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Notifications\WishlistAlert;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
 class Smartphone extends Model
@@ -24,6 +26,24 @@ class Smartphone extends Model
                 $query->whereNull('smartphones.demo_owner_id');
             }
         });
+
+        static::updated(fn (Smartphone $smartphone) => $smartphone->sendWishlistAlerts());
+    }
+
+    /**
+     * After a save: tell everyone with this phone on their wishlist that it is back in stock
+     * (stock went from 0 to more) or that the price a customer pays went down.
+     */
+    private function sendWishlistAlerts()
+    {
+        $before = (new static)->setRawAttributes($this->getRawOriginal());
+        $restocked = $before->quantity <= 0 && $this->quantity > 0;
+        if ($this->isDemoProduct() || !($restocked || $this->current_price < $before->current_price)) {
+            return;
+        }
+
+        Notification::send($this->wishlistedBy, new WishlistAlert(
+            $this, $restocked ? WishlistAlert::BACK_IN_STOCK : WishlistAlert::PRICE_DROP, $before->current_price));
     }
 
     public function isDemoProduct()
@@ -152,5 +172,10 @@ class Smartphone extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function wishlistedBy()
+    {
+        return $this->belongsToMany(User::class, 'wishlist_items');
     }
 }

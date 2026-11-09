@@ -64,6 +64,16 @@
 
                 {{-- User Menu --}}
                 @if (Auth::check())
+                    @php $unreadNotifications = Auth::user()->unreadNotifications()->count(); @endphp
+                    <a href="{{ route('notifications') }}" class="relative inline-flex items-center p-2 text-white hover:text-indigo-100 transition-colors"
+                       aria-label="{{ $unreadNotifications ? trans_choice(':count unread notification|:count unread notifications', $unreadNotifications, ['count' => $unreadNotifications]) : __('Notifications') }}">
+                        <x-icon name="bell" class="h-6 w-6"/>
+                        @if ($unreadNotifications > 0)
+                            <span class="absolute -top-1 -right-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-pink-500 rounded-full" aria-hidden="true">
+                                {{ $unreadNotifications }}
+                            </span>
+                        @endif
+                    </a>
                     <div class="relative group">
                         <button id="user-menu-button" aria-label="{{ __('Profile') }}" aria-haspopup="true" aria-expanded="false" aria-controls="user-menu" class="flex items-center bg-indigo-500/50 hover:bg-indigo-500/70 rounded-full py-2 px-4 transition-colors">
                             <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -77,6 +87,7 @@
                             <a href="{{ route('profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50">{{ __('Profile') }}</a>
                             <a href="{{ route('orders') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50">{{ __('My orders') }}</a>
                             <a href="{{ route('wishlist') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50">{{ __('Wishlist') }}</a>
+                            <a href="{{ route('notifications') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50">{{ __('Notifications') }}</a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50">

@@ -11,6 +11,7 @@
         $pages[] = [__('Profile'), route('profile'), 'user'];
         $pages[] = [__('My orders'), route('orders'), 'user'];
         $pages[] = [__('Wishlist'), route('wishlist'), 'heart'];
+        $pages[] = [__('Notifications'), route('notifications'), 'bell'];
     } else {
         $pages[] = [__('Sign In'), route('login'), 'log-in'];
     }

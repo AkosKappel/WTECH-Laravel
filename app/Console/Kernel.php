@@ -28,6 +28,10 @@ class Kernel extends ConsoleKernel
         $schedule->call(fn () => \Illuminate\Support\Facades\DB::table('page_views')->where('created_at', '<', now()->subDays(90))->delete())
             ->daily()->name('prune-page-views');
 
+        // queued jobs (wishlist alerts) are worked off in the scheduler container, so no extra container is needed
+        $schedule->command('queue:work', ['--stop-when-empty'])
+            ->everyMinute()->withoutOverlapping()->runInBackground();
+
         $schedule->command('demo:reset', ['--force'])
             ->dailyAt(config('demo.reset.time'))
             ->timezone(config('demo.reset.timezone'))
