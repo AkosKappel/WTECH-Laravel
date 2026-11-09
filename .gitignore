@@ -78,6 +78,7 @@ BACKLOG.md
 OPERATIONS.md
 
 /docker/tailscale/ts.env
+/docker/cloudflared/
 .phpunit.cache
 
 # git worktrees for work in progress, so the bind-mounted checkout stays on main

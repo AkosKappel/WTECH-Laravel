@@ -59,4 +59,4 @@ Disallow: /admin
 Disallow: /de/admin
 Disallow: /sk/admin
 
-Sitemap: https://wtech.tailb52c43.ts.net/sitemap.xml
+Sitemap: https://wtech.akoskappel.dev/sitemap.xml

@@ -9,7 +9,7 @@ built with **Laravel 13**, **PostgreSQL** and **Tailwind CSS**.
 
 [![Tests](https://github.com/AkosKappel/WTECH-Laravel/actions/workflows/tests.yml/badge.svg)](https://github.com/AkosKappel/WTECH-Laravel/actions/workflows/tests.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Live demo](https://img.shields.io/badge/demo-live-4F46E5?logo=googlechrome&logoColor=white)](https://wtech.tailb52c43.ts.net)
+[![Live demo](https://img.shields.io/badge/demo-live-4F46E5?logo=googlechrome&logoColor=white)](https://wtech.akoskappel.dev)
 
 ![Laravel](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white)
 ![PHP](https://img.shields.io/badge/PHP-8.5-777BB4?logo=php&logoColor=white)
@@ -17,7 +17,7 @@ built with **Laravel 13**, **PostgreSQL** and **Tailwind CSS**.
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
 
-[**Live demo**](https://wtech.tailb52c43.ts.net) · [Screenshots](#screenshots) · [Getting started](#getting-started)<br>
+[**Live demo**](https://wtech.akoskappel.dev) · [Screenshots](#screenshots) · [Getting started](#getting-started)<br>
 <sub>The demo is self-hosted on a home server, so it may occasionally be offline.</sub>
 
 <br>
@@ -494,6 +494,7 @@ Before exposing the shop publicly, set these in `.env`:
 - `APP_URL` set to the address people will use. If it starts with `https://`, the app generates HTTPS links, which is what you want behind a TLS-terminating proxy such as Tailscale Funnel or Cloudflare Tunnel.
 - `APP_BIND` to choose the network interface the web server listens on. Behind a reverse proxy running on the same machine (e.g. `tailscale funnel http://127.0.0.1:8080`), use `127.0.0.1`, so the proxy is the only way in. Don't point Tailscale Serve or Funnel at the host's own Tailscale IP: Tailscale doesn't pass that traffic on to the host's regular network, so the proxy gets a 502.
 - Optionally `COMPOSE_FILE=docker-compose.yml:docker-compose.tailscale.yml`, to publish the shop through its own Tailscale Funnel sidecar at `https://<name>.<tailnet>.ts.net`. It needs a reusable, tagged auth key in `docker/tailscale/ts.env` (`TS_AUTHKEY=tskey-auth-…`) and a tailnet policy that grants `funnel` to that tag.
+- Or `COMPOSE_FILE=docker-compose.yml:docker-compose.cloudflare.yml`, to publish it through a Cloudflare Tunnel on your own domain. It needs the tunnel's token in `docker/cloudflared/tunnel.env` (`TUNNEL_TOKEN=…`, from `cloudflared tunnel token <name>`) and a DNS route to the tunnel (`cloudflared tunnel route dns <name> <hostname>`). The live demo uses both: the tunnel serves https://wtech.akoskappel.dev, and nginx redirects the old `ts.net` address there.
 - A strong `DB_PASSWORD`, set before the database container is first created.
 - Your own `ADMIN_EMAIL` and `ADMIN_PASSWORD` before seeding.
 - A real `MAIL_MAILER` configuration if password-reset e-mails should actually be delivered.
