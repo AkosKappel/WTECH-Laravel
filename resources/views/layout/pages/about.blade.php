@@ -77,6 +77,50 @@
         </div>
     </section>
 
+    {{-- Features --}}
+    <section aria-labelledby="about-features">
+        <h2 id="about-features" class="text-2xl font-bold text-gray-900">{{ __('What it can do') }}</h2>
+        <p class="mt-3 max-w-3xl text-gray-700 leading-relaxed">{{ __('Everything below works in this demo, so go ahead and try it.') }}</p>
+        <ul class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            @foreach ([
+                ['icon' => 'search', 'title' => __('Smart search'),
+                 'text' => __('Search forgives typos and suggests phones while you type. Even a mistyped product link finds matching phones.')],
+                ['icon' => 'command-line', 'title' => __('Quick find'),
+                 'text' => __('Press Ctrl+K (Cmd+K on a Mac) to jump to any page or phone from the keyboard.')],
+                ['icon' => 'adjustments', 'title' => __('Filters and sorting'),
+                 'text' => __('Filter by price, brand, colour, RAM and more. Results update without reloading, and every view has a link you can share.')],
+                ['icon' => 'tag', 'title' => __('Sales and discount codes'),
+                 'text' => __('Phones on sale show the old price and the discount. Try the code DEMO10 at checkout.')],
+                ['icon' => 'star', 'title' => __('Reviews'),
+                 'text' => __('Rate a phone with stars and a comment. Buyers get a "Verified purchase" label.')],
+                ['icon' => 'scale', 'title' => __('Comparison'),
+                 'text' => __('Put up to four phones side by side and compare their specs.')],
+                ['icon' => 'heart', 'title' => __('Wishlist and alerts'),
+                 'text' => __('Save phones you like. When one is back in stock or gets cheaper, the bell in the header tells you.')],
+                ['icon' => 'cart', 'title' => __('Cart, checkout and order history'),
+                 'text' => __('Your cart is kept when you sign out. Check out in three steps, with or without an account, and follow the status of your orders.')],
+                ['icon' => 'lock', 'title' => __('Admin demo'),
+                 'text' => __('"Try the admin demo" on the sign-in page lets you add and edit your own products. The full admin zone also manages orders, discount codes, translations, visitor statistics and maintenance.')],
+                ['icon' => 'globe', 'title' => __('Three languages'),
+                 'text' => __('English, German and Slovak, with prices in each language\'s format. Switch in the header.')],
+                ['icon' => 'moon', 'title' => __('Dark mode'),
+                 'text' => __('Follows your system, or pick light or dark in the header.')],
+                ['icon' => 'code', 'title' => __('Catalog API'),
+                 'text' => __('A public, read-only JSON API with the same filters and sorting as the catalog, at /api/smartphones.')],
+            ] as $feature)
+                <li class="flex gap-4 rounded-xl bg-white p-5 shadow-xs ring-1 ring-gray-100 hover:shadow-md transition-shadow">
+                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-linear-to-br from-indigo-600 to-purple-600">
+                        <x-icon :name="$feature['icon']" class="h-5 w-5 text-white"/>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900">{{ $feature['title'] }}</h3>
+                        <p class="mt-1 text-sm text-gray-600 leading-relaxed">{{ $feature['text'] }}</p>
+                    </div>
+                </li>
+            @endforeach
+        </ul>
+    </section>
+
     {{-- History --}}
     <section aria-labelledby="about-history">
         <h2 id="about-history" class="text-2xl font-bold text-gray-900">{{ __('Where it comes from') }}</h2>
